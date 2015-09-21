@@ -1,4 +1,4 @@
-package game;
+package gameworld;
 
 // Just a test push
 public class TestPush {
