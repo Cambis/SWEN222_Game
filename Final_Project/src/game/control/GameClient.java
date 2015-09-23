@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
 /**
  * Represents a client in a multiplayer game.
  *
- * @author Bieleski, Bryers, Gill & Thompson MMXVI.
+ * @author Bieleski, Bryers, Gill & Thompson MMXV.
  *
  */
 public class GameClient extends Thread {
@@ -49,6 +49,7 @@ public class GameClient extends Thread {
 
 	/**
 	 * Just used for testing
+	 *
 	 * @param ipAddress
 	 * @param test
 	 */
@@ -58,6 +59,9 @@ public class GameClient extends Thread {
 		return testClient;
 	}
 
+	/**
+	 * Run the client
+	 */
 	public void run() {
 
 		while (true) {
@@ -71,13 +75,20 @@ public class GameClient extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("SERVER: " + new String(packet.getData()));}
+			System.out.println("SERVER: " + new String(packet.getData()));
+		}
 	}
 
+	/**
+	 * Send data to the server
+	 *
+	 * @param data
+	 */
 	public void sendData(byte[] data) {
 
 		/* port 1331 might have to be changed */
-		DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, 1331);
+		DatagramPacket packet = new DatagramPacket(data, data.length,
+				ipAddress, 1331);
 
 		// Send packet
 		try {

@@ -5,7 +5,12 @@ import javax.swing.JOptionPane;
 import game.control.GameClient;
 import game.control.GameServer;
 
-// Just a test push
+/**
+ * Just used for testing the client/ server
+ *
+ * @author Bieleski, Bryers, Gill & Thompson MMXV.
+ *
+ */
 public class TestPush {
 
 	private GameServer server;
@@ -20,6 +25,7 @@ public class TestPush {
 
 		client.sendData("Callum smells bad".getBytes());
 	}
+
 	public static void main(String args[]) {
 		new TestPush();
 	}

@@ -12,7 +12,8 @@ import java.net.UnknownHostException;
 /**
  * Represents a server in a multiplayer game.
  *
- * @author Bieleski, Bryers, Gill & Thompson MMXVI.
+ * @author Bieleski, Bryers, Gill & Thompson MMXV
+ *
  *
  */
 public class GameServer extends Thread {
@@ -39,12 +40,20 @@ public class GameServer extends Thread {
 		}
 	}
 
+	/**
+	 * Used for testing only
+	 * @param push
+	 * @return
+	 */
 	public static GameServer testServer(TestPush push) {
 		GameServer testServer = new GameServer();
 		testServer.test = push;
 		return testServer;
 	}
 
+	/**
+	 * Run the server
+	 */
 	public void run() {
 
 		while (true) {
@@ -62,13 +71,21 @@ public class GameServer extends Thread {
 			String message = new String(packet.getData());
 			System.out.println("CLIENT: " + message);
 
-			if (message.contains("Callum smells bad")) {
+			// Message has some empty spaces on the
+			// end of it so we have to trim it
+			if (message.trim().equals("Callum smells bad")) {
 				sendData("Fuck, I know aye".getBytes(), packet.getAddress(),
 						packet.getPort());
 			}
 		}
 	}
 
+	/**
+	 * Send data to a client
+	 * @param data
+	 * @param ipAddress
+	 * @param port
+	 */
 	public void sendData(byte[] data, InetAddress ipAddress, int port) {
 
 		DatagramPacket packet = new DatagramPacket(data, data.length,
