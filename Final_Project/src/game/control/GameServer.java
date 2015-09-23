@@ -90,6 +90,12 @@ public class GameServer extends Thread {
 		}
 	}
 
+	/**
+	 * Parse a packet type
+	 * @param data
+	 * @param address
+	 * @param port
+	 */
 	private void parsePacket(byte[] data, InetAddress address, int port) {
 		String message = new String(data).trim();
 		PacketType type = Packet.lookupPacket(message.substring(0, 2));
@@ -132,6 +138,10 @@ public class GameServer extends Thread {
 		}
 	}
 
+	/**
+	 * Send data to all clients on the server
+	 * @param data
+	 */
 	public void sendDataToAllClients(byte[] data) {
 		for (PlayerMP p : connectedPlayers)
 			sendData(data, p.getIpAddress(), p.getPort());

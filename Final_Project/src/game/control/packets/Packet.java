@@ -19,7 +19,7 @@ public abstract class Packet {
 		}
 	}
 
-	public byte packetID;
+	public final byte packetID;
 
 	public Packet(int packetID) {
 		this.packetID = (byte) packetID;
@@ -33,6 +33,8 @@ public abstract class Packet {
 
 	public String readData(byte[] data) {
 		String message = new String(data);
+
+		// Cutoff the two numbers at the start
 		return message.substring(2);
 	}
 

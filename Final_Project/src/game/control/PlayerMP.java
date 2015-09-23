@@ -4,7 +4,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * This class should do the multiplayer connecting side.
+ * This class should do the multiplayer connecting side, player logic should be
+ * left to Player.java.
  *
  * @author Bieleski, Bryers, Gill & Thompson MMXV.
  *
@@ -20,7 +21,7 @@ public class PlayerMP extends Player {
 		this.port = port;
 	}
 
-	//@Override
+	// @Override
 	public void tick() {
 		// super.tick();
 	}

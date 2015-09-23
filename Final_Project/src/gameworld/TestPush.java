@@ -1,7 +1,5 @@
 package gameworld;
 
-import javax.swing.JOptionPane;
-
 import game.control.GameClient;
 import game.control.GameServer;
 
@@ -23,7 +21,7 @@ public class TestPush {
 		this.client = GameClient.testClient("localhost", this);
 		client.start();
 
-		client.sendData("Callum smells bad".getBytes());
+		// client.sendData("Callum smells bad".getBytes());
 	}
 
 	public static void main(String args[]) {
