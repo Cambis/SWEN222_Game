@@ -92,6 +92,7 @@ public class GameServer extends Thread {
 
 	/**
 	 * Parse a packet type
+	 *
 	 * @param data
 	 * @param address
 	 * @param port
@@ -99,6 +100,8 @@ public class GameServer extends Thread {
 	private void parsePacket(byte[] data, InetAddress address, int port) {
 		String message = new String(data).trim();
 		PacketType type = Packet.lookupPacket(message.substring(0, 2));
+		Packet packet = null;
+		// System.out.println(type.toString());
 
 		switch (type) {
 		case DISCONNECT:
@@ -106,15 +109,51 @@ public class GameServer extends Thread {
 		case INVALID:
 			break;
 		case LOGIN:
-			Packet00Login packet = new Packet00Login(data);
+			packet = new Packet00Login(data);
 			System.out.println("[ " + address.getHostAddress() + " " + port
-					+ " ]" + packet.getUsername() + " has connected...");
-			PlayerMP player = new PlayerMP(address, port);
-			connectedPlayers.add(player);
+					+ " ] " + ((Packet00Login) packet).getUsername()
+					+ " has connected...");
+
+			PlayerMP player = new PlayerMP(
+					((Packet00Login) packet).getUsername(), address, port);
+			addConnection(player, (Packet00Login) packet);
 			break;
 		default:
 			break;
 
+		}
+	}
+
+	public void addConnection(PlayerMP player, Packet00Login packet) {
+
+		// Check that the connection doesn't already exist
+		boolean alreadyConnected = false;
+
+		for (PlayerMP p : connectedPlayers) {
+			if (p.getUsername().equalsIgnoreCase(p.getUsername())) {
+
+				if (p.getIpAddress() == null)
+					p.setIpAddress(player.getIpAddress());
+
+				if (p.getPort() == -1)
+					p.setPort(player.getPort());
+
+				alreadyConnected = true;
+			} else {
+
+				// relay to the current connected player that there is a new
+				// player
+				sendData(packet.getData(), p.getIpAddress(), p.getPort());
+
+				// relay to the new player that the currently connect player
+				// exists
+				packet = new Packet00Login(p.getUsername());
+				sendData(packet.getData(), player.getIpAddress(),
+						player.getPort());
+			}
+		}
+		if (!alreadyConnected) {
+			connectedPlayers.add(player);
 		}
 	}
 
@@ -140,6 +179,7 @@ public class GameServer extends Thread {
 
 	/**
 	 * Send data to all clients on the server
+	 *
 	 * @param data
 	 */
 	public void sendDataToAllClients(byte[] data) {

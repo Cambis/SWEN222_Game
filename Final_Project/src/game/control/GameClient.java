@@ -1,5 +1,8 @@
 package game.control;
 
+import game.control.packets.Packet;
+import game.control.packets.Packet00Login;
+import game.control.packets.Packet.PacketType;
 import gameworld.TestPush;
 
 import java.io.IOException;
@@ -28,7 +31,8 @@ public class GameClient extends Thread {
 	private TestPush test;
 
 	// TODO this constructor needs to take in a Game paramter
-	public GameClient(String ipAddress) {
+	public GameClient(String ipAddress /** , Game game **/
+	) {
 
 		// this.game = game;
 
@@ -75,7 +79,44 @@ public class GameClient extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("SERVER: " + new String(packet.getData()));
+			parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
+			// System.out.println("SERVER: " + new String(packet.getData()));
+		}
+	}
+
+	/**
+	 * Parse a packet type
+	 *
+	 * @param data
+	 * @param address
+	 * @param port
+	 */
+	private void parsePacket(byte[] data, InetAddress address, int port) {
+		String message = new String(data).trim();
+		PacketType type = Packet.lookupPacket(message.substring(0, 2));
+		Packet packet = null;
+		// System.out.println(type.toString());
+
+		switch (type) {
+		case DISCONNECT:
+			break;
+		case INVALID:
+			break;
+		case LOGIN:
+			packet = new Packet00Login(data);
+			System.out.println("[ " + address.getHostAddress() + " " + port
+					+ " ] " + ((Packet00Login) packet).getUsername()
+					+ " has joined the game...");
+
+			PlayerMP player = new PlayerMP(
+					((Packet00Login) packet).getUsername(), address, port);
+
+			// TODO Add player to game
+
+			break;
+		default:
+			break;
+
 		}
 	}
 

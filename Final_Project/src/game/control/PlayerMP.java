@@ -12,11 +12,11 @@ import java.net.UnknownHostException;
  */
 public class PlayerMP extends Player {
 
-	private final InetAddress ipAddress;
-	private final int port;
+	private InetAddress ipAddress;
+	private int port;
 
-	public PlayerMP(InetAddress ipAddress, int port) {
-		super();
+	public PlayerMP(String username, InetAddress ipAddress, int port) {
+		super(username);
 		this.ipAddress = ipAddress;
 		this.port = port;
 	}
@@ -26,11 +26,19 @@ public class PlayerMP extends Player {
 		// super.tick();
 	}
 
-	public InetAddress getIpAddress() {
+	public void setIpAddress(InetAddress ipAddress) {
+		this.ipAddress = ipAddress;
+	}
+
+	public final InetAddress getIpAddress() {
 		return ipAddress;
 	}
 
-	public int getPort() {
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public final int getPort() {
 		return port;
 	}
 }

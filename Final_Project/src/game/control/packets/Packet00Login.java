@@ -41,6 +41,6 @@ public class Packet00Login extends Packet {
 	}
 
 	public String getUsername() {
-		return username;
+		return username.trim();
 	}
 }
