@@ -34,7 +34,7 @@ public class GameServer extends Thread {
 	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
 
 	// TODO this constructor needs to take in a Game paramter
-	public GameServer() {
+	public GameServer(/** Game game **/) {
 
 		// this.game = game;
 
@@ -75,7 +75,6 @@ public class GameServer extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 			parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
 
 			// String message = new String(packet.getData());
@@ -101,7 +100,7 @@ public class GameServer extends Thread {
 		String message = new String(data).trim();
 		PacketType type = Packet.lookupPacket(message.substring(0, 2));
 		Packet packet = null;
-		// System.out.println(type.toString());
+		// System.out.println("TYPE: " + type.toString());
 
 		switch (type) {
 		case DISCONNECT:
@@ -110,10 +109,10 @@ public class GameServer extends Thread {
 			break;
 		case LOGIN:
 			packet = new Packet00Login(data);
-			System.out.println("[ " + address.getHostAddress() + " " + port
+			String check = ("[ " + address.getHostAddress() + " " + port
 					+ " ] " + ((Packet00Login) packet).getUsername()
 					+ " has connected...");
-
+			System.out.println(check);
 			PlayerMP player = new PlayerMP(
 					((Packet00Login) packet).getUsername(), address, port);
 			addConnection(player, (Packet00Login) packet);
@@ -141,11 +140,11 @@ public class GameServer extends Thread {
 				alreadyConnected = true;
 			} else {
 
-				// relay to the current connected player that there is a new
+				// Relay to the current connected player that there is a new
 				// player
 				sendData(packet.getData(), p.getIpAddress(), p.getPort());
 
-				// relay to the new player that the currently connect player
+				// Relay to the new player that the currently connect player
 				// exists
 				packet = new Packet00Login(p.getUsername());
 				sendData(packet.getData(), player.getIpAddress(),

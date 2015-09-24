@@ -69,7 +69,7 @@ public class GameClient extends Thread {
 	public void run() {
 
 		while (true) {
-
+			System.out.println("Hello");
 			// Packet and data to be send to server
 			byte[] data = new byte[1024];
 			DatagramPacket packet = new DatagramPacket(data, data.length);
@@ -80,7 +80,7 @@ public class GameClient extends Thread {
 				e.printStackTrace();
 			}
 			parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
-			// System.out.println("SERVER: " + new String(packet.getData()));
+
 		}
 	}
 
@@ -95,7 +95,7 @@ public class GameClient extends Thread {
 		String message = new String(data).trim();
 		PacketType type = Packet.lookupPacket(message.substring(0, 2));
 		Packet packet = null;
-		// System.out.println(type.toString());
+		System.out.println("TYPE: " + type.toString());
 
 		switch (type) {
 		case DISCONNECT:

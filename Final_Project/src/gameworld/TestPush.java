@@ -28,9 +28,8 @@ public class TestPush {
 		// client.sendData("Callum smells bad".getBytes());
 
 		player = new PlayerMP("Test", null, -1);
-		Packet00Login login = new Packet00Login("Test");
-		if (server != null)
-			server.addConnection((PlayerMP) player, login);
+		Packet00Login login = new Packet00Login(player.getUsername());
+		server.addConnection((PlayerMP) player, login);
 		login.writeData(client);
 	}
 
