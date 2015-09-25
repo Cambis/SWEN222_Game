@@ -31,7 +31,7 @@ public class GameClient extends Thread {
 	private TestPush test;
 
 	// TODO this constructor needs to take in a Game paramter
-	public GameClient(String ipAddress /** , Game game **/
+	public GameClient(String ipAddress /** , Game game */
 	) {
 
 		// this.game = game;
@@ -69,7 +69,6 @@ public class GameClient extends Thread {
 	public void run() {
 
 		while (true) {
-			System.out.println("Hello");
 			// Packet and data to be send to server
 			byte[] data = new byte[1024];
 			DatagramPacket packet = new DatagramPacket(data, data.length);
@@ -79,7 +78,9 @@ public class GameClient extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
+			System.out.println("In here");
+			this.parsePacket(packet.getData(), packet.getAddress(),
+					packet.getPort());
 
 		}
 	}
@@ -92,6 +93,7 @@ public class GameClient extends Thread {
 	 * @param port
 	 */
 	private void parsePacket(byte[] data, InetAddress address, int port) {
+
 		String message = new String(data).trim();
 		PacketType type = Packet.lookupPacket(message.substring(0, 2));
 		Packet packet = null;
@@ -104,20 +106,30 @@ public class GameClient extends Thread {
 			break;
 		case LOGIN:
 			packet = new Packet00Login(data);
-			System.out.println("[ " + address.getHostAddress() + " " + port
-					+ " ] " + ((Packet00Login) packet).getUsername()
-					+ " has joined the game...");
-
-			PlayerMP player = new PlayerMP(
-					((Packet00Login) packet).getUsername(), address, port);
-
-			// TODO Add player to game
-
+			handleLogin((Packet00Login) packet, address, port);
 			break;
 		default:
 			break;
 
 		}
+	}
+
+	/**
+	 * Add a new player to the game
+	 *
+	 * @param packet
+	 * @param address
+	 * @param port
+	 */
+	private void handleLogin(Packet00Login packet, InetAddress address, int port) {
+
+		System.out.println("[ " + address.getHostAddress() + " " + port + " ] "
+				+ ((Packet00Login) packet).getUsername()
+				+ " has joined the game...");
+
+		PlayerMP player = new PlayerMP(packet.getUsername(), address, port);
+
+		// TODO Add player to game
 	}
 
 	/**

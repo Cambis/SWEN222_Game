@@ -128,9 +128,12 @@ public class GameServer extends Thread {
 		// Check that the connection doesn't already exist
 		boolean alreadyConnected = false;
 
-		for (PlayerMP p : connectedPlayers) {
-			if (p.getUsername().equalsIgnoreCase(p.getUsername())) {
+		for (PlayerMP p : connectedPlayers)
+			System.out.println(p.getUsername());
 
+		for (PlayerMP p : connectedPlayers) {
+			if (p.getUsername().equalsIgnoreCase(player.getUsername())) {
+				System.out.println("User already in " + p.getUsername());
 				if (p.getIpAddress() == null)
 					p.setIpAddress(player.getIpAddress());
 
@@ -139,7 +142,7 @@ public class GameServer extends Thread {
 
 				alreadyConnected = true;
 			} else {
-
+				System.out.println("In here");
 				// Relay to the current connected player that there is a new
 				// player
 				sendData(packet.getData(), p.getIpAddress(), p.getPort());
@@ -153,6 +156,7 @@ public class GameServer extends Thread {
 		}
 		if (!alreadyConnected) {
 			connectedPlayers.add(player);
+			System.out.println("Adding player " + connectedPlayers.size());
 		}
 	}
 

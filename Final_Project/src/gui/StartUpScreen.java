@@ -1,5 +1,7 @@
 package gui;
 
+import gameworld.TestPush;
+
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -49,9 +51,11 @@ public class StartUpScreen extends JPanel{
 				switch(e.getKeyCode()){
 				case 72: //h
 					//TODO Host game
+					TestPush host = new TestPush(true);
 					break;
 				case 74: //j
 					//TODO Join game
+					TestPush client = new TestPush(false);
 					break;
 				}
 			}
