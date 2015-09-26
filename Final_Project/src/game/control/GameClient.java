@@ -145,6 +145,10 @@ public class GameClient extends Thread {
 		// TODO Add player to game
 	}
 
+	/**
+	 * Handles a move from the server
+	 * @param packet
+	 */
 	private void handleMove(Packet02Move packet) {
 		// TODO Auto-generated method stub
 	}
