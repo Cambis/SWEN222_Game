@@ -4,6 +4,7 @@ import game.control.packets.Packet;
 import game.control.packets.Packet.PacketType;
 import game.control.packets.Packet00Login;
 import game.control.packets.Packet01Disconnect;
+import game.control.packets.Packet02Move;
 import gameworld.TestPush;
 
 import java.io.IOException;
@@ -105,24 +106,32 @@ public class GameServer extends Thread {
 		// System.out.println("TYPE: " + type.toString());
 
 		switch (type) {
-		case DISCONNECT:
-			packet = new Packet01Disconnect(data);
-			System.out.println("[ " + address.getHostAddress() + " " + port
-					+ " ] " + ((Packet01Disconnect) packet).getUsername() + " has left...");
-			break;
 		case INVALID:
 			break;
 		case LOGIN:
 			packet = new Packet00Login(data);
 			System.out.println("[ " + address.getHostAddress() + " " + port
-					+ " ] " + ((Packet00Login) packet).getUsername() + " has connected...");
+					+ " ] " + ((Packet00Login) packet).getUsername()
+					+ " has connected...");
 			PlayerMP player = new PlayerMP(
 					((Packet00Login) packet).getUsername(), address, port);
 			addConnection(player, (Packet00Login) packet);
 			break;
-		default:
+
+		case DISCONNECT:
+			packet = new Packet01Disconnect(data);
+			System.out.println("[ " + address.getHostAddress() + " " + port
+					+ " ] " + ((Packet01Disconnect) packet).getUsername()
+					+ " has left...");
 			break;
 
+		case MOVE:
+			packet = new Packet02Move(data);
+			handleMove((Packet02Move) packet);
+			break;
+
+		default:
+			break;
 		}
 	}
 
@@ -171,6 +180,7 @@ public class GameServer extends Thread {
 
 	/**
 	 * Remove a player from a game
+	 *
 	 * @param packet
 	 */
 	public void removeConnection(Packet01Disconnect packet) {
@@ -179,7 +189,26 @@ public class GameServer extends Thread {
 	}
 
 	/**
+	 * Handles a move command from the client
+	 *
+	 * @param packet
+	 */
+	private void handleMove(Packet02Move packet) {
+
+		// If there is no player get out of this method
+		if (getPlayerMP(packet.getUsername()) == null)
+			return;
+
+		PlayerMP player = getPlayerMP(packet.getUsername());
+
+		// TODO update player fields here
+
+		packet.writeData(this);
+	}
+
+	/**
 	 * Returns a player given a user name
+	 *
 	 * @param username
 	 * @return
 	 */
@@ -190,6 +219,7 @@ public class GameServer extends Thread {
 
 		return null;
 	}
+
 	/**
 	 * Send data to a specific client
 	 *

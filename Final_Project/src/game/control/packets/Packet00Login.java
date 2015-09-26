@@ -6,6 +6,8 @@ import game.control.GameServer;
 /**
  * This packet is sent to the server when a player connects to a game.
  *
+ * LOGIN - 00 + (String username)
+ *
  * @author Bieleski, Bryers, Gill & Thompson MMXV.
  *
  */

@@ -6,6 +6,8 @@ import game.control.GameServer;
 /**
  * This packet is sent to the server when a player disconnects from the game.
  *
+ * DISCONNECT - 01 + String username
+ *
  * @author Bieleski, Bryers, Gill & Thompson MMXV.
  *
  */

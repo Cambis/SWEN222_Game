@@ -3,6 +3,8 @@ package game.control;
 import game.control.packets.Packet;
 import game.control.packets.Packet00Login;
 import game.control.packets.Packet.PacketType;
+import game.control.packets.Packet01Disconnect;
+import game.control.packets.Packet02Move;
 import gameworld.TestPush;
 
 import java.io.IOException;
@@ -98,14 +100,27 @@ public class GameClient extends Thread {
 		Packet packet = null;
 
 		switch (type) {
-		case DISCONNECT:
-			break;
 		case INVALID:
 			break;
+
 		case LOGIN:
 			packet = new Packet00Login(data);
 			handleLogin((Packet00Login) packet, address, port);
 			break;
+
+		case DISCONNECT:
+			packet = new Packet01Disconnect(data);
+			System.out.println("[" + address.getHostAddress() + ":" + port
+					+ "] " + ((Packet01Disconnect) packet).getUsername()
+					+ " has left the world...");
+			// TODO remove player from game world
+			break;
+
+		case MOVE:
+			packet = new Packet02Move(data);
+			handleMove((Packet02Move) packet);
+			break;
+
 		default:
 			break;
 
@@ -128,6 +143,10 @@ public class GameClient extends Thread {
 		PlayerMP player = new PlayerMP(packet.getUsername(), address, port);
 
 		// TODO Add player to game
+	}
+
+	private void handleMove(Packet02Move packet) {
+		// TODO Auto-generated method stub
 	}
 
 	/**

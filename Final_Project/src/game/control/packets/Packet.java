@@ -13,13 +13,15 @@ import game.control.GameServer;
 public abstract class Packet {
 
 	/**
-	 * Types of packets that can be sent.
+	 * Types of packets that can be sent. Packet data format is shown in each
+	 * subclass.
 	 *
 	 * @author Bieleski, Bryers, Gill & Thompson MMXV.
 	 *
 	 */
 	public static enum PacketType {
-		INVALID(-1), LOGIN(00), DISCONNECT(01);
+
+		INVALID(-1), LOGIN(00), DISCONNECT(01), MOVE(02);
 
 		private final int packetID;
 
@@ -40,24 +42,28 @@ public abstract class Packet {
 
 	/**
 	 * Write data to a specific client
+	 *
 	 * @param client
 	 */
 	public abstract void writeData(GameClient client);
 
 	/**
 	 * Write data to all the clients on this server
+	 *
 	 * @param server
 	 */
 	public abstract void writeData(GameServer server);
 
 	/**
 	 * Return a byte representation of the packet
+	 *
 	 * @return
 	 */
 	public abstract byte[] getData();
 
 	/**
 	 * Return a String representation of the packet
+	 *
 	 * @param data
 	 * @return
 	 */
@@ -70,6 +76,7 @@ public abstract class Packet {
 
 	/**
 	 * Determine the type of packet given a packetID
+	 *
 	 * @param packetID
 	 * @return
 	 */
@@ -83,6 +90,7 @@ public abstract class Packet {
 
 	/**
 	 * Helper method
+	 *
 	 * @param id
 	 * @return
 	 */
