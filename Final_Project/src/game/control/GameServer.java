@@ -3,6 +3,7 @@ package game.control;
 import game.control.packets.Packet;
 import game.control.packets.Packet.PacketType;
 import game.control.packets.Packet00Login;
+import game.control.packets.Packet01Disconnect;
 import gameworld.TestPush;
 
 import java.io.IOException;
@@ -34,7 +35,8 @@ public class GameServer extends Thread {
 	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
 
 	// TODO this constructor needs to take in a Game paramter
-	public GameServer(/** Game game **/) {
+	public GameServer(/** Game game **/
+	) {
 
 		// this.game = game;
 
@@ -104,15 +106,16 @@ public class GameServer extends Thread {
 
 		switch (type) {
 		case DISCONNECT:
+			packet = new Packet01Disconnect(data);
+			System.out.println("[ " + address.getHostAddress() + " " + port
+					+ " ] " + ((Packet01Disconnect) packet).getUsername() + " has left...");
 			break;
 		case INVALID:
 			break;
 		case LOGIN:
 			packet = new Packet00Login(data);
-			String check = ("[ " + address.getHostAddress() + " " + port
-					+ " ] " + ((Packet00Login) packet).getUsername()
-					+ " has connected...");
-			System.out.println(check);
+			System.out.println("[ " + address.getHostAddress() + " " + port
+					+ " ] " + ((Packet00Login) packet).getUsername() + " has connected...");
 			PlayerMP player = new PlayerMP(
 					((Packet00Login) packet).getUsername(), address, port);
 			addConnection(player, (Packet00Login) packet);
@@ -123,17 +126,23 @@ public class GameServer extends Thread {
 		}
 	}
 
+	/**
+	 * Add a player that is trying to login to the server
+	 *
+	 * @param player
+	 * @param packet
+	 */
 	public void addConnection(PlayerMP player, Packet00Login packet) {
 
 		// Check that the connection doesn't already exist
 		boolean alreadyConnected = false;
 
-		for (PlayerMP p : connectedPlayers)
-			System.out.println(p.getUsername());
+		// for (PlayerMP p : connectedPlayers)
+		// System.out.println(p.getUsername());
 
 		for (PlayerMP p : connectedPlayers) {
 			if (p.getUsername().equalsIgnoreCase(player.getUsername())) {
-				System.out.println("User already in " + p.getUsername());
+				// System.out.println("User already in " + p.getUsername());
 				if (p.getIpAddress() == null)
 					p.setIpAddress(player.getIpAddress());
 
@@ -142,7 +151,7 @@ public class GameServer extends Thread {
 
 				alreadyConnected = true;
 			} else {
-				System.out.println("In here");
+
 				// Relay to the current connected player that there is a new
 				// player
 				sendData(packet.getData(), p.getIpAddress(), p.getPort());
@@ -156,12 +165,33 @@ public class GameServer extends Thread {
 		}
 		if (!alreadyConnected) {
 			connectedPlayers.add(player);
-			System.out.println("Adding player " + connectedPlayers.size());
+			// System.out.println("Adding player " + connectedPlayers.size());
 		}
 	}
 
 	/**
-	 * Send data to a client
+	 * Remove a player from a game
+	 * @param packet
+	 */
+	public void removeConnection(Packet01Disconnect packet) {
+		connectedPlayers.remove(getPlayerMP(packet.getUsername()));
+		packet.writeData(this);
+	}
+
+	/**
+	 * Returns a player given a user name
+	 * @param username
+	 * @return
+	 */
+	public PlayerMP getPlayerMP(String username) {
+		for (PlayerMP p : connectedPlayers)
+			if (p.getUsername().equals(username))
+				return p;
+
+		return null;
+	}
+	/**
+	 * Send data to a specific client
 	 *
 	 * @param data
 	 * @param ipAddress

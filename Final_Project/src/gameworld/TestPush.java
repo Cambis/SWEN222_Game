@@ -36,7 +36,7 @@ public class TestPush {
 		if (isHost)
 			player = new PlayerMP("Host", null, -1);
 		else
-			player = new PlayerMP("Client", null, -1);
+			player = new PlayerMP("Client" + Math.random() % 2, null, -1);
 
 		Packet00Login login = new Packet00Login(player.getUsername());
 		if (server != null)

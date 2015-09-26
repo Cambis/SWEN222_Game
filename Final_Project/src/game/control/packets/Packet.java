@@ -3,8 +3,21 @@ package game.control.packets;
 import game.control.GameClient;
 import game.control.GameServer;
 
+/**
+ * Information between the server and client will be sent by subclasses of this
+ * class.
+ *
+ * @author Bieleski, Bryers, Gill & Thompson MMXV.
+ *
+ */
 public abstract class Packet {
 
+	/**
+	 * Types of packets that can be sent.
+	 *
+	 * @author Bieleski, Bryers, Gill & Thompson MMXV.
+	 *
+	 */
 	public static enum PacketType {
 		INVALID(-1), LOGIN(00), DISCONNECT(01);
 
@@ -25,12 +38,29 @@ public abstract class Packet {
 		this.packetID = (byte) packetID;
 	}
 
+	/**
+	 * Write data to a specific client
+	 * @param client
+	 */
 	public abstract void writeData(GameClient client);
 
+	/**
+	 * Write data to all the clients on this server
+	 * @param server
+	 */
 	public abstract void writeData(GameServer server);
 
+	/**
+	 * Return a byte representation of the packet
+	 * @return
+	 */
 	public abstract byte[] getData();
 
+	/**
+	 * Return a String representation of the packet
+	 * @param data
+	 * @return
+	 */
 	public String readData(byte[] data) {
 		String message = new String(data);
 
@@ -38,6 +68,11 @@ public abstract class Packet {
 		return message.substring(2);
 	}
 
+	/**
+	 * Determine the type of packet given a packetID
+	 * @param packetID
+	 * @return
+	 */
 	public static PacketType lookupPacket(String packetID) {
 		try {
 			return lookupPacket(Integer.parseInt(packetID));
@@ -46,6 +81,11 @@ public abstract class Packet {
 		}
 	}
 
+	/**
+	 * Helper method
+	 * @param id
+	 * @return
+	 */
 	public static PacketType lookupPacket(int id) {
 		for (PacketType p : PacketType.values()) {
 			if (p.getID() == id)

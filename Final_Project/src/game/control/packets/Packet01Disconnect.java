@@ -4,32 +4,32 @@ import game.control.GameClient;
 import game.control.GameServer;
 
 /**
- * This packet is sent to the server when a player connects to a game.
+ * This packet is sent to the server when a player disconnects from the game.
  *
  * @author Bieleski, Bryers, Gill & Thompson MMXV.
  *
  */
-public class Packet00Login extends Packet {
+public class Packet01Disconnect extends Packet {
 
-	private final String username;
+	private String username;
 
 	/**
 	 * Constructor intended for sending data
 	 *
 	 * @param data
 	 */
-	public Packet00Login(byte[] data) {
-		super(00);
+	public Packet01Disconnect(byte data[]) {
+		super(01);
 		this.username = readData(data);
 	}
 
 	/**
 	 * Constructor intended for receiving data
 	 *
-	 * @param username
+	 * @param data
 	 */
-	public Packet00Login(String username) {
-		super(00);
+	public Packet01Disconnect(String username) {
+		super(01);
 		this.username = username;
 	}
 
@@ -45,10 +45,10 @@ public class Packet00Login extends Packet {
 
 	@Override
 	public byte[] getData() {
-		return ("00" + this.username).getBytes();
+		return ("01" + username).getBytes();
 	}
 
-	public String getUsername() {
-		return username.trim();
+	public final String getUsername() {
+		return username;
 	}
 }

@@ -78,7 +78,6 @@ public class GameClient extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("In here");
 			this.parsePacket(packet.getData(), packet.getAddress(),
 					packet.getPort());
 
@@ -97,7 +96,6 @@ public class GameClient extends Thread {
 		String message = new String(data).trim();
 		PacketType type = Packet.lookupPacket(message.substring(0, 2));
 		Packet packet = null;
-		System.out.println("TYPE: " + type.toString());
 
 		switch (type) {
 		case DISCONNECT:
