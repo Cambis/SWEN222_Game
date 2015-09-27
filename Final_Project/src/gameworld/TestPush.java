@@ -1,5 +1,7 @@
 package gameworld;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Scanner;
 
 import game.control.GameClient;
@@ -7,6 +9,7 @@ import game.control.GameServer;
 import game.control.Player;
 import game.control.PlayerMP;
 import game.control.packets.Packet00Login;
+import game.control.packets.Packet01Disconnect;
 
 /**
  * Just used for testing the client/ server
@@ -30,6 +33,7 @@ public class TestPush {
 			server = GameServer.testServer(this);
 			server.start();
 		}
+
 		client = GameClient.testClient("localhost", this);
 		client.start();
 
@@ -43,39 +47,7 @@ public class TestPush {
 			server.addConnection((PlayerMP) player, login);
 		login.writeData(client);
 	}
-	// public TestPush() {
-	//
-	// this.client = GameClient.testClient("localhost", this);
-	// client.start();
-	//
-	// // client.sendData("Callum smells bad".getBytes());
-	//
-	// }
-	//
-	// private void init() {
-	// player = new PlayerMP("T" + Math.random(), null, -1);
-	// Packet00Login login = new Packet00Login(player.getUsername());
-	// if (server != null)
-	// server.addConnection((PlayerMP) player, login);
-	// login.writeData(client);
-	// }
-	//
-	// public static TestPush Host() {
-	// TestPush test = new TestPush();
-	// test.server = GameServer.testServer(test);
-	// test.server.start();
-	// test.init();
-	// return test;
-	// }
-	//
-	// public static TestPush Client() {
-	// TestPush test = new TestPush();
-	// test.init();
-	// return test;
-	// }
-	//
-	// public static void main(String args[]) {
-	// new TestPush();
-	// }
+
+
 
 }
