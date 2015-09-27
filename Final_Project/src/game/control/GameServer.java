@@ -5,6 +5,11 @@ import game.control.packets.Packet.PacketType;
 import game.control.packets.Packet00Login;
 import game.control.packets.Packet01Disconnect;
 import game.control.packets.Packet02Move;
+import game.control.packets.Packet03Engage;
+import game.control.packets.Packet04Damage;
+import game.control.packets.Packet05Heal;
+import game.control.packets.Packet06Interact;
+import game.control.packets.Packet07Equip;
 import gameworld.TestPush;
 
 import java.io.IOException;
@@ -79,16 +84,6 @@ public class GameServer extends Thread {
 				e.printStackTrace();
 			}
 			parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
-
-			// String message = new String(packet.getData());
-			// System.out.println("CLIENT: " + message);
-			//
-			// // Message has some empty spaces on the
-			// // end of it so we have to trim it
-			// if (message.trim().equals("Callum smells bad")) {
-			// sendData("Fuck, I know aye".getBytes(), packet.getAddress(),
-			// packet.getPort());
-			// }
 		}
 	}
 
@@ -128,6 +123,31 @@ public class GameServer extends Thread {
 		case MOVE:
 			packet = new Packet02Move(data);
 			handleMove((Packet02Move) packet);
+			break;
+
+		case ENGAGE:
+			packet = new Packet03Engage(data);
+			handleEngage((Packet03Engage) packet);
+			break;
+
+		case DAMAGE:
+			packet = new Packet04Damage(data);
+			handleDamage((Packet04Damage) packet);
+			break;
+
+		case HEAL:
+			packet = new Packet05Heal(data);
+			handleHeal((Packet05Heal) packet);
+			break;
+
+		case INTERACT:
+			packet = new Packet06Interact(data);
+			handleInteract((Packet06Interact) packet);
+			break;
+
+		case EQUIP:
+			packet = new Packet07Equip(data);
+			handleEquip((Packet07Equip) packet);
 			break;
 
 		default:
@@ -204,6 +224,73 @@ public class GameServer extends Thread {
 		// TODO update player fields here
 
 		packet.writeData(this);
+	}
+
+	private void handleEngage(Packet03Engage packet) {
+
+		// If there is no player get out of this method
+		if (getPlayerMP(packet.getUsername()) == null)
+			return;
+
+		PlayerMP player = getPlayerMP(packet.getUsername());
+
+		// TODO update player fields here
+
+		packet.writeData(this);
+	}
+
+	private void handleDamage(Packet04Damage packet) {
+
+		// If there is no player get out of this method
+		if (getPlayerMP(packet.getHitPlayer()) == null)
+			return;
+
+		PlayerMP player = getPlayerMP(packet.getHitPlayer());
+
+		// TODO update player fields here
+
+		packet.writeData(this);
+	}
+
+	private void handleHeal(Packet05Heal packet) {
+
+		// If there is no player get out of this method
+		if (getPlayerMP(packet.getUsername()) == null)
+			return;
+
+		PlayerMP player = getPlayerMP(packet.getUsername());
+
+		// TODO update player fields here
+
+		packet.writeData(this);
+	}
+
+	private void handleInteract(Packet06Interact packet) {
+
+		// If there is no player get out of this method
+		if (getPlayerMP(packet.getUsername()) == null)
+			return;
+
+		PlayerMP player = getPlayerMP(packet.getUsername());
+
+		// TODO update player fields here
+
+		packet.writeData(this);
+
+	}
+
+	private void handleEquip(Packet07Equip packet) {
+
+		// If there is no player get out of this method
+		if (getPlayerMP(packet.getUsername()) == null)
+			return;
+
+		PlayerMP player = getPlayerMP(packet.getUsername());
+
+		// TODO update player fields here
+
+		packet.writeData(this);
+
 	}
 
 	/**

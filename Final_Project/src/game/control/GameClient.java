@@ -2,6 +2,11 @@ package game.control;
 
 import game.control.packets.Packet;
 import game.control.packets.Packet00Login;
+import game.control.packets.Packet03Engage;
+import game.control.packets.Packet04Damage;
+import game.control.packets.Packet05Heal;
+import game.control.packets.Packet06Interact;
+import game.control.packets.Packet07Equip;
 import game.control.packets.Packet.PacketType;
 import game.control.packets.Packet01Disconnect;
 import game.control.packets.Packet02Move;
@@ -121,6 +126,31 @@ public class GameClient extends Thread {
 			handleMove((Packet02Move) packet);
 			break;
 
+		case ENGAGE:
+			packet = new Packet03Engage(data);
+			handleEngage((Packet03Engage) packet);
+			break;
+
+		case DAMAGE:
+			packet = new Packet04Damage(data);
+			handleDamage((Packet04Damage) packet);
+			break;
+
+		case HEAL:
+			packet = new Packet05Heal(data);
+			handleHeal((Packet05Heal) packet);
+			break;
+
+		case INTERACT:
+			packet = new Packet06Interact(data);
+			handleInteract((Packet06Interact) packet);
+			break;
+
+		case EQUIP:
+			packet = new Packet07Equip(data);
+			handleEquip((Packet07Equip) packet);
+			break;
+
 		default:
 			break;
 
@@ -151,6 +181,26 @@ public class GameClient extends Thread {
 	 */
 	private void handleMove(Packet02Move packet) {
 		// TODO Auto-generated method stub
+	}
+
+	private void handleEngage(Packet03Engage packet) {
+
+	}
+
+	private void handleDamage(Packet04Damage packet) {
+
+	}
+
+	private void handleHeal(Packet05Heal packet) {
+
+	}
+
+	private void handleInteract(Packet06Interact packet) {
+
+	}
+
+	private void handleEquip(Packet07Equip packet) {
+
 	}
 
 	/**
