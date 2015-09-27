@@ -21,7 +21,15 @@ public abstract class Packet {
 	 */
 	public static enum PacketType {
 
-		INVALID(-1), LOGIN(00), DISCONNECT(01), MOVE(02);
+		INVALID(-1), 		// Invalid operation
+		LOGIN(00), 			// Login to the server
+		DISCONNECT(01), 	// Disconnect from the server
+		MOVE(02), 			// Player moving
+		ENGAGE(03), 		// Player engaging another
+		DAMAGE(04),			// Player taking damage
+		HEAL(05),			// Player healing
+		INTERACT(06),		// Player interacting with a item
+		EQUIP(07);			// Player equipping an item
 
 		private final int packetID;
 
