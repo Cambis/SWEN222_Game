@@ -180,19 +180,19 @@ public class GameClient extends Thread {
 	 * @param packet
 	 */
 	private void handleMove(Packet02Move packet) {
-		// TODO Auto-generated method stub
+		// TODO Move player
 	}
 
 	private void handleEngage(Packet03Engage packet) {
-
+		// TODO If guard, the guard should fire his/ her gun.
 	}
 
 	private void handleDamage(Packet04Damage packet) {
-
+		// TODO Decrease the health of the player
 	}
 
 	private void handleHeal(Packet05Heal packet) {
-
+		// TODO Increase the health of the player
 	}
 
 	private void handleInteract(Packet06Interact packet) {

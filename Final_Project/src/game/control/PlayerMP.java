@@ -15,10 +15,15 @@ public class PlayerMP extends Player {
 	private InetAddress ipAddress;
 	private int port;
 
-	public PlayerMP(String username, InetAddress ipAddress, int port) {
-		super(username);
+	public PlayerMP(String username, double x, double y, Direction direction,
+			InetAddress ipAddress, int port) {
+		super(username, x, y, direction);
 		this.ipAddress = ipAddress;
 		this.port = port;
+	}
+
+	public PlayerMP(String username, InetAddress ipAddress, int port) {
+		this(username, 0, 0, Direction.NORTH, ipAddress, port);
 	}
 
 	// @Override
