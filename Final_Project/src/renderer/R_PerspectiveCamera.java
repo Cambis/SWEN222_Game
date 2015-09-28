@@ -1,6 +1,5 @@
 package renderer;
 
-import renderer.abstractClasses.R_AbstractCamera;
 import renderer.math.Vec3;
 
 public class R_PerspectiveCamera extends R_AbstractCamera{

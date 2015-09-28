@@ -1,4 +1,4 @@
-package renderer.abstractClasses;
+package renderer;
 
 import renderer.math.Vec3;
 

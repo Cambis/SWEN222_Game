@@ -2,7 +2,6 @@ package renderer;
 
 import java.awt.geom.Rectangle2D;
 
-import renderer.abstractClasses.R_AbstractCamera;
 import renderer.math.Vec3;
 
 public class R_OrthoCamera extends R_AbstractCamera{
