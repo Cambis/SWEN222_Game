@@ -1,5 +1,6 @@
 package renderer;
 
+import renderer.math.Mat4;
 import renderer.math.Vec3;
 
 public class R_PerspectiveCamera extends R_AbstractCamera{
@@ -27,5 +28,10 @@ public class R_PerspectiveCamera extends R_AbstractCamera{
 
 	public void setAspect(float aspect) {
 		this.aspect = aspect;
+	}
+
+	@Override
+	protected Mat4 getProjection() {
+		return Mat4.createPerspective(angle, aspect, near, far);
 	}
 }

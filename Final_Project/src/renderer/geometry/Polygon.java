@@ -3,6 +3,7 @@ package renderer.geometry;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
+import renderer.math.Mat4;
 import renderer.math.Vec3;
 
 public class Polygon {
@@ -42,22 +43,22 @@ public class Polygon {
 		v[i2] = temp;
 	}
 
-	public void rotate(float amount){
-		v1.rotate(amount);
-		v2.rotate(amount);
-		v3.rotate(amount);
-	}
+	public void draw(BufferedImage viewport, float[][] zBuffer, Mat4 viewProjMatrix, Mat4 modelMatrix, Color col) {
+		Vertex modV1 = new Vertex(modelMatrix.mul(v1.getPosition()));
+		Vertex modV2 = new Vertex(modelMatrix.mul(v2.getPosition()));
+		Vertex modV3 = new Vertex(modelMatrix.mul(v3.getPosition()));
 
+		Vertex tempV1 = new Vertex(viewProjMatrix.mul(modV1.getPosition()));
+		Vertex tempV2 = new Vertex(viewProjMatrix.mul(modV2.getPosition()));
+		Vertex tempV3 = new Vertex(viewProjMatrix.mul(modV3.getPosition()));
 
-	public void draw(BufferedImage viewport, float[][] zBuffer) {
+		Vec3 direction = (tempV3.getPosition().sub(tempV2.getPosition())).cross(tempV2.getPosition().sub(tempV1.getPosition()));
 
-		Vec3 normal = (v3.getPosition().sub(v2.getPosition())).cross(v2.getPosition().sub(v1.getPosition()));
-
-		if (normal.getZ() < 0){
+		if (direction.getZ() < 0){
 			return;
 		}
 
-		Vertex v[] = new Vertex[]{v1, v2, v3, v3};
+		Vertex v[] = new Vertex[]{tempV1, tempV2, tempV3, tempV3};
 
 		// Sort vertices in order of -y to +y
 		if (v[0].getPosition().getY() > v[1].getPosition().getY()) {swap(v, 0, 1);}
@@ -75,21 +76,26 @@ public class Polygon {
 				  (v[2].getPosition().getY() - v[0].getPosition().getY())) *
 				  (v[2].getPosition().getZ() - v[0].getPosition().getZ());
 
-		Vertex mid = new Vertex(xMid, yMid, zMid, new int[]{0,0,0});
+		Vertex mid = new Vertex(xMid, yMid, zMid);
 		v[3] = v[2];
 		v[2] = mid;
 		if (v[1].getPosition().getX() > v[2].getPosition().getX()) {swap(v, 1, 2);}
 
+		// Light
 		float spot = 0;
+		Vec3 normal = (modV3.getPosition().sub(modV2.getPosition())).cross(modV2.getPosition().sub(modV1.getPosition()));
 
-		Vec3 vdir = v1.getPosition().sub(new Vec3(5, -3, 5));
-		Vec3 ldir = new Vec3(0, 1f, 0);
-		if (vdir.dot(ldir) > 0.7){
+		//Vec3 vdir = tempV1.getPosition().sub(new Vec3(5, -3, 5));
+		//Vec3 ldir = new Vec3(0, 1f, 0);
+		/*if (vdir.dot(ldir) > 0.7){
 			spot = Math.max(0, Math.min(1, normal.dot(ldir)));
-		}
-		float light = Math.max(0, Math.min(1, normal.dot(new Vec3(-0.5f, 0.75f, 1))));
+		}*/
+		Vec3 amb = new Vec3(0.25f, 0.25f, 0.25f);
+		float light = spot + Math.max(0, Math.min(1, normal.dot(new Vec3(-0.5f, -0.75f, -0.5f))));
 
-		int c = new Color((int)(50 + 105 * light + 100*spot), (int)(255*spot), (int)(255*spot)).getRGB();
+		int c = new Color((int)(Math.max(0, Math.min(255, col.getRed() * (amb.getX() + light)))),
+					      (int)(Math.max(0, Math.min(255, col.getGreen() * (amb.getY() + light)))),
+						  (int)(Math.max(0, Math.min(255, col.getBlue() * (amb.getZ() + light))))).getRGB();
 		// Fill top half
 		if (v[0].getPosition().getY() < v[1].getPosition().getY() && v[0].getPosition().getY() < v[2].getPosition().getY() ){
 			fillTopTri(viewport, zBuffer, v, c);

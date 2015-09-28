@@ -77,7 +77,7 @@ public class Vec3 {
 	}
 
 	public static Vec3 UnitY(){
-		return new Vec3(0,-1,0);
+		return new Vec3(0,1,0);
 	}
 
 	public static Vec3 UnitZ(){

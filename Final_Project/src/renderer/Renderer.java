@@ -1,9 +1,12 @@
 package renderer;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
+
+import renderer.math.Mat4;
 import renderer.math.Vec3;
 
 /**
@@ -25,9 +28,8 @@ public class Renderer {
 	private int width;
 	private int height;
 
-
 	/**
-	 * Constructs a new Renderer object. The new renderer object has a default camera
+	 * Constructs a new Renderer object. The new renderer object has a default camera named "default".
 	 *
 	 * @param width		the width of the rendered image
 	 * @param height	the height of the rendered image
@@ -37,6 +39,10 @@ public class Renderer {
 		this.height = height;
 		this.currentCam = new R_OrthoCamera("default", new Vec3(1, 1, 1), Vec3.Zero(), Vec3.UnitY(),
 														1, 1000, new Rectangle2D.Float(0,0,width, height));
+
+		modelMap = new HashMap<String, R_AbstractModel>();
+		cameraMap = new HashMap<String, R_AbstractCamera>();
+		addCamera(currentCam);
 	}
 
 	/**
@@ -99,7 +105,7 @@ public class Renderer {
 	 * @return 		whether the camera was successfully removed or not
 	 */
 	public boolean deleteCamera(String name){
-		if (cameraMap.containsKey(name)){
+		if (currentCam.getName().equals(name) || cameraMap.containsKey(name)){
 			return false;
 		}
 		cameraMap.remove(name);
@@ -151,6 +157,7 @@ public class Renderer {
 		BufferedImage viewport = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		float zBuffer[][] = new float[width][height];
 
+		long timeBefore = System.currentTimeMillis();
 		Graphics2D g = (Graphics2D)viewport.getGraphics();
 		g.clearRect(0, 0, width, height);
 
@@ -161,7 +168,26 @@ public class Renderer {
 			}
 		}
 
+		/** Create Matrix Stack **/
+		Mat4 matrixStack = Mat4.createIdentity();
+		// Scale the image to fit the window
+		matrixStack = matrixStack.mul(Mat4.createScale(width/2, height/2, 1));
+		// Move the image to fit inside the window
+		matrixStack = matrixStack.mul(Mat4.createTranslate(1, 1, 1));
+		// Project image to window coordinates
+		matrixStack = matrixStack.mul(currentCam.getProjection());
+		// transform image to camera coordinates
+		matrixStack = matrixStack.mul(currentCam.getLookAt());
+
+		final Mat4 matrix = matrixStack;
 		// Draw Model
+		for (R_AbstractModel m : modelMap.values()){
+			m.draw(viewport, zBuffer, matrix);
+		}
+
+		long timeAfter = 1000/Math.max(1, System.currentTimeMillis()-timeBefore);
+		g.setColor(Color.WHITE);
+		g.drawString("FPS: " + timeAfter, 25, 25);
 		return viewport;
 	}
 }

@@ -1,14 +1,15 @@
 package renderer;
 
+import renderer.math.Mat4;
 import renderer.math.Vec3;
 
-public class R_AbstractCamera {
+public abstract class R_AbstractCamera {
 	private final String name;
 	private Vec3 position;
 	private Vec3 target;
 	private Vec3 up;
-	private float near;
-	private float far;
+	protected float near;
+	protected float far;
 
 	public R_AbstractCamera(String name, Vec3 position, Vec3 target, Vec3 up,
 			float near, float far) {
@@ -64,4 +65,10 @@ public class R_AbstractCamera {
 	public String getName() {
 		return name;
 	}
+
+	protected Mat4 getLookAt(){
+		return Mat4.createLookAt(position, target, up);
+	}
+
+	protected abstract Mat4 getProjection();
 }

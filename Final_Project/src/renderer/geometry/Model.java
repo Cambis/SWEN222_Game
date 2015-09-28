@@ -1,6 +1,7 @@
 package renderer.geometry;
 
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,12 +9,10 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import renderer.math.Mat4;
+
 public class Model {
 	private List<Polygon> polys;
-
-	public Model(){
-		polys = new ArrayList<Polygon>();
-	}
 
 	public Model(String pathname){
 		load(pathname);
@@ -25,11 +24,11 @@ public class Model {
 
 		try {
 			Scanner sc = new Scanner(new File(pathname));
-			verts.add(new Vertex(0, 0, 0, new int[]{0}));
+			verts.add(new Vertex(0, 0, 0));
 			while (sc.hasNextLine()){
 				if (sc.hasNext("v")){
 					sc.next();
-					verts.add(new Vertex(sc.nextFloat(), sc.nextFloat(), sc.nextFloat(), new int[]{255, 0, 0, 0}));
+					verts.add(new Vertex(sc.nextFloat(), sc.nextFloat(), sc.nextFloat()));
 				}
 
 				if (sc.hasNext("f")){
@@ -48,15 +47,9 @@ public class Model {
 		}
 	}
 
-	public void rotate(float amount){
+	public void draw(BufferedImage viewport, float[][] zBuffer, Mat4 viewProjMatrix, Mat4 modelMatrix, Color col){
 		for (Polygon p : polys){
-			p.rotate(amount);
-		}
-	}
-
-	public void draw(BufferedImage viewport, float[][] zBuffer){
-		for (Polygon p : polys){
-			p.draw(viewport, zBuffer);
+			p.draw(viewport, zBuffer, viewProjMatrix, modelMatrix, col);
 		}
 	}
 }
