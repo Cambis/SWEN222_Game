@@ -17,7 +17,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 public class StartUpScreen extends JPanel{
 
@@ -51,14 +54,17 @@ public class StartUpScreen extends JPanel{
 			@Override
 			public void keyPressed(KeyEvent e) {
 				System.out.println(e.getKeyCode());
+				String[] login;
 				switch(e.getKeyCode()){
 				case 72: //h
 					//TODO Host game
-					TestPush host = new TestPush(true);
+					login = showLoginWindow();
+					TestPush host = new TestPush(true, login[0], login[1]);
 					break;
 				case 74: //j
 					//TODO Join game
-					TestPush client = new TestPush(false);
+					login = showLoginWindow();
+					TestPush client = new TestPush(false, login[0], login[1]);
 					break;
 				}
 			}
@@ -96,6 +102,23 @@ public class StartUpScreen extends JPanel{
 		}
 
 		g.drawImage(image, 0, 0, null);
+	}
+
+	private String[] showLoginWindow(){
+		JTextField username = new JTextField();
+		JTextField password = new JPasswordField();
+		Object[] message = {
+		    "Username:", username,
+		    "Password:", password
+		};
+
+		int option = JOptionPane.showConfirmDialog(null, message, "Login", JOptionPane.OK_CANCEL_OPTION);
+		if (option == JOptionPane.OK_OPTION) {
+			return new String[] {username.getText(), password.getText()};
+		} else {
+		    System.out.println("Login canceled");
+		}
+		return null;
 	}
 
 	public static void main(String args[]) {

@@ -23,11 +23,11 @@ public class TestPush {
 	private GameClient client;
 	public Player player;
 
-	public TestPush(boolean isHost) {
-		init(isHost);
+	public TestPush(boolean isHost, String user, String pass) {
+		init(isHost, user, pass);
 	}
 
-	private void init(boolean isHost) {
+	private void init(boolean isHost, String user, String pass) {
 
 		if (isHost) {
 			server = GameServer.testServer(this);
@@ -38,9 +38,9 @@ public class TestPush {
 		client.start();
 
 		if (isHost)
-			player = new PlayerMP("Host", null, -1);
+			player = new PlayerMP(user, null, -1);
 		else
-			player = new PlayerMP("Client" + Math.random() % 2, null, -1);
+			player = new PlayerMP(user, null, -1);
 
 		Packet00Login login = new Packet00Login(player.getUsername());
 		if (server != null)
