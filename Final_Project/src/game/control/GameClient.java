@@ -92,6 +92,8 @@ public class GameClient extends Thread {
 		PacketType type = Packet.lookupPacket(message.substring(0, 2));
 		Packet packet = null;
 
+		if (TestGame.DEBUG) System.out.println("Client TYPE: " + type.toString());
+
 		switch (type) {
 		case INVALID:
 			break;
@@ -104,7 +106,7 @@ public class GameClient extends Thread {
 		case DISCONNECT:
 			packet = new Packet01Disconnect(data);
 			System.out.println("[" + address.getHostAddress() + ":" + port
-					+ "] " + ((Packet01Disconnect) packet).getUsername()
+					+ "] " + ((Packet01Disconnect) packet).getUsername().trim()
 					+ " has left the world...");
 			// TODO remove player from game world
 			break;

@@ -31,6 +31,8 @@ import java.util.List;
  */
 public class GameServer extends Thread {
 
+	private static final boolean DEBUG = TestGame.DEBUG;
+
 	private DatagramSocket socket;
 
 	// TODO this class needs to be made
@@ -85,7 +87,7 @@ public class GameServer extends Thread {
 		String message = new String(data).trim();
 		PacketType type = Packet.lookupPacket(message.substring(0, 2));
 		Packet packet = null;
-		// System.out.println("TYPE: " + type.toString());
+		if (DEBUG) System.out.println("TYPE: " + type.toString());
 
 		switch (type) {
 		case INVALID:
@@ -102,6 +104,7 @@ public class GameServer extends Thread {
 
 		case DISCONNECT:
 			packet = new Packet01Disconnect(data);
+			System.out.println("In here");
 			System.out.println("[ " + address.getHostAddress() + " " + port
 					+ " ] " + ((Packet01Disconnect) packet).getUsername()
 					+ " has left...");

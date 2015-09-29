@@ -8,13 +8,10 @@ import java.awt.event.WindowListener;
 public class WindowHandler implements WindowListener {
 
 	private MainFrame frame;
-	private TestGame game;
 
-
-	public WindowHandler(MainFrame frame, TestGame game) {
+	public WindowHandler(MainFrame frame) {
 		this.frame = frame;
 		this.frame.addWindowListener(this);
-		this.game = game;
 	}
 
 	@Override
@@ -25,7 +22,7 @@ public class WindowHandler implements WindowListener {
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		game.stop();
+
 	}
 
 	@Override

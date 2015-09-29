@@ -1,9 +1,12 @@
 package gameworld;
 
+import java.awt.event.WindowEvent;
+
 import game.control.GameClient;
 import game.control.GameServer;
 import game.control.PlayerMP;
 import game.control.packets.Packet00Login;
+import game.control.packets.Packet01Disconnect;
 import game.model.Player;
 import gui.MainFrame;
 import gui.WindowHandler;
@@ -39,7 +42,16 @@ public class TestGame implements Runnable {
 
 	private void init() {
 		mainFrame = new MainFrame();
-		windowHandler = new WindowHandler(mainFrame, this);
+
+		windowHandler = new WindowHandler(mainFrame) {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				Packet01Disconnect packet = new Packet01Disconnect(
+						player.getUsername());
+				packet.writeData(client);
+				stop();
+			}
+		};
 	}
 
 	/**
