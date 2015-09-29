@@ -1,6 +1,7 @@
 package gui;
 
 import game.control.packets.Packet01Disconnect;
+import gameworld.TestGame;
 import gameworld.TestPush;
 
 import java.awt.BorderLayout;
@@ -23,7 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class StartUpScreen extends JPanel{
+public class StartUpScreen extends JPanel {
 
 	private final int WIDTH = 680;
 	private final int HEIGHT = 420;
@@ -41,7 +42,7 @@ public class StartUpScreen extends JPanel{
 		setLayout(new BorderLayout());
 		frame = new JFrame();
 
-		//setup btn
+		// setup btn
 		joinBtn = new GuiButton("Join", BTN_WIDTH, BTN_HEIGHT);
 		hostBtn = new GuiButton("Host", BTN_WIDTH, BTN_HEIGHT);
 		buttons[0] = joinBtn;
@@ -58,11 +59,11 @@ public class StartUpScreen extends JPanel{
 			@Override
 			public void keyPressed(KeyEvent e) {
 				System.out.println(e.getKeyCode());
-				switch(e.getKeyCode()){
-				case 72: //h
+				switch (e.getKeyCode()) {
+				case 72: // h
 					host();
 					break;
-				case 74: //j
+				case 74: // j
 					join();
 					break;
 				}
@@ -75,27 +76,27 @@ public class StartUpScreen extends JPanel{
 			}
 
 		});
-		//add mouse listener
+		// add mouse listener
 		frame.addMouseListener(new MouseListener());
 		frame.addMouseMotionListener(new MouseMotionListener());
 		// add(start, BorderLayout.CENTER);
 
-		//add buttons
-		joinBtn.setPos((WIDTH/2)-(BTN_WIDTH/2), HEIGHT-BTN_HEIGHT-60);
-		hostBtn.setPos((WIDTH/2)-(BTN_WIDTH/2), HEIGHT-BTN_HEIGHT*2-80);
+		// add buttons
+		joinBtn.setPos((WIDTH / 2) - (BTN_WIDTH / 2), HEIGHT - BTN_HEIGHT - 60);
+		hostBtn.setPos((WIDTH / 2) - (BTN_WIDTH / 2), HEIGHT - BTN_HEIGHT * 2
+				- 80);
 
 		frame.setSize(WIDTH, HEIGHT);
 		frame.add(this);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.pack();
+		// frame.pack();
 		frame.repaint();
 	}
 
 	public void paintComponent(Graphics g) {
-		java.net.URL imageURL = getClass().getResource(
-				"StealthTitle.png");
+		java.net.URL imageURL = getClass().getResource("StealthTitle.png");
 
 		BufferedImage image = null;
 
@@ -111,46 +112,48 @@ public class StartUpScreen extends JPanel{
 		hostBtn.draw(g);
 	}
 
-	private String[] showLoginWindow(){
+	private String[] showLoginWindow() {
 		JTextField username = new JTextField();
 		JTextField password = new JPasswordField();
-		Object[] message = {
-		    "Username:", username,
-		    "Password:", password
-		};
+		Object[] message = { "Username:", username, "Password:", password };
 
-		int option = JOptionPane.showConfirmDialog(null, message, "Login", JOptionPane.OK_CANCEL_OPTION);
+		int option = JOptionPane.showConfirmDialog(null, message, "Login",
+				JOptionPane.OK_CANCEL_OPTION);
 		if (option == JOptionPane.OK_OPTION) {
-			return new String[] {username.getText(), password.getText()};
+			return new String[] { username.getText(), password.getText() };
 		} else {
-		    System.out.println("Login canceled");
+			System.out.println("Login canceled");
 		}
 		return null;
 	}
 
-	private void join(){
+	private void join() {
 		String[] login = showLoginWindow();
-		TestPush client = new TestPush(false, login[0], login[1]);
-		new MainFrame();
+		// TestPush client = new TestPush(false, login[0], login[1]);
+		TestGame game = new TestGame(false, login[0]);
+		game.start();
+		// new MainFrame();
 		frame.dispose();
 	}
 
-	private void host(){
+	private void host() {
 		String[] login = showLoginWindow();
-		TestPush host = new TestPush(true, login[0], login[1]);
+		TestGame game = new TestGame(true, login[0]);
+		game.start();
+		// TestPush host = new TestPush(true, login[0], login[1]);
 	}
 
 	public static void main(String args[]) {
 		new StartUpScreen();
 	}
 
-	private class MouseListener implements java.awt.event.MouseListener{
+	private class MouseListener implements java.awt.event.MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			for(int i=0; i<buttons.length; i++){
-				if(buttons[i].isHovered()){
-					switch(buttons[i].getName()){
+			for (int i = 0; i < buttons.length; i++) {
+				if (buttons[i].isHovered()) {
+					switch (buttons[i].getName()) {
 					case "Join":
 						join();
 						break;
@@ -188,7 +191,8 @@ public class StartUpScreen extends JPanel{
 		}
 	}
 
-	private class MouseMotionListener implements java.awt.event.MouseMotionListener{
+	private class MouseMotionListener implements
+			java.awt.event.MouseMotionListener {
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
@@ -198,7 +202,7 @@ public class StartUpScreen extends JPanel{
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			for(int i=0; i<buttons.length; i++){
+			for (int i = 0; i < buttons.length; i++) {
 				buttons[i].checkHovered(e.getX(), e.getY());
 			}
 			frame.repaint();

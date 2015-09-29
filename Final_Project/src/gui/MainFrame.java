@@ -23,7 +23,12 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class MainFrame extends JPanel{
+public class MainFrame extends JFrame {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private JFrame frame;
 
 	private final int WIDTH = 1080;
@@ -57,6 +62,7 @@ public class MainFrame extends JPanel{
 
 		// add(start, BorderLayout.CENTER);
 
+		/**
 		frame.setSize(WIDTH, HEIGHT);
 		frame.add(this);
 		frame.setLocationRelativeTo(null);
@@ -64,6 +70,15 @@ public class MainFrame extends JPanel{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		frame.pack();
 		frame.repaint();
+		**/
+
+		setSize(WIDTH, HEIGHT);
+		add(new JPanel());
+		setLocationRelativeTo(null);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.pack();
+		repaint();
 	}
 
 	public void paintComponent(Graphics g) {
