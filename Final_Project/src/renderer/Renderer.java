@@ -38,7 +38,7 @@ public class Renderer {
 		this.width = width;
 		this.height = height;
 		this.currentCam = new R_OrthoCamera("default", new Vec3(1, 1, 1), Vec3.Zero(), Vec3.UnitY(),
-														1, 1000, new Rectangle2D.Float(0,0,width, height));
+				  												 	1, 1000, 1, (1.f*width/height));
 
 		modelMap = new HashMap<String, R_AbstractModel>();
 		cameraMap = new HashMap<String, R_AbstractCamera>();
