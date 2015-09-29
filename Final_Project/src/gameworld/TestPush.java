@@ -6,10 +6,10 @@ import java.util.Scanner;
 
 import game.control.GameClient;
 import game.control.GameServer;
-import game.control.Player;
 import game.control.PlayerMP;
 import game.control.packets.Packet00Login;
 import game.control.packets.Packet01Disconnect;
+import game.model.Player;
 
 /**
  * Just used for testing the client/ server
