@@ -1,7 +1,7 @@
 /**
  *
  */
-package game.control;
+package game.model;
 
 
 /**

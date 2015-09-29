@@ -1,5 +1,7 @@
 package game.control;
 
+import game.model.Player;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
