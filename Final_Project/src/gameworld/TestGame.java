@@ -1,5 +1,8 @@
 package gameworld;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import game.control.GameClient;
 import game.control.GameServer;
 
@@ -17,9 +20,12 @@ public class TestGame implements Runnable {
 
 		running = true;
 
-		// TODO server should only be created IFF the player hosts a game
-		server = new GameServer(this);
-		server.start();
+		// TODO server should only be created IFF the player hosts a game.
+		// Change the if condition pls.
+		if (true) {
+			server = new GameServer(this);
+			server.start();
+		}
 
 		// Client should always be created
 		client = new GameClient("localhost", this);
@@ -42,5 +48,4 @@ public class TestGame implements Runnable {
 	public void tick() {
 
 	}
-
 }
