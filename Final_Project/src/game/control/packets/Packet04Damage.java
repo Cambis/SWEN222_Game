@@ -55,11 +55,11 @@ public class Packet04Damage extends Packet {
 	}
 
 	public final String getHitPlayer() {
-		return hitPlayer;
+		return hitPlayer.trim();
 	}
 
 	public final String getAttacker() {
-		return attacker;
+		return attacker.trim();
 	}
 
 	public final double getDamage() {

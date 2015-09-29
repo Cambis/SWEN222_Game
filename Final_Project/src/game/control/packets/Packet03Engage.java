@@ -41,6 +41,6 @@ public class Packet03Engage extends Packet {
 	}
 
 	public final String getUsername() {
-		return username;
+		return username.trim();
 	}
 }

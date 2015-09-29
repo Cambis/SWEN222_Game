@@ -106,7 +106,7 @@ public class GameClient extends Thread {
 		case DISCONNECT:
 			packet = new Packet01Disconnect(data);
 			System.out.println("[" + address.getHostAddress() + ":" + port
-					+ "] " + ((Packet01Disconnect) packet).getUsername().trim()
+					+ "] " + ((Packet01Disconnect) packet).getUsername()
 					+ " has left the world...");
 			// TODO remove player from game world
 			break;

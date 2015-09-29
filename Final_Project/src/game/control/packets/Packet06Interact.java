@@ -51,7 +51,7 @@ public class Packet06Interact extends Packet {
 	}
 
 	public final String getUsername() {
-		return username;
+		return username.trim();
 	}
 
 	public final int getObjectID() {

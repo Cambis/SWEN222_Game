@@ -104,7 +104,6 @@ public class GameServer extends Thread {
 
 		case DISCONNECT:
 			packet = new Packet01Disconnect(data);
-			System.out.println("In here");
 			System.out.println("[ " + address.getHostAddress() + " " + port
 					+ " ] " + ((Packet01Disconnect) packet).getUsername()
 					+ " has left...");
