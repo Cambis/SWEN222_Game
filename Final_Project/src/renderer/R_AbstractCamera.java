@@ -11,6 +11,9 @@ public abstract class R_AbstractCamera {
 	protected float near;
 	protected float far;
 
+	// The camera's aspect ratio
+	protected float aspect;
+
 	public R_AbstractCamera(String name, Vec3 position, Vec3 target, Vec3 up,
 			float near, float far) {
 		super();
@@ -65,6 +68,21 @@ public abstract class R_AbstractCamera {
 	public String getName() {
 		return name;
 	}
+
+	/**
+	 * @return - returns the camera's aspect ratio
+	 */
+	public float getAspect() {
+		return aspect;
+	}
+
+	/**
+	 * @param aspect - sets the camera's aspect ratio
+	 */
+	public void setAspect(float aspect) {
+		this.aspect = aspect;
+	}
+
 
 	protected Mat4 getLookAt(){
 		return Mat4.createLookAt(position, target, up);

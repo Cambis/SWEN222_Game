@@ -5,13 +5,11 @@ import renderer.math.Vec3;
 
 public class R_PerspectiveCamera extends R_AbstractCamera{
 	private float angle;
-	private float aspect;
 
 	public R_PerspectiveCamera(String name, Vec3 position, Vec3 target,
-			Vec3 up, float near, float far, float angle, float aspect) {
+			Vec3 up, float near, float far, float angle) {
 		super(name, position, target, up, near, far);
 		this.angle = angle;
-		this.aspect = aspect;
 	}
 
 	public float getAngle() {
@@ -22,13 +20,6 @@ public class R_PerspectiveCamera extends R_AbstractCamera{
 		this.angle = angle;
 	}
 
-	public float getAspect() {
-		return aspect;
-	}
-
-	public void setAspect(float aspect) {
-		this.aspect = aspect;
-	}
 
 	@Override
 	protected Mat4 getProjection() {

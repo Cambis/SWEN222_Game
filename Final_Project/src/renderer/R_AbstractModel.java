@@ -1,30 +1,25 @@
 package renderer;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-import renderer.geometry.Model;
 import renderer.math.Mat4;
 import renderer.math.Vec3;
 
 public abstract class R_AbstractModel {
 	private final String name;
-	private final Model model;
+	private final R_AbstractModelData model;
 
 	private Vec3 position;
 	private Vec3 orientation;
 	private Vec3 scale;
 
-	private Color col;
-
-	public R_AbstractModel(String name, String modelfilepath, Vec3 position, Vec3 orientation, Vec3 scale, Color col) {
+	public R_AbstractModel(String name, R_AbstractModelData model, Vec3 position, Vec3 orientation, Vec3 scale) {
 		super();
 		this.position = position;
 		this.orientation = orientation;
 		this.scale = scale;
 		this.name = name;
-		this.model = new Model(modelfilepath);
-		this.col = col;
+		this.model = model;
 	}
 
 	public Vec3 getPosition() {
@@ -55,7 +50,7 @@ public abstract class R_AbstractModel {
 		return name;
 	}
 
-	protected Model getModel(){
+	protected R_AbstractModelData getModel(){
 		return model;
 	}
 
@@ -76,6 +71,6 @@ public abstract class R_AbstractModel {
 		modelMatrix = modelMatrix.mul(Mat4.createScale(scale));
 
 		// Finally draw object
-		model.draw(viewport, zBuffer, viewProjMatrix, modelMatrix, col);
+		model.draw(viewport, zBuffer, viewProjMatrix, modelMatrix);
 	}
 }

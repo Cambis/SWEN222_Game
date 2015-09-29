@@ -2,7 +2,6 @@ package renderer;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
@@ -15,6 +14,9 @@ import renderer.math.Vec3;
  * @author Stephen Thompson
  */
 public class Renderer {
+	// The map of all model data stored inside the scene
+	private HashMap<String, R_AbstractModelData> modelDataMap;
+
 	// The map of all models inside the scene
 	private HashMap<String, R_AbstractModel> modelMap;
 
@@ -37,9 +39,10 @@ public class Renderer {
 	public Renderer(int width, int height){
 		this.width = width;
 		this.height = height;
-		this.currentCam = new R_OrthoCamera("default", new Vec3(1, 1, 1), Vec3.Zero(), Vec3.UnitY(),
-				  												 	1, 1000, 1, (1.f*width/height));
+		this.currentCam = new R_OrthoCamera("default", new Vec3(1, 1, 1), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 1);
+		currentCam.setAspect(1.f*width/height);
 
+		modelDataMap = new HashMap<String, R_AbstractModelData>();
 		modelMap = new HashMap<String, R_AbstractModel>();
 		cameraMap = new HashMap<String, R_AbstractCamera>();
 		addCamera(currentCam);
@@ -83,6 +86,32 @@ public class Renderer {
 		modelMap.remove(name);
 		return true;
 	}
+
+	/**
+	 * Adds a new model to the scene, returning false if a model with the same name already exists
+	 *
+	 * @param m		the new model
+	 * @return 		whether the model was successfully added or not
+	 */
+	public boolean addModelData(R_AbstractModelData m){
+		if (modelDataMap.containsKey(m.getName())){
+			return false;
+		}
+		modelDataMap.put(m.getName(), m);
+		return true;
+	}
+
+	/**
+	 * Gets the model with the name "name" in the scene
+	 *
+	 * @param name	the name of the model to get
+	 * @return 		the model with the name "name"
+	 * 				or null if the model does not exist
+	 */
+	public R_AbstractModelData getModelData(String name){
+		return modelDataMap.get(name);
+	}
+
 
 	/**
 	 * Adds a new camera to the scene, returning false if a camera with the same name already exists
@@ -135,6 +164,7 @@ public class Renderer {
 			return false;
 		}
 		currentCam = cameraMap.get(name);
+		currentCam.setAspect(1.f*width/height);
 		return true;
 	}
 
@@ -147,6 +177,7 @@ public class Renderer {
 	public void resize(int width, int height){
 		this.width = width;
 		this.height = height;
+		currentCam.setAspect(1.f*width/height);
 	}
 
 	/**

@@ -12,9 +12,6 @@ public class R_OrthoCamera extends R_AbstractCamera{
 	// The camera's scale factor, a higher scale shows more of the scene
 	private float scale;
 
-	// The camera's aspect ratio
-	private float aspect;
-
 	/**
 	 * Constructor for creating a new orthographic camera
 	 *
@@ -28,10 +25,9 @@ public class R_OrthoCamera extends R_AbstractCamera{
 	 * @param aspect	The aspect ratio (renderer's width/render's height)
 	 */
 	public R_OrthoCamera(String name, Vec3 position, Vec3 target, Vec3 up,
-						 float near, float far, float scale, float aspect) {
+						 float near, float far, float scale) {
 		super(name, position, target, up, near, far);
 		this.scale = scale;
-		this.aspect = aspect;
 	}
 
 	/**
@@ -42,24 +38,10 @@ public class R_OrthoCamera extends R_AbstractCamera{
 	}
 
 	/**
-	 * @param aspect - sets the camera's aspect ratio
-	 */
-	public void setAspect(float aspect) {
-		this.aspect = aspect;
-	}
-
-	/**
 	 * @return		the camera's scale
 	 */
 	public float getScale() {
 		return scale;
-	}
-
-	/**
-	 * @return		the camera's aspect ratio
-	 */
-	public float getAspect() {
-		return aspect;
 	}
 
 	/**

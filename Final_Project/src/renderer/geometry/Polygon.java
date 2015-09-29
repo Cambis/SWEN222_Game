@@ -85,13 +85,13 @@ public class Polygon {
 		float spot = 0;
 		Vec3 normal = (modV3.getPosition().sub(modV2.getPosition())).cross(modV2.getPosition().sub(modV1.getPosition()));
 
-		//Vec3 vdir = tempV1.getPosition().sub(new Vec3(5, -3, 5));
-		//Vec3 ldir = new Vec3(0, 1f, 0);
-		/*if (vdir.dot(ldir) > 0.7){
+		Vec3 vdir = tempV1.getPosition().sub(new Vec3(0, 1, 0));
+		Vec3 ldir = new Vec3(-1, -1, 0);
+		if (vdir.dot(ldir) > 0.8){
 			spot = Math.max(0, Math.min(1, normal.dot(ldir)));
-		}*/
+		}
 		Vec3 amb = new Vec3(0.25f, 0.25f, 0.25f);
-		float light = spot + Math.max(0, Math.min(1, normal.dot(new Vec3(-0.5f, -0.75f, -0.5f))));
+		float light = spot + Math.max(0, Math.min(1, normal.dot(new Vec3(-0.5f, -0.25f, -0.5f))));
 
 		int c = new Color((int)(Math.max(0, Math.min(255, col.getRed() * (amb.getX() + light)))),
 					      (int)(Math.max(0, Math.min(255, col.getGreen() * (amb.getY() + light)))),
