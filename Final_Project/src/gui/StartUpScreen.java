@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
@@ -24,24 +25,27 @@ import javax.swing.JTextField;
 
 public class StartUpScreen extends JPanel{
 
-	private JButton start;
+	private final int WIDTH = 680;
+	private final int HEIGHT = 420;
+	private final int BTN_WIDTH = 250;
+	private final int BTN_HEIGHT = 80;
+
+	private GuiButton joinBtn;
+	private GuiButton hostBtn;
+	private GuiButton[] buttons = new GuiButton[2];
+
 	private JFrame frame;
 
 	public StartUpScreen() {
 
 		setLayout(new BorderLayout());
 		frame = new JFrame();
-		start = new JButton("Start");
 
-		start.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				//new MainFrame();
-			}
-
-		});
+		//setup btn
+		joinBtn = new GuiButton("Join", BTN_WIDTH, BTN_HEIGHT);
+		hostBtn = new GuiButton("Host", BTN_WIDTH, BTN_HEIGHT);
+		buttons[0] = joinBtn;
+		buttons[1] = hostBtn;
 
 		frame.addKeyListener(new KeyListener() {
 
@@ -54,17 +58,12 @@ public class StartUpScreen extends JPanel{
 			@Override
 			public void keyPressed(KeyEvent e) {
 				System.out.println(e.getKeyCode());
-				String[] login;
 				switch(e.getKeyCode()){
 				case 72: //h
-					//TODO Host game
-					login = showLoginWindow();
-					TestPush host = new TestPush(true, login[0], login[1]);
+					host();
 					break;
 				case 74: //j
-					//TODO Join game
-					login = showLoginWindow();
-					TestPush client = new TestPush(false, login[0], login[1]);
+					join();
 					break;
 				}
 			}
@@ -76,10 +75,16 @@ public class StartUpScreen extends JPanel{
 			}
 
 		});
-
+		//add mouse listener
+		frame.addMouseListener(new MouseListener());
+		frame.addMouseMotionListener(new MouseMotionListener());
 		// add(start, BorderLayout.CENTER);
 
-		frame.setSize(680, 420);
+		//add buttons
+		joinBtn.setPos((WIDTH/2)-(BTN_WIDTH/2), HEIGHT-BTN_HEIGHT-60);
+		hostBtn.setPos((WIDTH/2)-(BTN_WIDTH/2), HEIGHT-BTN_HEIGHT*2-80);
+
+		frame.setSize(WIDTH, HEIGHT);
 		frame.add(this);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
@@ -102,6 +107,8 @@ public class StartUpScreen extends JPanel{
 		}
 
 		g.drawImage(image, 0, 0, null);
+		joinBtn.draw(g);
+		hostBtn.draw(g);
 	}
 
 	private String[] showLoginWindow(){
@@ -121,7 +128,81 @@ public class StartUpScreen extends JPanel{
 		return null;
 	}
 
+	private void join(){
+		String[] login = showLoginWindow();
+		TestPush client = new TestPush(false, login[0], login[1]);
+		new MainFrame();
+		frame.dispose();
+	}
+
+	private void host(){
+		String[] login = showLoginWindow();
+		TestPush host = new TestPush(true, login[0], login[1]);
+	}
+
 	public static void main(String args[]) {
 		new StartUpScreen();
+	}
+
+	private class MouseListener implements java.awt.event.MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			for(int i=0; i<buttons.length; i++){
+				if(buttons[i].isHovered()){
+					switch(buttons[i].getName()){
+					case "Join":
+						join();
+						break;
+					case "Host":
+						host();
+						break;
+					}
+				}
+			}
+
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+	}
+
+	private class MouseMotionListener implements java.awt.event.MouseMotionListener{
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			for(int i=0; i<buttons.length; i++){
+				buttons[i].checkHovered(e.getX(), e.getY());
+			}
+			frame.repaint();
+		}
+
 	}
 }
