@@ -22,7 +22,7 @@ public class TestGame implements Runnable {
 		server.start();
 
 		// Client should always be created
-		client = new GameClient(this, "localhost");
+		client = new GameClient("localhost", this);
 		client.start();
 	}
 

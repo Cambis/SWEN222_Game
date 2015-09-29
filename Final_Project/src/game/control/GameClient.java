@@ -10,6 +10,7 @@ import game.control.packets.Packet07Equip;
 import game.control.packets.Packet.PacketType;
 import game.control.packets.Packet01Disconnect;
 import game.control.packets.Packet02Move;
+import gameworld.TestGame;
 import gameworld.TestPush;
 
 import java.io.IOException;
@@ -35,13 +36,12 @@ public class GameClient extends Thread {
 	// private Game game
 
 	// Testing only
-	private TestPush test;
+	private TestGame game;
 
 	// TODO this constructor needs to take in a Game paramter
-	public GameClient(String ipAddress /** , Game game */
-	) {
+	public GameClient(String ipAddress, TestGame game) {
 
-		// this.game = game;
+		this.game = game;
 
 		// Setup socket
 		try {
@@ -56,18 +56,6 @@ public class GameClient extends Thread {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * Just used for testing
-	 *
-	 * @param ipAddress
-	 * @param test
-	 */
-	public static GameClient testClient(String ipAddress, TestPush test) {
-		GameClient testClient = new GameClient(ipAddress);
-		testClient.test = test;
-		return testClient;
 	}
 
 	/**
@@ -177,6 +165,7 @@ public class GameClient extends Thread {
 
 	/**
 	 * Handles a move from the server
+	 *
 	 * @param packet
 	 */
 	private void handleMove(Packet02Move packet) {

@@ -30,11 +30,11 @@ public class TestPush {
 	private void init(boolean isHost, String user, String pass) {
 
 		if (isHost) {
-			server = GameServer.testServer(this);
+			// server = GameServer.testServer(this);
 			server.start();
 		}
 
-		client = GameClient.testClient("localhost", this);
+		// client = GameClient.testClient("localhost", this);
 		client.start();
 
 		if (isHost)

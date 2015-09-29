@@ -10,6 +10,7 @@ import game.control.packets.Packet04Damage;
 import game.control.packets.Packet05Heal;
 import game.control.packets.Packet06Interact;
 import game.control.packets.Packet07Equip;
+import gameworld.TestGame;
 import gameworld.TestPush;
 
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class GameServer extends Thread {
 	private DatagramSocket socket;
 
 	// TODO this class needs to be made
-	// private Game game
+	private TestGame game;
 
 	// Testing only
 	private TestPush test;
@@ -41,10 +42,9 @@ public class GameServer extends Thread {
 	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
 
 	// TODO this constructor needs to take in a Game paramter
-	public GameServer(/** Game game **/
-	) {
+	public GameServer(TestGame game) {
 
-		// this.game = game;
+		this.game = game;
 
 		// Setup socket
 		try {
@@ -54,19 +54,6 @@ public class GameServer extends Thread {
 			e.printStackTrace();
 		}
 	}
-
-	/**
-	 * Used for testing only
-	 *
-	 * @param push
-	 * @return
-	 */
-	public static GameServer testServer(TestPush push) {
-		GameServer testServer = new GameServer();
-		testServer.test = push;
-		return testServer;
-	}
-
 	/**
 	 * Run the server
 	 */
