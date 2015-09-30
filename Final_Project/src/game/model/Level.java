@@ -80,9 +80,8 @@ public class Level {
 		R_ModelColorData playModData = new R_ModelColorData("P1",
 				"res/Guard.obj", new Color(0.3f, 1f, 0.5f));
 		game.r_addModelData(playModData);
-		playerMod = new R_Player("P1", playModData,
-				R_Player.Team.GUARD, Vec3.Zero(), new Vec3(0, 110, 0),
-				new Vec3(0.15f, 0.15f, 0.15f));
+		playerMod = new R_Player("P1", playModData, R_Player.Team.GUARD,
+				Vec3.Zero(), new Vec3(0, 110, 0), new Vec3(0.15f, 0.15f, 0.15f));
 		game.r_addModel(playerMod);
 
 		// Create a static Model
@@ -106,7 +105,7 @@ public class Level {
 		pos = new Vec3(pos.getX(), (float) (Math.sin(val)), pos.getZ());
 		playerMod.setPosition(pos);
 
-		val += 0.1;
+		val = (val < 100.0f) ? val + 0.1f : 0.0f;
 	}
 
 	/**
@@ -150,13 +149,16 @@ public class Level {
 	}
 
 	public void tick() {
+
 		for (Player p : players) {
 			p.tick();
 			Packet02Move packet = new Packet02Move(p.getUsername(), p.getX(),
 					p.getY(), 0, true, p.getRotation());
 			packet.writeData(game.getClient());
 			setupRender();
-			testRender();
 		}
+
+		if (players.size() > 0)
+			testRender();
 	}
 }

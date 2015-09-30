@@ -3,7 +3,10 @@
  */
 package game.model;
 
+import java.awt.Color;
+
 import renderer.*;
+import renderer.math.Vec3;
 
 /**
  * Represents a player in the game. This class should do the player logic and
