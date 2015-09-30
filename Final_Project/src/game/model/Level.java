@@ -9,11 +9,18 @@ public class Level {
 	private List<Room> rooms = new ArrayList<Room>();
 	private List<Player> players = new ArrayList<Player>();
 
+	public Level() {
+
+	}
+
 	public Level(String filename){
 		loadRooms(filename);
 	}
 
-	private void loadRooms(String filename){
+	public void loadRooms(String filename){
+
+		rooms.clear();
+
 		try {
 			Scanner s = new Scanner(new File(filename));
 			int roomNum = 0;
@@ -44,4 +51,7 @@ public class Level {
 		players.add(p);
 	}
 
+	public boolean removePlayer(Player p) {
+		return players.remove(p);
+	}
 }

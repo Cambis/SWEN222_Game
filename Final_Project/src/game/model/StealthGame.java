@@ -43,6 +43,9 @@ public class StealthGame implements Runnable {
 	}
 
 	private void init() {
+
+		level = new Level();
+
 		Renderer r = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
 		mainFrame = new MainFrame(r);
 
@@ -157,6 +160,13 @@ public class StealthGame implements Runnable {
 
 	}
 
+	public void removePlayer(Player p) {
+		level.removePlayer(p);
+	}
+
+	public void loadLevel(String filepath) {
+		level.loadRooms(filepath);
+	}
 	/**
 	 * Called to run the game, the server should send a packet to tell the game
 	 * to start

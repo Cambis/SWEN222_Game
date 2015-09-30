@@ -108,6 +108,9 @@ public class GameServer extends Thread {
 			if (!gameStarted && connectedPlayers.size() >= MIN_PLAYERS) {
 				gameStarted = true;
 				sendDataToAllClients("20".getBytes());
+
+				// TODO send level filepath
+				
 			}
 			break;
 
