@@ -114,14 +114,9 @@ public class GameServer extends Thread {
 					"res/Levels/test1.lvl");
 			sendData(level.getData(), player.getIpAddress(), player.getPort());
 
-			try {
-				sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
 			// Send prompt to the client when the min amount of players is
 			// reached
+			// XXX: probably wont use this anymore
 			if (!gameStarted && connectedPlayers.size() >= MIN_PLAYERS) {
 				gameStarted = true;
 				// sendDataToAllClients("20".getBytes());
