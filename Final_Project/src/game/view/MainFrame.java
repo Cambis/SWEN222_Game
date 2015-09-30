@@ -1,4 +1,4 @@
-package gui;
+package game.view;
 
 import game.control.packets.Packet01Disconnect;
 import gameworld.TestPush;

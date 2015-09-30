@@ -8,8 +8,8 @@ import game.control.PlayerMP;
 import game.control.packets.Packet00Login;
 import game.control.packets.Packet01Disconnect;
 import game.model.Player;
-import gui.MainFrame;
-import gui.WindowHandler;
+import game.view.MainFrame;
+import game.view.WindowHandler;
 
 public class TestGame implements Runnable {
 
@@ -17,6 +17,7 @@ public class TestGame implements Runnable {
 
 	private GameClient client;
 	private GameServer server;
+
 	private boolean isHost = false;
 	private boolean running = false;
 
@@ -28,10 +29,7 @@ public class TestGame implements Runnable {
 
 	private WindowHandler windowHandler;
 
-	/**
-	 * We only need one player here, the full list of players is stored in
-	 * GameServer
-	 **/
+	// We only need a reference to the player on the client here
 	private Player player;
 
 	public TestGame(boolean isHost, String username) {
@@ -41,9 +39,12 @@ public class TestGame implements Runnable {
 	}
 
 	private void init() {
+
 		mainFrame = new MainFrame();
 
+		// Set up window handler
 		windowHandler = new WindowHandler(mainFrame) {
+
 			@Override
 			public void windowClosing(WindowEvent e) {
 				Packet01Disconnect packet = new Packet01Disconnect(

@@ -1,4 +1,4 @@
-package gui;
+package game.view;
 
 import game.control.packets.Packet01Disconnect;
 import gameworld.TestGame;
@@ -141,6 +141,7 @@ public class StartUpScreen extends JPanel {
 		TestGame game = new TestGame(true, login[0]);
 		game.start();
 		// TestPush host = new TestPush(true, login[0], login[1]);
+		frame.dispose();
 	}
 
 	public static void main(String args[]) {

@@ -1,4 +1,4 @@
-package gui;
+package game.view;
 
 import gameworld.TestGame;
 
@@ -22,7 +22,7 @@ public class WindowHandler implements WindowListener {
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-
+		frame.dispose();
 	}
 
 	@Override
