@@ -55,6 +55,8 @@ public class Level {
 
 	public void addPlayer(Player p) {
 		players.add(p);
+		//TODO set rooms properly
+		p.setRoom(rooms.get(0));
 	}
 
 	public boolean removePlayer(Player p) {

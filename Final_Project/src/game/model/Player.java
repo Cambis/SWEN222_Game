@@ -38,7 +38,7 @@ public class Player {
 
 	private double x, y;
 	private double rotation;
-	private Room currentRoom;
+	private Room currentRoom = null;
 	private boolean isMoving, turnLeft, turnRight, moveFoward, sprint;
 
 	public Player(String username, double x, double y, double rotation) {
@@ -74,6 +74,13 @@ public class Player {
 	public final void setX(double x) {
 		model.getPosition().setX((float) x);
 		this.x = x;
+	}
+
+	/**
+	 * Sets players current room
+	 */
+	public final void setRoom(Room r) {
+		currentRoom=r;
 	}
 
 	/**
@@ -146,7 +153,7 @@ public class Player {
 		if (moveFoward) {
 			double newY = y + moveSpeed * Math.cos(Math.toRadians(rotation));
 			double newX = x + moveSpeed * Math.sin(Math.toRadians(rotation));
-			if(currentRoom.validPosition(this, newX, newY)){
+			if(currentRoom!=null&&currentRoom.validPosition(this, newX, newY)){
 				model.getPosition().setX((float) newX);
 				model.getPosition().setZ((float) newY);
 			}
