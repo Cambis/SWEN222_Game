@@ -18,6 +18,7 @@ import game.view.WindowHandler;
 public class StealthGame implements Runnable {
 
 	public static final boolean DEBUG = true;
+	public static final int MIN_PLAYERS = 1;
 
 	private GameClient client;
 	private GameServer server;
@@ -49,12 +50,14 @@ public class StealthGame implements Runnable {
 	private void init() {
 
 		renderer = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
-		R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", new Vec3(50, 50, 50), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 2);
+		R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", new Vec3(50, 50,
+				50), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 2);
 		r_addCamera(ortho);
 		r_setCamera(ortho.getName());
 
 		// Adds a new model
-		R_ModelColorData modelData = new R_ModelColorData("Test", "res/Guard.obj", Color.RED);
+		R_ModelColorData modelData = new R_ModelColorData("Test",
+				"res/Guard.obj", Color.RED);
 		r_addModelData(modelData);
 
 		level = new Level(this);
@@ -127,6 +130,9 @@ public class StealthGame implements Runnable {
 	 */
 	@Override
 	public void run() {
+		if (DEBUG)
+			System.out.println(player.getUsername() + "'s GAME IS "
+					+ (running ? "" : "NOT") + " RUNNING");
 		while (running) {
 			tick();
 			render();
@@ -145,15 +151,17 @@ public class StealthGame implements Runnable {
 
 	/**
 	 * Adds player to the current level
+	 *
 	 * @param p
 	 */
-	public void addPlayer(Player p){
+	public void addPlayer(Player p) {
 		level.addPlayer(p);
 
 	}
 
 	/**
 	 * Removes player from level
+	 *
 	 * @param p
 	 */
 	public void removePlayer(Player p) {
@@ -162,6 +170,7 @@ public class StealthGame implements Runnable {
 
 	/**
 	 * Removes player from level that matches the username
+	 *
 	 * @param p
 	 */
 	public void removePlayer(String name) {
@@ -170,6 +179,7 @@ public class StealthGame implements Runnable {
 
 	/**
 	 * loads level from specified filepath
+	 *
 	 * @param filepath
 	 */
 	public void loadLevel(String filepath) {
@@ -178,17 +188,20 @@ public class StealthGame implements Runnable {
 
 	/**
 	 * Positions a player
+	 *
 	 * @param username
 	 * @param x
 	 * @param z
 	 * @param rot
 	 */
-	public synchronized void movePlayer(String username, double x, double z, double rot) {
+	public synchronized void movePlayer(String username, double x, double z,
+			double rot) {
 		level.movePlayer(username, x, z, rot);
 	}
 
 	/**
 	 * gets local client
+	 *
 	 * @return
 	 */
 	public final GameClient getClient() {
@@ -197,6 +210,7 @@ public class StealthGame implements Runnable {
 
 	/**
 	 * gets the server
+	 *
 	 * @return
 	 */
 	public final GameServer getServer() {
@@ -233,18 +247,18 @@ public class StealthGame implements Runnable {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			System.out.println(e.getKeyCode());
-			switch(e.getKeyCode()){
-			case 37://Left
+			switch (e.getKeyCode()) {
+			case 37:// Left
 				player.setTurnLeft(true);
 				break;
-			case 38://Up
+			case 38:// Up
 				player.setFoward(true);
 				break;
-			case 39://Right
+			case 39:// Right
 				player.setTurnRight(true);
 				break;
-			case 40://Down
-				//TODO
+			case 40:// Down
+				// TODO
 				break;
 			}
 
@@ -254,18 +268,18 @@ public class StealthGame implements Runnable {
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
 			System.out.println(e.getKeyCode());
-			switch(e.getKeyCode()){
-			case 37://Left
+			switch (e.getKeyCode()) {
+			case 37:// Left
 				player.setTurnLeft(false);
 				break;
-			case 38://Up
+			case 38:// Up
 				player.setFoward(false);
 				break;
-			case 39://Right
+			case 39:// Right
 				player.setTurnRight(false);
 				break;
-			case 40://Down
-				//TODO
+			case 40:// Down
+				// TODO
 				break;
 			}
 		}

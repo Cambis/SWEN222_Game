@@ -83,6 +83,8 @@ public class Level {
 
 	public void addPlayer(Player p) {
 		players.add(p);
+		if (players.size() >= StealthGame.MIN_PLAYERS)
+			game.run();
 		// TODO set rooms properly
 		// p.setRoom(rooms.get(0));
 	}
