@@ -11,7 +11,7 @@ import game.control.packets.Packet05Heal;
 import game.control.packets.Packet06Interact;
 import game.control.packets.Packet07Equip;
 import game.control.packets.Packet20GameStart;
-import gameworld.TestGame;
+import game.model.StealthGame;
 import gameworld.TestPush;
 
 import java.io.IOException;
@@ -32,18 +32,18 @@ import java.util.List;
  */
 public class GameServer extends Thread {
 
-	private static final boolean DEBUG = TestGame.DEBUG;
+	private static final boolean DEBUG = StealthGame.DEBUG;
 	public static final int MIN_PLAYERS = 1;
 
 	private boolean gameStarted = false;
 
 	private DatagramSocket socket;
 
-	private TestGame game;
+	private StealthGame game;
 
 	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
 
-	public GameServer(TestGame game) {
+	public GameServer(StealthGame game) {
 
 		this.game = game;
 

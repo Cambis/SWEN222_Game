@@ -1,4 +1,4 @@
-package gameworld;
+package game.model;
 
 import java.awt.event.WindowEvent;
 
@@ -8,11 +8,10 @@ import game.control.GameServer;
 import game.control.PlayerMP;
 import game.control.packets.Packet00Login;
 import game.control.packets.Packet01Disconnect;
-import game.model.Player;
 import game.view.MainFrame;
 import game.view.WindowHandler;
 
-public class TestGame implements Runnable {
+public class StealthGame implements Runnable {
 
 	public static final boolean DEBUG = true;
 
@@ -30,10 +29,12 @@ public class TestGame implements Runnable {
 
 	private WindowHandler windowHandler;
 
+	private Level level;
+
 	// We only need a reference to the player on the client here
 	private Player player;
 
-	public TestGame(boolean isHost, String username) {
+	public StealthGame(boolean isHost, String username) {
 		this.isHost = isHost;
 		player = new PlayerMP(username, 0, 0, 0, null, -1);
 		init();
@@ -99,6 +100,10 @@ public class TestGame implements Runnable {
 		if (DEBUG)
 			System.out.println("THREAD IS "
 					+ (thread.isAlive() ? "ALIVE" : "DEAD"));
+	}
+
+	public void addPlayer(Player p){
+		level.addPlayer(p);
 	}
 
 	/**

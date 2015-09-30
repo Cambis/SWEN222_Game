@@ -11,7 +11,7 @@ import game.control.packets.Packet.PacketType;
 import game.control.packets.Packet01Disconnect;
 import game.control.packets.Packet02Move;
 import game.control.packets.Packet20GameStart;
-import gameworld.TestGame;
+import game.model.StealthGame;
 import gameworld.TestPush;
 
 import java.io.IOException;
@@ -30,7 +30,7 @@ import java.net.UnknownHostException;
  */
 public class GameClient extends Thread {
 
-	private static final boolean DEBUG = TestGame.DEBUG;
+	private static final boolean DEBUG = StealthGame.DEBUG;
 
 	private InetAddress ipAddress;
 	private DatagramSocket socket;
@@ -39,10 +39,10 @@ public class GameClient extends Thread {
 	// private Game game
 
 	// Testing only
-	private TestGame game;
+	private StealthGame game;
 
 	// TODO this constructor needs to take in a Game paramter
-	public GameClient(String ipAddress, TestGame game) {
+	public GameClient(String ipAddress, StealthGame game) {
 
 		this.game = game;
 
@@ -95,7 +95,7 @@ public class GameClient extends Thread {
 		PacketType type = Packet.lookupPacket(message.substring(0, 2));
 		Packet packet = null;
 
-		if (TestGame.DEBUG) System.out.println("Client TYPE: " + type.toString());
+		if (StealthGame.DEBUG) System.out.println("Client TYPE: " + type.toString());
 
 		switch (type) {
 		case INVALID:
