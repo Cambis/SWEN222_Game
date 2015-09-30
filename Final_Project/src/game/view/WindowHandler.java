@@ -1,6 +1,6 @@
 package game.view;
 
-import gameworld.TestGame;
+import game.model.StealthGame;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;

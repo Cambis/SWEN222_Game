@@ -7,7 +7,7 @@ import java.util.*;
 public class Level {
 
 	private List<Room> rooms = new ArrayList<Room>();
-//	private List<Player> players = new ArrayList<Player>();
+	private List<Player> players = new ArrayList<Player>();
 
 	public Level(String filename){
 		loadRooms(filename);
@@ -38,6 +38,10 @@ public class Level {
 			return true;
 		}
 		return false;
+	}
+
+	public void addPlayer(Player p){
+		players.add(p);
 	}
 
 }

@@ -2,6 +2,7 @@ package game.view;
 
 import game.control.packets.Packet01Disconnect;
 import gameworld.TestPush;
+import renderer.*;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
@@ -31,12 +32,16 @@ public class MainFrame extends JFrame {
 
 	private JFrame frame;
 
+	private Renderer renderer;
+
 	private Screen screen;
 
 	public static final int WIDTH = 1080;
 	public static final int HEIGHT = 720;
 
-	public MainFrame() {
+	public MainFrame(Renderer r) {
+
+		this.renderer = r;
 
 		setLayout(new BorderLayout());
 		frame = new JFrame("Stealth");
@@ -71,5 +76,13 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		frame.pack();
 		repaint();
+	}
+
+	/**Creates model data and stuff
+	 *
+	 */
+	private void initilizeRenderer(){
+		renderer =  new Renderer(WIDTH, HEIGHT);
+
 	}
 }

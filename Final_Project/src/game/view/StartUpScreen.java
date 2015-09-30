@@ -1,7 +1,7 @@
 package game.view;
 
 import game.control.packets.Packet01Disconnect;
-import gameworld.TestGame;
+import game.model.StealthGame;
 import gameworld.TestPush;
 
 import java.awt.BorderLayout;
@@ -130,7 +130,7 @@ public class StartUpScreen extends JPanel {
 	private void join() {
 		String[] login = showLoginWindow();
 		// TestPush client = new TestPush(false, login[0], login[1]);
-		TestGame game = new TestGame(false, login[0]);
+		StealthGame game = new StealthGame(false, login[0]);
 		game.start();
 		// new MainFrame();
 		frame.dispose();
@@ -138,7 +138,7 @@ public class StartUpScreen extends JPanel {
 
 	private void host() {
 		String[] login = showLoginWindow();
-		TestGame game = new TestGame(true, login[0]);
+		StealthGame game = new StealthGame(true, login[0]);
 		game.start();
 		// TestPush host = new TestPush(true, login[0], login[1]);
 		frame.dispose();

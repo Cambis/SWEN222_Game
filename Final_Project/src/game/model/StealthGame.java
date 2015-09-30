@@ -1,17 +1,17 @@
-package gameworld;
+package game.model;
 
 import java.awt.event.WindowEvent;
 
+import renderer.*;
 import game.control.GameClient;
 import game.control.GameServer;
 import game.control.PlayerMP;
 import game.control.packets.Packet00Login;
 import game.control.packets.Packet01Disconnect;
-import game.model.Player;
 import game.view.MainFrame;
 import game.view.WindowHandler;
 
-public class TestGame implements Runnable {
+public class StealthGame implements Runnable {
 
 	public static final boolean DEBUG = true;
 
@@ -29,18 +29,20 @@ public class TestGame implements Runnable {
 
 	private WindowHandler windowHandler;
 
+	private Level level;
+
 	// We only need a reference to the player on the client here
 	private Player player;
 
-	public TestGame(boolean isHost, String username) {
+	public StealthGame(boolean isHost, String username) {
 		this.isHost = isHost;
 		player = new PlayerMP(username, 0, 0, 0, null, -1);
 		init();
 	}
 
 	private void init() {
-
-		mainFrame = new MainFrame();
+		Renderer r = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
+		mainFrame = new MainFrame(r);
 
 		// Set up window handler
 		windowHandler = new WindowHandler(mainFrame) {
@@ -100,13 +102,16 @@ public class TestGame implements Runnable {
 					+ (thread.isAlive() ? "ALIVE" : "DEAD"));
 	}
 
+	public void addPlayer(Player p){
+		level.addPlayer(p);
+	}
+
 	/**
 	 * Called to run the game, the server should send a packet to tell the game
 	 * to start
 	 */
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 
 	}
 
