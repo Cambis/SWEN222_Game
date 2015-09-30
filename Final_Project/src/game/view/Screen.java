@@ -14,9 +14,7 @@ public class Screen extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
-		BufferedImage image = this.image;
-		g2.drawImage(image, 0, 0, null);
+		g.drawImage(image, 0, 0, null);
 	}
 
 	public void setImage(BufferedImage image){
