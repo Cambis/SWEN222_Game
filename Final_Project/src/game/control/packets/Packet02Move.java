@@ -15,11 +15,11 @@ import game.control.GameServer;
 public class Packet02Move extends Packet {
 
 	private String username;
-	private int x, y;
+	private double x, z;
 
 	private int numOfSteps = 0;
 	private boolean isMoving;
-	private int direction;
+	private double direction;
 
 	/**
 	 * Constructor intended for sending data
@@ -37,12 +37,12 @@ public class Packet02Move extends Packet {
 		// Read the information
 		this.username = dataArray[0];
 
-		this.x = Integer.parseInt(dataArray[1]);
-		this.y = Integer.parseInt(dataArray[2]);
+		this.x = Double.parseDouble(dataArray[1]);
+		this.z = Double.parseDouble(dataArray[2]);
 
 		this.numOfSteps = Integer.parseInt(dataArray[3]);
 		this.isMoving = Integer.parseInt(dataArray[4]) == 1;
-		this.direction = Integer.parseInt(dataArray[5]);
+		this.direction = Double.parseDouble(dataArray[5]);
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class Packet02Move extends Packet {
 		super(02);
 		this.username = username;
 		this.x = x;
-		this.y = y;
+		this.z = y;
 		this.numOfSteps = numOfSteps;
 		this.isMoving = isMoving;
 		this.direction = direction;
@@ -73,31 +73,32 @@ public class Packet02Move extends Packet {
 
 	@Override
 	public byte[] getData() {
-		return ("02" + username + "," + x + "," + y + "," + numOfSteps + ","
+		return ("02" + username + "," + x + "," + z + "," + numOfSteps + ","
 				+ (isMoving ? 1 : 0) + "," + direction).getBytes();
 	}
 
-	public final String getUsername() {
-		return username.trim();
+	public String getUsername() {
+		return username;
 	}
 
-	public final int getX() {
+	public double getX() {
 		return x;
 	}
 
-	public final int getY() {
-		return y;
+	public double getZ() {
+		return z;
 	}
 
-	public final int getNumOfSteps() {
+	public int getNumOfSteps() {
 		return numOfSteps;
 	}
 
-	public final boolean isMoving() {
+	public boolean isMoving() {
 		return isMoving;
 	}
 
-	public final int getDirection() {
+	public double getDirection() {
 		return direction;
 	}
+
 }

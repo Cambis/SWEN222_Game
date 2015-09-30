@@ -183,7 +183,7 @@ public class GameClient extends Thread {
 	 * @param packet
 	 */
 	private void handleMove(Packet02Move packet) {
-		// TODO Move player
+		game.movePlayer(packet.getUsername(), packet.getX(), packet.getZ(), packet.getDirection());
 	}
 
 	private void handleEngage(Packet03Engage packet) {

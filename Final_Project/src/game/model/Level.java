@@ -54,4 +54,18 @@ public class Level {
 	public boolean removePlayer(Player p) {
 		return players.remove(p);
 	}
+
+	public void movePlayer(String username, double x, double z, double rot) {
+		Player p = getPlayer(username);
+		p.setX(x);
+		p.setY(z);
+	}
+
+	private Player getPlayer(String username) {
+		for (Player p : players)
+			if (p.getUsername().equals(username))
+				return p;
+
+		return null;
+	}
 }
