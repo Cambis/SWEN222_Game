@@ -104,6 +104,11 @@ public class GameServer extends Thread {
 					((Packet00Login) packet).getUsername(), address, port);
 			addConnection(player, (Packet00Login) packet);
 
+			try {
+				sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			// Send level filepath
 			Packet22LoadLevel level = new Packet22LoadLevel(
 					"res/Levels/test1.lvl");
@@ -111,9 +116,10 @@ public class GameServer extends Thread {
 
 			// Send prompt to the client when the min amount of players is
 			// reached
+			// XXX: probably wont use this anymore
 			if (!gameStarted && connectedPlayers.size() >= MIN_PLAYERS) {
 				gameStarted = true;
-				sendDataToAllClients("20".getBytes());
+				// sendDataToAllClients("20".getBytes());
 			}
 			break;
 

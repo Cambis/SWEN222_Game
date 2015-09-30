@@ -75,7 +75,8 @@ public class Player {
 	 * @param x
 	 */
 	public final void setX(double x) {
-		model.getPosition().setX((float) x);
+		if (model != null)
+			model.getPosition().setX((float) x);
 		this.x = x;
 	}
 
@@ -108,7 +109,8 @@ public class Player {
 	 * @param y
 	 */
 	public final void setY(double y) {
-		model.getPosition().setZ((float) y);
+		if (model != null)
+			model.getPosition().setZ((float) y);
 		this.y = y;
 	}
 
@@ -173,6 +175,14 @@ public class Player {
 				model.getPosition().setZ((float) newY);
 			}
 		}
+	}
+
+	public final R_Player getModel() {
+		return model;
+	}
+
+	public final void setModel(R_Player model) {
+		this.model = model;
 	}
 
 }
