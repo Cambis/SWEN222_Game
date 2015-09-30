@@ -2,6 +2,7 @@ package gameworld;
 
 import java.awt.event.WindowEvent;
 
+import renderer.*;
 import game.control.GameClient;
 import game.control.GameServer;
 import game.control.PlayerMP;
@@ -39,8 +40,8 @@ public class TestGame implements Runnable {
 	}
 
 	private void init() {
-
-		mainFrame = new MainFrame();
+		Renderer r = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
+		mainFrame = new MainFrame(r);
 
 		// Set up window handler
 		windowHandler = new WindowHandler(mainFrame) {

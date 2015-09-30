@@ -3,6 +3,8 @@
  */
 package game.model;
 
+import renderer.*;
+
 
 /**
  * Represents a player in the game. This class should do the player logic and
@@ -33,6 +35,7 @@ public class Player {
 	public static final double TURN_SPEED = 1;
 
 	private double moveSpeed = 1;
+	private R_Player model;
 
 	private double x, y;
 	private double rotation;
