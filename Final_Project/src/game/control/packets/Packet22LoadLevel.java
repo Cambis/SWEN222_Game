@@ -33,7 +33,7 @@ public class Packet22LoadLevel extends Packet {
 	}
 
 	public String getFilename() {
-		return filename;
+		return filename.trim();
 	}
 
 }
