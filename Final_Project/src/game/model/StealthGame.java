@@ -143,6 +143,10 @@ public class StealthGame implements Runnable {
 		level.removePlayer(p);
 	}
 
+	public void removePlayer(String name) {
+		level.removePlayer(name);
+	}
+
 	public void loadLevel(String filepath) {
 		level.loadRooms(filepath);
 	}
