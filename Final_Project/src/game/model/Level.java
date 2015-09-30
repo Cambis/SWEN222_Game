@@ -13,7 +13,7 @@ public class Level {
 		loadRooms(filename);
 	}
 
-	private void loadRooms(String filename){
+	public void loadRooms(String filename){
 		try {
 			Scanner s = new Scanner(new File(filename));
 			int roomNum = 0;
@@ -44,4 +44,7 @@ public class Level {
 		players.add(p);
 	}
 
+	public boolean removePlayer(Player p) {
+		return players.remove(p);
+	}
 }

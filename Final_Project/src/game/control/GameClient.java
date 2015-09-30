@@ -11,6 +11,7 @@ import game.control.packets.Packet.PacketType;
 import game.control.packets.Packet01Disconnect;
 import game.control.packets.Packet02Move;
 import game.control.packets.Packet20GameStart;
+import game.control.packets.Packet22LoadLevel;
 import game.model.StealthGame;
 import gameworld.TestPush;
 
@@ -148,6 +149,11 @@ public class GameClient extends Thread {
 			game.run();
 			break;
 
+		case LOAD_LEVEL:
+			packet = new Packet22LoadLevel(data);
+			handleLoadLevel((Packet22LoadLevel) packet);
+			break;
+
 		default:
 			break;
 
@@ -168,8 +174,7 @@ public class GameClient extends Thread {
 				+ " has joined the game...");
 
 		PlayerMP player = new PlayerMP(packet.getUsername(), address, port);
-
-		// TODO Add player to game
+ 		game.addPlayer(player);
 	}
 
 	/**
@@ -199,6 +204,10 @@ public class GameClient extends Thread {
 
 	private void handleEquip(Packet07Equip packet) {
 
+	}
+
+	private void handleLoadLevel(Packet22LoadLevel data) {
+		game.loadLevel(data.getFilename());
 	}
 
 	/**
