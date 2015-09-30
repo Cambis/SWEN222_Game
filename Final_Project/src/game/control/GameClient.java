@@ -10,6 +10,7 @@ import game.control.packets.Packet07Equip;
 import game.control.packets.Packet.PacketType;
 import game.control.packets.Packet01Disconnect;
 import game.control.packets.Packet02Move;
+import game.control.packets.Packet20GameStart;
 import gameworld.TestGame;
 import gameworld.TestPush;
 
@@ -28,6 +29,8 @@ import java.net.UnknownHostException;
  *
  */
 public class GameClient extends Thread {
+
+	private static final boolean DEBUG = TestGame.DEBUG;
 
 	private InetAddress ipAddress;
 	private DatagramSocket socket;
@@ -139,6 +142,10 @@ public class GameClient extends Thread {
 		case EQUIP:
 			packet = new Packet07Equip(data);
 			handleEquip((Packet07Equip) packet);
+			break;
+
+		case GAME_START:
+			game.run();
 			break;
 
 		default:
