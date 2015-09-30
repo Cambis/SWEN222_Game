@@ -6,6 +6,7 @@ import gameworld.TestPush;
 import renderer.*;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -32,8 +33,6 @@ public class MainFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private JFrame frame;
-
 	private Screen screen;
 	private BufferedImage image;
 
@@ -43,21 +42,20 @@ public class MainFrame extends JFrame {
 	public MainFrame() {
 
 		setLayout(new BorderLayout());
-		frame = new JFrame("Stealth");
-
-		add(screen, BorderLayout.CENTER);
+		setName("Stealth");
+		screen = new Screen();
+		getContentPane().add(screen, BorderLayout.CENTER);
 
 		setSize(WIDTH, HEIGHT);
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.pack();
+		pack();
 		repaint();
 	}
 
 	public void setImage(BufferedImage image) {
 		screen.setImage(image);
 	}
-
-
 }

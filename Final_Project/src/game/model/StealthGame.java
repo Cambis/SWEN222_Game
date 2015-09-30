@@ -164,11 +164,17 @@ public class StealthGame implements Runnable {
 	 */
 	@Override
 	public void run() {
-
+		while (running) {
+			tick();
+			render();
+		}
 	}
 
 	public void tick() {
 		level.tick();
+	}
+
+	public void render() {
 		mainFrame.setImage(renderer.render());
 	}
 
@@ -200,6 +206,10 @@ public class StealthGame implements Runnable {
 
 	public boolean r_addCamera(R_AbstractCamera camera) {
 		return renderer.addCamera(camera);
+	}
+
+	public void r_setCamera(String camera) {
+		renderer.setCamera(camera);
 	}
 
 	public boolean r_addModel(R_AbstractModel model) {
