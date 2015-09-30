@@ -53,15 +53,15 @@ public class Level {
 	}
 	R_Model model; // FIXME very very bad
 	private void setupRender() {
-		R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", new Vec3(50, 50, 50), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 2);
-		game.r_addCamera(ortho);
-		game.r_setCamera(ortho.getName());
+//		R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", new Vec3(50, 50, 50), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 2);
+//		game.r_addCamera(ortho);
+//		game.r_setCamera(ortho.getName());
+//
+//		// Adds a new model
+//		R_ModelColorData modelData = new R_ModelColorData("Test", "res/Guard.obj", Color.RED);
+//		game.r_addModelData(modelData);
 
-		// Adds a new model
-		R_ModelColorData modelData = new R_ModelColorData("Test", "res/Guard.obj", Color.RED);
-		game.r_addModelData(modelData);
-
-		model = new R_Model("Work", modelData, Vec3.Zero(), Vec3.Zero(), Vec3.One());
+		model = new R_Model("Work", (R_ModelColorData) game.getR_ModelData("Test"), Vec3.Zero(), Vec3.Zero(), Vec3.One());
 		game.r_addModel(model);
 	}
 
