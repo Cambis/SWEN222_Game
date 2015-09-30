@@ -87,6 +87,13 @@ public class Player {
 	}
 
 	/**
+	 * Sets players current room
+	 */
+	public Room getRoom() {
+		return currentRoom;
+	}
+
+	/**
 	 * get y-position
 	 *
 	 * @return

@@ -1,68 +1,95 @@
 package game.model;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
+import renderer.R_Model;
+import renderer.R_ModelColorData;
+import renderer.Renderer;
+import renderer.Renderer.*;
+
 public class Room {
 
-	private final int TILE_SIZE = 10;
+	private final int TILE_SIZE = 2;
 
 	private Tile[][] tiles;
 	private int xSize = 0;
 	private int ySize = 0;
 	private String name = "This is a unnamed room";
 
-	public Room(String file){
+	//Models
+	private R_ModelColorData floorData = new R_ModelColorData("Floor", "res/BasicFloor.obj", Color.GRAY);
+	private R_ModelColorData wallData = new R_ModelColorData("Floor", "res/BasicWall.obj", Color.RED);
 
+	public Room(String filename) {
+		loadTiles(filename);
 	}
 
 	/**
 	 * Load tiles from room file
+	 *
 	 * @param filename
 	 */
-	private void loadTiles(String filename){
+	private void loadTiles(String filename) {
 		try {
 			Scanner s = new Scanner(new File(filename));
-			if(s.hasNextLine()){
+			if (s.hasNextLine()) {
 				name = s.nextLine();
-			}else{
+			} else {
 				System.out.println("Room has no name");
 			}
 			xSize = s.nextInt();
 			ySize = s.nextInt();
-			tiles = new Tile[xSize * 2][ySize];
+			tiles = new Tile[xSize][ySize];
 			int xPos = 0;
 			int yPos = 0;
 			while (s.hasNext()) {
 				if (s.hasNextInt()) {
 					int i = s.nextInt();
 					if (i == 0) {
-						tiles[xPos][yPos] = new BasicFloor();
+						tiles[xPos][yPos] = new BasicFloor(xPos*TILE_SIZE, yPos*TILE_SIZE, floorData);
 					} else if (i == 1) {
-						tiles[xPos][yPos] = new Wall();
+						tiles[xPos][yPos] = new Wall(xPos*TILE_SIZE, yPos*TILE_SIZE, wallData);
 					} else {
 						System.out.println("Error loading file (invalid int - "
 								+ i + ", xPos = " + xPos + ", yPox = " + yPos
 								+ ")");
 					}
-					// Else square is a player or target
+					xPos++;
+					if(xPos>=xSize){
+						xPos=0;
+						yPos++;
+					}
 				}
 			}
 		} catch (IOException e) {
-			System.out.println("Room - Error loading file - IOException : " + e.getMessage());
+			System.out.println("Room - Error loading file - IOException : "
+					+ e.getMessage());
 		}
 	}
 
 	/**
 	 * returns if player can be in position in room
+	 *
 	 * @param p
-	 * @param x, y
+	 * @param x
+	 *            , y
 	 */
-	public boolean validPosition(Player p, double x, double y){
-		int tileX = (int)(x/TILE_SIZE);
-		int tileY = (int)(y/TILE_SIZE);
+	public boolean validPosition(Player p, double x, double y) {
+		int tileX = (int) (x / TILE_SIZE);
+		int tileY = (int) (y / TILE_SIZE);
 		return tiles[tileX][tileY].canEnter(p);
+	}
+
+	public void initTiles(Renderer r) {
+		for(int i=0; i<tiles.length; i++){
+			for(int j=0; j<tiles[0].length; j++){
+				r.addModel(tiles[i][j].getModel());
+			}
+		}
+
 	}
 }

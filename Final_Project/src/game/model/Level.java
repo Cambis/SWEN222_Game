@@ -44,6 +44,7 @@ public class Level {
 			while (s.hasNext()) {
 				String roomFile = s.nextLine();
 				rooms.add(new Room("res/Levels/"+roomFile));
+
 			}
 		} catch (IOException e) {
 			System.out.println("Level - Error loading file - IOException : "
@@ -84,7 +85,7 @@ public class Level {
 	public void addPlayer(Player p) {
 		players.add(p);
 		// TODO set rooms properly
-		// p.setRoom(rooms.get(0));
+		p.setRoom(rooms.get(0));
 	}
 
 	public boolean removePlayer(Player p) {

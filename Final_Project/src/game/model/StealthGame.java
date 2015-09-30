@@ -135,6 +135,7 @@ public class StealthGame implements Runnable {
 
 	public void tick() {
 		level.tick();
+		//player.getRoom().draw(renderer);
 	}
 
 	public void render() {
@@ -174,6 +175,7 @@ public class StealthGame implements Runnable {
 	 */
 	public void loadLevel(String filepath) {
 		level.loadRooms(filepath);
+		player.getRoom().initTiles(renderer);
 	}
 
 	/**
