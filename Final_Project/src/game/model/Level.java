@@ -43,7 +43,7 @@ public class Level {
 			int roomNum = 0;
 			while (s.hasNext()) {
 				String roomFile = s.nextLine();
-				rooms.add(new Room(roomFile));
+				rooms.add(new Room("res/Levels/"+roomFile));
 			}
 		} catch (IOException e) {
 			System.out.println("Error loading file - IOException : "
@@ -88,6 +88,16 @@ public class Level {
 
 	public boolean removePlayer(Player p) {
 		return players.remove(p);
+	}
+
+	public boolean removePlayer(String name) {
+		for(Player p : players){
+			if(p.getUsername().equals(name)){
+				players.remove(p);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void movePlayer(String username, double x, double z, double rot) {
