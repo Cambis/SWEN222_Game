@@ -1,10 +1,12 @@
 package game.model;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 
 import renderer.*;
+import renderer.math.Vec3;
 import game.control.GameClient;
 import game.control.GameServer;
 import game.control.PlayerMP;
@@ -47,6 +49,13 @@ public class StealthGame implements Runnable {
 	private void init() {
 
 		renderer = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
+		R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", new Vec3(50, 50, 50), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 2);
+		r_addCamera(ortho);
+		r_setCamera(ortho.getName());
+
+		// Adds a new model
+		R_ModelColorData modelData = new R_ModelColorData("Test", "res/Guard.obj", Color.RED);
+		r_addModelData(modelData);
 
 		level = new Level(this);
 		// level.loadRooms("/Final_Project/res/Levels/test1.lvl");
@@ -177,6 +186,10 @@ public class StealthGame implements Runnable {
 
 	public boolean r_addModelData(R_AbstractModelData modelData) {
 		return renderer.addModelData(modelData);
+	}
+
+	public R_AbstractModelData getR_ModelData(String name) {
+		return renderer.getModelData(name);
 	}
 
 	private KeyListener mainFrameListener = new KeyListener() {
