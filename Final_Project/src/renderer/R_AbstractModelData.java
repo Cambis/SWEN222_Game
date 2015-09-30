@@ -1,6 +1,5 @@
 package renderer;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 import renderer.geometry.Polygon;
@@ -19,5 +18,5 @@ public abstract class R_AbstractModelData {
 		return name;
 	}
 
-	protected abstract void draw(BufferedImage viewport, float[][] zBuffer, Mat4 viewProjMatrix, Mat4 modelMatrix);
+	protected abstract void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix, Mat4 modelMatrix);
 }

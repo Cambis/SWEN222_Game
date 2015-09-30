@@ -3,6 +3,8 @@ package renderer;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.DataBufferInt;
 import java.util.HashMap;
 
 import renderer.math.Mat4;
@@ -210,12 +212,16 @@ public class Renderer {
 		// transform image to camera coordinates
 		matrixStack = matrixStack.mul(currentCam.getLookAt());
 
-		final Mat4 matrix = matrixStack;
-		// Draw Model
-		for (R_AbstractModel m : modelMap.values()){
-			m.draw(viewport, zBuffer, matrix);
-		}
+		
+		int[] buf = ((DataBufferInt) viewport.getRaster().getDataBuffer()).getData();
 
+		// Draw Model
+		final Mat4 matrix = matrixStack;
+		for (R_AbstractModel m : modelMap.values()){
+			m.draw(buf, zBuffer, viewport.getWidth(), viewport.getHeight(), matrix);
+		}
+		
+		
 		long timeAfter = 1000/Math.max(1, System.currentTimeMillis()-timeBefore);
 		g.setColor(Color.WHITE);
 		g.drawString("FPS: " + timeAfter, 25, 25);

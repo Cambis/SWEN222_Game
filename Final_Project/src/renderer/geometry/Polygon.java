@@ -43,7 +43,7 @@ public class Polygon {
 		v[i2] = temp;
 	}
 
-	public void draw(BufferedImage viewport, float[][] zBuffer, Mat4 viewProjMatrix, Mat4 modelMatrix, Color col) {
+	public void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix, Mat4 modelMatrix, Color col) {
 		Vertex modV1 = new Vertex(modelMatrix.mul(v1.getPosition()));
 		Vertex modV2 = new Vertex(modelMatrix.mul(v2.getPosition()));
 		Vertex modV3 = new Vertex(modelMatrix.mul(v3.getPosition()));
@@ -98,18 +98,18 @@ public class Polygon {
 						  (int)(Math.max(0, Math.min(255, col.getBlue() * (amb.getZ() + light))))).getRGB();
 		// Fill top half
 		if (v[0].getPosition().getY() < v[1].getPosition().getY() && v[0].getPosition().getY() < v[2].getPosition().getY() ){
-			fillTopTri(viewport, zBuffer, v, c);
+			fillTopTri(viewport, zBuffer, width, height, v, c);
 		}
 
 		// fill bottom half
 		if (v[1].getPosition().getY() < v[3].getPosition().getY() && v[2].getPosition().getY() < v[3].getPosition().getY() ){
-			fillBottomTri(viewport, zBuffer, v, c);
+			fillBottomTri(viewport, zBuffer, width, height, v, c);
 		}
 	}
 
-	private void fillTopTri(BufferedImage viewport, float[][] zBuffer, Vertex[] v, int c){
+	private void fillTopTri(int[] viewport, float[][] zBuffer, int width, int height, Vertex[] v, int c){
 		int min = (int)v[0].getPosition().getY();
-		int max = (int)v[1].getPosition().getY();
+		int max = (int)v[2].getPosition().getY();
 
 		// X
 		float angXLeft = (v[1].getPosition().getX() - v[0].getPosition().getX()) / (v[1].getPosition().getY() - v[0].getPosition().getY());
@@ -120,41 +120,31 @@ public class Polygon {
 
 		for (int y = min; y < max; ++y){
 
-			xL += angXLeft;
-			xR += angXRight;
+			if (y >= 0 && y < height){
+				int xMin = (int) Math.max(0, xL);
+				int xMax = (int) Math.min(width-1, xR);
 
-			if (y < 0 || y >= viewport.getHeight()){
-				continue;
-			}
+				// Z Buffer
+				float yfrac = ((float)(y - min)) / (max - min);
+				float zLeft = v[0].getPosition().getZ() * (1 - yfrac) + v[1].getPosition().getZ() * yfrac;
+				float zRight = v[0].getPosition().getZ() * (1 - yfrac) + v[2].getPosition().getZ() * yfrac;
 
-			int xMin = (int) Math.max(0, Math.floor(xL));
-			int xMax = (int) Math.min(viewport.getWidth()-1, Math.ceil(xR));
+				for (int x = xMin; x < xMax; ++x){
+					float xfrac = ((float)(x - xMin)) / (xMax - xMin);
+					float zVal = zLeft*(1-xfrac) + zRight*xfrac;
 
-
-			// Dirty Fix
-			if (y == max-1){
-				xMin = (int) v[1].getPosition().getX();
-				xMax = (int) v[2].getPosition().getX();
-			}
-
-			// Z Buffer
-			float yfrac = ((float)(y - min)) / (max - min);
-			float zLeft = v[0].getPosition().getZ() * (1 - yfrac) + v[1].getPosition().getZ() * yfrac;
-			float zRight = v[0].getPosition().getZ() * (1 - yfrac) + v[2].getPosition().getZ() * yfrac;
-
-			for (int x = xMin; x < xMax; ++x){
-				if (xMin < 0 || xMax >= viewport.getWidth()-1) continue;
-				float xfrac = ((float)(x - xMin)) / (xMax - xMin);
-				float zVal = zLeft*(1-xfrac) + zRight*xfrac;
-				if (zVal < zBuffer[x][y]){
-					viewport.setRGB(x, y, c);
-					zBuffer[x][y] = zVal;
+					if (zVal < zBuffer[x][y]){
+						viewport[width*y + x] = c;
+						zBuffer[x][y] = zVal;
+					}
 				}
 			}
+			xL += angXLeft;
+			xR += angXRight;
 		}
 	}
 
-	private void fillBottomTri(BufferedImage viewport, float[][] zBuffer, Vertex[] v, int c){
+	private void fillBottomTri(int[] viewport, float[][] zBuffer, int width, int height, Vertex[] v, int c){
 		int min = (int)v[1].getPosition().getY();
 		int max = (int)v[3].getPosition().getY();
 
@@ -166,29 +156,28 @@ public class Polygon {
 
 
 		for (int y = min; y < max; ++y){
-			xL += angXLeft;
-			xR += angXRight;
+			if (y >= 0 && y < height){
+				int xMin = (int) Math.max(0, xL);
+				int xMax = (int) Math.min(width-1, xR);
 
-			int xMin = (int) Math.max(0, Math.floor(xL));
-			int xMax = (int) Math.min(viewport.getWidth()-1, Math.ceil(xR));
+				// Z Buffer
+				float yfrac = ((float)(y - min)) / (max - min);
+				float zLeft = v[1].getPosition().getZ() * (1 - yfrac) + v[3].getPosition().getZ() * yfrac;
+				float zRight = v[2].getPosition().getZ() * (1 - yfrac) + v[3].getPosition().getZ() * yfrac;
 
-			if (y < 0 || y >= viewport.getHeight()){
-				continue;
-			}
+				for (int x = xMin; x < xMax; ++x){
+					float xfrac = ((float)(x - xMin)) / (xMax - xMin);
+					float zVal = zLeft*(1-xfrac) + zRight*xfrac;
 
-			// Z Buffer
-			float yfrac = ((float)(y - min)) / (max - min);
-			float zLeft = v[1].getPosition().getZ() * (1 - yfrac) + v[3].getPosition().getZ() * yfrac;
-			float zRight = v[2].getPosition().getZ() * (1 - yfrac) + v[3].getPosition().getZ() * yfrac;
-
-			for (int x = xMin; x < xMax; ++x){
-				float xfrac = ((float)(x - xMin)) / (xMax - xMin);
-				float zVal = zLeft*(1-xfrac) + zRight*xfrac;
-				if (zVal < zBuffer[x][y]){
-					viewport.setRGB(x, y, c);
-					zBuffer[x][y] = zVal;
+					if (zVal < zBuffer[x][y]){
+						viewport[y*width + x] = c;
+						zBuffer[x][y] = zVal;
+					}
 				}
 			}
+
+			xL += angXLeft;
+			xR += angXRight;
 		}
 	}
 }
