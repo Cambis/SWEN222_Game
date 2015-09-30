@@ -134,31 +134,62 @@ public class StealthGame implements Runnable {
 
 	/** HELPER METHODS **/
 
+	/**
+	 * Adds player to the current level
+	 * @param p
+	 */
 	public void addPlayer(Player p){
 		level.addPlayer(p);
 
 	}
 
+	/**
+	 * Removes player from level
+	 * @param p
+	 */
 	public void removePlayer(Player p) {
 		level.removePlayer(p);
 	}
 
+	/**
+	 * Removes player from level that matches the username
+	 * @param p
+	 */
 	public void removePlayer(String name) {
 		level.removePlayer(name);
 	}
 
+	/**
+	 * loads level from specified filepath
+	 * @param filepath
+	 */
 	public void loadLevel(String filepath) {
 		level.loadRooms(filepath);
 	}
 
+	/**
+	 * Positions a player
+	 * @param username
+	 * @param x
+	 * @param z
+	 * @param rot
+	 */
 	public synchronized void movePlayer(String username, double x, double z, double rot) {
 		level.movePlayer(username, x, z, rot);
 	}
 
+	/**
+	 * gets local client
+	 * @return
+	 */
 	public final GameClient getClient() {
 		return client;
 	}
 
+	/**
+	 * gets the server
+	 * @return
+	 */
 	public final GameServer getServer() {
 		return server;
 	}

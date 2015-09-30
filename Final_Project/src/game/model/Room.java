@@ -51,7 +51,7 @@ public class Room {
 				}
 			}
 		} catch (IOException e) {
-			System.out.println("Error loading file - IOException : " + e.getMessage());
+			System.out.println("Room - Error loading file - IOException : " + e.getMessage());
 		}
 	}
 
