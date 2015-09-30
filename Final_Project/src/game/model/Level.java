@@ -11,6 +11,7 @@ import renderer.R_Model;
 import renderer.R_ModelColorData;
 import renderer.R_OrthoCamera;
 import renderer.R_Player;
+import renderer.R_Player.Team;
 import renderer.math.Vec3;
 
 public class Level {
@@ -43,7 +44,7 @@ public class Level {
 			int roomNum = 0;
 			while (s.hasNext()) {
 				String roomFile = s.nextLine();
-				rooms.add(new Room("res/Levels/"+roomFile));
+				rooms.add(new Room("res/Levels/" + roomFile));
 			}
 		} catch (IOException e) {
 			System.out.println("Level - Error loading file - IOException : "
@@ -51,17 +52,23 @@ public class Level {
 		}
 		System.out.println("Done Loading level");
 	}
-	R_Model model; // FIXME very very bad
-	private void setupRender() {
-//		R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", new Vec3(50, 50, 50), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 2);
-//		game.r_addCamera(ortho);
-//		game.r_setCamera(ortho.getName());
-//
-//		// Adds a new model
-//		R_ModelColorData modelData = new R_ModelColorData("Test", "res/Guard.obj", Color.RED);
-//		game.r_addModelData(modelData);
 
-		model = new R_Model("Work", (R_ModelColorData) game.getR_ModelData("Test"), Vec3.Zero(), Vec3.Zero(), Vec3.One());
+	R_Model model; // FIXME very very bad
+
+	private void setupRender() {
+		// R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", new Vec3(50,
+		// 50, 50), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 2);
+		// game.r_addCamera(ortho);
+		// game.r_setCamera(ortho.getName());
+		//
+		// // Adds a new model
+		// R_ModelColorData modelData = new R_ModelColorData("Test",
+		// "res/Guard.obj", Color.RED);
+		// game.r_addModelData(modelData);
+
+		model = new R_Model("Work",
+				(R_ModelColorData) game.getR_ModelData("Test"), Vec3.Zero(),
+				Vec3.Zero(), Vec3.One());
 		game.r_addModel(model);
 	}
 
@@ -83,19 +90,29 @@ public class Level {
 
 	public void addPlayer(Player p) {
 		players.add(p);
+
+		// IFF the minimum amount of players is reached, run the game.
 		if (players.size() >= StealthGame.MIN_PLAYERS)
 			game.run();
+
+		// Assign a model to the player
+		R_Player pl = new R_Player(p.getUsername(),
+				game.getR_ModelData("Test"), Team.GUARD, Vec3.Zero(),
+				Vec3.Zero(), Vec3.One());
+		p.setModel(playerMod);
+
 		// TODO set rooms properly
 		// p.setRoom(rooms.get(0));
 	}
 
 	public boolean removePlayer(Player p) {
+
 		return players.remove(p);
 	}
 
 	public boolean removePlayer(String name) {
-		for(Player p : players){
-			if(p.getUsername().equals(name)){
+		for (Player p : players) {
+			if (p.getUsername().equals(name)) {
 				players.remove(p);
 				return true;
 			}
@@ -128,11 +145,11 @@ public class Level {
 				packet.writeData(game.getClient());
 			}
 		}
-		model.getOrientation().setY(model.getOrientation().getY()+0.01f);
+		model.getOrientation().setY(model.getOrientation().getY() + 0.01f);
 	}
 
-//	public static void main(String[] args){
-//		Level lvl = new Level(new StealthGame(false, "TestUser"));
-//		lvl.loadRooms("res/Levels/test1.lvl");
-//	}
+	// public static void main(String[] args){
+	// Level lvl = new Level(new StealthGame(false, "TestUser"));
+	// lvl.loadRooms("res/Levels/test1.lvl");
+	// }
 }
