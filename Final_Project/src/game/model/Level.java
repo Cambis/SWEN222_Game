@@ -53,7 +53,6 @@ public class Level {
 		// game.r_addModel(model);
 		// game.r_addModelData(modelData);
 
-		setupRender();
 		/**
 		 * // Adds a new orthographic camera R_OrthoCamera ortho = new
 		 * R_OrthoCamera("MainCamera", Vec3.One(), Vec3.Zero(), Vec3.UnitY(), 1,
@@ -156,6 +155,7 @@ public class Level {
 			Packet02Move packet = new Packet02Move(p.getUsername(), p.getX(),
 					p.getY(), 0, true, p.getRotation());
 			packet.writeData(game.getClient());
+			setupRender();
 			testRender();
 		}
 	}

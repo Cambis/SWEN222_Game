@@ -191,7 +191,6 @@ public class StealthGame implements Runnable {
 		level.loadRooms(filepath);
 	}
 
-
 	public synchronized void movePlayer(String username, double x, double z, double rot) {
 		level.movePlayer(username, x, z, rot);
 	}
