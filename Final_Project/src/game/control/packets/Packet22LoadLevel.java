@@ -12,8 +12,8 @@ public class Packet22LoadLevel extends Packet {
 		this.filename = readData(data);
 	}
 
-	public Packet22LoadLevel(int packetID, String filename) {
-		super(packetID);
+	public Packet22LoadLevel(String filename) {
+		super(22);
 		this.filename = filename;
 	}
 

@@ -11,6 +11,7 @@ import game.control.packets.Packet05Heal;
 import game.control.packets.Packet06Interact;
 import game.control.packets.Packet07Equip;
 import game.control.packets.Packet20GameStart;
+import game.control.packets.Packet22LoadLevel;
 import game.model.StealthGame;
 import gameworld.TestPush;
 
@@ -110,7 +111,8 @@ public class GameServer extends Thread {
 				sendDataToAllClients("20".getBytes());
 
 				// TODO send level filepath
-				
+				Packet22LoadLevel level = new Packet22LoadLevel("res/Levels/test1.lvl");
+				sendDataToAllClients(level.getData());
 			}
 			break;
 

@@ -207,8 +207,9 @@ public class GameClient extends Thread {
 
 	}
 
-	private void handleLoadLevel(Packet22LoadLevel data) {
-		game.loadLevel(data.getFilename());
+	private void handleLoadLevel(Packet22LoadLevel packet) {
+		System.out.println(packet.getFilename());
+		game.loadLevel(packet.getFilename());
 	}
 
 	/**
