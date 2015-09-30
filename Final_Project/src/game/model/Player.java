@@ -69,6 +69,7 @@ public class Player {
 	 * @param x
 	 */
 	public final void setX(double x) {
+		model.getPosition().setX((float)x);
 		this.x = x;
 	}
 
@@ -85,6 +86,7 @@ public class Player {
 	 * @param y
 	 */
 	public final void setY(double y) {
+		model.getPosition().setZ((float)y);
 		this.y = y;
 	}
 
@@ -102,6 +104,7 @@ public class Player {
 	 */
 	public void turnLeft(){
 		rotation-=TURN_SPEED;
+		model.getOrientation().setY((float) rotation);
 	}
 
 	/**
@@ -109,6 +112,7 @@ public class Player {
 	 */
 	public void turnRight(){
 		rotation+=TURN_SPEED;
+		model.getOrientation().setY((float) rotation);
 	}
 
 
@@ -127,13 +131,18 @@ public class Player {
 	public void tick(){
 		if(turnLeft && !turnRight){
 			rotation-=TURN_SPEED;
+			model.getOrientation().setY((float) rotation);
 		}
 		if(turnRight && !turnLeft){
 			rotation+=TURN_SPEED;
+			model.getOrientation().setY((float) rotation);
 		}
 		if(moveFoward){
 			y+=moveSpeed*Math.cos(Math.toRadians(rotation));
 			x+=moveSpeed*Math.sin(Math.toRadians(rotation));
+
+			model.getPosition().setX((float)x);
+			model.getPosition().setZ((float)y);
 		}
 	}
 

@@ -1,9 +1,9 @@
 package renderer.math;
 
 public class Vec3 {
-	private final float x;
-	private final float y;
-	private final float z;
+	private float x;
+	private float y;
+	private float z;
 
 	public Vec3(){
 		super();
@@ -86,5 +86,17 @@ public class Vec3 {
 
 	public static Vec3 Zero(){
 		return new Vec3(0,0,0);
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public void setY(float y) {
+		this.y = y;
+	}
+
+	public void setZ(float z) {
+		this.z = z;
 	}
 }
