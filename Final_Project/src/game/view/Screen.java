@@ -19,5 +19,6 @@ public class Screen extends JPanel {
 
 	public void setImage(BufferedImage image){
 		this.image = image;
+		repaint();
 	}
 }
