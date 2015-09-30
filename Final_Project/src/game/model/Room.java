@@ -25,8 +25,8 @@ public class Room {
 	private void loadTiles(String filename){
 		try {
 			Scanner s = new Scanner(new File(filename));
-			if(s.hasNext()){
-				name = s.next();
+			if(s.hasNextLine()){
+				name = s.nextLine();
 			}else{
 				System.out.println("Room has no name");
 			}
@@ -65,5 +65,4 @@ public class Room {
 		int tileY = (int)(y/TILE_SIZE);
 		return tiles[tileX][tileY].canEnter(p);
 	}
-
 }

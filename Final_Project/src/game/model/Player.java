@@ -38,6 +38,7 @@ public class Player {
 
 	private double x, y;
 	private double rotation;
+	private Room currentRoom;
 	private boolean isMoving, turnLeft, turnRight, moveFoward, sprint;
 
 	public Player(String username, double x, double y, double rotation) {
@@ -143,11 +144,12 @@ public class Player {
 			model.getOrientation().setY((float) rotation);
 		}
 		if (moveFoward) {
-			y += moveSpeed * Math.cos(Math.toRadians(rotation));
-			x += moveSpeed * Math.sin(Math.toRadians(rotation));
-
-			model.getPosition().setX((float) x);
-			model.getPosition().setZ((float) y);
+			double newY = y + moveSpeed * Math.cos(Math.toRadians(rotation));
+			double newX = x + moveSpeed * Math.sin(Math.toRadians(rotation));
+			if(currentRoom.validPosition(this, newX, newY)){
+				model.getPosition().setX((float) newX);
+				model.getPosition().setZ((float) newY);
+			}
 		}
 	}
 
