@@ -5,7 +5,6 @@ package game.model;
 
 import renderer.*;
 
-
 /**
  * Represents a player in the game. This class should do the player logic and
  * not have anything to do with the client/ server.
@@ -15,21 +14,21 @@ import renderer.*;
  */
 public class Player {
 
-//	public enum Direction {
-//
-//		NORTH(1), EAST(2), SOUTH(3), WEST(4);
-//
-//		private int value;
-//
-//		private Direction(int value) {
-//			this.value = value;
-//		}
-//
-//		public final int getValue() {
-//			return value;
-//		}
-//
-//	}
+	// public enum Direction {
+	//
+	// NORTH(1), EAST(2), SOUTH(3), WEST(4);
+	//
+	// private int value;
+	//
+	// private Direction(int value) {
+	// this.value = value;
+	// }
+	//
+	// public final int getValue() {
+	// return value;
+	// }
+	//
+	// }
 
 	private final String username;
 	public static final double TURN_SPEED = 1;
@@ -50,6 +49,7 @@ public class Player {
 
 	/**
 	 * Gets name of the player
+	 *
 	 * @return
 	 */
 	public String getUsername() {
@@ -58,6 +58,7 @@ public class Player {
 
 	/**
 	 * Gets x-position
+	 *
 	 * @return
 	 */
 	public final double getX() {
@@ -66,15 +67,17 @@ public class Player {
 
 	/**
 	 * Sets x-position
+	 *
 	 * @param x
 	 */
 	public final void setX(double x) {
-		model.getPosition().setX((float)x);
+		model.getPosition().setX((float) x);
 		this.x = x;
 	}
 
 	/**
 	 * get y-position
+	 *
 	 * @return
 	 */
 	public final double getY() {
@@ -83,16 +86,17 @@ public class Player {
 
 	/**
 	 * set y-position
+	 *
 	 * @param y
 	 */
 	public final void setY(double y) {
-		model.getPosition().setZ((float)y);
+		model.getPosition().setZ((float) y);
 		this.y = y;
 	}
 
 	/**
-	 * Gets rotation/direction of player
-	 * 0 being up y-axis
+	 * Gets rotation/direction of player 0 being up y-axis
+	 *
 	 * @return
 	 */
 	public double getRotation() {
@@ -102,18 +106,18 @@ public class Player {
 	/**
 	 * turn left at turnspeed
 	 */
-	public void setTurnLeft(boolean val){
+	public void setTurnLeft(boolean val) {
 		turnLeft = val;
 	}
 
 	/**
 	 * turn right at turnspeed
 	 */
-	public void setTurnRight(boolean val){
+	public void setTurnRight(boolean val) {
 		turnRight = val;
 	}
 
-	public void setFoward(boolean val){
+	public void setFoward(boolean val) {
 		moveFoward = val;
 	}
 
@@ -126,23 +130,24 @@ public class Player {
 	}
 
 	/**
-	 * Tick method called every tick, should move player, shoot if able and update timers.
+	 * Tick method called every tick, should move player, shoot if able and
+	 * update timers.
 	 */
-	public void tick(){
-		if(turnLeft && !turnRight){
-			rotation-=TURN_SPEED;
+	public void tick() {
+		if (turnLeft && !turnRight) {
+			rotation -= TURN_SPEED;
 			model.getOrientation().setY((float) rotation);
 		}
-		if(turnRight && !turnLeft){
-			rotation+=TURN_SPEED;
+		if (turnRight && !turnLeft) {
+			rotation += TURN_SPEED;
 			model.getOrientation().setY((float) rotation);
 		}
-		if(moveFoward){
-			y+=moveSpeed*Math.cos(Math.toRadians(rotation));
-			x+=moveSpeed*Math.sin(Math.toRadians(rotation));
+		if (moveFoward) {
+			y += moveSpeed * Math.cos(Math.toRadians(rotation));
+			x += moveSpeed * Math.sin(Math.toRadians(rotation));
 
-			model.getPosition().setX((float)x);
-			model.getPosition().setZ((float)y);
+			model.getPosition().setX((float) x);
+			model.getPosition().setZ((float) y);
 		}
 	}
 

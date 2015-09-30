@@ -50,8 +50,8 @@ public class Packet02Move extends Packet {
 	 *
 	 * @param data
 	 */
-	public Packet02Move(String username, int x, int y, int numOfSteps,
-			boolean isMoving, int direction) {
+	public Packet02Move(String username, double x, double y, int numOfSteps,
+			boolean isMoving, double direction) {
 		super(02);
 		this.username = username;
 		this.x = x;
