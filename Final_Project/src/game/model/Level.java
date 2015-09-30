@@ -37,7 +37,7 @@ public class Level {
 	public void loadRooms(String filename) {
 
 		rooms.clear();
-
+		System.out.println("Loading level");
 		try {
 			Scanner s = new Scanner(new File(filename));
 			int roomNum = 0;
@@ -46,9 +46,10 @@ public class Level {
 				rooms.add(new Room("res/Levels/"+roomFile));
 			}
 		} catch (IOException e) {
-			System.out.println("Error loading file - IOException : "
+			System.out.println("Level - Error loading file - IOException : "
 					+ e.getMessage());
 		}
+		System.out.println("Done Loading level");
 	}
 	R_Model model; // FIXME very very bad
 	private void setupRender() {
@@ -127,4 +128,9 @@ public class Level {
 		}
 		model.getOrientation().setY(model.getOrientation().getY()+0.01f);
 	}
+
+//	public static void main(String[] args){
+//		Level lvl = new Level(new StealthGame(false, "TestUser"));
+//		lvl.loadRooms("res/Levels/test1.lvl");
+//	}
 }
