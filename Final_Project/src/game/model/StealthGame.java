@@ -184,5 +184,6 @@ public class StealthGame implements Runnable {
 
 	public void tick() {
 		level.tick();
+		mainFrame.repaint();
 	}
 }
