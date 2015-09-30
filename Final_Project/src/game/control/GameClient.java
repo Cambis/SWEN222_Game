@@ -146,6 +146,10 @@ public class GameClient extends Thread {
 			game.run();
 			break;
 
+		case GAME_OVER:
+			game.stop();
+			break;
+
 		case LOAD_LEVEL:
 			packet = new Packet22LoadLevel(data);
 			handleLoadLevel((Packet22LoadLevel) packet);
