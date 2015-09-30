@@ -106,7 +106,7 @@ public class TestGame implements Runnable {
 	 */
 	@Override
 	public void run() {
-		
+
 	}
 
 	public void tick() {

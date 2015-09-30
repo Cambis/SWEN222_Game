@@ -102,6 +102,13 @@ public class GameServer extends Thread {
 			PlayerMP player = new PlayerMP(
 					((Packet00Login) packet).getUsername(), address, port);
 			addConnection(player, (Packet00Login) packet);
+
+			// Send prompt to the client when the min amount of players is
+			// reached
+			if (!gameStarted && connectedPlayers.size() >= MIN_PLAYERS) {
+				gameStarted = true;
+				sendDataToAllClients("20".getBytes());
+			}
 			break;
 
 		case DISCONNECT:
@@ -186,13 +193,6 @@ public class GameServer extends Thread {
 		if (!alreadyConnected) {
 			connectedPlayers.add(player);
 			// System.out.println("Adding player " + connectedPlayers.size());
-		}
-
-		// Send prompt to the client when the min amount of players is
-		// reached
-		if (!gameStarted && connectedPlayers.size() >= MIN_PLAYERS) {
-			gameStarted = true;
-			// Packet20GameStart start = new Packet20GameStart();
 		}
 	}
 

@@ -145,8 +145,7 @@ public class GameClient extends Thread {
 			break;
 
 		case GAME_START:
-			// packet = new Packet20GameStart();
-			// game.start();
+			game.run();
 			break;
 
 		default:
