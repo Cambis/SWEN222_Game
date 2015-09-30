@@ -44,7 +44,7 @@ public class StealthGame implements Runnable {
 
 	private void init() {
 
-		level = new Level();
+		level = new Level(this);
 
 		Renderer r = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
 		mainFrame = new MainFrame(r);
@@ -155,6 +155,19 @@ public class StealthGame implements Runnable {
 					+ (thread.isAlive() ? "ALIVE" : "DEAD"));
 	}
 
+	/**
+	 * Called to run the game, the server should send a packet to tell the game
+	 * to start
+	 */
+	@Override
+	public void run() {
+
+	}
+
+	public void tick() {
+		level.tick();
+	}
+
 	public void addPlayer(Player p){
 		level.addPlayer(p);
 
@@ -173,17 +186,11 @@ public class StealthGame implements Runnable {
 		level.movePlayer(username, x, z, rot);
 	}
 
-	/**
-	 * Called to run the game, the server should send a packet to tell the game
-	 * to start
-	 */
-	@Override
-	public void run() {
-
+	public final GameClient getClient() {
+		return client;
 	}
 
-	public void tick() {
-		level.tick();
-		mainFrame.repaint();
+	public final GameServer getServer() {
+		return server;
 	}
 }
