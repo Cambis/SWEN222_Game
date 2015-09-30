@@ -12,14 +12,24 @@ public class Room {
 	private Tile[][] tiles;
 	private int xSize = 0;
 	private int ySize = 0;
+	private String name = "This is a unnamed room";
 
 	public Room(String file){
 
 	}
 
+	/**
+	 * Load tiles from room file
+	 * @param filename
+	 */
 	private void loadTiles(String filename){
 		try {
 			Scanner s = new Scanner(new File(filename));
+			if(s.hasNext()){
+				name = s.next();
+			}else{
+				System.out.println("Room has no name");
+			}
 			xSize = s.nextInt();
 			ySize = s.nextInt();
 			tiles = new Tile[xSize * 2][ySize];
