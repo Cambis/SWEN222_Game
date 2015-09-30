@@ -68,4 +68,10 @@ public class Level {
 
 		return null;
 	}
+
+	public void tick() {
+		for(Player p : players) {
+			p.tick();
+		}
+	}
 }

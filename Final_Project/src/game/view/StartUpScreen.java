@@ -129,6 +129,9 @@ public class StartUpScreen extends JPanel {
 
 	private void join() {
 		String[] login = showLoginWindow();
+		if(login==null){
+			return;
+		}
 		// TestPush client = new TestPush(false, login[0], login[1]);
 		StealthGame game = new StealthGame(false, login[0]);
 		game.start();
@@ -138,6 +141,9 @@ public class StartUpScreen extends JPanel {
 
 	private void host() {
 		String[] login = showLoginWindow();
+		if(login==null){
+			return;
+		}
 		StealthGame game = new StealthGame(true, login[0]);
 		game.start();
 		// TestPush host = new TestPush(true, login[0], login[1]);
