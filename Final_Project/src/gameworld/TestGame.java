@@ -100,6 +100,10 @@ public class TestGame implements Runnable {
 					+ (thread.isAlive() ? "ALIVE" : "DEAD"));
 	}
 
+	/**
+	 * Called to run the game, the server should send a packet to tell the game
+	 * to start
+	 */
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub

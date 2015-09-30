@@ -31,8 +31,10 @@ public class MainFrame extends JFrame {
 
 	private JFrame frame;
 
-	private final int WIDTH = 1080;
-	private final int HEIGHT = 720;
+	private Screen screen;
+
+	public static final int WIDTH = 1080;
+	public static final int HEIGHT = 720;
 
 	public MainFrame() {
 
@@ -60,64 +62,14 @@ public class MainFrame extends JFrame {
 			}
 		});
 
-		// add(start, BorderLayout.CENTER);
-
-		/**
-		frame.setSize(WIDTH, HEIGHT);
-		frame.add(this);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.pack();
-		frame.repaint();
-		**/
+		Screen screen = new Screen();
+		add(screen, BorderLayout.CENTER);
 
 		setSize(WIDTH, HEIGHT);
-		add(new JPanel());
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		frame.pack();
 		repaint();
-	}
-
-	public void paintComponent(Graphics g) {
-
-		BufferedImage image = new BufferedImage(1080, 720, BufferedImage.TYPE_INT_RGB);
-
-		g.drawImage(image, 0, 0, null);
-	}
-
-	private class MouseListener implements java.awt.event.MouseListener{
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
 	}
 }
