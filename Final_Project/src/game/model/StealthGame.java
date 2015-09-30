@@ -41,6 +41,9 @@ public class StealthGame implements Runnable {
 	}
 
 	private void init() {
+
+		level = new Level();
+
 		Renderer r = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
 		mainFrame = new MainFrame(r);
 

@@ -9,6 +9,10 @@ public class Level {
 	private List<Room> rooms = new ArrayList<Room>();
 	private List<Player> players = new ArrayList<Player>();
 
+	public Level() {
+
+	}
+
 	public Level(String filename){
 		loadRooms(filename);
 	}
