@@ -125,5 +125,6 @@ public class Level {
 				packet.writeData(game.getClient());
 			}
 		}
+		model.getOrientation().setY(model.getOrientation().getY()+0.01f);
 	}
 }

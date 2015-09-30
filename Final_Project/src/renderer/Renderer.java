@@ -212,7 +212,7 @@ public class Renderer {
 		// transform image to camera coordinates
 		matrixStack = matrixStack.mul(currentCam.getLookAt());
 
-		
+
 		int[] buf = ((DataBufferInt) viewport.getRaster().getDataBuffer()).getData();
 
 		// Draw Model
@@ -220,8 +220,8 @@ public class Renderer {
 		for (R_AbstractModel m : modelMap.values()){
 			m.draw(buf, zBuffer, viewport.getWidth(), viewport.getHeight(), matrix);
 		}
-		
-		
+
+
 		long timeAfter = 1000/Math.max(1, System.currentTimeMillis()-timeBefore);
 		g.setColor(Color.WHITE);
 		g.drawString("FPS: " + timeAfter, 25, 25);
