@@ -2,9 +2,15 @@ package game.model;
 
 import game.control.packets.Packet02Move;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+
+import renderer.R_Model;
+import renderer.R_ModelColorData;
+import renderer.R_OrthoCamera;
+import renderer.math.Vec3;
 
 public class Level {
 
@@ -40,6 +46,17 @@ public class Level {
 		// game.r_addCamera(camera);
 		// game.r_addModel(model);
 		// game.r_addModelData(modelData);
+
+		// Adds a new orthographic camera
+		R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", Vec3.One(), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 2);
+		game.r_addCamera(ortho);
+
+		// Adds a new model
+		R_ModelColorData modelData = new R_ModelColorData("Test", "res/Guard", Color.RED);
+		game.r_addModelData(modelData);
+
+		R_Model model = new R_Model("TestModel", modelData, Vec3.Zero(), Vec3.Zero(), Vec3.One());
+		game.r_addModel(model);
 	}
 
 	/**

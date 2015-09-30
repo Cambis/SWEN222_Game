@@ -99,4 +99,8 @@ public class Vec3 {
 	public void setZ(float z) {
 		this.z = z;
 	}
+
+	public static Vec3 One() {
+		return new Vec3(1,1,1);
+	}
 }
