@@ -31,6 +31,8 @@ public class StealthGame implements Runnable {
 
 	private WindowHandler windowHandler;
 
+	private Renderer renderer;
+
 	private Level level;
 
 	// We only need a reference to the player on the client here
@@ -46,8 +48,9 @@ public class StealthGame implements Runnable {
 
 		level = new Level(this);
 
-		Renderer r = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
-		mainFrame = new MainFrame(r);
+		renderer = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
+
+		mainFrame = new MainFrame();
 
 		// Set up window handler
 		windowHandler = new WindowHandler(mainFrame) {
@@ -166,6 +169,7 @@ public class StealthGame implements Runnable {
 
 	public void tick() {
 		level.tick();
+		mainFrame.setImage(renderer.render());
 	}
 
 	public void addPlayer(Player p){
@@ -192,5 +196,17 @@ public class StealthGame implements Runnable {
 
 	public final GameServer getServer() {
 		return server;
+	}
+
+	public boolean r_addCamera(R_AbstractCamera camera) {
+		return renderer.addCamera(camera);
+	}
+
+	public boolean r_addModel(R_AbstractModel model) {
+		return renderer.addModel(model);
+	}
+
+	public boolean r_addModelData(R_AbstractModelData modelData) {
+		return renderer.addModelData(modelData);
 	}
 }
