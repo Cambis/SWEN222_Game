@@ -78,7 +78,7 @@ public class Packet02Move extends Packet {
 	}
 
 	public final String getUsername() {
-		return username;
+		return username.trim();
 	}
 
 	public final int getX() {

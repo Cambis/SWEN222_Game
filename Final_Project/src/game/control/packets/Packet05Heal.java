@@ -50,7 +50,7 @@ public class Packet05Heal extends Packet {
 	}
 
 	public final String getUsername() {
-		return username;
+		return username.trim();
 	}
 
 	public final double getHealAmount() {

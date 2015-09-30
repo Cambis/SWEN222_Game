@@ -10,6 +10,7 @@ import game.control.packets.Packet07Equip;
 import game.control.packets.Packet.PacketType;
 import game.control.packets.Packet01Disconnect;
 import game.control.packets.Packet02Move;
+import gameworld.TestGame;
 import gameworld.TestPush;
 
 import java.io.IOException;
@@ -35,13 +36,12 @@ public class GameClient extends Thread {
 	// private Game game
 
 	// Testing only
-	private TestPush test;
+	private TestGame game;
 
 	// TODO this constructor needs to take in a Game paramter
-	public GameClient(String ipAddress /** , Game game */
-	) {
+	public GameClient(String ipAddress, TestGame game) {
 
-		// this.game = game;
+		this.game = game;
 
 		// Setup socket
 		try {
@@ -56,18 +56,6 @@ public class GameClient extends Thread {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * Just used for testing
-	 *
-	 * @param ipAddress
-	 * @param test
-	 */
-	public static GameClient testClient(String ipAddress, TestPush test) {
-		GameClient testClient = new GameClient(ipAddress);
-		testClient.test = test;
-		return testClient;
 	}
 
 	/**
@@ -103,6 +91,8 @@ public class GameClient extends Thread {
 		String message = new String(data).trim();
 		PacketType type = Packet.lookupPacket(message.substring(0, 2));
 		Packet packet = null;
+
+		if (TestGame.DEBUG) System.out.println("Client TYPE: " + type.toString());
 
 		switch (type) {
 		case INVALID:
@@ -177,22 +167,23 @@ public class GameClient extends Thread {
 
 	/**
 	 * Handles a move from the server
+	 *
 	 * @param packet
 	 */
 	private void handleMove(Packet02Move packet) {
-		// TODO Auto-generated method stub
+		// TODO Move player
 	}
 
 	private void handleEngage(Packet03Engage packet) {
-
+		// TODO If guard, the guard should fire his/ her gun.
 	}
 
 	private void handleDamage(Packet04Damage packet) {
-
+		// TODO Decrease the health of the player
 	}
 
 	private void handleHeal(Packet05Heal packet) {
-
+		// TODO Increase the health of the player
 	}
 
 	private void handleInteract(Packet06Interact packet) {

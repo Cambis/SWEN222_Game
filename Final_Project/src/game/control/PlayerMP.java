@@ -1,5 +1,7 @@
 package game.control;
 
+import game.model.Player;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -15,15 +17,25 @@ public class PlayerMP extends Player {
 	private InetAddress ipAddress;
 	private int port;
 
-	public PlayerMP(String username, InetAddress ipAddress, int port) {
-		super(username);
+	public PlayerMP(String username, double x, double y, double rotation,
+			InetAddress ipAddress, int port) {
+		super(username, x, y, rotation);
 		this.ipAddress = ipAddress;
 		this.port = port;
+	}
+
+	public PlayerMP(String username, InetAddress ipAddress, int port) {
+		this(username, 0, 0, 0, ipAddress, port);
 	}
 
 	// @Override
 	public void tick() {
 		// super.tick();
+	}
+
+	//TODO Cameron's tick packet
+	private void sendTickPacket(){
+
 	}
 
 	public void setIpAddress(InetAddress ipAddress) {

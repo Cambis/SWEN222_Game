@@ -51,6 +51,6 @@ public class Packet01Disconnect extends Packet {
 	}
 
 	public final String getUsername() {
-		return username;
+		return username.trim();
 	}
 }
