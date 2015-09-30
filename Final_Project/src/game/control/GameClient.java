@@ -93,7 +93,8 @@ public class GameClient extends Thread {
 		PacketType type = Packet.lookupPacket(message.substring(0, 2));
 		Packet packet = null;
 
-		if (StealthGame.DEBUG) System.out.println("Client TYPE: " + type.toString());
+		if (StealthGame.DEBUG)
+			System.out.println("Client TYPE: " + type.toString());
 
 		switch (type) {
 		case INVALID:
@@ -109,7 +110,7 @@ public class GameClient extends Thread {
 			System.out.println("[" + address.getHostAddress() + ":" + port
 					+ "] " + ((Packet01Disconnect) packet).getUsername()
 					+ " has left the world...");
-			// TODO remove player from game world
+			game.removePlayer(((Packet01Disconnect) packet).getUsername());
 			break;
 
 		case MOVE:
@@ -175,7 +176,7 @@ public class GameClient extends Thread {
 				+ " has joined the game...");
 
 		PlayerMP player = new PlayerMP(packet.getUsername(), address, port);
- 		game.addPlayer(player);
+		game.addPlayer(player);
 	}
 
 	/**
@@ -184,7 +185,8 @@ public class GameClient extends Thread {
 	 * @param packet
 	 */
 	private void handleMove(Packet02Move packet) {
-		game.movePlayer(packet.getUsername(), packet.getX(), packet.getZ(), packet.getDirection());
+		game.movePlayer(packet.getUsername(), packet.getX(), packet.getZ(),
+				packet.getDirection());
 	}
 
 	private void handleEngage(Packet03Engage packet) {
