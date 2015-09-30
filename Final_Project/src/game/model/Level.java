@@ -18,6 +18,9 @@ public class Level {
 	}
 
 	public void loadRooms(String filename){
+
+		rooms.clear();
+
 		try {
 			Scanner s = new Scanner(new File(filename));
 			int roomNum = 0;
