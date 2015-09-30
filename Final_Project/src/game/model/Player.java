@@ -83,7 +83,7 @@ public class Player {
 	 * Sets players current room
 	 */
 	public final void setRoom(Room r) {
-		currentRoom=r;
+		currentRoom = r;
 	}
 
 	/**
@@ -145,18 +145,23 @@ public class Player {
 	 * update timers.
 	 */
 	public void tick() {
+
 		if (turnLeft && !turnRight) {
+			isMoving = true;
 			rotation -= TURN_SPEED;
 			model.getOrientation().setY((float) rotation);
 		}
 		if (turnRight && !turnLeft) {
+			isMoving = true;
 			rotation += TURN_SPEED;
 			model.getOrientation().setY((float) rotation);
 		}
 		if (moveFoward) {
+			isMoving = true;
 			double newY = y + moveSpeed * Math.cos(Math.toRadians(rotation));
 			double newX = x + moveSpeed * Math.sin(Math.toRadians(rotation));
-			if(currentRoom!=null&&currentRoom.validPosition(this, newX, newY)){
+			if (currentRoom != null
+					&& currentRoom.validPosition(this, newX, newY)) {
 				model.getPosition().setX((float) newX);
 				model.getPosition().setZ((float) newY);
 			}

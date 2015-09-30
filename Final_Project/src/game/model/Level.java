@@ -127,7 +127,7 @@ public class Level {
 	public void addPlayer(Player p) {
 		players.add(p);
 		// TODO set rooms properly
-		p.setRoom(rooms.get(0));
+		// p.setRoom(rooms.get(0));
 	}
 
 	public boolean removePlayer(Player p) {
@@ -150,11 +150,15 @@ public class Level {
 
 	public void tick() {
 
+		// Go through each player and check what action they are doing.
 		for (Player p : players) {
 			p.tick();
-			Packet02Move packet = new Packet02Move(p.getUsername(), p.getX(),
-					p.getY(), 0, true, p.getRotation());
-			packet.writeData(game.getClient());
+			if (p.isMoving()) {
+				Packet02Move packet = new Packet02Move(p.getUsername(),
+						p.getX(), p.getY(), 0, true, p.getRotation());
+				p.setMoving(false);
+				packet.writeData(game.getClient());
+			}
 			setupRender();
 		}
 
