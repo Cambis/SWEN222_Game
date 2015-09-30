@@ -35,6 +35,11 @@ public class Level {
 			System.out.println("Error loading file - IOException : "
 					+ e.getMessage());
 		}
+
+		// TODO add models and camera to renderer here
+		// game.r_addCamera(camera);
+		// game.r_addModel(model);
+		// game.r_addModelData(modelData);
 	}
 
 	/**
