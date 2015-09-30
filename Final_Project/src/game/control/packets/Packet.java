@@ -29,7 +29,8 @@ public abstract class Packet {
 		DAMAGE(04),			// Player taking damage
 		HEAL(05),			// Player healing
 		INTERACT(06),		// Player interacting with a item
-		EQUIP(07);			// Player equipping an item
+		EQUIP(07),			// Player equipping an item
+		GAME_START(20);
 
 		private final int packetID;
 

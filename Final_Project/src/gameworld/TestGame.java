@@ -106,8 +106,7 @@ public class TestGame implements Runnable {
 	 */
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	public void tick() {

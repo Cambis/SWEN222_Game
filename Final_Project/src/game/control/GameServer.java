@@ -10,6 +10,7 @@ import game.control.packets.Packet04Damage;
 import game.control.packets.Packet05Heal;
 import game.control.packets.Packet06Interact;
 import game.control.packets.Packet07Equip;
+import game.control.packets.Packet20GameStart;
 import gameworld.TestGame;
 import gameworld.TestPush;
 
@@ -32,18 +33,16 @@ import java.util.List;
 public class GameServer extends Thread {
 
 	private static final boolean DEBUG = TestGame.DEBUG;
+	public static final int MIN_PLAYERS = 1;
+
+	private boolean gameStarted = false;
 
 	private DatagramSocket socket;
 
-	// TODO this class needs to be made
 	private TestGame game;
-
-	// Testing only
-	private TestPush test;
 
 	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
 
-	// TODO this constructor needs to take in a Game paramter
 	public GameServer(TestGame game) {
 
 		this.game = game;
@@ -56,6 +55,7 @@ public class GameServer extends Thread {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * Run the server
 	 */
@@ -73,6 +73,7 @@ public class GameServer extends Thread {
 				e.printStackTrace();
 			}
 			parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
+
 		}
 	}
 
@@ -87,7 +88,8 @@ public class GameServer extends Thread {
 		String message = new String(data).trim();
 		PacketType type = Packet.lookupPacket(message.substring(0, 2));
 		Packet packet = null;
-		if (DEBUG) System.out.println("TYPE: " + type.toString());
+		if (DEBUG)
+			System.out.println("TYPE: " + type.toString());
 
 		switch (type) {
 		case INVALID:
@@ -184,6 +186,13 @@ public class GameServer extends Thread {
 		if (!alreadyConnected) {
 			connectedPlayers.add(player);
 			// System.out.println("Adding player " + connectedPlayers.size());
+		}
+
+		// Send prompt to the client when the min amount of players is
+		// reached
+		if (!gameStarted && connectedPlayers.size() >= MIN_PLAYERS) {
+			gameStarted = true;
+			// Packet20GameStart start = new Packet20GameStart();
 		}
 	}
 
