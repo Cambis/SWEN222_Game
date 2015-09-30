@@ -10,6 +10,7 @@ public class GuiButton {
 	private int width = 0;
 	private int x = 0;
 	private int y = 0;
+	private int headSize = 28;
 	private boolean isHovered = false;
 	private String[] buttonAddress = {"defalut_button.png"};
 
@@ -43,7 +44,7 @@ public class GuiButton {
 
 	public boolean checkHovered(int x, int y){
 		if(x>=this.x && x<=this.x+width
-				&& y>=this.y && y<=this.y+height){
+				&& y>=this.y+headSize && y<=this.y+height+headSize){
 			isHovered = true;
 			return true;
 		}
