@@ -168,6 +168,11 @@ public class StealthGame implements Runnable {
 		level.loadRooms(filepath);
 	}
 
+
+	public synchronized void movePlayer(String username, double x, double z, double rot) {
+		level.movePlayer(username, x, z, rot);
+	}
+
 	/**
 	 * Called to run the game, the server should send a packet to tell the game
 	 * to start
