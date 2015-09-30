@@ -35,10 +35,7 @@ public class GameClient extends Thread {
 	private InetAddress ipAddress;
 	private DatagramSocket socket;
 
-	// TODO this class needs to be made
-	// private Game game
-
-	// Testing only
+	//
 	private StealthGame game;
 
 	// TODO this constructor needs to take in a Game paramter

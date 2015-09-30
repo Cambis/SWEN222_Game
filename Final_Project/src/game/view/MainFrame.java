@@ -1,6 +1,7 @@
 package game.view;
 
 import game.control.packets.Packet01Disconnect;
+import game.model.StealthGame;
 import gameworld.TestPush;
 import renderer.*;
 
@@ -33,6 +34,7 @@ public class MainFrame extends JFrame {
 	private JFrame frame;
 
 	private Renderer renderer;
+	private StealthGame game;
 
 	private Screen screen;
 
@@ -46,27 +48,6 @@ public class MainFrame extends JFrame {
 		setLayout(new BorderLayout());
 		frame = new JFrame("Stealth");
 
-		frame.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				System.out.println(e.getKeyCode());
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
 		Screen screen = new Screen();
 		add(screen, BorderLayout.CENTER);
 
@@ -78,11 +59,11 @@ public class MainFrame extends JFrame {
 		repaint();
 	}
 
-	/**Creates model data and stuff
-	 *
+	/**
+	 * Draws buffered Image
+	 * @param g
 	 */
-	private void initilizeRenderer(){
-		renderer =  new Renderer(WIDTH, HEIGHT);
-
+	public void paintComponent(Graphics g) {
+		screen.setImage(renderer.render());
 	}
 }
