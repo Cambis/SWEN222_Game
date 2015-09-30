@@ -102,20 +102,20 @@ public class Player {
 	/**
 	 * turn left at turnspeed
 	 */
-	public void turnLeft(){
-		rotation-=TURN_SPEED;
-		model.getOrientation().setY((float) rotation);
+	public void setTurnLeft(boolean val){
+		turnLeft = val;
 	}
 
 	/**
 	 * turn right at turnspeed
 	 */
-	public void turnRight(){
-		rotation+=TURN_SPEED;
-		model.getOrientation().setY((float) rotation);
+	public void setTurnRight(boolean val){
+		turnRight = val;
 	}
 
-
+	public void setFoward(boolean val){
+		moveFoward = val;
+	}
 
 	public final boolean isMoving() {
 		return isMoving;

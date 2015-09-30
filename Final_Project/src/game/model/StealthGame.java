@@ -1,5 +1,7 @@
 package game.model;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 
 import renderer.*;
@@ -58,6 +60,54 @@ public class StealthGame implements Runnable {
 				stop();
 			}
 		};
+
+		mainFrame.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				System.out.println(e.getKeyCode());
+				switch(e.getKeyCode()){
+				case 37://Left
+					player.setTurnLeft(true);
+					break;
+				case 38://Up
+					player.setFoward(true);
+					break;
+				case 39://Right
+					player.setTurnRight(true);
+					break;
+				case 40://Down
+					//TODO
+					break;
+				}
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println(e.getKeyCode());
+				switch(e.getKeyCode()){
+				case 37://Left
+					player.setTurnLeft(false);
+					break;
+				case 38://Up
+					player.setFoward(false);
+					break;
+				case 39://Right
+					player.setTurnRight(false);
+					break;
+				case 40://Down
+					//TODO
+					break;
+				}
+			}
+		});
 	}
 
 	/**
@@ -107,6 +157,7 @@ public class StealthGame implements Runnable {
 
 	public void addPlayer(Player p){
 		level.addPlayer(p);
+
 	}
 
 	public void removePlayer(Player p) {
