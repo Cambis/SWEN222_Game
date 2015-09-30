@@ -167,6 +167,7 @@ public class StealthGame implements Runnable {
 	public void loadLevel(String filepath) {
 		level.loadRooms(filepath);
 	}
+
 	/**
 	 * Called to run the game, the server should send a packet to tell the game
 	 * to start
