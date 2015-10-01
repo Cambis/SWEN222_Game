@@ -1,7 +1,7 @@
 package game.view;
 
 import game.control.packets.Packet01Disconnect;
-import game.model.StealthGame;
+import game.logic.StealthGame;
 import gameworld.TestPush;
 
 import java.awt.BorderLayout;

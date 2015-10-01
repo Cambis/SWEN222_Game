@@ -1,5 +1,6 @@
-package game.model;
+package game.logic.world;
 
+import game.logic.Player;
 import renderer.R_Model;
 import renderer.R_ModelColorData;
 import renderer.math.Vec3;

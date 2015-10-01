@@ -1,9 +1,9 @@
 package game.control;
 
-import game.model.Player;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
+import game.logic.Player;
 
 /**
  * This class should do the multiplayer connecting side, player logic should be

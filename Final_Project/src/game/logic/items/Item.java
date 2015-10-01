@@ -1,4 +1,4 @@
-package game.model;
+package game.logic.items;
 
 public interface Item {
 

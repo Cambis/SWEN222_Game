@@ -1,9 +1,6 @@
-package game.model;
+package game.logic;
 
 import game.control.packets.Packet02Move;
-import game.logic.Player;
-import game.logic.Room;
-import game.logic.StealthGame;
 
 import java.awt.Color;
 import java.io.File;
@@ -90,7 +87,7 @@ public class Level {
 		players.add(p);
 
 		// IFF the minimum amount of players is reached, run the game.
-		/// FIXME: need to implement the start game packet properly
+		///FIXME
 //		if (players.size() >= StealthGame.MIN_PLAYERS)
 //			game.run();
 

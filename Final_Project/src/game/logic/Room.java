@@ -1,4 +1,4 @@
-package game.model;
+package game.logic;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -6,6 +6,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
+import game.logic.world.BasicFloor;
+import game.logic.world.Tile;
+import game.logic.world.Wall;
 import renderer.R_Model;
 import renderer.R_ModelColorData;
 import renderer.Renderer;
