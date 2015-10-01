@@ -52,7 +52,7 @@ public class Level {
 		}
 		System.out.println("Done Loading level");
 	}
-	R_Model model; // FIXME very very bad
+	//R_Model model; // FIXME very very bad
 	private void setupRender() {
 //		R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", new Vec3(50, 50, 50), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 2);
 //		game.r_addCamera(ortho);
@@ -62,8 +62,8 @@ public class Level {
 //		R_ModelColorData modelData = new R_ModelColorData("Test", "res/Guard.obj", Color.RED);
 //		game.r_addModelData(modelData);
 
-		model = new R_Model("Work", (R_ModelColorData) game.getR_ModelData("Test"), Vec3.Zero(), Vec3.Zero(), Vec3.One());
-		game.r_addModel(model);
+		//model = new R_Model("Work", (R_ModelColorData) game.getR_ModelData("Test"), Vec3.Zero(), Vec3.Zero(), Vec3.One());
+		//game.r_addModel(model);
 	}
 
 	/**
@@ -84,9 +84,11 @@ public class Level {
 
 	public void addPlayer(Player p) {
 		players.add(p);
-		if (players.size() >= StealthGame.MIN_PLAYERS)
-			game.run();
+		///FIXME
+//		if (players.size() >= StealthGame.MIN_PLAYERS)
+//			game.run();
 		// TODO set rooms properly
+		System.out.println("Player given room");
 		p.setRoom(rooms.get(0));
 	}
 
@@ -129,7 +131,7 @@ public class Level {
 				packet.writeData(game.getClient());
 			}
 		}
-		model.getOrientation().setY(model.getOrientation().getY()+0.01f);
+		//model.getOrientation().setY(model.getOrientation().getY()+0.01f);
 	}
 
 //	public static void main(String[] args){

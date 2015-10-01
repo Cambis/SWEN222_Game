@@ -157,7 +157,6 @@ public class StealthGame implements Runnable {
 	 */
 	public void addPlayer(Player p) {
 		level.addPlayer(p);
-
 	}
 
 	/**
@@ -185,6 +184,9 @@ public class StealthGame implements Runnable {
 	 */
 	public void loadLevel(String filepath) {
 		level.loadRooms(filepath);
+
+		level.addPlayer(player);
+		System.out.println("stuff");
 		player.getRoom().initTiles(renderer);
 	}
 
