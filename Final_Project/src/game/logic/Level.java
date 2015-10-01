@@ -1,4 +1,4 @@
-package game.model;
+package game.logic;
 
 import game.control.packets.Packet02Move;
 

@@ -1,8 +1,10 @@
-package game.model;
+package game.logic;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 
 import renderer.*;
@@ -288,7 +290,52 @@ public class StealthGame implements Runnable {
 			case 40:// Down
 				// TODO
 				break;
+			case KeyEvent.VK_1:// 1  //Note, we can use KeyEvent.VK_? instead of specific numbers for clarity
+				player.selectItem(1);
+				break;
+			case KeyEvent.VK_2:// 2
+				player.selectItem(2);
+				break;
+			case KeyEvent.VK_3:// 3
+				player.selectItem(3);
+				break;
+			case KeyEvent.VK_4:// 4
+				player.selectItem(4);
+				break;
+			case KeyEvent.VK_E:// E
+				player.swapWeapon();
+				break;
+			case KeyEvent.VK_Q:// Q
+				player.dropItem();
 			}
 		}
+	};
+	
+	//Andrew: Implementing mouse listener
+	private MouseListener mainFrameMouseListener = new MouseListener() {
+		
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+		@Override
+		public void mouseClicked(MouseEvent e) {
+		}
+		
+		@Override
+		public void mousePressed(MouseEvent e) {
+			if (e.getButton() == MouseEvent.BUTTON1){
+				player.setShooting(true);
+			} else if (e.getButton() == MouseEvent.BUTTON2){
+				player.setUsing(true);
+			}
+		}
+		
+
 	};
 }

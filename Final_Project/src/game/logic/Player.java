@@ -1,10 +1,13 @@
 /**
  *
  */
-package game.model;
+package game.logic;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
+import game.logic.items.Item;
+import game.logic.weapons.Weapon;
 import renderer.*;
 import renderer.math.Vec3;
 
@@ -43,6 +46,19 @@ public class Player {
 	private double rotation;
 	private Room currentRoom = null;
 	private boolean isMoving, turnLeft, turnRight, moveFoward, sprint;
+	
+	//Andrew's Stuff
+	private boolean isShooting;
+	private boolean isUsing;
+	
+	private Weapon currentWeapon;
+	private Weapon sideWeapon;
+	private Weapon mainWeapon;
+	private boolean isSide;
+	private ArrayList <Item> inventory;
+	private int currentItemIndex;
+	
+	private int cooldown;
 
 	public Player(String username, double x, double y, double rotation) {
 		this.username = username;
@@ -148,6 +164,18 @@ public class Player {
 	public final void setMoving(boolean isMoving) {
 		this.isMoving = isMoving;
 	}
+	
+	//Andrew's bit working on now
+	public final void setShooting(boolean isShooting) {
+		this.isShooting = isShooting;
+	}
+	public final void setUsing(boolean isUsing) {
+		this.isUsing = isUsing;
+	}
+	public final void setCooldown(int cooldown) {
+		this.cooldown = cooldown;
+	}
+
 
 	/**
 	 * Tick method called every tick, should move player, shoot if able and
@@ -175,6 +203,67 @@ public class Player {
 				model.getPosition().setZ((float) newY);
 			}
 		}
+		
+		//Andrew : Shooting logic here
+		if (isShooting){
+			if (cooldown == 0){
+				shootCurrentGun();
+			}
+			isShooting = false;
+		}
+		
+		//Andrew : Interaction logic here
+		if (isUsing) {
+			//TODO Check if mouse is over an item
+			//TODO Check if mouse is in range of player (How to access the mouse from here?)
+			interact();
+			isUsing = false;
+		}
+		
+		//Click down cooldown on each frame
+		if (cooldown > 0){
+			cooldown --;
+		}
+		if (cooldown < 0){
+			cooldown = 0;
+		}
+		
+	}
+	
+	private final void shootCurrentGun(){
+//			currentWeapon.fire(rotation, x, y, currentLevel); //TODO Level pointer?
+			setCooldown(currentWeapon.getCooldown());
+	}
+	
+	private final void interact(){
+		//TODO Identify what is being interacted with?
+		//TODO 
+	}
+	
+	public void swapWeapon() {
+		if (isSide) {
+			if (mainWeapon != null){
+				currentWeapon = mainWeapon;
+				isSide = false;
+			}
+		} else {
+			currentWeapon = sideWeapon;
+			isSide = true;
+		}
+		//TODO Graphics for swapping between main and side?
+	}
+
+	public void selectItem(int i) {
+		currentItemIndex = i;
+		//TODO Display change in selected item from inventory
+	}
+
+	public void dropItem() {
+		if (inventory.get(currentItemIndex) != null){
+			Item droppedItem = inventory.get(currentItemIndex);
+			inventory.remove(currentItemIndex);
+			// TODO Drop item on floor in front of player.
+		}
 	}
 
 	public final R_Player getModel() {
@@ -184,5 +273,8 @@ public class Player {
 	public final void setModel(R_Player model) {
 		this.model = model;
 	}
+
+
+
 
 }

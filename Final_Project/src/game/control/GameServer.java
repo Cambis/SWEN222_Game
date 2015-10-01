@@ -2,6 +2,7 @@ package game.control;
 
 import game.control.packets.Packet;
 import game.control.packets.Packet.PacketType;
+import game.logic.StealthGame;
 import game.control.packets.Packet00Login;
 import game.control.packets.Packet01Disconnect;
 import game.control.packets.Packet02Move;
@@ -12,7 +13,6 @@ import game.control.packets.Packet06Interact;
 import game.control.packets.Packet07Equip;
 import game.control.packets.Packet20GameStart;
 import game.control.packets.Packet22LoadLevel;
-import game.model.StealthGame;
 import gameworld.TestPush;
 
 import java.io.IOException;

@@ -1,9 +1,9 @@
 package game.view;
 
-import game.model.StealthGame;
-
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+
+import game.logic.StealthGame;
 
 public class WindowHandler implements WindowListener {
 
