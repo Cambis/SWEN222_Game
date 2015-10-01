@@ -11,6 +11,7 @@ import renderer.R_Model;
 import renderer.R_ModelColorData;
 import renderer.R_OrthoCamera;
 import renderer.R_Player;
+import renderer.R_Player.Team;
 import renderer.math.Vec3;
 
 public class Level {
