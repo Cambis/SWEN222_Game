@@ -87,7 +87,7 @@ public class Level {
 		players.add(p);
 
 		// IFF the minimum amount of players is reached, run the game.
-		///FIXME
+		/// FIXME: need to implement the start game packet properly
 //		if (players.size() >= StealthGame.MIN_PLAYERS)
 //			game.run();
 
