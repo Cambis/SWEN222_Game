@@ -233,6 +233,10 @@ public class StealthGame implements Runnable {
 		return renderer.addModel(model);
 	}
 
+	public boolean r_removeModel(String model) {
+		return false;
+	}
+
 	public boolean r_addModelData(R_AbstractModelData modelData) {
 		return renderer.addModelData(modelData);
 	}
@@ -240,7 +244,6 @@ public class StealthGame implements Runnable {
 	public R_AbstractModelData getR_ModelData(String name) {
 		return renderer.getModelData(name);
 	}
-
 	private KeyListener mainFrameListener = new KeyListener() {
 		@Override
 		public void keyTyped(KeyEvent e) {

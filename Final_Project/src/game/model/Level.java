@@ -84,9 +84,18 @@ public class Level {
 
 	public void addPlayer(Player p) {
 		players.add(p);
+
+		// IFF the minimum amount of players is reached, run the game.
 		///FIXME
 //		if (players.size() >= StealthGame.MIN_PLAYERS)
 //			game.run();
+
+		// Assign a model to the player
+		R_Player pl = new R_Player(p.getUsername(),
+				game.getR_ModelData("Test"), Team.GUARD, Vec3.Zero(),
+				Vec3.Zero(), Vec3.One());
+		p.setModel(playerMod);
+
 		// TODO set rooms properly
 		System.out.println("Player given room");
 		p.setRoom(rooms.get(0));
