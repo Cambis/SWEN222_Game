@@ -39,9 +39,9 @@ public class Player {
 	// }
 
 	private final String username;
-	public static final double TURN_SPEED = 1;
+	public static final double TURN_SPEED = 0.01;
 
-	private double moveSpeed = 1;
+	private double moveSpeed = 0.001;
 	private R_Player model;
 
 	private double x, y;
@@ -186,27 +186,31 @@ public class Player {
 	 * update timers.
 	 */
 	public void tick() {
-		System.out.println("Player ticking");
+		//System.out.println("Player ticking");
 
 		//Player Movement:
 		if (turnLeft && !turnRight) {
 			isMoving = true;
-			rotation -= TURN_SPEED;
+			rotation += TURN_SPEED;
 			model.getOrientation().setY((float) rotation);
 		}
 		if (turnRight && !turnLeft) {
 			isMoving = true;
-			rotation += TURN_SPEED;
+			rotation -= TURN_SPEED;
 			model.getOrientation().setY((float) rotation);
 		}
 		if (moveFoward) {
 			isMoving = true;
 			double newY = y + moveSpeed * Math.cos(Math.toRadians(rotation));
 			double newX = x + moveSpeed * Math.sin(Math.toRadians(rotation));
-			if (currentRoom != null
-					&& currentRoom.validPosition(this, newX, newY)) {
+			if (currentRoom != null){
+					//&& currentRoom.validPosition(this, newX, newY)) {
+				System.out.println("old x: "+model.getPosition().getX());
 				model.getPosition().setX((float) newX);
 				model.getPosition().setZ((float) newY);
+				System.out.println("new x: "+ model.getPosition().getX());
+				x = newX;
+				y = newY;
 			}
 		}
 
