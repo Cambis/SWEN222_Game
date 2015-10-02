@@ -97,6 +97,7 @@ public class Level {
 		// TODO set rooms properly
 		System.out.println("Player given room");
 		p.setRoom(rooms.get(0));
+//		game.r_addModel(pl);
 
 		// IFF the minimum amount of players is reached, run the game.
 		// FIXME

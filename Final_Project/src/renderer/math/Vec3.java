@@ -27,6 +27,13 @@ public class Vec3 {
 		this.z = z;
 	}
 
+	public Vec3(double x, double y, double z) {
+		super();
+		this.x = (float) x;
+		this.y = (float) y;
+		this.z = (float) z;
+	}
+
 	public float getX() {
 		return x;
 	}

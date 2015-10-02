@@ -252,9 +252,6 @@ public class Player {
 			onDoor = false;
 		}
 
-		//Draw in new position:
-		model.setPosition(new Vec3((float)x, (float)y, (float)0));
-
 	}
 
 //	private final void shootCurrentGun(){
@@ -300,8 +297,5 @@ public class Player {
 	public final void setModel(R_Player model) {
 		this.model = model;
 	}
-
-
-
 
 }

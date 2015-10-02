@@ -29,7 +29,7 @@ public class Room {
 
 	//Models
 	private R_ModelColorData floorData = new R_ModelColorData("Floor", "res/BasicFloor.obj", Color.GRAY);
-	private R_ModelColorData wallData = new R_ModelColorData("Floor", "res/BasicWall.obj", Color.RED);
+	private R_ModelColorData wallData = new R_ModelColorData("Wall", "res/BasicWall.obj", Color.RED);
 
 	public Room(String filename) {
 		loadTiles(filename);

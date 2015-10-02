@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
 import renderer.*;
 import renderer.math.Vec3;
@@ -160,7 +161,7 @@ public class StealthGame implements Runnable {
 	 *
 	 * @param p
 	 */
-	public void addPlayer(Player p) {
+	public synchronized void addPlayer(Player p) {
 		level.addPlayer(p);
 	}
 
@@ -189,9 +190,7 @@ public class StealthGame implements Runnable {
 	 */
 	public void loadLevel(String filepath) {
 		level.loadRooms(filepath);
-
 		level.addPlayer(player);
-		System.out.println("stuff");
 		player.getRoom().initTiles(renderer);
 	}
 
