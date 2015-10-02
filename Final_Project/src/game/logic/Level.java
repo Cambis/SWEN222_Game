@@ -102,7 +102,7 @@ public class Level {
 
 		// TODO set rooms properly
 		System.out.println("Player given room");
-		// p.setRoom(rooms.get(0));
+		p.setRoom(rooms.get(0));
 	}
 
 	public boolean removePlayer(Player p) {
