@@ -9,8 +9,8 @@ public class Wall implements Tile{
 
 	private R_Model model;
 
-	public Wall(int xPos, int yPos, R_ModelColorData data){
-		model = new R_Model("BasicWall", data, new Vec3(xPos, 0, yPos), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
+	public Wall(float xPos, float yPos, R_ModelColorData data, int tileNum){
+		model = new R_Model("BasicWall" + tileNum, data, new Vec3(xPos, 0, yPos), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
 	}
 
 

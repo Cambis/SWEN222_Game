@@ -18,7 +18,8 @@ import renderer.Renderer.*;
 
 public class Room {
 
-	private final int TILE_SIZE = 2;
+	private final int TILE_SIZE = 10;
+	private final float SCALE = 0.02f;
 
 	private Tile[][] tiles;
 	private int xSize = 0;
@@ -29,7 +30,7 @@ public class Room {
 
 	//Models
 	private R_ModelColorData floorData = new R_ModelColorData("Floor", "res/BasicFloor.obj", Color.GRAY);
-	private R_ModelColorData wallData = new R_ModelColorData("Wall", "res/BasicWall.obj", Color.RED);
+	private R_ModelColorData wallData = new R_ModelColorData("BasicWall", "res/BasicWall.obj", Color.RED);
 
 	public Room(String filename) {
 		loadTiles(filename);
@@ -54,19 +55,21 @@ public class Room {
 			tiles = new Tile[xSize][ySize];
 			int xPos = 0;
 			int yPos = 0;
+			int tileNum = 0;
 			while (s.hasNext()) {
 				if (s.hasNextInt()) {
 					int i = s.nextInt();
 					if (i == 0) {
-						tiles[xPos][yPos] = new BasicFloor(xPos*TILE_SIZE, yPos*TILE_SIZE, floorData);
+						tiles[xPos][yPos] = new BasicFloor(xPos*TILE_SIZE*SCALE, yPos*TILE_SIZE*SCALE, floorData, tileNum);
 					} else if (i == 1) {
-						tiles[xPos][yPos] = new Wall(xPos*TILE_SIZE, yPos*TILE_SIZE, wallData);
+						tiles[xPos][yPos] = new Wall(xPos*TILE_SIZE*SCALE, yPos*TILE_SIZE*SCALE, wallData, tileNum);
 					} else {
 						System.out.println("Error loading file (invalid int - "
 								+ i + ", xPos = " + xPos + ", yPox = " + yPos
 								+ ")");
 					}
 					xPos++;
+					tileNum++;
 					if(xPos>=xSize){
 						xPos=0;
 						yPos++;
