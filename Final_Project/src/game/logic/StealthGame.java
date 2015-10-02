@@ -22,6 +22,8 @@ public class StealthGame implements Runnable {
 	public static final boolean DEBUG = true;
 	public static final int MIN_PLAYERS = 1;
 
+	public boolean gameStart = false;
+
 	private GameClient client;
 	private GameServer server;
 
@@ -136,10 +138,6 @@ public class StealthGame implements Runnable {
 	 */
 	@Override
 	public void run() {
-		if (DEBUG)
-			System.out.println(player.getUsername() + "'s GAME IS "
-					+ (running ? "" : "NOT") + " RUNNING");
-
 		while (running) {
 			tick();
 			render();
@@ -152,7 +150,6 @@ public class StealthGame implements Runnable {
 	}
 
 	public void render() {
-		// System.out.println("HALP PLS IM BEING RUN");
 		mainFrame.setImage(renderer.render());
 	}
 

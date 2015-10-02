@@ -182,7 +182,7 @@ public class Player {
 	 * update timers.
 	 */
 	public void tick() {
-
+		System.out.println("Player ticking");
 		if (turnLeft && !turnRight) {
 			isMoving = true;
 			rotation -= TURN_SPEED;
