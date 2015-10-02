@@ -28,13 +28,13 @@ public class PlayerMP extends Player {
 		this(username, 0, 0, 0, ipAddress, port);
 	}
 
-	// @Override
+	@Override
 	public void tick() {
-		// super.tick();
+		super.tick();
 	}
 
-	//TODO Cameron's tick packet
-	private void sendTickPacket(){
+	// TODO Cameron's tick packet
+	private void sendTickPacket() {
 
 	}
 

@@ -22,6 +22,8 @@ public class StealthGame implements Runnable {
 	public static final boolean DEBUG = true;
 	public static final int MIN_PLAYERS = 1;
 
+	public boolean gameStart = false;
+
 	private GameClient client;
 	private GameServer server;
 
@@ -51,19 +53,8 @@ public class StealthGame implements Runnable {
 
 	private void init() {
 
-		renderer = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
-		R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", new Vec3(50, 50,
-				50), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 2);
-		r_addCamera(ortho);
-		r_setCamera(ortho.getName());
-
-		// Adds a new model
-		R_ModelColorData modelData = new R_ModelColorData("Test",
-				"res/Guard.obj", Color.RED);
-		r_addModelData(modelData);
-
+		initRenderer();
 		level = new Level(this);
-		// level.loadRooms("/Final_Project/res/Levels/test1.lvl");
 		mainFrame = new MainFrame();
 
 		// Set up window handler
@@ -79,6 +70,20 @@ public class StealthGame implements Runnable {
 		};
 
 		mainFrame.addKeyListener(mainFrameListener);
+	}
+
+	private void initRenderer() {
+
+		renderer = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
+		R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", new Vec3(50, 50,
+				50), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 2);
+		r_addCamera(ortho);
+		r_setCamera(ortho.getName());
+
+		// Adds a new model
+		R_ModelColorData modelData = new R_ModelColorData("Test",
+				"res/Guard.obj", Color.RED);
+		r_addModelData(modelData);
 	}
 
 	/**
@@ -128,13 +133,11 @@ public class StealthGame implements Runnable {
 
 	/**
 	 * Called to run the game, the server should send a packet to tell the game
-	 * to start
+	 * to start. XXX Hehe this is actually called when the constructor is used,
+	 * this is because of the nature of the Runnable interface.
 	 */
 	@Override
 	public void run() {
-		if (DEBUG)
-			System.out.println(player.getUsername() + "'s GAME IS "
-					+ (running ? "" : "NOT") + " RUNNING");
 		while (running) {
 			tick();
 			render();
@@ -143,7 +146,7 @@ public class StealthGame implements Runnable {
 
 	public void tick() {
 		level.tick();
-		//player.getRoom().draw(renderer);
+		// player.getRoom().draw(renderer);
 	}
 
 	public void render() {
@@ -246,6 +249,7 @@ public class StealthGame implements Runnable {
 	public R_AbstractModelData getR_ModelData(String name) {
 		return renderer.getModelData(name);
 	}
+
 	private KeyListener mainFrameListener = new KeyListener() {
 		@Override
 		public void keyTyped(KeyEvent e) {
@@ -311,31 +315,33 @@ public class StealthGame implements Runnable {
 		}
 	};
 
-	//Andrew: Implementing mouse listener
+	// Andrew: Implementing mouse listener
 	private MouseListener mainFrameMouseListener = new MouseListener() {
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
 		}
+
 		@Override
 		public void mouseExited(MouseEvent e) {
 		}
+
 		@Override
 		public void mouseEntered(MouseEvent e) {
 		}
+
 		@Override
 		public void mouseClicked(MouseEvent e) {
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if (e.getButton() == MouseEvent.BUTTON1){
+			if (e.getButton() == MouseEvent.BUTTON1) {
 				player.setShooting(true);
-			} else if (e.getButton() == MouseEvent.BUTTON2){
+			} else if (e.getButton() == MouseEvent.BUTTON2) {
 				player.setUsing(true);
 			}
 		}
-
 
 	};
 }
