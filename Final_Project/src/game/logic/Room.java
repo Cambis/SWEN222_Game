@@ -101,18 +101,27 @@ public class Room {
 
 	}
 
+	public Tile getTile(Player inPlayer, double inX, double inY){
+
+		if (validPosition(inPlayer, inX, inY)){
+			int tileX = (int) (inX / TILE_SIZE);
+			int tileY = (int) (inY / TILE_SIZE);
+			return tiles[tileX][tileY];
+		} else {
+			return null;
+		}
+
+	}
+
 	public List<Player> getPlayersInRoom() {
 		return playersInRoom;
 	}
-
 	public void setPlayersInRoom(List<Player> playersInRoom) {
 		this.playersInRoom = playersInRoom;
 	}
-
 	public void addPlayer(Player inPlayer){
 		getPlayersInRoom().add(inPlayer);
 	}
-
 	public void removePlayer (Player outPlayer){
 		getPlayersInRoom().remove(outPlayer);
 	}

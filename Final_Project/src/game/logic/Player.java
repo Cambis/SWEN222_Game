@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import game.logic.items.Item;
+import game.logic.world.Door;
+import game.logic.world.Tile;
 // import game.logic.weapons.Weapon;
 import renderer.*;
 import renderer.math.Vec3;
@@ -50,6 +52,8 @@ public class Player {
 	//Andrew's Stuff
 	private boolean isShooting;
 	private boolean isUsing;
+	private Tile previousDoor;
+	private boolean onDoor = false;
 
 	// private Weapon currentWeapon;
 	// private Weapon sideWeapon;
@@ -183,6 +187,8 @@ public class Player {
 	 */
 	public void tick() {
 		System.out.println("Player ticking");
+
+		//Player Movement:
 		if (turnLeft && !turnRight) {
 			isMoving = true;
 			rotation -= TURN_SPEED;
@@ -204,7 +210,7 @@ public class Player {
 			}
 		}
 
-		//Andrew : Shooting logic here
+		//Check for shooting:
 		if (isShooting){
 			if (cooldown == 0){
 				// shootCurrentGun();
@@ -212,7 +218,7 @@ public class Player {
 			isShooting = false;
 		}
 
-		//Andrew : Interaction logic here
+		//Check for using:
 		if (isUsing) {
 			//TODO Check if mouse is over an item
 			//TODO Check if mouse is in range of player (How to access the mouse from here?)
@@ -220,7 +226,7 @@ public class Player {
 			isUsing = false;
 		}
 
-		//Click down cooldown on each frame
+		//Cooldown for player's gun
 		if (cooldown > 0){
 			cooldown --;
 		}
@@ -228,8 +234,25 @@ public class Player {
 			cooldown = 0;
 		}
 
+		//Check for doors. If in a door, move player to spawn location of door:
+		if (currentRoom.validPosition(this, x, y)){
+			Tile currentTile = currentRoom.getTile(this, x, y);
+			if (currentTile instanceof Door && !onDoor){
+				currentRoom = ((Door) currentTile).getTargetRoom();
 
-		//Andrew : After completing all moves during that tick, the player's model must be moved up to the new position, which will then automatically draw it.
+				x = ((Door) currentTile).getX();
+				y = ((Door) currentTile).getY();
+				rotation = ((Door) currentTile).getDirection();
+				previousDoor = currentRoom.getTile(this, x, y);
+				onDoor = true;
+			}
+		}
+		//Check to see if the player has moved of the door. If they have, they can reenter the door again.
+		if (currentRoom.getTile(this, x, y) != previousDoor){
+			onDoor = false;
+		}
+
+		//Draw in new position:
 		model.setPosition(new Vec3((float)x, (float)y, (float)0));
 
 	}
@@ -266,7 +289,7 @@ public class Player {
 		if (inventory.get(currentItemIndex) != null){
 			Item droppedItem = inventory.get(currentItemIndex);
 			inventory.remove(currentItemIndex);
-			// TODO Drop item on floor in front of player.
+			// TODO Drop item on floor right below player.
 		}
 	}
 
