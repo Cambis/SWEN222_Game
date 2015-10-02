@@ -185,16 +185,19 @@ public class Player {
 	public void tick() {
 
 		if (turnLeft && !turnRight) {
+			System.out.println(username + " TURNING LEFT");
 			isMoving = true;
 			rotation -= TURN_SPEED;
 			model.getOrientation().setY((float) rotation);
 		}
 		if (turnRight && !turnLeft) {
+			System.out.println(username + " TURNING RIGHT");
 			isMoving = true;
 			rotation += TURN_SPEED;
 			model.getOrientation().setY((float) rotation);
 		}
 		if (moveFoward) {
+			System.out.println(username + " MOVING FORWARD");
 			isMoving = true;
 			double newY = y + moveSpeed * Math.cos(Math.toRadians(rotation));
 			double newX = x + moveSpeed * Math.sin(Math.toRadians(rotation));

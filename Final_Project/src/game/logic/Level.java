@@ -99,6 +99,7 @@ public class Level {
 				game.getR_ModelData("Test"), Team.GUARD, Vec3.Zero(),
 				Vec3.Zero(), Vec3.One());
 		p.setModel(pl);
+		//game.r_addModel(pl);
 
 		// TODO set rooms properly
 		System.out.println("Player given room");
@@ -140,6 +141,7 @@ public class Level {
 		for (Player p : players) {
 			p.tick();
 			if (p.isMoving()) {
+				System.out.println("Player is moving");
 				Packet02Move packet = new Packet02Move(p.getUsername(),
 						p.getX(), p.getY(), 0, true, p.getRotation());
 				p.setMoving(false);
