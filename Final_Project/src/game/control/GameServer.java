@@ -95,6 +95,7 @@ public class GameServer extends Thread {
 		switch (type) {
 		case INVALID:
 			break;
+
 		case LOGIN:
 			packet = new Packet00Login(data);
 			System.out.println("[ " + address.getHostAddress() + " " + port
@@ -105,10 +106,11 @@ public class GameServer extends Thread {
 			addConnection(player, (Packet00Login) packet);
 
 			try {
-				sleep(100);
+				sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+
 			// Send level filepath
 			Packet22LoadLevel level = new Packet22LoadLevel(
 					"res/Levels/test1.lvl");

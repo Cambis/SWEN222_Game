@@ -22,6 +22,8 @@ public class Level {
 	private List<Player> players = new ArrayList<Player>();
 	private StealthGame game;
 
+	private boolean levelLoaded = false;
+
 	// Testing
 	private R_Player playerMod;
 	float val = 0;
@@ -100,12 +102,7 @@ public class Level {
 
 		// TODO set rooms properly
 		System.out.println("Player given room");
-		p.setRoom(rooms.get(0));
-
-		// IFF the minimum amount of players is reached, run the game.
-		// FIXME
-		// if (players.size() >= StealthGame.MIN_PLAYERS)
-		// game.run();
+		// p.setRoom(rooms.get(0));
 	}
 
 	public boolean removePlayer(Player p) {
