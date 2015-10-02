@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import game.logic.world.BasicFloor;
@@ -23,12 +25,15 @@ public class Room {
 	private int ySize = 0;
 	private String name = "This is a unnamed room";
 
+	private List<Player> playersInRoom;
+
 	//Models
 	private R_ModelColorData floorData = new R_ModelColorData("Floor", "res/BasicFloor.obj", Color.GRAY);
 	private R_ModelColorData wallData = new R_ModelColorData("Floor", "res/BasicWall.obj", Color.RED);
 
 	public Room(String filename) {
 		loadTiles(filename);
+		setPlayersInRoom(new ArrayList<Player>());
 	}
 
 	/**
@@ -94,5 +99,21 @@ public class Room {
 			}
 		}
 
+	}
+
+	public List<Player> getPlayersInRoom() {
+		return playersInRoom;
+	}
+
+	public void setPlayersInRoom(List<Player> playersInRoom) {
+		this.playersInRoom = playersInRoom;
+	}
+
+	public void addPlayer(Player inPlayer){
+		getPlayersInRoom().add(inPlayer);
+	}
+
+	public void removePlayer (Player outPlayer){
+		getPlayersInRoom().remove(outPlayer);
 	}
 }

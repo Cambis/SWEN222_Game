@@ -90,7 +90,7 @@ public class Level {
 		R_Player pl = new R_Player(p.getUsername(),
 				game.getR_ModelData("Test"), Team.GUARD, Vec3.Zero(),
 				Vec3.Zero(), Vec3.One());
-		p.setModel(playerMod);
+		p.setModel(pl);
 
 		// TODO set rooms properly
 		System.out.println("Player given room");

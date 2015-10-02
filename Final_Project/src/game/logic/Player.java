@@ -228,6 +228,10 @@ public class Player {
 			cooldown = 0;
 		}
 
+
+		//Andrew : After completing all moves during that tick, the player's model must be moved up to the new position, which will then automatically draw it.
+		model.setPosition(new Vec3((float)x, (float)y, (float)0));
+
 	}
 
 //	private final void shootCurrentGun(){

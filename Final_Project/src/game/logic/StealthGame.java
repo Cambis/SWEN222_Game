@@ -278,19 +278,19 @@ public class StealthGame implements Runnable {
 			// TODO Auto-generated method stub
 			System.out.println(e.getKeyCode());
 			switch (e.getKeyCode()) {
-			case 37:// Left
+			case KeyEvent.VK_LEFT:// Left
 				player.setTurnLeft(false);
 				break;
-			case 38:// Up
+			case KeyEvent.VK_UP:// Up
 				player.setFoward(false);
 				break;
-			case 39:// Right
+			case KeyEvent.VK_RIGHT:// Right
 				player.setTurnRight(false);
 				break;
-			case 40:// Down
+			case KeyEvent.VK_DOWN:// Down
 				// TODO
 				break;
-			case KeyEvent.VK_1:// 1  //Note, we can use KeyEvent.VK_? instead of specific numbers for clarity
+			case KeyEvent.VK_1:// 1
 				player.selectItem(1);
 				break;
 			case KeyEvent.VK_2:// 2
