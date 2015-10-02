@@ -102,17 +102,15 @@ public class GameServer extends Thread {
 					+ " has connected...");
 			PlayerMP player = new PlayerMP(
 					((Packet00Login) packet).getUsername(), address, port);
-			addConnection(player, (Packet00Login) packet);
 
-			try {
-				sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			// XXX addConnection was here
+
 			// Send level filepath
 			Packet22LoadLevel level = new Packet22LoadLevel(
 					"res/Levels/test1.lvl");
 			sendData(level.getData(), player.getIpAddress(), player.getPort());
+
+			addConnection(player, (Packet00Login) packet);
 
 			// Send prompt to the client when the min amount of players is
 			// reached
@@ -122,6 +120,7 @@ public class GameServer extends Thread {
 				// sendDataToAllClients("20".getBytes());
 			}
 			break;
+
 
 		case DISCONNECT:
 			packet = new Packet01Disconnect(data);
