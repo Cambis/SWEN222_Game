@@ -144,7 +144,7 @@ public class GameClient extends Thread {
 			break;
 
 		case GAME_START:
-			game.run();
+			// game.run();
 			break;
 
 		case GAME_OVER:

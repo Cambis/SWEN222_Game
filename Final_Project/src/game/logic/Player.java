@@ -267,7 +267,7 @@ public class Player {
 	}
 
 	public final R_Player getModel() {
-		return model;
+		return (model == null) ? null : model;
 	}
 
 	public final void setModel(R_Player model) {

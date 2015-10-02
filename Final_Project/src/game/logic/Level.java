@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import renderer.R_AbstractModel;
+import renderer.R_AbstractModelData;
 import renderer.R_Model;
 import renderer.R_ModelColorData;
 import renderer.R_OrthoCamera;

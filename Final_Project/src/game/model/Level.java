@@ -89,11 +89,6 @@ public class Level {
 	public void addPlayer(Player p) {
 		players.add(p);
 
-		// IFF the minimum amount of players is reached, run the game.
-		/// FIXME: need to implement the start game packet properly
-//		if (players.size() >= StealthGame.MIN_PLAYERS)
-//			game.run();
-
 		// Assign a model to the player
 		R_Player pl = new R_Player(p.getUsername(),
 				game.getR_ModelData("Test"), Team.GUARD, Vec3.Zero(),
