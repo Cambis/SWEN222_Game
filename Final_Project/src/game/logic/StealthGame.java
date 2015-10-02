@@ -303,17 +303,17 @@ public class StealthGame implements Runnable {
 				player.selectItem(4);
 				break;
 			case KeyEvent.VK_E:// E
-				player.swapWeapon();
+				// player.swapWeapon();
 				break;
 			case KeyEvent.VK_Q:// Q
 				player.dropItem();
 			}
 		}
 	};
-	
+
 	//Andrew: Implementing mouse listener
 	private MouseListener mainFrameMouseListener = new MouseListener() {
-		
+
 		@Override
 		public void mouseReleased(MouseEvent e) {
 		}
@@ -326,7 +326,7 @@ public class StealthGame implements Runnable {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 		}
-		
+
 		@Override
 		public void mousePressed(MouseEvent e) {
 			if (e.getButton() == MouseEvent.BUTTON1){
@@ -335,7 +335,7 @@ public class StealthGame implements Runnable {
 				player.setUsing(true);
 			}
 		}
-		
+
 
 	};
 }

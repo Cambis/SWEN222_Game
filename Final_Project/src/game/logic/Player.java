@@ -7,7 +7,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import game.logic.items.Item;
-import game.logic.weapons.Weapon;
+// import game.logic.weapons.Weapon;
 import renderer.*;
 import renderer.math.Vec3;
 
@@ -51,9 +51,9 @@ public class Player {
 	private boolean isShooting;
 	private boolean isUsing;
 
-	private Weapon currentWeapon;
-	private Weapon sideWeapon;
-	private Weapon mainWeapon;
+	// private Weapon currentWeapon;
+	// private Weapon sideWeapon;
+	// private Weapon mainWeapon;
 	private boolean isSide;
 	private ArrayList <Item> inventory;
 	private int currentItemIndex;
@@ -207,7 +207,7 @@ public class Player {
 		//Andrew : Shooting logic here
 		if (isShooting){
 			if (cooldown == 0){
-				shootCurrentGun();
+				// shootCurrentGun();
 			}
 			isShooting = false;
 		}
@@ -216,7 +216,7 @@ public class Player {
 		if (isUsing) {
 			//TODO Check if mouse is over an item
 			//TODO Check if mouse is in range of player (How to access the mouse from here?)
-			interact();
+			// interact();
 			isUsing = false;
 		}
 
@@ -230,28 +230,28 @@ public class Player {
 
 	}
 
-	private final void shootCurrentGun(){
-//			currentWeapon.fire(rotation, x, y, currentLevel); //TODO Level pointer?
-			setCooldown(currentWeapon.getCooldown());
-	}
-
-	private final void interact(){
-		//TODO Identify what is being interacted with?
-		//TODO
-	}
-
-	public void swapWeapon() {
-		if (isSide) {
-			if (mainWeapon != null){
-				currentWeapon = mainWeapon;
-				isSide = false;
-			}
-		} else {
-			currentWeapon = sideWeapon;
-			isSide = true;
-		}
-		//TODO Graphics for swapping between main and side?
-	}
+//	private final void shootCurrentGun(){
+////			currentWeapon.fire(rotation, x, y, currentLevel); //TODO Level pointer?
+//			setCooldown(currentWeapon.getCooldown());
+//	}
+//
+//	private final void interact(){
+//		//TODO Identify what is being interacted with?
+//		//TODO
+//	}
+//
+//	public void swapWeapon() {
+//		if (isSide) {
+//			if (mainWeapon != null){
+//				currentWeapon = mainWeapon;
+//				isSide = false;
+//			}
+//		} else {
+//			currentWeapon = sideWeapon;
+//			isSide = true;
+//		}
+//		//TODO Graphics for swapping between main and side?
+//	}
 
 	public void selectItem(int i) {
 		currentItemIndex = i;
