@@ -47,7 +47,7 @@ public class Player {
 	private Room currentRoom = null;
 	private boolean isMoving, turnLeft, turnRight, moveFoward, sprint;
 
-	//Andrew's Stuff
+	// Andrew's Stuff
 	private boolean isShooting;
 	private boolean isUsing;
 
@@ -55,7 +55,7 @@ public class Player {
 	// private Weapon sideWeapon;
 	// private Weapon mainWeapon;
 	private boolean isSide;
-	private ArrayList <Item> inventory;
+	private ArrayList<Item> inventory;
 	private int currentItemIndex;
 
 	private int cooldown;
@@ -165,24 +165,25 @@ public class Player {
 		this.isMoving = isMoving;
 	}
 
-	//Andrew's bit working on now
+	// Andrew's bit working on now
 	public final void setShooting(boolean isShooting) {
 		this.isShooting = isShooting;
 	}
+
 	public final void setUsing(boolean isUsing) {
 		this.isUsing = isUsing;
 	}
+
 	public final void setCooldown(int cooldown) {
 		this.cooldown = cooldown;
 	}
-
 
 	/**
 	 * Tick method called every tick, should move player, shoot if able and
 	 * update timers.
 	 */
 	public void tick() {
-		System.out.println("Player ticking");
+
 		if (turnLeft && !turnRight) {
 			isMoving = true;
 			rotation -= TURN_SPEED;
@@ -204,66 +205,71 @@ public class Player {
 			}
 		}
 
-		//Andrew : Shooting logic here
-		if (isShooting){
-			if (cooldown == 0){
+		// Andrew : Shooting logic here
+		if (isShooting) {
+			if (cooldown == 0) {
 				// shootCurrentGun();
 			}
 			isShooting = false;
 		}
 
-		//Andrew : Interaction logic here
+		// Andrew : Interaction logic here
 		if (isUsing) {
-			//TODO Check if mouse is over an item
-			//TODO Check if mouse is in range of player (How to access the mouse from here?)
+			// TODO Check if mouse is over an item
+			// TODO Check if mouse is in range of player (How to access the
+			// mouse from here?)
 			// interact();
 			isUsing = false;
 		}
 
-		//Click down cooldown on each frame
-		if (cooldown > 0){
-			cooldown --;
+		// Click down cooldown on each frame
+		if (cooldown > 0) {
+			cooldown--;
 		}
-		if (cooldown < 0){
+		if (cooldown < 0) {
 			cooldown = 0;
 		}
 
+		// Andrew : After completing all moves during that tick, the player's
+		// model must be moved up to the new position, which will then
+		// automatically draw it.
 
-		//Andrew : After completing all moves during that tick, the player's model must be moved up to the new position, which will then automatically draw it.
-		model.setPosition(new Vec3((float)x, (float)y, (float)0));
-
+		// XXX player is moved in StealthGame.movePlayer(), probably shouldn't move it here.
+		// if (model != null)
+		// 	model.setPosition(new Vec3((float) x, (float) y, (float) 0));
 	}
 
-//	private final void shootCurrentGun(){
-////			currentWeapon.fire(rotation, x, y, currentLevel); //TODO Level pointer?
-//			setCooldown(currentWeapon.getCooldown());
-//	}
-//
-//	private final void interact(){
-//		//TODO Identify what is being interacted with?
-//		//TODO
-//	}
-//
-//	public void swapWeapon() {
-//		if (isSide) {
-//			if (mainWeapon != null){
-//				currentWeapon = mainWeapon;
-//				isSide = false;
-//			}
-//		} else {
-//			currentWeapon = sideWeapon;
-//			isSide = true;
-//		}
-//		//TODO Graphics for swapping between main and side?
-//	}
+	// private final void shootCurrentGun(){
+	// // currentWeapon.fire(rotation, x, y, currentLevel); //TODO Level
+	// pointer?
+	// setCooldown(currentWeapon.getCooldown());
+	// }
+	//
+	// private final void interact(){
+	// //TODO Identify what is being interacted with?
+	// //TODO
+	// }
+	//
+	// public void swapWeapon() {
+	// if (isSide) {
+	// if (mainWeapon != null){
+	// currentWeapon = mainWeapon;
+	// isSide = false;
+	// }
+	// } else {
+	// currentWeapon = sideWeapon;
+	// isSide = true;
+	// }
+	// //TODO Graphics for swapping between main and side?
+	// }
 
 	public void selectItem(int i) {
 		currentItemIndex = i;
-		//TODO Display change in selected item from inventory
+		// TODO Display change in selected item from inventory
 	}
 
 	public void dropItem() {
-		if (inventory.get(currentItemIndex) != null){
+		if (inventory.get(currentItemIndex) != null) {
 			Item droppedItem = inventory.get(currentItemIndex);
 			inventory.remove(currentItemIndex);
 			// TODO Drop item on floor in front of player.
@@ -277,8 +283,5 @@ public class Player {
 	public final void setModel(R_Player model) {
 		this.model = model;
 	}
-
-
-
 
 }
