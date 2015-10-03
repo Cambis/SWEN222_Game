@@ -345,7 +345,7 @@ public class StealthGame implements Runnable {
 				player.setTurnRight(true);
 				break;
 			case 40:// Down
-				// TODO
+				player.setBackward(true);
 				break;
 			}
 
@@ -366,7 +366,7 @@ public class StealthGame implements Runnable {
 				player.setTurnRight(false);
 				break;
 			case KeyEvent.VK_DOWN:// Down
-				// TODO
+				player.setBackward(false);
 				break;
 			case KeyEvent.VK_1:// 1
 				player.selectItem(1);
