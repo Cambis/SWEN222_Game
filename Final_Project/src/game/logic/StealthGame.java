@@ -27,6 +27,9 @@ public class StealthGame implements Runnable {
 	// (TODO: should be >= 2, it is 1 for testing purposes)
 	public static final int MIN_PLAYERS = 1;
 
+	// Amount of nano seconds per tick
+	public static final double NS_PER_TICK = 1000000000D / 60D;
+
 	// This is the client that connects to the server
 	private GameClient client;
 
@@ -164,9 +167,47 @@ public class StealthGame implements Runnable {
 	 */
 	@Override
 	public void run() {
+
+		long lastTime = System.nanoTime();
+
+		// For debugging
+		int ticks = 0, frames = 0;
+
+		long lastTimer = System.currentTimeMillis();
+		double delta = 0;
+
 		while (running) {
-			tick();
-			render();
+
+			// Calculate when the system should tick and render
+			long now = System.nanoTime();
+			delta += (now - lastTime) / NS_PER_TICK;
+			lastTime = now;
+			boolean shouldRender = true;
+
+			while (delta >= 1) {
+				ticks++;
+				tick();
+				delta--;
+				shouldRender = true;
+			}
+
+			try {
+				Thread.sleep(2);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			if (shouldRender) {
+				frames++;
+				render();
+			}
+
+			if (System.currentTimeMillis() - lastTimer >= 1000) {
+				lastTimer += 1000;
+				// if(DEBUG) System.out.println(ticks + " ticks, " + frames + " frames");
+				frames = 0;
+				ticks = 0;
+			}
 		}
 	}
 
@@ -313,7 +354,7 @@ public class StealthGame implements Runnable {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
-			System.out.println(e.getKeyCode());
+			// System.out.println(e.getKeyCode());
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_LEFT:// Left
 				player.setTurnLeft(false);
