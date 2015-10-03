@@ -20,15 +20,24 @@ import game.view.WindowHandler;
 
 public class StealthGame implements Runnable {
 
+	// Debugging mode
 	public static final boolean DEBUG = true;
+
+	// The minimum amount of players to play the game,
+	// (TODO: should be >= 2, it is 1 for testing purposes)
 	public static final int MIN_PLAYERS = 1;
 
-	public boolean gameStart = false;
-
+	// This is the client that connects to the server
 	private GameClient client;
+
+	// Server that the clients connect to, it is only created if the player is
+	// hosting a game.
 	private GameServer server;
 
+	// True IFF player is hosting
 	private boolean isHost = false;
+
+	// Is the game running?
 	private boolean running = false;
 
 	// Ticks during the game
@@ -37,21 +46,35 @@ public class StealthGame implements Runnable {
 	// Primary game display
 	private MainFrame mainFrame;
 
+	// Handles disconnecting from the server
 	private WindowHandler windowHandler;
 
+	// Renders the entire scene
 	private Renderer renderer;
 
+	// Generates the current level
 	private Level level;
 
 	// We only need a reference to the player on the client here
 	private Player player;
 
+	/**
+	 * Default constructor, is called by GameClient.
+	 *
+	 * @param isHost
+	 *            - true if user is hosting a game
+	 * @param username
+	 *            - username for the player
+	 */
 	public StealthGame(boolean isHost, String username) {
 		this.isHost = isHost;
 		player = new PlayerMP(username, 0, 0, 0, null, -1);
 		init();
 	}
 
+	/**
+	 * Sets up the game
+	 */
 	private void init() {
 
 		initRenderer();
@@ -73,6 +96,9 @@ public class StealthGame implements Runnable {
 		mainFrame.addKeyListener(mainFrameListener);
 	}
 
+	/**
+	 * Sets up the renderer
+	 */
 	private void initRenderer() {
 
 		renderer = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
@@ -133,9 +159,8 @@ public class StealthGame implements Runnable {
 	}
 
 	/**
-	 * Called to run the game, the server should send a packet to tell the game
-	 * to start. XXX Hehe this is actually called when the constructor is used,
-	 * this is because of the nature of the Runnable interface.
+	 * Main loop that runs the game, due to the nature of the Runnable interface
+	 * this function is automatically called in the super() constructor.
 	 */
 	@Override
 	public void run() {
@@ -145,11 +170,18 @@ public class StealthGame implements Runnable {
 		}
 	}
 
+	/**
+	 * Updates the current game state.
+	 */
 	public void tick() {
 		level.tick();
 		// player.getRoom().draw(renderer);
 	}
 
+	/**
+	 * Gets the rendered image of the current scene (as a BufferedImage) and
+	 * sends it to the main frame.
+	 */
 	public void render() {
 		mainFrame.setImage(renderer.render());
 	}
@@ -224,6 +256,8 @@ public class StealthGame implements Runnable {
 	public final GameServer getServer() {
 		return server;
 	}
+
+	/** RENDERER METHODS **/
 
 	public boolean r_addCamera(R_AbstractCamera camera) {
 		return renderer.addCamera(camera);
