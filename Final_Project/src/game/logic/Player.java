@@ -134,6 +134,12 @@ public class Player {
 		this.y = y;
 	}
 
+	public void setRot(double rot) {
+		if (model != null)
+			model.getOrientation().setY((float) rot);
+		this.rotation = rot;
+	}
+
 	/**
 	 * Gets rotation/direction of player 0 being up y-axis
 	 *
@@ -303,5 +309,4 @@ public class Player {
 	public final void setModel(R_Player model) {
 		this.model = model;
 	}
-
 }

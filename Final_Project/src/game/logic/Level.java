@@ -123,6 +123,7 @@ public class Level {
 		Player p = getPlayer(username);
 		p.setX(x);
 		p.setY(z);
+		p.setRot(rot);
 	}
 
 	private Player getPlayer(String username) {
