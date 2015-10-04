@@ -23,9 +23,11 @@ import renderer.math.Vec3;
 public class Player {
 
 	private final String username;
-	public static final double TURN_SPEED = 0.01;
 
-	private double moveSpeed = 0.001;
+	public static final double TURN_SPEED = 0.1;
+	public static final double MAX_SPEED = 0.1;
+
+	private double moveSpeed = 0.1;
 	private R_Player model;
 
 	private double x, y;
@@ -76,8 +78,8 @@ public class Player {
 
 		if (moveFoward) {
 			isMoving = true;
-			double newY = y + moveSpeed * Math.cos(Math.toRadians(rotation));
-			double newX = x + moveSpeed * Math.sin(Math.toRadians(rotation));
+			double newY = y + moveSpeed * Math.cos(rotation);
+			double newX = x + moveSpeed * Math.sin(rotation);
 			if (currentRoom != null) {
 				// && currentRoom.validPosition(this, newX, newY)) {
 				System.out.println("old x: " + model.getPosition().getX());
@@ -91,8 +93,8 @@ public class Player {
 
 		if (moveBackward) {
 			isMoving = true;
-			double newY = y - moveSpeed * Math.cos(Math.toRadians(rotation));
-			double newX = x - moveSpeed * Math.sin(Math.toRadians(rotation));
+			double newY = y - moveSpeed * Math.cos(rotation);
+			double newX = x - moveSpeed * Math.sin(rotation);
 			if (currentRoom != null) {
 				// && currentRoom.validPosition(this, newX, newY)) {
 				System.out.println("old x: " + model.getPosition().getX());
@@ -219,6 +221,7 @@ public class Player {
 		if (model != null)
 			model.getOrientation().setY((float) rot);
 		this.rotation = rot;
+		System.out.println(username + "rot: " + rot);
 	}
 
 	/**
