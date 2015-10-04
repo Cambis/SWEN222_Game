@@ -1,5 +1,6 @@
 # SWEN222_Game Stealth
-Final Project for SWEN222 MMXVI
+Final Project for SWEN222 MMXV
+
 Bieleski, Bryers, Gill and Thompson MMXV
 
 Welcome to our game Stealth Pre Alpha! (working title)
