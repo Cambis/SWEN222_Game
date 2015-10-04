@@ -24,10 +24,11 @@ public class Player {
 
 	private final String username;
 
-	public static final double TURN_SPEED = 0.1;
-	public static final double MAX_SPEED = 0.1;
+	public static final double TURN_SPEED = 0.05;
+	public static final double MAX_VELOCITY = 0.1;
 
-	private double moveSpeed = 0.1;
+	private double moveSpeed = 0.05;
+	private double accel = 0.1;
 	private R_Player model;
 
 	private double x, y;
@@ -57,6 +58,10 @@ public class Player {
 		this.rotation = rotation;
 	}
 
+	public void resetSpeed() {
+		accel = 0;
+	}
+
 	/**
 	 * Tick method called every tick, should move player, shoot if able and
 	 * update timers.
@@ -78,29 +83,31 @@ public class Player {
 
 		if (moveFoward) {
 			isMoving = true;
-			double newY = y + moveSpeed * Math.cos(rotation);
-			double newX = x + moveSpeed * Math.sin(rotation);
+			accel = (accel < 1) ? accel + 0.1 : 1;
+			System.out.println("ACCEL: " + accel);
+			double newY = y + (MAX_VELOCITY * accel) * Math.cos(rotation);
+			double newX = x + (MAX_VELOCITY * accel) * Math.sin(rotation);
 			if (currentRoom != null) {
 				// && currentRoom.validPosition(this, newX, newY)) {
-				System.out.println("old x: " + model.getPosition().getX());
+				// System.out.println("old x: " + model.getPosition().getX());
 				model.getPosition().setX((float) newX);
 				model.getPosition().setZ((float) newY);
-				System.out.println("new x: " + model.getPosition().getX());
+				// System.out.println("new x: " + model.getPosition().getX());
 				x = newX;
 				y = newY;
 			}
 		}
-
 		if (moveBackward) {
 			isMoving = true;
-			double newY = y - moveSpeed * Math.cos(rotation);
-			double newX = x - moveSpeed * Math.sin(rotation);
+			accel = (accel < 1) ? accel + 0.1 : 1;
+			double newY = y - (MAX_VELOCITY * accel) * Math.cos(rotation);
+			double newX = x - (MAX_VELOCITY * accel) * Math.sin(rotation);
 			if (currentRoom != null) {
 				// && currentRoom.validPosition(this, newX, newY)) {
-				System.out.println("old x: " + model.getPosition().getX());
+				// System.out.println("old x: " + model.getPosition().getX());
 				model.getPosition().setX((float) newX);
 				model.getPosition().setZ((float) newY);
-				System.out.println("new x: " + model.getPosition().getX());
+				// System.out.println("new x: " + model.getPosition().getX());
 				x = newX;
 				y = newY;
 			}
@@ -261,6 +268,8 @@ public class Player {
 
 	public final void setMoving(boolean isMoving) {
 		this.isMoving = isMoving;
+		if (!this.isMoving)
+			resetSpeed();
 	}
 
 	// Andrew's bit working on now
