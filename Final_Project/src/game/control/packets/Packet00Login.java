@@ -14,6 +14,7 @@ import game.control.GameServer;
 public class Packet00Login extends Packet {
 
 	private final String username;
+	private final double x, z, rotation;
 
 	/**
 	 * Constructor intended for sending data
@@ -22,7 +23,13 @@ public class Packet00Login extends Packet {
 	 */
 	public Packet00Login(byte[] data) {
 		super(00);
-		this.username = readData(data);
+
+		String[] dataArray = readData(data).split(",");
+
+		this.username = dataArray[0];
+		this.x = Double.parseDouble(dataArray[1]);
+		this.z = Double.parseDouble(dataArray[2]);
+		this.rotation = Double.parseDouble(dataArray[2]);
 	}
 
 	/**
@@ -30,9 +37,12 @@ public class Packet00Login extends Packet {
 	 *
 	 * @param username
 	 */
-	public Packet00Login(String username) {
+	public Packet00Login(String username, double x, double z, double rotation) {
 		super(00);
 		this.username = username;
+		this.x = x;
+		this.z = z;
+		this.rotation = rotation;
 	}
 
 	@Override
@@ -47,7 +57,7 @@ public class Packet00Login extends Packet {
 
 	@Override
 	public byte[] getData() {
-		return ("00" + this.username).getBytes();
+		return ("00" + this.username + "," + x + "," + z + "," + rotation).getBytes();
 	}
 
 	public String getUsername() {

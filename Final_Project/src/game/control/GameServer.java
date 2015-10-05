@@ -196,7 +196,7 @@ public class GameServer extends Thread {
 
 				// Relay to the new player that the currently connect player
 				// exists
-				packet = new Packet00Login(p.getUsername());
+				packet = new Packet00Login(p.getUsername(), p.getX(), p.getY(), p.getRotation());
 				sendData(packet.getData(), player.getIpAddress(),
 						player.getPort());
 			}
@@ -232,6 +232,9 @@ public class GameServer extends Thread {
 
 		// TODO update player fields here
 
+		player.setX(packet.getX());
+		player.setY(packet.getZ());
+		player.setRot(packet.getDirection());
 		packet.writeData(this);
 	}
 

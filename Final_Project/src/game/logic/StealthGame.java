@@ -137,7 +137,7 @@ public class StealthGame implements Runnable {
 		client.start();
 
 		// Login to the server
-		Packet00Login login = new Packet00Login(player.getUsername());
+		Packet00Login login = new Packet00Login(player.getUsername(), 0, 0, 0);
 		if (server != null)
 			server.addConnection((PlayerMP) player, login);
 		login.writeData(client);

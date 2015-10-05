@@ -42,7 +42,7 @@ public class TestPush {
 		else
 			player = new PlayerMP(user, null, -1);
 
-		Packet00Login login = new Packet00Login(player.getUsername());
+		Packet00Login login = new Packet00Login(player.getUsername(), 0, 0, 0);
 		if (server != null)
 			server.addConnection((PlayerMP) player, login);
 		login.writeData(client);
