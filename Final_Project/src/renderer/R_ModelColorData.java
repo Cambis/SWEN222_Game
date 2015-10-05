@@ -51,9 +51,9 @@ public class R_ModelColorData extends R_AbstractModelData {
 	}
 
 	@Override
-	protected void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix, Mat4 modelMatrix) {
+	protected void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix, Mat4 modelMatrix, List<Light> lights) {
 		for (Polygon p : polys){
-			p.draw(viewport, zBuffer, width, height, viewProjMatrix, modelMatrix, col);
+			p.draw(viewport, zBuffer, width, height, viewProjMatrix, modelMatrix, col, lights);
 		}
 	}
 }

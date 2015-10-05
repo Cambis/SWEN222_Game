@@ -1,6 +1,7 @@
 package renderer;
 
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import renderer.math.Mat4;
 import renderer.math.Vec3;
@@ -54,7 +55,7 @@ public abstract class R_AbstractModel {
 		return model;
 	}
 
-	protected void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix) {
+	protected void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix, List<Light> lights) {
 		// Translate to position
 		Mat4 modelMatrix = Mat4.createTranslate(position);
 
@@ -71,6 +72,6 @@ public abstract class R_AbstractModel {
 		modelMatrix = modelMatrix.mul(Mat4.createScale(scale));
 
 		// Finally draw object
-		model.draw(viewport, zBuffer, width, height, viewProjMatrix, modelMatrix);
+		model.draw(viewport, zBuffer, width, height, viewProjMatrix, modelMatrix, lights);
 	}
 }

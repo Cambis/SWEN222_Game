@@ -18,5 +18,5 @@ public abstract class R_AbstractModelData {
 		return name;
 	}
 
-	protected abstract void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix, Mat4 modelMatrix);
+	protected abstract void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix, Mat4 modelMatrix, List<Light> lights);
 }
