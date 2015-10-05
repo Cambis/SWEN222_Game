@@ -17,7 +17,7 @@ import renderer.R_Player;
 import renderer.R_Player.Team;
 import renderer.math.Vec3;
 
-public class Level {
+public class Level_Old {
 
 	private List<Room> rooms = new ArrayList<Room>();
 	private List<Player> players = new ArrayList<Player>();
@@ -27,12 +27,12 @@ public class Level {
 	private R_Player playerMod;
 	float val = 0;
 
-	public Level(StealthGame game) {
+	public Level_Old(StealthGame game) {
 		this.game = game;
 		setupRender();
 	}
 
-	public Level(StealthGame game, String filename) {
+	public Level_Old(StealthGame game, String filename) {
 		this.game = game;
 		loadRooms(filename);
 		setupRender();

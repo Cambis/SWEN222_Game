@@ -106,7 +106,7 @@ public class StealthGame implements Runnable {
 
 		renderer = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
 		R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", new Vec3(50, 50,
-				50), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 2);
+				50), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 1.5f);
 		r_addCamera(ortho);
 		r_setCamera(ortho.getName());
 
@@ -137,7 +137,7 @@ public class StealthGame implements Runnable {
 		client.start();
 
 		// Login to the server
-		Packet00Login login = new Packet00Login(player.getUsername());
+		Packet00Login login = new Packet00Login(player.getUsername(), 0, 0, 0);
 		if (server != null)
 			server.addConnection((PlayerMP) player, login);
 		login.writeData(client);
@@ -214,7 +214,7 @@ public class StealthGame implements Runnable {
 	/**
 	 * Updates the current game state.
 	 */
-	public void tick() {
+	public synchronized void tick() {
 		level.tick();
 		// player.getRoom().draw(renderer);
 	}
@@ -223,7 +223,7 @@ public class StealthGame implements Runnable {
 	 * Gets the rendered image of the current scene (as a BufferedImage) and
 	 * sends it to the main frame.
 	 */
-	public void render() {
+	public synchronized void render() {
 		mainFrame.setImage(renderer.render());
 	}
 

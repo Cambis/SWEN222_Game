@@ -90,7 +90,11 @@ public class Level {
 	}
 
 	public void addPlayer(Player p) {
+
 		players.add(p);
+
+		Vec3 trans = new Vec3(p.getX(), 0, p.getY());
+		Vec3 rot = new Vec3(0, -p.getRotation(), 0);
 
 		// Assign a model to the player
 		R_Player pl = new R_Player(p.getUsername(),

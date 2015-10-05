@@ -5,7 +5,9 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferInt;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import renderer.math.Mat4;
 import renderer.math.Vec3;
@@ -24,6 +26,9 @@ public class Renderer {
 
 	// The map of all cameras inside the scene
 	private HashMap<String, R_AbstractCamera> cameraMap;
+
+	// The map of all players inside the scene
+	private HashMap<String, R_Player> playerMap;
 
 	// The currently selected camera to use
 	private R_AbstractCamera currentCam;
@@ -47,6 +52,7 @@ public class Renderer {
 		modelDataMap = new HashMap<String, R_AbstractModelData>();
 		modelMap = new HashMap<String, R_AbstractModel>();
 		cameraMap = new HashMap<String, R_AbstractCamera>();
+		playerMap = new HashMap<String, R_Player>();
 		addCamera(currentCam);
 	}
 
@@ -61,6 +67,9 @@ public class Renderer {
 			return false;
 		}
 		modelMap.put(m.getName(), m);
+		if (m instanceof R_Player){
+			playerMap.put(m.getName(), (R_Player)m);
+		}
 		return true;
 	}
 
@@ -215,10 +224,15 @@ public class Renderer {
 
 		int[] buf = ((DataBufferInt) viewport.getRaster().getDataBuffer()).getData();
 
+		List<Light> lights = new ArrayList<Light>();
+		for (R_Player m : playerMap.values()){
+			lights.add(new Light(m.getPosition(), m.getOrientation()));
+		}
+
 		// Draw Model
 		final Mat4 matrix = matrixStack;
 		for (R_AbstractModel m : modelMap.values()){
-			m.draw(buf, zBuffer, viewport.getWidth(), viewport.getHeight(), matrix);
+			m.draw(buf, zBuffer, viewport.getWidth(), viewport.getHeight(), matrix, lights);
 		}
 
 

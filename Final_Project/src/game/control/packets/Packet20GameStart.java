@@ -6,8 +6,9 @@ import game.control.GameServer;
 /**
  * This packet is sent when the game is ready to start.
  *
- * GAME_START = 20
+ * GAME_START = 20 + String username + "," + double x + "," + double y...
  *
+ * TODO: this packet should determine the starting positions for the players
  * @author Bieleski, Bryers, Gill & Thompson MMXV.
  *
  */

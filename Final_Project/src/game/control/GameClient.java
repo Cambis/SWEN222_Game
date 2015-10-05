@@ -175,7 +175,8 @@ public class GameClient extends Thread {
 				+ ((Packet00Login) packet).getUsername()
 				+ " has joined the game...");
 
-		PlayerMP player = new PlayerMP(packet.getUsername(), 1, 1, 0, address, port);
+		PlayerMP player = new PlayerMP(packet.getUsername(), packet.getX(),
+				packet.getZ(), packet.getRotation(), address, port);
 		game.addPlayer(player);
 	}
 
