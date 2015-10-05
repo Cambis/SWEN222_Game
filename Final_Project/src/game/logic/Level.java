@@ -90,12 +90,16 @@ public class Level {
 	}
 
 	public void addPlayer(Player p) {
+
 		players.add(p);
+
+		Vec3 trans = new Vec3(p.getX(), 0, p.getY());
+		Vec3 rot = new Vec3(0, -p.getRotation(), 0);
 
 		// Assign a model to the player
 		R_Player pl = new R_Player(p.getUsername(),
-				game.getR_ModelData("Test"), Team.GUARD, Vec3.Zero(),
-				Vec3.Zero(), new Vec3(0.2, 0.2, 0.2));
+				game.getR_ModelData("Test"), Team.GUARD, trans,
+				rot, new Vec3(0.2, 0.2, 0.2));
 		p.setModel(pl);
 
 		// TODO set rooms properly

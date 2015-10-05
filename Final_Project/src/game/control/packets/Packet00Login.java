@@ -63,4 +63,16 @@ public class Packet00Login extends Packet {
 	public String getUsername() {
 		return username.trim();
 	}
+
+	public final double getX() {
+		return x;
+	}
+
+	public final double getZ() {
+		return z;
+	}
+
+	public final double getRotation() {
+		return rotation;
+	}
 }

@@ -214,7 +214,7 @@ public class StealthGame implements Runnable {
 	/**
 	 * Updates the current game state.
 	 */
-	public void tick() {
+	public synchronized void tick() {
 		level.tick();
 		// player.getRoom().draw(renderer);
 	}
@@ -223,7 +223,7 @@ public class StealthGame implements Runnable {
 	 * Gets the rendered image of the current scene (as a BufferedImage) and
 	 * sends it to the main frame.
 	 */
-	public void render() {
+	public synchronized void render() {
 		mainFrame.setImage(renderer.render());
 	}
 
