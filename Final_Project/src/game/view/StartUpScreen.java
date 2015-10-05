@@ -114,7 +114,7 @@ public class StartUpScreen extends JPanel {
 		hostBtn.draw(g);
 	}
 
-	private String[] showLoginWindow() {
+	private String[] showLoginWindowClient() {
 		JTextField username = new JTextField();
 		JTextField ip = new JTextField();
 		Object[] message = { "Username:", username, "IP:", ip };
@@ -129,8 +129,22 @@ public class StartUpScreen extends JPanel {
 		return null;
 	}
 
+	private String[] showLoginWindowHost() {
+		JTextField username = new JTextField();
+		Object[] message = { "Username:", username};
+
+		int option = JOptionPane.showConfirmDialog(null, message, "Login",
+				JOptionPane.OK_CANCEL_OPTION);
+		if (option == JOptionPane.OK_OPTION) {
+			return new String[] { username.getText()};
+		} else {
+			System.out.println("Login canceled");
+		}
+		return null;
+	}
+
 	private void join() {
-		String[] login = showLoginWindow();
+		String[] login = showLoginWindowClient();
 		if(login==null){
 			return;
 		}
@@ -142,7 +156,7 @@ public class StartUpScreen extends JPanel {
 	}
 
 	private void host() {
-		String[] login = showLoginWindow();
+		String[] login = showLoginWindowHost();
 		if(login==null){
 			return;
 		}
