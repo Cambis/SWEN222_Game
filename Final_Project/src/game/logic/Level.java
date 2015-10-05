@@ -95,7 +95,7 @@ public class Level {
 		// Assign a model to the player
 		R_Player pl = new R_Player(p.getUsername(),
 				game.getR_ModelData("Test"), Team.GUARD, Vec3.Zero(),
-				Vec3.Zero(), new Vec3(0.2, 0.2, 0.2));
+				Vec3.Zero(), new Vec3(0.1, 0.1, 0.1));
 		p.setModel(pl);
 
 		// TODO set rooms properly
