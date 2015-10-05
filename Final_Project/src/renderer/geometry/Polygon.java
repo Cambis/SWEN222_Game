@@ -2,7 +2,9 @@ package renderer.geometry;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
+import renderer.Light;
 import renderer.math.Mat4;
 import renderer.math.Vec3;
 
@@ -43,7 +45,8 @@ public class Polygon {
 		v[i2] = temp;
 	}
 
-	public void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix, Mat4 modelMatrix, Color col) {
+	public void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix, Mat4 modelMatrix, Color col,
+			List<Light> lights) {
 		Vertex modV1 = new Vertex(modelMatrix.mul(v1.getPosition()));
 		Vertex modV2 = new Vertex(modelMatrix.mul(v2.getPosition()));
 		Vertex modV3 = new Vertex(modelMatrix.mul(v3.getPosition()));
@@ -85,14 +88,19 @@ public class Polygon {
 		float spot = 0;
 		Vec3 normal = (modV3.getPosition().sub(modV2.getPosition())).cross(modV2.getPosition().sub(modV1.getPosition()));
 
-		Vec3 vdir = tempV1.getPosition().sub(new Vec3(0, 1, 0));
-		Vec3 ldir = new Vec3(-1, -1, 0);
-		if (vdir.dot(ldir) > 0.8){
-			spot = Math.max(0, Math.min(1, normal.dot(ldir)));
-		}
-		Vec3 amb = new Vec3(0.25f, 0.25f, 0.25f);
-		float light = spot + Math.max(0, Math.min(1, normal.dot(new Vec3(-0.5f, -0.25f, -0.5f))));
+		Vec3 positionAvg = modV1.getPosition().add(
+								modV2.getPosition().add(
+										modV3.getPosition())).div(new Vec3(3, 3, 3));
+		float light = 0;
 
+		for (Light l : lights){
+			Vec3 vdir = positionAvg.sub(l.getPosition());
+			if (vdir.dot(l.getDirection()) > 0.8){
+				light += Math.max(0, Math.min(1, normal.dot(vdir)));
+			}
+		}
+
+		Vec3 amb = new Vec3(0.25f, 0.25f, 0.25f);
 		int c = new Color((int)(Math.max(0, Math.min(255, col.getRed() * (amb.getX() + light)))),
 					      (int)(Math.max(0, Math.min(255, col.getGreen() * (amb.getY() + light)))),
 						  (int)(Math.max(0, Math.min(255, col.getBlue() * (amb.getZ() + light))))).getRGB();
