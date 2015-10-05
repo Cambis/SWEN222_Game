@@ -9,6 +9,7 @@ import game.control.packets.Packet06Interact;
 import game.control.packets.Packet07Equip;
 import game.control.packets.Packet.PacketType;
 import game.logic.StealthGame;
+import game.view.StartUpScreen;
 import game.control.packets.Packet01Disconnect;
 import game.control.packets.Packet02Move;
 import game.control.packets.Packet20GameStart;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -32,6 +34,7 @@ import java.net.UnknownHostException;
 public class GameClient extends Thread {
 
 	private static final boolean DEBUG = StealthGame.DEBUG;
+	public static final boolean LOCAL = false;
 
 	private InetAddress ipAddress;
 	private DatagramSocket socket;
@@ -39,13 +42,19 @@ public class GameClient extends Thread {
 	//
 	private StealthGame game;
 
-	// TODO this constructor needs to take in a Game paramter
 	public GameClient(String ipAddress, StealthGame game) {
 
 		this.game = game;
 
 		// Setup socket
 		try {
+//			if (ipAddress.equals("localhost")) {
+//				this.socket = new DatagramSocket();
+//			} else {
+//				this.socket = new DatagramSocket(null);
+//				this.socket.bind(new InetSocketAddress(InetAddress
+//						.getByName(ipAddress), 1337));
+//			}
 			this.socket = new DatagramSocket();
 		} catch (SocketException e) {
 			e.printStackTrace();
@@ -53,10 +62,15 @@ public class GameClient extends Thread {
 
 		// Setup ipAddress
 		try {
+			System.out.println("ipAddress: [ " + ipAddress + " ]");
 			this.ipAddress = InetAddress.getByName(ipAddress);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
+			game.stop();
+			System.exit(0);
+			new StartUpScreen();
 		}
+
 	}
 
 	/**

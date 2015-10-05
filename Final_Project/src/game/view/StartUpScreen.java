@@ -26,6 +26,8 @@ import javax.swing.JTextField;
 
 public class StartUpScreen extends JPanel {
 
+	public static boolean LOCAL = true;
+
 	private final int WIDTH = 680;
 	private final int HEIGHT = 420;
 	private final int BTN_WIDTH = 250;
@@ -114,13 +116,13 @@ public class StartUpScreen extends JPanel {
 
 	private String[] showLoginWindow() {
 		JTextField username = new JTextField();
-		JTextField password = new JPasswordField();
-		Object[] message = { "Username:", username, "Password:", password };
+		JTextField ip = new JTextField();
+		Object[] message = { "Username:", username, "IP:", ip };
 
 		int option = JOptionPane.showConfirmDialog(null, message, "Login",
 				JOptionPane.OK_CANCEL_OPTION);
 		if (option == JOptionPane.OK_OPTION) {
-			return new String[] { username.getText(), password.getText() };
+			return new String[] { username.getText(), ip.getText() };
 		} else {
 			System.out.println("Login canceled");
 		}
@@ -133,7 +135,7 @@ public class StartUpScreen extends JPanel {
 			return;
 		}
 		// TestPush client = new TestPush(false, login[0], login[1]);
-		StealthGame game = new StealthGame(false, login[0]);
+		StealthGame game = new StealthGame(false, login[0], login[1]);
 		game.start();
 		// new MainFrame();
 		frame.dispose();
@@ -144,7 +146,8 @@ public class StartUpScreen extends JPanel {
 		if(login==null){
 			return;
 		}
-		StealthGame game = new StealthGame(true, login[0]);
+		login[1] = (login[1] == null) ? "localhost" : login[1];
+		StealthGame game = new StealthGame(true, login[0], login[1]);
 		game.start();
 		// TestPush host = new TestPush(true, login[0], login[1]);
 		frame.dispose();
