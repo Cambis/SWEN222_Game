@@ -9,6 +9,7 @@ import game.control.packets.Packet06Interact;
 import game.control.packets.Packet07Equip;
 import game.control.packets.Packet.PacketType;
 import game.logic.StealthGame;
+import game.view.StartUpScreen;
 import game.control.packets.Packet01Disconnect;
 import game.control.packets.Packet02Move;
 import game.control.packets.Packet20GameStart;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -32,6 +34,7 @@ import java.net.UnknownHostException;
 public class GameClient extends Thread {
 
 	private static final boolean DEBUG = StealthGame.DEBUG;
+	private static final boolean LOCAL = false;
 
 	private InetAddress ipAddress;
 	private DatagramSocket socket;
@@ -54,9 +57,16 @@ public class GameClient extends Thread {
 		// Setup ipAddress
 		try {
 			this.ipAddress = InetAddress.getByName(ipAddress);
-		} catch (UnknownHostException e) {
+			if (!LOCAL) {
+				this.socket.bind(new InetSocketAddress(InetAddress.getByName(ipAddress), this.socket.getPort()));
+			}
+		} catch (SocketException | UnknownHostException e) {
 			e.printStackTrace();
+			game.stop();
+			new StartUpScreen();
 		}
+
+
 	}
 
 	/**

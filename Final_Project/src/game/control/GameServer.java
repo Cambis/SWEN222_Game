@@ -348,4 +348,13 @@ public class GameServer extends Thread {
 		for (PlayerMP p : connectedPlayers)
 			sendData(data, p.getIpAddress(), p.getPort());
 	}
+
+	/**
+	 * Get IP address so clients can connect to it.
+	 * @return
+	 */
+	public String getIPAddress() {
+		return socket.getInetAddress().getHostAddress();
+	}
+
 }

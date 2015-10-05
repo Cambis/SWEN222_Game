@@ -37,6 +37,9 @@ public class StealthGame implements Runnable {
 	// hosting a game.
 	private GameServer server;
 
+	// IPAddress entered by the user
+	private final String ipAddress;
+
 	// True IFF player is hosting
 	private boolean isHost = false;
 
@@ -69,8 +72,13 @@ public class StealthGame implements Runnable {
 	 * @param username
 	 *            - username for the player
 	 */
-	public StealthGame(boolean isHost, String username) {
+	public StealthGame(boolean isHost, String username, String ipAddress) {
 		this.isHost = isHost;
+		this.ipAddress = (ipAddress == null || ipAddress.length() == 0)
+				// Running on one computer for testing
+				? "localhost"
+				// Running on multiple for playing the actual game
+				: ipAddress;
 		player = new PlayerMP(username, 0, 0, 0, null, -1);
 		init();
 	}
@@ -133,7 +141,7 @@ public class StealthGame implements Runnable {
 		}
 
 		// Client should always be created
-		client = new GameClient("localhost", this);
+		client = new GameClient(ipAddress, this);
 		client.start();
 
 		// Login to the server
@@ -141,6 +149,8 @@ public class StealthGame implements Runnable {
 		if (server != null)
 			server.addConnection((PlayerMP) player, login);
 		login.writeData(client);
+
+		if (DEBUG) System.out.println(player.getUsername() + " running on " + ipAddress);
 	}
 
 	/**
@@ -214,7 +224,7 @@ public class StealthGame implements Runnable {
 	/**
 	 * Updates the current game state.
 	 */
-	public synchronized void tick() {
+	public void tick() {
 		level.tick();
 		// player.getRoom().draw(renderer);
 	}
@@ -223,7 +233,7 @@ public class StealthGame implements Runnable {
 	 * Gets the rendered image of the current scene (as a BufferedImage) and
 	 * sends it to the main frame.
 	 */
-	public synchronized void render() {
+	public void render() {
 		mainFrame.setImage(renderer.render());
 	}
 
