@@ -114,7 +114,7 @@ public class StealthGame implements Runnable {
 
 		renderer = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
 		R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", new Vec3(50, 50,
-				50), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 1f);
+				50), new Vec3(1, 0, 1), Vec3.UnitY(), 1, 1000, 1f);
 		r_addCamera(ortho);
 		r_setCamera(ortho.getName());
 

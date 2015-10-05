@@ -212,7 +212,7 @@ public class Renderer {
 
 	/**
 	 * Renders the scene and returns a buffered image of the render
-	 * 
+	 *
 	 * @return the BufferedImage of the rendered scene
 	 */
 	public BufferedImage render() {

@@ -49,7 +49,6 @@ public class R_OrthoCamera extends R_AbstractCamera{
 	 */
 	@Override
 	protected Mat4 getProjection() {
-
 		return Mat4.createOrtho(-aspect*scale, aspect*scale, scale, -scale, near, far);
 	}
 }
