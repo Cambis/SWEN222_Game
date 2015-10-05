@@ -114,13 +114,13 @@ public class StealthGame implements Runnable {
 
 		renderer = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
 		R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", new Vec3(50, 50,
-				50), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 1.5f);
+				50), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 1f);
 		r_addCamera(ortho);
 		r_setCamera(ortho.getName());
 
 		// Adds a new model
 		R_ModelColorData modelData = new R_ModelColorData("Test",
-				"res/Guard.obj", Color.RED);
+				"res/Models/Spy.obj", new Color(225, 180, 105));
 		r_addModelData(modelData);
 	}
 

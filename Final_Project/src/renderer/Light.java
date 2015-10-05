@@ -9,7 +9,7 @@ public class Light {
 	public Light(Vec3 position, Vec3 direction) {
 		super();
 		this.position = position.add(new Vec3(0, 0.2f, 0));
-		this.direction = new Vec3(Math.sin(direction.getY()), -0.1f, Math.cos(direction.getY()));
+		this.direction = new Vec3(Math.sin(direction.getY()), -0.5f, Math.cos(direction.getY()));
 	}
 	public Vec3 getPosition() {
 		return position;
