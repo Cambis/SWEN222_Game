@@ -32,6 +32,7 @@ public class Player {
 	private R_Player model;
 
 	private double x, y;
+	private double xBoundingBox, yBoundingBox;
 	private double rotation;
 	private Room currentRoom = null;
 	private boolean isMoving, turnLeft, turnRight, moveFoward, moveBackward,

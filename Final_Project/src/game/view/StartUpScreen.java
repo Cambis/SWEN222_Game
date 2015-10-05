@@ -129,6 +129,20 @@ public class StartUpScreen extends JPanel {
 		return null;
 	}
 
+	private String[] showHostWindow() {
+		JTextField username = new JTextField();
+		Object[] message = { "Username:", username };
+
+		int option = JOptionPane.showConfirmDialog(null, message, "Login",
+				JOptionPane.OK_CANCEL_OPTION);
+		if (option == JOptionPane.OK_OPTION) {
+			return new String[] { username.getText()};
+		} else {
+			System.out.println("Login canceled");
+		}
+		return null;
+	}
+
 	private void join() {
 		String[] login = showLoginWindow();
 		if(login==null){
