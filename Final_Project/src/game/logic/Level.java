@@ -1,6 +1,8 @@
 package game.logic;
 
 import game.control.packets.Packet02Move;
+import game.logic.world.Tile;
+import game.logic.world.Wall;
 
 import java.awt.Color;
 import java.io.File;
@@ -95,7 +97,7 @@ public class Level {
 		// Assign a model to the player
 		R_Player pl = new R_Player(p.getUsername(),
 				game.getR_ModelData("Test"), Team.GUARD, Vec3.Zero(),
-				Vec3.Zero(), new Vec3(0.2, 0.2, 0.2));
+				Vec3.Zero(), new Vec3(0.1, 0.1, 0.1));
 		p.setModel(pl);
 
 		// TODO set rooms properly
@@ -123,6 +125,18 @@ public class Level {
 		return false;
 	}
 
+	/**
+	 * Move a player across the level given a position and a rotation.
+	 *
+	 * @param username
+	 *            - Identifies the player
+	 * @param x
+	 *            - New x coordinate
+	 * @param z
+	 *            - New y coordinate
+	 * @param rot
+	 *            - Amount to rotate by (radians)
+	 */
 	public void movePlayer(String username, double x, double z, double rot) {
 		Player p = getPlayer(username);
 
@@ -132,9 +146,31 @@ public class Level {
 		else
 			p.setMoving(false);
 
-		p.setX(x);
-		p.setY(z);
+		if (detectCollisions(p, x, z)) {
+			p.setX(x);
+			p.setY(z);
+		}
 		p.setRot(rot);
+	}
+
+	/**
+	 * Detects collisions.
+	 *
+	 * @param player
+	 * @param x
+	 * @param y
+	 * @return true iff no collisons were detected
+	 */
+	private boolean detectCollisions(Player player, double x, double y) {
+
+		// FIXME: does not work correctly
+		for (Room r : rooms) {
+			Tile t = r.getTile(player, x, y);
+			if (t instanceof Wall) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private Player getPlayer(String username) {

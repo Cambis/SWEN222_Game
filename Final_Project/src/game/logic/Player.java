@@ -59,6 +59,7 @@ public class Player {
 	}
 
 	public void resetSpeed() {
+		System.out.println("Resetting speed");
 		accel = 0;
 	}
 
