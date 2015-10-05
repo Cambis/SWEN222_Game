@@ -34,7 +34,7 @@ import java.net.UnknownHostException;
 public class GameClient extends Thread {
 
 	private static final boolean DEBUG = StealthGame.DEBUG;
-	private static final boolean LOCAL = false;
+	public static final boolean LOCAL = false;
 
 	private InetAddress ipAddress;
 	private DatagramSocket socket;
@@ -42,13 +42,19 @@ public class GameClient extends Thread {
 	//
 	private StealthGame game;
 
-	// TODO this constructor needs to take in a Game paramter
 	public GameClient(String ipAddress, StealthGame game) {
 
 		this.game = game;
 
 		// Setup socket
 		try {
+//			if (ipAddress.equals("localhost")) {
+//				this.socket = new DatagramSocket();
+//			} else {
+//				this.socket = new DatagramSocket(null);
+//				this.socket.bind(new InetSocketAddress(InetAddress
+//						.getByName(ipAddress), 1337));
+//			}
 			this.socket = new DatagramSocket();
 		} catch (SocketException e) {
 			e.printStackTrace();
@@ -56,16 +62,14 @@ public class GameClient extends Thread {
 
 		// Setup ipAddress
 		try {
+			System.out.println("ipAddress: [ " + ipAddress + " ]");
 			this.ipAddress = InetAddress.getByName(ipAddress);
-			if (!LOCAL) {
-				this.socket.bind(new InetSocketAddress(InetAddress.getByName(ipAddress), this.socket.getPort()));
-			}
-		} catch (SocketException | UnknownHostException e) {
+		} catch (UnknownHostException e) {
 			e.printStackTrace();
 			game.stop();
+			System.exit(0);
 			new StartUpScreen();
 		}
-
 
 	}
 

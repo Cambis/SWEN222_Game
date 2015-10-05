@@ -146,6 +146,7 @@ public class StartUpScreen extends JPanel {
 		if(login==null){
 			return;
 		}
+		login[1] = (login[1] == null) ? "localhost" : login[1];
 		StealthGame game = new StealthGame(true, login[0], login[1]);
 		game.start();
 		// TestPush host = new TestPush(true, login[0], login[1]);
