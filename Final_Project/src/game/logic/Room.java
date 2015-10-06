@@ -18,8 +18,8 @@ import renderer.Renderer.*;
 
 public class Room {
 
-	private final int TILE_SIZE = 10;
-	private final float SCALE = 0.02f;
+	private static final int TILE_SIZE = 10;
+	private static final float SCALE = 0.02f;
 
 	private Tile[][] tiles;
 	private int xSize = 0;
@@ -90,8 +90,10 @@ public class Room {
 	 *            , y
 	 */
 	public boolean validPosition(Player p, double x, double y) {
-		int tileX = (int) (x / TILE_SIZE);
-		int tileY = (int) (y / TILE_SIZE);
+		System.out.println("X: before : "+ x + " Y BEFORE : " +y);
+		int tileX = (int) ((x/SCALE)/TILE_SIZE);
+		int tileY = (int) ((y/SCALE)/TILE_SIZE);
+		System.out.println("X: TILE : "+ tileX + " Y TILE : " +tileY);
 		return tiles[tileX][tileY].canEnter(p);
 	}
 
