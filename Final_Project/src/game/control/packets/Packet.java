@@ -32,7 +32,8 @@ public abstract class Packet {
 		EQUIP(07),			// Player equipping an item
 		GAME_START(20),
 		GAME_OVER(21),
-		LOAD_LEVEL(22);
+		LOAD_LEVEL(22),
+		RECIEVE_ID(23);
 
 		private final int packetID;
 

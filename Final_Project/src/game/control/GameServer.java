@@ -13,6 +13,7 @@ import game.control.packets.Packet06Interact;
 import game.control.packets.Packet07Equip;
 import game.control.packets.Packet20GameStart;
 import game.control.packets.Packet22LoadLevel;
+import game.control.packets.Packet23RecieveID;
 import gameworld.TestPush;
 
 import java.io.IOException;
@@ -36,6 +37,8 @@ public class GameServer extends Thread {
 	private static final boolean DEBUG = StealthGame.DEBUG;
 	public static final int MIN_PLAYERS = 1;
 
+	public static final int ID_PREFIX = 10000;
+
 	private boolean gameStarted = false;
 
 	private DatagramSocket socket;
@@ -43,6 +46,7 @@ public class GameServer extends Thread {
 	private StealthGame game;
 
 	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
+	private boolean hostConnected = false;
 
 	public GameServer(StealthGame game) {
 
@@ -121,7 +125,6 @@ public class GameServer extends Thread {
 			}
 			break;
 
-
 		case DISCONNECT:
 			packet = new Packet01Disconnect(data);
 			System.out.println("[ " + address.getHostAddress() + " " + port
@@ -196,14 +199,26 @@ public class GameServer extends Thread {
 
 				// Relay to the new player that the currently connect player
 				// exists
-				packet = new Packet00Login(p.getUsername(), p.getX(), p.getY(), p.getRotation());
+				packet = new Packet00Login(p.getUsername(), p.getID(),
+						p.getX(), p.getY(), p.getRotation());
 				sendData(packet.getData(), player.getIpAddress(),
 						player.getPort());
 			}
 		}
 		if (!alreadyConnected) {
+			player.setID(ID_PREFIX + connectedPlayers.size());
+//			if (!hostConnected) {
+//				((PlayerMP) game.player).setID(ID_PREFIX
+//						+ connectedPlayers.size());
+//				hostConnected = true;
+//			}
 			connectedPlayers.add(player);
-			// System.out.println("Adding player " + connectedPlayers.size());
+			System.out.println("Adding player " + player.getUsername() + ": "
+					+ player.getID());
+			System.out.println("IP: " );
+			Packet23RecieveID id = new Packet23RecieveID(ID_PREFIX + connectedPlayers.size());
+			
+			// sendData(id.getData(), player.getIpAddress(), player.getPort());
 		}
 	}
 
@@ -228,9 +243,12 @@ public class GameServer extends Thread {
 		if (getPlayerMP(packet.getUsername()) == null)
 			return;
 
-		PlayerMP player = getPlayerMP(packet.getUsername());
+		System.out.println("PACKET ID: " + packet.getID());
+		PlayerMP player = getPlayerMP(packet.getID());
 
-		// TODO update player fields here
+		if (player == null) {
+			player = getPlayerMP(packet.getUsername());
+		}
 
 		player.setX(packet.getX());
 		player.setY(packet.getZ());
@@ -319,6 +337,13 @@ public class GameServer extends Thread {
 		return null;
 	}
 
+	public PlayerMP getPlayerMP(int id) {
+		for (PlayerMP p : connectedPlayers)
+			if (p.getID() == id)
+				return p;
+		return null;
+	}
+
 	/**
 	 * Send data to a specific client
 	 *
@@ -351,6 +376,7 @@ public class GameServer extends Thread {
 
 	/**
 	 * Get IP address so clients can connect to it.
+	 *
 	 * @return
 	 */
 	public String getIPAddress() {

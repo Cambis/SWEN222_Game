@@ -6,7 +6,7 @@ import game.control.GameServer;
 /**
  * This packet is sent when a client has moved.
  *
- * MOVE - 02 + "," + String username + "," + int pos.x + "," + int pos.y + "," +
+ * MOVE - 02 + "," + String username + "," + int id + "," + int pos.x + "," + int pos.y + "," +
  * int numOfSteps + "," + int isMoving(1:0) + "," + int dir(1:2:3:4)
  *
  * @author Bieleski, Bryers, Gill & Thompson MMXV.
@@ -15,6 +15,7 @@ import game.control.GameServer;
 public class Packet02Move extends Packet {
 
 	private String username;
+	private int uid;
 	private double x, z;
 
 	private int numOfSteps = 0;
@@ -36,13 +37,14 @@ public class Packet02Move extends Packet {
 
 		// Read the information
 		this.username = dataArray[0];
+		this.uid = Integer.parseInt(dataArray[1]);
 
-		this.x = Double.parseDouble(dataArray[1]);
-		this.z = Double.parseDouble(dataArray[2]);
+		this.x = Double.parseDouble(dataArray[2]);
+		this.z = Double.parseDouble(dataArray[3]);
 
-		this.numOfSteps = Integer.parseInt(dataArray[3]);
-		this.isMoving = Integer.parseInt(dataArray[4]) == 1;
-		this.direction = Double.parseDouble(dataArray[5]);
+		this.numOfSteps = Integer.parseInt(dataArray[4]);
+		this.isMoving = Integer.parseInt(dataArray[5]) == 1;
+		this.direction = Double.parseDouble(dataArray[6]);
 	}
 
 	/**
@@ -50,10 +52,11 @@ public class Packet02Move extends Packet {
 	 *
 	 * @param data
 	 */
-	public Packet02Move(String username, double x, double y, int numOfSteps,
+	public Packet02Move(String username, int id, double x, double y, int numOfSteps,
 			boolean isMoving, double direction) {
 		super(02);
 		this.username = username;
+		this.uid = id;
 		this.x = x;
 		this.z = y;
 		this.numOfSteps = numOfSteps;
@@ -73,7 +76,7 @@ public class Packet02Move extends Packet {
 
 	@Override
 	public byte[] getData() {
-		return ("02" + username + "," + x + "," + z + "," + numOfSteps + ","
+		return ("02" + username + "," + uid + "," + x + "," + z + "," + numOfSteps + ","
 				+ (isMoving ? 1 : 0) + "," + direction).getBytes();
 	}
 
@@ -99,6 +102,10 @@ public class Packet02Move extends Packet {
 
 	public double getDirection() {
 		return direction;
+	}
+
+	public final int getID() {
+		return uid;
 	}
 
 }

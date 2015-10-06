@@ -1,5 +1,6 @@
 package game.logic;
 
+import game.control.PlayerMP;
 import game.control.packets.Packet02Move;
 
 import java.awt.Color;
@@ -107,10 +108,6 @@ public class Level {
 		p.setRoom(rooms.get(0));
 		game.r_addModel(pl);
 
-		// IFF the minimum amount of players is reached, run the game.
-		// FIXME
-		// if (players.size() >= StealthGame.MIN_PLAYERS)
-		// game.run();
 	}
 
 	public boolean removePlayer(Player p) {
@@ -141,9 +138,21 @@ public class Level {
 		p.setRot(rot);
 	}
 
+	public void movePlayer(int id, double x, double z, double rot) {
+		movePlayer(getPlayer(id).getUsername(), x, z, rot);
+	}
+
 	private Player getPlayer(String username) {
 		for (Player p : players)
 			if (p.getUsername().equals(username))
+				return p;
+
+		return null;
+	}
+
+	private Player getPlayer(int id) {
+		for (Player p : players)
+			if (((PlayerMP) p).getID() == id)
 				return p;
 
 		return null;
@@ -154,7 +163,7 @@ public class Level {
 		for (Player p : players) {
 			p.tick();
 			if (p.isMoving()) {
-				Packet02Move packet = new Packet02Move(p.getUsername(),
+				Packet02Move packet = new Packet02Move(p.getUsername(), ((PlayerMP) p).getID(),
 						p.getX(), p.getY(), 0, true, p.getRotation());
 				packet.writeData(game.getClient());
 			}

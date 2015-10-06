@@ -8,6 +8,7 @@ import game.control.packets.Packet05Heal;
 import game.control.packets.Packet06Interact;
 import game.control.packets.Packet07Equip;
 import game.control.packets.Packet.PacketType;
+import game.control.packets.Packet23RecieveID;
 import game.logic.StealthGame;
 import game.view.StartUpScreen;
 import game.control.packets.Packet01Disconnect;
@@ -48,13 +49,13 @@ public class GameClient extends Thread {
 
 		// Setup socket
 		try {
-//			if (ipAddress.equals("localhost")) {
-//				this.socket = new DatagramSocket();
-//			} else {
-//				this.socket = new DatagramSocket(null);
-//				this.socket.bind(new InetSocketAddress(InetAddress
-//						.getByName(ipAddress), 1337));
-//			}
+			// if (ipAddress.equals("localhost")) {
+			// this.socket = new DatagramSocket();
+			// } else {
+			// this.socket = new DatagramSocket(null);
+			// this.socket.bind(new InetSocketAddress(InetAddress
+			// .getByName(ipAddress), 1337));
+			// }
 			this.socket = new DatagramSocket();
 		} catch (SocketException e) {
 			e.printStackTrace();
@@ -170,6 +171,11 @@ public class GameClient extends Thread {
 			handleLoadLevel((Packet22LoadLevel) packet);
 			break;
 
+		case RECIEVE_ID:
+			packet = new Packet23RecieveID(data);
+			handleReciveID((Packet23RecieveID) packet);
+			break;
+
 		default:
 			break;
 
@@ -191,6 +197,10 @@ public class GameClient extends Thread {
 
 		PlayerMP player = new PlayerMP(packet.getUsername(), packet.getX(),
 				packet.getZ(), packet.getRotation(), address, port);
+
+		System.out.println("Adding player: " + packet.getUsername() + " "
+				+ packet.getID());
+		player.setID(packet.getID());
 		game.addPlayer(player);
 	}
 
@@ -227,6 +237,11 @@ public class GameClient extends Thread {
 	private void handleLoadLevel(Packet22LoadLevel packet) {
 		System.out.println(packet.getFilename());
 		game.loadLevel(packet.getFilename());
+	}
+
+
+	private void handleReciveID(Packet23RecieveID packet) {
+		((PlayerMP) game.getPlayer()).setID(packet.getID());
 	}
 
 	/**

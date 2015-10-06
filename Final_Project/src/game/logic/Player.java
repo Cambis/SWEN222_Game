@@ -60,7 +60,7 @@ public class Player {
 	}
 
 	public void resetSpeed() {
-		System.out.println("Resetting speed");
+		// System.out.println("Resetting speed");
 		accel = 0;
 	}
 
@@ -86,7 +86,7 @@ public class Player {
 		if (moveFoward) {
 			isMoving = true;
 			accel = (accel < 1) ? accel + 0.1 : 1;
-			System.out.println("ACCEL: " + accel);
+			// System.out.println("ACCEL: " + accel);
 			double newY = y + (MAX_VELOCITY * accel) * Math.cos(rotation);
 			double newX = x + (MAX_VELOCITY * accel) * Math.sin(rotation);
 			if (currentRoom != null
@@ -230,7 +230,7 @@ public class Player {
 		if (model != null)
 			model.getOrientation().setY((float) rot);
 		this.rotation = rot;
-		System.out.println(username + "rot: " + rot);
+		// System.out.println(username + " rot: " + rot);
 	}
 
 	/**

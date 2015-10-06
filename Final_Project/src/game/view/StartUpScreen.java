@@ -114,7 +114,7 @@ public class StartUpScreen extends JPanel {
 		hostBtn.draw(g);
 	}
 
-	private String[] showLoginWindow() {
+	private String[] showLoginWindowClient() {
 		JTextField username = new JTextField();
 		JTextField ip = new JTextField();
 		Object[] message = { "Username:", username, "IP:", ip };
@@ -144,7 +144,7 @@ public class StartUpScreen extends JPanel {
 	}
 
 	private void join() {
-		String[] login = showLoginWindow();
+		String[] login = showLoginWindowClient();
 		if(login==null){
 			return;
 		}
@@ -156,12 +156,11 @@ public class StartUpScreen extends JPanel {
 	}
 
 	private void host() {
-		String[] login = showLoginWindow();
+		String[] login = showHostWindow();
 		if(login==null){
 			return;
 		}
-		login[1] = (login[1] == null) ? "localhost" : login[1];
-		StealthGame game = new StealthGame(true, login[0], login[1]);
+		StealthGame game = new StealthGame(true, login[0], "localhost");
 		game.start();
 		// TestPush host = new TestPush(true, login[0], login[1]);
 		frame.dispose();

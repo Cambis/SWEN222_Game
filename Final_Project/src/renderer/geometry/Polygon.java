@@ -9,35 +9,16 @@ import renderer.math.Mat4;
 import renderer.math.Vec3;
 
 public class Polygon {
-	private final Vertex v1;
-	private final Vertex v2;
-	private final Vertex v3;
+	private final int v1;
+	private final int v2;
+	private final int v3;
 
-	public Polygon(Vertex v1, Vertex v2, Vertex v3) {
+	public Polygon(int v1, int v2, int v3) {
 		super();
 		this.v1 = v1;
 		this.v2 = v2;
 		this.v3 = v3;
 	}
-
-
-
-	public Vertex getV1() {
-		return v1;
-	}
-
-
-
-	public Vertex getV2() {
-		return v2;
-	}
-
-
-
-	public Vertex getV3() {
-		return v3;
-	}
-
 
 	private void swap(Vertex v[], int i1, int i2){
 		Vertex temp = v[i1];
@@ -45,17 +26,12 @@ public class Polygon {
 		v[i2] = temp;
 	}
 
-	public void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix, Mat4 modelMatrix, Color col,
-			List<Light> lights) {
-		Vertex modV1 = new Vertex(modelMatrix.mul(v1.getPosition()));
-		Vertex modV2 = new Vertex(modelMatrix.mul(v2.getPosition()));
-		Vertex modV3 = new Vertex(modelMatrix.mul(v3.getPosition()));
+	public void draw(int[] viewport, float[][] zBuffer, int width, int height, Color col, List<Vertex> vertices, List<Light> lights) {
+		Vertex tempV1 = vertices.get(v1);
+		Vertex tempV2 = vertices.get(v2);
+		Vertex tempV3 = vertices.get(v3);
 
-		Vertex tempV1 = new Vertex(viewProjMatrix.mul(modV1.getPosition()));
-		Vertex tempV2 = new Vertex(viewProjMatrix.mul(modV2.getPosition()));
-		Vertex tempV3 = new Vertex(viewProjMatrix.mul(modV3.getPosition()));
-
-		Vec3 direction = (tempV3.getPosition().sub(tempV2.getPosition())).cross(tempV2.getPosition().sub(tempV1.getPosition()));
+		Vec3 direction = (tempV3.getProjected().sub(tempV2.getProjected())).cross(tempV2.getProjected().sub(tempV1.getProjected()));
 
 		if (direction.getZ() < 0){
 			return;
@@ -64,33 +40,33 @@ public class Polygon {
 		Vertex v[] = new Vertex[]{tempV1, tempV2, tempV3, tempV3};
 
 		// Sort vertices in order of -y to +y
-		if (v[0].getPosition().getY() > v[1].getPosition().getY()) {swap(v, 0, 1);}
-		if (v[1].getPosition().getY() > v[2].getPosition().getY()) {swap(v, 1, 2);}
-		if (v[0].getPosition().getY() > v[1].getPosition().getY()) {swap(v, 0, 1);}
+		if (v[0].getProjected().getY() > v[1].getProjected().getY()) {swap(v, 0, 1);}
+		if (v[1].getProjected().getY() > v[2].getProjected().getY()) {swap(v, 1, 2);}
+		if (v[0].getProjected().getY() > v[1].getProjected().getY()) {swap(v, 0, 1);}
 		v[3] = v[2];
 
 		// Find 4th coord
-		float yMid = v[1].getPosition().getY();
-		float xMid = v[0].getPosition().getX() + ((v[1].getPosition().getY() - v[0].getPosition().getY()) /
-												  (v[2].getPosition().getY() - v[0].getPosition().getY())) *
-												  (v[2].getPosition().getX() - v[0].getPosition().getX());
+		float yMid = v[1].getProjected().getY();
+		float xMid = v[0].getProjected().getX() + ((v[1].getProjected().getY() - v[0].getProjected().getY()) /
+												  (v[2].getProjected().getY() - v[0].getProjected().getY())) *
+												  (v[2].getProjected().getX() - v[0].getProjected().getX());
 
-		float zMid = v[0].getPosition().getZ() + ((v[1].getPosition().getY() - v[0].getPosition().getY()) /
-				  (v[2].getPosition().getY() - v[0].getPosition().getY())) *
-				  (v[2].getPosition().getZ() - v[0].getPosition().getZ());
+		float zMid = v[0].getProjected().getZ() + ((v[1].getProjected().getY() - v[0].getProjected().getY()) /
+				  (v[2].getProjected().getY() - v[0].getProjected().getY())) *
+				  (v[2].getProjected().getZ() - v[0].getProjected().getZ());
 
 		Vertex mid = new Vertex(xMid, yMid, zMid);
 		v[3] = v[2];
 		v[2] = mid;
-		if (v[1].getPosition().getX() > v[2].getPosition().getX()) {swap(v, 1, 2);}
+		if (v[1].getProjected().getX() > v[2].getProjected().getX()) {swap(v, 1, 2);}
 
 		// Light
 		float spot = 0;
-		Vec3 normal = (modV3.getPosition().sub(modV2.getPosition())).cross(modV2.getPosition().sub(modV1.getPosition()));
+		Vec3 normal = (tempV3.getWorld().sub(tempV2.getWorld())).cross(tempV2.getWorld().sub(tempV1.getWorld()));
 
-		Vec3 positionAvg = modV1.getPosition().add(
-								modV2.getPosition().add(
-										modV3.getPosition())).div(new Vec3(3, 3, 3));
+		Vec3 positionAvg = tempV1.getWorld().add(
+							tempV2.getWorld().add(
+									tempV3.getWorld())).div(new Vec3(3, 3, 3));
 		float light = 0;
 
 		for (Light l : lights){
@@ -105,26 +81,26 @@ public class Polygon {
 					      (int)(Math.max(0, Math.min(255, col.getGreen() * (amb.getY() + light)))),
 						  (int)(Math.max(0, Math.min(255, col.getBlue() * (amb.getZ() + light))))).getRGB();
 		// Fill top half
-		if (v[0].getPosition().getY() < v[1].getPosition().getY() && v[0].getPosition().getY() < v[2].getPosition().getY() ){
+		if (v[0].getProjected().getY() < v[1].getProjected().getY() && v[0].getProjected().getY() < v[2].getProjected().getY() ){
 			fillTopTri(viewport, zBuffer, width, height, v, c);
 		}
 
 		// fill bottom half
-		if (v[1].getPosition().getY() < v[3].getPosition().getY() && v[2].getPosition().getY() < v[3].getPosition().getY() ){
+		if (v[1].getProjected().getY() < v[3].getProjected().getY() && v[2].getProjected().getY() < v[3].getProjected().getY() ){
 			fillBottomTri(viewport, zBuffer, width, height, v, c);
 		}
 	}
 
 	private void fillTopTri(int[] viewport, float[][] zBuffer, int width, int height, Vertex[] v, int c){
-		int min = (int)v[0].getPosition().getY();
-		int max = (int)v[2].getPosition().getY();
+		int min = (int)v[0].getProjected().getY();
+		int max = (int)v[2].getProjected().getY();
 
 		// X
-		float angXLeft = (v[1].getPosition().getX() - v[0].getPosition().getX()) / (v[1].getPosition().getY() - v[0].getPosition().getY());
-		float angXRight = (v[2].getPosition().getX() - v[0].getPosition().getX()) / (v[2].getPosition().getY() - v[0].getPosition().getY());
+		float angXLeft = (v[1].getProjected().getX() - v[0].getProjected().getX()) / (v[1].getProjected().getY() - v[0].getProjected().getY());
+		float angXRight = (v[2].getProjected().getX() - v[0].getProjected().getX()) / (v[2].getProjected().getY() - v[0].getProjected().getY());
 
-		float xL = v[0].getPosition().getX();
-		float xR = v[0].getPosition().getX();
+		float xL = v[0].getProjected().getX();
+		float xR = v[0].getProjected().getX();
 
 		for (int y = min; y < max; ++y){
 
@@ -134,8 +110,8 @@ public class Polygon {
 
 				// Z Buffer
 				float yfrac = ((float)(y - min)) / (max - min);
-				float zLeft = v[0].getPosition().getZ() * (1 - yfrac) + v[1].getPosition().getZ() * yfrac;
-				float zRight = v[0].getPosition().getZ() * (1 - yfrac) + v[2].getPosition().getZ() * yfrac;
+				float zLeft = v[0].getProjected().getZ() * (1 - yfrac) + v[1].getProjected().getZ() * yfrac;
+				float zRight = v[0].getProjected().getZ() * (1 - yfrac) + v[2].getProjected().getZ() * yfrac;
 
 				for (int x = xMin; x < xMax; ++x){
 					float xfrac = ((float)(x - xMin)) / (xMax - xMin);
@@ -153,14 +129,14 @@ public class Polygon {
 	}
 
 	private void fillBottomTri(int[] viewport, float[][] zBuffer, int width, int height, Vertex[] v, int c){
-		int min = (int)v[1].getPosition().getY();
-		int max = (int)v[3].getPosition().getY();
+		int min = (int)v[1].getProjected().getY();
+		int max = (int)v[3].getProjected().getY();
 
-		float angXLeft = (v[3].getPosition().getX() - v[1].getPosition().getX()) / (v[3].getPosition().getY() - v[1].getPosition().getY());
-		float angXRight = (v[3].getPosition().getX() - v[2].getPosition().getX()) / (v[3].getPosition().getY() - v[2].getPosition().getY());
+		float angXLeft = (v[3].getProjected().getX() - v[1].getProjected().getX()) / (v[3].getProjected().getY() - v[1].getProjected().getY());
+		float angXRight = (v[3].getProjected().getX() - v[2].getProjected().getX()) / (v[3].getProjected().getY() - v[2].getProjected().getY());
 
-		float xL = v[1].getPosition().getX();
-		float xR = v[2].getPosition().getX();
+		float xL = v[1].getProjected().getX();
+		float xR = v[2].getProjected().getX();
 
 
 		for (int y = min; y < max; ++y){
@@ -170,8 +146,8 @@ public class Polygon {
 
 				// Z Buffer
 				float yfrac = ((float)(y - min)) / (max - min);
-				float zLeft = v[1].getPosition().getZ() * (1 - yfrac) + v[3].getPosition().getZ() * yfrac;
-				float zRight = v[2].getPosition().getZ() * (1 - yfrac) + v[3].getPosition().getZ() * yfrac;
+				float zLeft = v[1].getProjected().getZ() * (1 - yfrac) + v[3].getProjected().getZ() * yfrac;
+				float zRight = v[2].getProjected().getZ() * (1 - yfrac) + v[3].getProjected().getZ() * yfrac;
 
 				for (int x = xMin; x < xMax; ++x){
 					float xfrac = ((float)(x - xMin)) / (xMax - xMin);

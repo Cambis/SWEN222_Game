@@ -85,7 +85,7 @@ public abstract class R_AbstractCamera {
 
 
 	protected Mat4 getLookAt(){
-		return Mat4.createLookAt(position, target, up);
+		return Mat4.createLookAt(position, target, up).mul(Mat4.createTranslate(Vec3.Zero().sub(target)));
 	}
 
 	protected abstract Mat4 getProjection();

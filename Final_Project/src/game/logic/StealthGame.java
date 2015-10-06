@@ -21,7 +21,7 @@ import game.view.WindowHandler;
 public class StealthGame implements Runnable {
 
 	// Debugging mode
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 
 	// The minimum amount of players to play the game,
 	// (TODO: should be >= 2, it is 1 for testing purposes)
@@ -45,6 +45,8 @@ public class StealthGame implements Runnable {
 
 	// Is the game running?
 	private boolean running = false;
+
+	private boolean readyToRender = false;
 
 	// Ticks during the game
 	private Thread thread;
@@ -75,8 +77,8 @@ public class StealthGame implements Runnable {
 	public StealthGame(boolean isHost, String username, String ipAddress) {
 		this.isHost = isHost;
 		this.ipAddress = (ipAddress == null || ipAddress.length() == 0)
-				// Running on one computer for testing
-				? "localhost"
+		// Running on one computer for testing
+		? "localhost"
 				// Running on multiple for playing the actual game
 				: ipAddress;
 		player = new PlayerMP(username, 0, 0, 0, null, -1);
@@ -114,7 +116,7 @@ public class StealthGame implements Runnable {
 
 		renderer = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
 		R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", new Vec3(50, 50,
-				50), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 1f);
+				50), new Vec3(1, 0, 1), Vec3.UnitY(), 1, 1000, 1f);
 		r_addCamera(ortho);
 		r_setCamera(ortho.getName());
 
@@ -122,6 +124,8 @@ public class StealthGame implements Runnable {
 		R_ModelColorData modelData = new R_ModelColorData("Test",
 				"res/Models/Spy.obj", new Color(225, 180, 105));
 		r_addModelData(modelData);
+
+		readyToRender = true;
 	}
 
 	/**
@@ -145,12 +149,15 @@ public class StealthGame implements Runnable {
 		client.start();
 
 		// Login to the server
-		Packet00Login login = new Packet00Login(player.getUsername(), 0, 0, 0);
+		Packet00Login login = new Packet00Login(player.getUsername(), -1, 0, 0,
+				0);
 		if (server != null)
 			server.addConnection((PlayerMP) player, login);
 		login.writeData(client);
 
-		if (DEBUG) System.out.println(player.getUsername() + " running on " + ipAddress);
+		if (DEBUG)
+			System.out.println(player.getUsername() + " running on "
+					+ ipAddress);
 	}
 
 	/**
@@ -214,7 +221,8 @@ public class StealthGame implements Runnable {
 
 			if (System.currentTimeMillis() - lastTimer >= 1000) {
 				lastTimer += 1000;
-				// if(DEBUG) System.out.println(ticks + " ticks, " + frames + " frames");
+				// if(DEBUG) System.out.println(ticks + " ticks, " + frames +
+				// " frames");
 				frames = 0;
 				ticks = 0;
 			}
@@ -234,7 +242,8 @@ public class StealthGame implements Runnable {
 	 * sends it to the main frame.
 	 */
 	public void render() {
-		mainFrame.setImage(renderer.render());
+		if (readyToRender)
+			mainFrame.setImage(renderer.render());
 	}
 
 	/** HELPER METHODS **/
@@ -290,6 +299,10 @@ public class StealthGame implements Runnable {
 		level.movePlayer(username, x, z, rot);
 	}
 
+	public synchronized void movePlayer(int id, double x, double z, double rot) {
+		level.movePlayer(id, x, z, rot);
+	}
+
 	/**
 	 * gets local client
 	 *
@@ -308,6 +321,10 @@ public class StealthGame implements Runnable {
 		return server;
 	}
 
+	public final Player getPlayer() {
+		return player;
+	}
+
 	/** RENDERER METHODS **/
 
 	public boolean r_addCamera(R_AbstractCamera camera) {
@@ -318,7 +335,7 @@ public class StealthGame implements Runnable {
 		renderer.setCamera(camera);
 	}
 
-	public boolean r_addModel(R_AbstractModel model) {
+	public synchronized boolean r_addModel(R_AbstractModel model) {
 		return renderer.addModel(model);
 	}
 
@@ -326,7 +343,7 @@ public class StealthGame implements Runnable {
 		return false;
 	}
 
-	public boolean r_addModelData(R_AbstractModelData modelData) {
+	public synchronized boolean r_addModelData(R_AbstractModelData modelData) {
 		return renderer.addModelData(modelData);
 	}
 
@@ -343,7 +360,7 @@ public class StealthGame implements Runnable {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			System.out.println(e.getKeyCode());
+			// System.out.println(e.getKeyCode());
 			switch (e.getKeyCode()) {
 			case 37:// Left
 				player.setTurnLeft(true);
