@@ -9,7 +9,7 @@ public class Packet23RecieveID extends Packet {
 
 	public Packet23RecieveID(byte[] data) {
 		super(23);
-		this.uid = Integer.parseInt(readData(data));
+		this.uid = Integer.parseInt(readData(data).trim());
 	}
 
 	public Packet23RecieveID(int id) {

@@ -179,11 +179,11 @@ public class GameServer extends Thread {
 		boolean alreadyConnected = false;
 
 		// for (PlayerMP p : connectedPlayers)
-		// System.out.println(p.getUsername());
+		System.out.println(player.getUsername());
 
 		for (PlayerMP p : connectedPlayers) {
 			if (p.getUsername().equalsIgnoreCase(player.getUsername())) {
-				// System.out.println("User already in " + p.getUsername());
+				System.out.println("User already in " + p.getUsername());
 				if (p.getIpAddress() == null)
 					p.setIpAddress(player.getIpAddress());
 
@@ -197,6 +197,10 @@ public class GameServer extends Thread {
 				// player
 				sendData(packet.getData(), p.getIpAddress(), p.getPort());
 
+				Packet23RecieveID id = new Packet23RecieveID(p.getID());
+
+				// sendData(id.getData(), p.getIpAddress(), p.getPort());
+
 				// Relay to the new player that the currently connect player
 				// exists
 				packet = new Packet00Login(p.getUsername(), p.getID(),
@@ -207,18 +211,14 @@ public class GameServer extends Thread {
 		}
 		if (!alreadyConnected) {
 			player.setID(ID_PREFIX + connectedPlayers.size());
-//			if (!hostConnected) {
-//				((PlayerMP) game.player).setID(ID_PREFIX
-//						+ connectedPlayers.size());
-//				hostConnected = true;
-//			}
+			// if (!hostConnected) {
+			// ((PlayerMP) game.player).setID(ID_PREFIX
+			// + connectedPlayers.size());
+			// hostConnected = true;
+			// }
 			connectedPlayers.add(player);
-			System.out.println("Adding player " + player.getUsername() + ": "
-					+ player.getID());
-			System.out.println("IP: " );
-			Packet23RecieveID id = new Packet23RecieveID(ID_PREFIX + connectedPlayers.size());
-			
-			// sendData(id.getData(), player.getIpAddress(), player.getPort());
+			// System.out.println("Adding player " + player.getUsername() + ": "
+			// 		+ player.getID());
 		}
 	}
 
@@ -243,12 +243,12 @@ public class GameServer extends Thread {
 		if (getPlayerMP(packet.getUsername()) == null)
 			return;
 
-		System.out.println("PACKET ID: " + packet.getID());
-		PlayerMP player = getPlayerMP(packet.getID());
+		// System.out.println("PACKET ID: " + packet.getID());
+		// PlayerMP player = getPlayerMP(packet.getID());
 
-		if (player == null) {
-			player = getPlayerMP(packet.getUsername());
-		}
+		// if (player == null) {
+		PlayerMP player = getPlayerMP(packet.getUsername());
+		// }
 
 		player.setX(packet.getX());
 		player.setY(packet.getZ());
