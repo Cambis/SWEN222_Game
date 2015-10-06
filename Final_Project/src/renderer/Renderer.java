@@ -7,7 +7,10 @@ import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import renderer.math.Mat4;
 import renderer.math.Vec3;
@@ -19,16 +22,16 @@ import renderer.math.Vec3;
  */
 public class Renderer {
 	// The map of all model data stored inside the scene
-	private HashMap<String, R_AbstractModelData> modelDataMap;
+	private ConcurrentHashMap<String, R_AbstractModelData> modelDataMap;
 
 	// The map of all models inside the scene
-	private HashMap<String, R_AbstractModel> modelMap;
+	private ConcurrentHashMap<String, R_AbstractModel> modelMap;
 
 	// The map of all cameras inside the scene
-	private HashMap<String, R_AbstractCamera> cameraMap;
+	private ConcurrentHashMap<String, R_AbstractCamera> cameraMap;
 
 	// The map of all players inside the scene
-	private HashMap<String, R_Player> playerMap;
+	private ConcurrentHashMap<String, R_Player> playerMap;
 
 	// The currently selected camera to use
 	private R_AbstractCamera currentCam;
@@ -53,10 +56,10 @@ public class Renderer {
 				Vec3.Zero(), Vec3.UnitY(), 1, 1000, 1);
 		currentCam.setAspect(1.f * width / height);
 
-		modelDataMap = new HashMap<String, R_AbstractModelData>();
-		modelMap = new HashMap<String, R_AbstractModel>();
-		cameraMap = new HashMap<String, R_AbstractCamera>();
-		playerMap = new HashMap<String, R_Player>();
+		modelDataMap = new ConcurrentHashMap<String, R_AbstractModelData>();
+		modelMap = new ConcurrentHashMap<String, R_AbstractModel>();
+		cameraMap = new ConcurrentHashMap<String, R_AbstractCamera>();
+		playerMap = new ConcurrentHashMap<String, R_Player>();
 		addCamera(currentCam);
 	}
 
