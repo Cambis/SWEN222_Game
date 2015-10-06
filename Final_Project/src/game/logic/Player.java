@@ -32,6 +32,7 @@ public class Player {
 	private R_Player model;
 
 	private double x, y;
+	private double xBoundingBox, yBoundingBox;
 	private double rotation;
 	private Room currentRoom = null;
 	private boolean isMoving, turnLeft, turnRight, moveFoward, moveBackward,
@@ -88,8 +89,8 @@ public class Player {
 			// System.out.println("ACCEL: " + accel);
 			double newY = y + (MAX_VELOCITY * accel) * Math.cos(rotation);
 			double newX = x + (MAX_VELOCITY * accel) * Math.sin(rotation);
-			if (currentRoom != null) {
-				// && currentRoom.validPosition(this, newX, newY)) {
+			if (currentRoom != null
+				 && currentRoom.validPosition(this, newX, newY)) {
 				// System.out.println("old x: " + model.getPosition().getX());
 				model.getPosition().setX((float) newX);
 				model.getPosition().setZ((float) newY);
@@ -103,8 +104,8 @@ public class Player {
 			accel = (accel < 1) ? accel + 0.1 : 1;
 			double newY = y - (MAX_VELOCITY * accel) * Math.cos(rotation);
 			double newX = x - (MAX_VELOCITY * accel) * Math.sin(rotation);
-			if (currentRoom != null) {
-				// && currentRoom.validPosition(this, newX, newY)) {
+			if (currentRoom != null
+				 && currentRoom.validPosition(this, newX, newY)) {
 				// System.out.println("old x: " + model.getPosition().getX());
 				model.getPosition().setX((float) newX);
 				model.getPosition().setZ((float) newY);

@@ -3,11 +3,13 @@ package renderer;
 import java.util.List;
 
 import renderer.geometry.Polygon;
+import renderer.geometry.Vertex;
 import renderer.math.Mat4;
 
 public abstract class R_AbstractModelData {
 	private final String name;
 	protected List<Polygon> polys;
+	protected List<Vertex> verts;
 
 	public R_AbstractModelData(String name) {
 		super();

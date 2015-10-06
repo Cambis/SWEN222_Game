@@ -20,7 +20,7 @@ public class PlayerMP extends Player {
 
 	public PlayerMP(String username, double x, double y, double rotation,
 			InetAddress ipAddress, int port) {
-		super(username, x, y, rotation);
+		super(username, 0.2, 0.2, rotation);
 		this.ipAddress = ipAddress;
 		this.port = port;
 	}

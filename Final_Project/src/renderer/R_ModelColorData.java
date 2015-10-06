@@ -15,6 +15,7 @@ import renderer.math.Mat4;
 public class R_ModelColorData extends R_AbstractModelData {
 	private Color col;
 
+
 	public R_ModelColorData(String name, String pathname, Color col){
 		super(name);
 		load(pathname);
@@ -22,8 +23,8 @@ public class R_ModelColorData extends R_AbstractModelData {
 	}
 
 	private void load(String pathname){
-		List<Vertex> verts = new ArrayList<Vertex>();
-		List<Polygon> po = new ArrayList<Polygon>();
+		verts = new ArrayList<Vertex>();
+		polys = new ArrayList<Polygon>();
 
 		try {
 			Scanner sc = new Scanner(new File(pathname));
@@ -36,13 +37,11 @@ public class R_ModelColorData extends R_AbstractModelData {
 
 				if (sc.hasNext("f")){
 					sc.next();
-					po.add(new Polygon(new Vertex(verts.get(sc.nextInt())), new Vertex(verts.get(sc.nextInt())), new Vertex(verts.get(sc.nextInt()))));
+					polys.add(new Polygon(sc.nextInt(), sc.nextInt(), sc.nextInt()));
 				}
 				sc.nextLine();
 			}
 			sc.close();
-
-			polys = po;
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -52,8 +51,11 @@ public class R_ModelColorData extends R_AbstractModelData {
 
 	@Override
 	protected void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix, Mat4 modelMatrix, List<Light> lights) {
+		for (Vertex v : verts){
+			v.generateWP(modelMatrix, viewProjMatrix);
+		}
 		for (Polygon p : polys){
-			p.draw(viewport, zBuffer, width, height, viewProjMatrix, modelMatrix, col, lights);
+			p.draw(viewport, zBuffer, width, height, col, verts, lights);
 		}
 	}
 }
