@@ -6,7 +6,7 @@ import game.control.GameServer;
 /**
  * This packet is sent to the server when a player connects to a game.
  *
- * LOGIN - 00 + (String username)
+ * LOGIN - 00 + (String username) + "," + int id + "," + double x + "," + double z + "," + double rotation
  *
  * @author Bieleski, Bryers, Gill & Thompson MMXV.
  *
@@ -15,6 +15,7 @@ public class Packet00Login extends Packet {
 
 	private final String username;
 	private final double x, z, rotation;
+	private final int uid;
 
 	/**
 	 * Constructor intended for sending data
@@ -27,9 +28,10 @@ public class Packet00Login extends Packet {
 		String[] dataArray = readData(data).split(",");
 
 		this.username = dataArray[0];
-		this.x = Double.parseDouble(dataArray[1]);
-		this.z = Double.parseDouble(dataArray[2]);
-		this.rotation = Double.parseDouble(dataArray[2]);
+		this.uid = Integer.parseInt(dataArray[1]);
+		this.x = Double.parseDouble(dataArray[2]);
+		this.z = Double.parseDouble(dataArray[3]);
+		this.rotation = Double.parseDouble(dataArray[4]);
 	}
 
 	/**
@@ -37,9 +39,10 @@ public class Packet00Login extends Packet {
 	 *
 	 * @param username
 	 */
-	public Packet00Login(String username, double x, double z, double rotation) {
+	public Packet00Login(String username, int uid, double x, double z, double rotation) {
 		super(00);
 		this.username = username;
+		this.uid = uid;
 		this.x = x;
 		this.z = z;
 		this.rotation = rotation;
@@ -57,7 +60,7 @@ public class Packet00Login extends Packet {
 
 	@Override
 	public byte[] getData() {
-		return ("00" + this.username + "," + x + "," + z + "," + rotation).getBytes();
+		return ("00" + this.username + "," + uid + "," + x + "," + z + "," + rotation).getBytes();
 	}
 
 	public String getUsername() {
@@ -74,5 +77,9 @@ public class Packet00Login extends Packet {
 
 	public final double getRotation() {
 		return rotation;
+	}
+
+	public final int getID() {
+		return uid;
 	}
 }

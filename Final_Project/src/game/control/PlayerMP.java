@@ -16,6 +16,7 @@ public class PlayerMP extends Player {
 
 	private InetAddress ipAddress;
 	private int port;
+	private int uid = 00000;
 
 	public PlayerMP(String username, double x, double y, double rotation,
 			InetAddress ipAddress, int port) {
@@ -52,5 +53,13 @@ public class PlayerMP extends Player {
 
 	public final int getPort() {
 		return port;
+	}
+
+	public void setID(int id) {
+		uid = id;
+	}
+
+	public final int getID() {
+		return uid;
 	}
 }

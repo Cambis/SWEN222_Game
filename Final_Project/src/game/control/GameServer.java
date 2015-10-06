@@ -36,6 +36,8 @@ public class GameServer extends Thread {
 	private static final boolean DEBUG = StealthGame.DEBUG;
 	public static final int MIN_PLAYERS = 1;
 
+	public static final int ID_PREFIX = 10000;
+
 	private boolean gameStarted = false;
 
 	private DatagramSocket socket;
@@ -196,14 +198,15 @@ public class GameServer extends Thread {
 
 				// Relay to the new player that the currently connect player
 				// exists
-				packet = new Packet00Login(p.getUsername(), p.getX(), p.getY(), p.getRotation());
+				packet = new Packet00Login(p.getUsername(), p.getID(), p.getX(), p.getY(), p.getRotation());
 				sendData(packet.getData(), player.getIpAddress(),
 						player.getPort());
 			}
 		}
 		if (!alreadyConnected) {
+			player.setID(ID_PREFIX + connectedPlayers.size());
 			connectedPlayers.add(player);
-			// System.out.println("Adding player " + connectedPlayers.size());
+			System.out.println("Adding player " + player.getUsername() + ": " + player.getID());
 		}
 	}
 
