@@ -9,7 +9,7 @@ public class BasicFloor implements Tile{
 
 	private R_Model model;
 
-	public BasicFloor(float xPos, float yPos, R_ModelColorData data, int tileNum){
+	public BasicFloor(double xPos, double yPos, R_ModelColorData data, int tileNum){
 		model = new R_Model("BasicFloor"+ tileNum, data, new Vec3(xPos, 0, yPos), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
 	}
 

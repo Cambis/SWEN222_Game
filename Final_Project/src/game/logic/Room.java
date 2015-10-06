@@ -19,7 +19,7 @@ import renderer.Renderer.*;
 public class Room {
 
 	private static final int TILE_SIZE = 10;
-	private static final float SCALE = 0.02f;
+	private static final double SCALE = 0.02;
 
 	private Tile[][] tiles;
 	private int xSize = 0;
@@ -91,13 +91,14 @@ public class Room {
 	 */
 	public boolean validPosition(Player p, double x, double y) {
 		double scaledTileSize = TILE_SIZE*SCALE;
+		System.out.println(scaledTileSize);
 		System.out.println("X: before : "+ x + " Y BEFORE : " +y);
-		System.out.println("X: after : "+ (x-(scaledTileSize/2)/scaledTileSize) + " Y after : " +(y-(scaledTileSize/2)/scaledTileSize));
-		int tileX = (int)(x-(scaledTileSize/2)/scaledTileSize);
-		int tileY = (int)(y-(scaledTileSize/2)/scaledTileSize);
+		System.out.println("X: after : "+ ((x+(scaledTileSize/2))/scaledTileSize) + " Y after : " +((y+(scaledTileSize/2))/scaledTileSize));
+		int tileX = (int)((x+(scaledTileSize/2))/scaledTileSize);
+		int tileY = (int)((y+(scaledTileSize/2))/scaledTileSize);
 		System.out.println("X: TILE : "+ tileX + " Y TILE : " +tileY);
-		//return tiles[tileX][tileY].canEnter(p);
-		return true;
+		return tiles[tileX][tileY].canEnter(p);
+//		return true;
 	}
 
 	public void initTiles(Renderer r) {
