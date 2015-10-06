@@ -21,7 +21,7 @@ import game.view.WindowHandler;
 public class StealthGame implements Runnable {
 
 	// Debugging mode
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 
 	// The minimum amount of players to play the game,
 	// (TODO: should be >= 2, it is 1 for testing purposes)
@@ -290,6 +290,10 @@ public class StealthGame implements Runnable {
 		level.movePlayer(username, x, z, rot);
 	}
 
+	public synchronized void movePlayer(int id, double x, double z,
+			double rot) {
+		level.movePlayer(id, x, z, rot);
+	}
 	/**
 	 * gets local client
 	 *
@@ -343,7 +347,7 @@ public class StealthGame implements Runnable {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			System.out.println(e.getKeyCode());
+			// System.out.println(e.getKeyCode());
 			switch (e.getKeyCode()) {
 			case 37:// Left
 				player.setTurnLeft(true);

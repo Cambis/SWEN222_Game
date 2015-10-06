@@ -201,7 +201,7 @@ public class GameClient extends Thread {
 	 * @param packet
 	 */
 	private void handleMove(Packet02Move packet) {
-		game.movePlayer(packet.getUsername(), packet.getX(), packet.getZ(),
+		game.movePlayer(packet.getID(), packet.getX(), packet.getZ(),
 				packet.getDirection());
 	}
 

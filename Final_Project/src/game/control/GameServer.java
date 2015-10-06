@@ -231,7 +231,7 @@ public class GameServer extends Thread {
 		if (getPlayerMP(packet.getUsername()) == null)
 			return;
 
-		PlayerMP player = getPlayerMP(packet.getUsername());
+		PlayerMP player = getPlayerMP(packet.getID());
 
 		// TODO update player fields here
 
@@ -322,6 +322,12 @@ public class GameServer extends Thread {
 		return null;
 	}
 
+	public PlayerMP getPlayerMP(int id) {
+		for (PlayerMP p : connectedPlayers)
+			if (p.getID() == id)
+				return p;
+		return null;
+	}
 	/**
 	 * Send data to a specific client
 	 *
