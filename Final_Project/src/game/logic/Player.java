@@ -141,25 +141,25 @@ public class Player {
 		}
 
 		// Check for doors. If in a door, move player to spawn location of door:
-		if (currentRoom != null) {
-			if (currentRoom.validPosition(this, x, y)) {
-				Tile currentTile = currentRoom.getTile(this, x, y);
-				if (currentTile instanceof Door && !onDoor) {
-					currentRoom = ((Door) currentTile).getTargetRoom();
-
-					x = ((Door) currentTile).getX();
-					y = ((Door) currentTile).getY();
-					rotation = ((Door) currentTile).getDirection();
-					previousDoor = currentRoom.getTile(this, x, y);
-					onDoor = true;
-				}
-			}
-			// Check to see if the player has moved of the door. If they have,
-			// they can reenter the door again.
-			if (currentRoom.getTile(this, x, y) != previousDoor) {
-				onDoor = false;
-			}
-		}
+//		if (currentRoom != null) {
+//			if (currentRoom.validPosition(this, x, y)) {
+//				Tile currentTile = currentRoom.getTile(this, x, y);
+//				if (currentTile instanceof Door && !onDoor) {
+//					currentRoom = ((Door) currentTile).getTargetRoom();
+//
+//					x = ((Door) currentTile).getX();
+//					y = ((Door) currentTile).getY();
+//					rotation = ((Door) currentTile).getDirection();
+//					previousDoor = currentRoom.getTile(this, x, y);
+//					onDoor = true;
+//				}
+//			}
+//			// Check to see if the player has moved of the door. If they have,
+//			// they can reenter the door again.
+//			if (currentRoom.getTile(this, x, y) != previousDoor) {
+//				onDoor = false;
+//			}
+//		}
 
 	}
 

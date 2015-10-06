@@ -90,11 +90,14 @@ public class Room {
 	 *            , y
 	 */
 	public boolean validPosition(Player p, double x, double y) {
+		double scaledTileSize = TILE_SIZE*SCALE;
 		System.out.println("X: before : "+ x + " Y BEFORE : " +y);
-		int tileX = (int) ((x/SCALE)/TILE_SIZE);
-		int tileY = (int) ((y/SCALE)/TILE_SIZE);
+		System.out.println("X: after : "+ (x-(scaledTileSize/2)/scaledTileSize) + " Y after : " +(y-(scaledTileSize/2)/scaledTileSize));
+		int tileX = (int)(x-(scaledTileSize/2)/scaledTileSize);
+		int tileY = (int)(y-(scaledTileSize/2)/scaledTileSize);
 		System.out.println("X: TILE : "+ tileX + " Y TILE : " +tileY);
-		return tiles[tileX][tileY].canEnter(p);
+		//return tiles[tileX][tileY].canEnter(p);
+		return true;
 	}
 
 	public void initTiles(Renderer r) {
