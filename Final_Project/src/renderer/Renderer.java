@@ -22,7 +22,7 @@ public class Renderer {
 	private HashMap<String, R_AbstractModelData> modelDataMap;
 
 	// The map of all models inside the scene
-	private HashMap<String, R_AbstractModel> modelMap;
+	private volatile HashMap<String, R_AbstractModel> modelMap;
 
 	// The map of all cameras inside the scene
 	private HashMap<String, R_AbstractCamera> cameraMap;

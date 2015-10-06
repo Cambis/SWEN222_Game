@@ -72,6 +72,6 @@ public abstract class R_AbstractModel {
 		modelMatrix = modelMatrix.mul(Mat4.createScale(scale));
 
 		// Finally draw object
-		model.draw(viewport, zBuffer, width, height, viewProjMatrix, modelMatrix, lights);
+		model.draw(viewport, zBuffer, width, height, viewProjMatrix.mul(modelMatrix), modelMatrix, lights);
 	}
 }

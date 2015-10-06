@@ -41,6 +41,6 @@ public class Vertex {
 
 	public void generateWP(Mat4 worldMat, Mat4 projMat){
 		world = worldMat.mul(local);
-		projected = projMat.mul(worldMat.mul(local));
+		projected = projMat.mul(local);
 	}
 }
