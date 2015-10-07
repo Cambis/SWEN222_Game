@@ -171,6 +171,12 @@ public class Level {
 		// model.getOrientation().setY(model.getOrientation().getY()+0.01f);
 	}
 
+	public void setTeams(String[] players, String[] teams) {
+		for (int i = 0; i < players.length; i++) {
+			getPlayer(players[i]).setSide((teams[i].equals("0") ? Team.GUARD : Team.SPY));
+		}
+	}
+
 	// public static void main(String[] args){
 	// Level lvl = new Level(new StealthGame(false, "TestUser"));
 	// lvl.loadRooms("res/Levels/test1.lvl");

@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 
 import renderer.*;
+import renderer.R_Player.Team;
 import renderer.math.Vec3;
 import game.control.GameClient;
 import game.control.GameServer;
@@ -323,6 +324,16 @@ public class StealthGame implements Runnable {
 
 	public final Player getPlayer() {
 		return player;
+	}
+
+	public synchronized void setTeams(String[] players, String[] teams) {
+
+		for (int i = 0; i < players.length; i++) {
+			if (players[i].equals(player.getUsername()))
+				player.setSide((teams[i].equals("0") ? Team.GUARD : Team.SPY));
+		}
+		
+		level.setTeams(players, teams);
 	}
 
 	/** RENDERER METHODS **/

@@ -9,6 +9,7 @@ import game.control.packets.Packet06Interact;
 import game.control.packets.Packet07Equip;
 import game.control.packets.Packet.PacketType;
 import game.control.packets.Packet23RecieveID;
+import game.control.packets.Packet24TeamAssign;
 import game.logic.StealthGame;
 import game.view.StartUpScreen;
 import game.control.packets.Packet01Disconnect;
@@ -176,6 +177,11 @@ public class GameClient extends Thread {
 			handleReciveID((Packet23RecieveID) packet);
 			break;
 
+		case TEAM_ASSIGN:
+			packet = new Packet24TeamAssign(data);
+			handleTeamAssign((Packet24TeamAssign) packet);
+			break;
+
 		default:
 			break;
 
@@ -244,6 +250,9 @@ public class GameClient extends Thread {
 		((PlayerMP) game.getPlayer()).setID(packet.getID());
 	}
 
+	private void handleTeamAssign(Packet24TeamAssign packet) {
+
+	}
 	/**
 	 * Send data to the server
 	 *

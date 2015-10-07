@@ -33,7 +33,8 @@ public abstract class Packet {
 		GAME_START(20),
 		GAME_OVER(21),
 		LOAD_LEVEL(22),
-		RECIEVE_ID(23);
+		RECIEVE_ID(23),
+		TEAM_ASSIGN(24);
 
 		private final int packetID;
 

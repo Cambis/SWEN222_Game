@@ -11,6 +11,7 @@ import game.logic.world.Door;
 import game.logic.world.Tile;
 // import game.logic.weapons.Weapon;
 import renderer.*;
+import renderer.R_Player.Team;
 import renderer.math.Vec3;
 
 /**
@@ -24,13 +25,18 @@ public class Player {
 
 	private final String username;
 
+	private Team side;
+
 	public static final double TURN_SPEED = 0.05;
 	public static final double MAX_VELOCITY = 0.1;
 
 	private double moveSpeed = 0.05;
 	private double accel = 0.1;
+
+	// Player model that is drawn in the Renderer
 	private R_Player model;
 
+	// Position
 	private double x, y;
 	private double xBoundingBox, yBoundingBox;
 	private double rotation;
@@ -330,5 +336,13 @@ public class Player {
 
 	public final void setModel(R_Player model) {
 		this.model = model;
+	}
+
+	public final Team getSide() {
+		return side;
+	}
+
+	public void setSide(Team side) {
+		this.side = side;
 	}
 }

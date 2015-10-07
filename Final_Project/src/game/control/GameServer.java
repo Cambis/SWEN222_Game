@@ -14,6 +14,7 @@ import game.control.packets.Packet07Equip;
 import game.control.packets.Packet20GameStart;
 import game.control.packets.Packet22LoadLevel;
 import game.control.packets.Packet23RecieveID;
+import game.control.packets.Packet24TeamAssign;
 import gameworld.TestPush;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,7 +37,9 @@ import java.util.List;
 public class GameServer extends Thread {
 
 	private static final boolean DEBUG = StealthGame.DEBUG;
+
 	public static final int MIN_PLAYERS = 1;
+	public static final int MAX_PLAYERS = 4;
 
 	public static final int ID_PREFIX = 10000;
 
@@ -167,6 +171,33 @@ public class GameServer extends Thread {
 		}
 	}
 
+	private void assignTeams() {
+
+		// Create a randomly sorted list so the teams are chosen at random
+		List<PlayerMP> playersList = new ArrayList<PlayerMP>(connectedPlayers);
+		Collections.shuffle(playersList);
+
+		// Put the information into an array
+		String[] players = new String[playersList.size()];
+		for (int i = 0; i < players.length; i++) {
+			players[i] = playersList.get(i).getUsername();
+		}
+
+		// Put the players in teams 0: GUARD, 1: SPY
+		String[] teams = new String[players.length];
+		int mid = teams.length / 2;
+
+		for (int i = 0; i < teams.length; i++) {
+			if (i < mid)
+				teams[i] = "0";
+			else
+				teams[i] = "1";
+		}
+
+		// Send the team assignment to all players on the server.
+		Packet24TeamAssign packet = new Packet24TeamAssign(players, teams);
+		// packet.writeData(this);
+	}
 	/**
 	 * Add a player that is trying to login to the server
 	 *
