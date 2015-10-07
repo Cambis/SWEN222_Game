@@ -19,6 +19,12 @@ import game.control.packets.Packet01Disconnect;
 import game.view.MainFrame;
 import game.view.WindowHandler;
 
+/**
+ * Main logic class, runs the actual game.
+ *
+ * @author Bieleski, Bryers, Gill and Thompson MMXV.
+ *
+ */
 public class StealthGame implements Runnable {
 
 	// Debugging mode
@@ -337,9 +343,9 @@ public class StealthGame implements Runnable {
 
 		for (int i = 0; i < players.length; i++) {
 			if (players[i].equals(player.getUsername())) {
-				 player.setSide((teams[i].equals("0") ? Team.GUARD :
-				 Team.SPY));
-				 System.out.println(player.getUsername() + " teams is: " + player.getSide().toString());
+				player.setSide((teams[i].equals("0") ? Team.GUARD : Team.SPY));
+				System.out.println(player.getUsername() + " teams is: "
+						+ player.getSide().toString());
 			}
 		}
 		level.setTeams(players, teams);

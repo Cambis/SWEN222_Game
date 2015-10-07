@@ -287,6 +287,10 @@ public class Player {
 		this.isShooting = isShooting;
 	}
 
+	public final boolean isShooting() {
+		return this.isShooting;
+	}
+
 	public final void setUsing(boolean isUsing) {
 		this.isUsing = isUsing;
 	}
@@ -356,7 +360,7 @@ public class Player {
 		return this.health;
 	}
 
-	public boolean isAlive() {
+	public final boolean isAlive() {
 		return this.health > 0;
 	}
 

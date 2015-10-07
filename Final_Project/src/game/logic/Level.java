@@ -1,7 +1,9 @@
 package game.logic;
 
 import game.control.PlayerMP;
+import game.control.packets.Packet;
 import game.control.packets.Packet02Move;
+import game.control.packets.Packet03Engage;
 
 import java.awt.Color;
 import java.io.File;
@@ -17,6 +19,12 @@ import renderer.R_Player;
 import renderer.R_Player.Team;
 import renderer.math.Vec3;
 
+/**
+ * Represents the level that the game is played on.
+ *
+ * @author Bryers and Gill MMXV.
+ *
+ */
 public class Level {
 
 	private List<Room> rooms = new ArrayList<Room>();
@@ -97,6 +105,18 @@ public class Level {
 		return false;
 	}
 
+	/**
+	 * Move a player in the level given their username.
+	 *
+	 * @param username
+	 *            - player to be moved
+	 * @param x
+	 *            - player's x coordinate
+	 * @param z
+	 *            - player's z coordinate
+	 * @param rot
+	 *            - player's rotation around the y axis
+	 */
 	public void movePlayer(String username, double x, double z, double rot) {
 		Player p = getPlayer(username);
 
@@ -111,6 +131,18 @@ public class Level {
 		p.setRot(rot);
 	}
 
+	/**
+	 * Move a player in the level given their ID.
+	 *
+	 * @param username
+	 *            - player to be moved
+	 * @param x
+	 *            - player's x coordinate
+	 * @param z
+	 *            - player's z coordinate
+	 * @param rot
+	 *            - player's rotation around the y axis
+	 */
 	public void movePlayer(int id, double x, double z, double rot) {
 		movePlayer(getPlayer(id).getUsername(), x, z, rot);
 	}
@@ -136,14 +168,34 @@ public class Level {
 	 */
 	public void tick() {
 		for (Player p : players) {
-			if (readyToRender) {
+
+			// Only render the player if they are alive
+			if (readyToRender && p.isAlive()) {
+
+				// Update player
 				p.tick();
+
+				// Packet to be sent to the server
+				Packet packet;
+
+				// Player moving
 				if (p.isMoving()) {
-					Packet02Move packet = new Packet02Move(p.getUsername(),
+					packet = new Packet02Move(p.getUsername(),
 							((PlayerMP) p).getID(), p.getX(), p.getY(), 0,
 							true, p.getRotation());
 					packet.writeData(game.getClient());
 				}
+
+				// Player shooting
+				if (p.isShooting()) {
+					packet = new Packet03Engage(p.getUsername());
+					packet.writeData(game.getClient());
+				}
+
+				// // Player picking up item
+				// if (p.isPickingUp) {
+				// packet = new Packet04Equip();
+				// }
 			}
 		}
 	}
