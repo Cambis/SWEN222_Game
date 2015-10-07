@@ -38,7 +38,7 @@ public class GameServer extends Thread {
 
 	private static final boolean DEBUG = StealthGame.DEBUG;
 
-	public static final int MIN_PLAYERS = 1;
+	public static final int MIN_PLAYERS = 2;
 	public static final int MAX_PLAYERS = 4;
 
 	public static final int ID_PREFIX = 10000;
@@ -126,6 +126,7 @@ public class GameServer extends Thread {
 			if (!gameStarted && connectedPlayers.size() >= MIN_PLAYERS) {
 				gameStarted = true;
 				// sendDataToAllClients("20".getBytes());
+				assignTeams();
 			}
 			break;
 
@@ -196,7 +197,7 @@ public class GameServer extends Thread {
 
 		// Send the team assignment to all players on the server.
 		Packet24TeamAssign packet = new Packet24TeamAssign(players, teams);
-		// packet.writeData(this);
+		packet.writeData(this);
 	}
 	/**
 	 * Add a player that is trying to login to the server

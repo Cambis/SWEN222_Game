@@ -1,29 +1,25 @@
 package game.control;
 
 import game.control.packets.Packet;
+import game.control.packets.Packet.PacketType;
 import game.control.packets.Packet00Login;
+import game.control.packets.Packet01Disconnect;
+import game.control.packets.Packet02Move;
 import game.control.packets.Packet03Engage;
 import game.control.packets.Packet04Damage;
 import game.control.packets.Packet05Heal;
 import game.control.packets.Packet06Interact;
 import game.control.packets.Packet07Equip;
-import game.control.packets.Packet.PacketType;
+import game.control.packets.Packet22LoadLevel;
 import game.control.packets.Packet23RecieveID;
 import game.control.packets.Packet24TeamAssign;
 import game.logic.StealthGame;
 import game.view.StartUpScreen;
-import game.control.packets.Packet01Disconnect;
-import game.control.packets.Packet02Move;
-import game.control.packets.Packet20GameStart;
-import game.control.packets.Packet22LoadLevel;
-import gameworld.TestPush;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
@@ -251,7 +247,7 @@ public class GameClient extends Thread {
 	}
 
 	private void handleTeamAssign(Packet24TeamAssign packet) {
-
+		game.setTeams(packet.getPlayers(), packet.getTeams());
 	}
 	/**
 	 * Send data to the server

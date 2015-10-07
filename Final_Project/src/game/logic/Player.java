@@ -37,6 +37,9 @@ public class Player {
 	// Player model that is drawn in the Renderer
 	private R_Player model;
 
+	// Player's health
+	private double health = 100;
+
 	// Position
 	private double x, y;
 	private double xBoundingBox, yBoundingBox;
@@ -95,7 +98,6 @@ public class Player {
 		if (moveFoward) {
 			isMoving = true;
 			accel = (accel < 1) ? accel + 0.1 : 1;
-			// System.out.println("ACCEL: " + accel);
 			double newY = y + (MAX_VELOCITY * accel) * Math.cos(rotation);
 			double newX = x + (MAX_VELOCITY * accel) * Math.sin(rotation);
 			move(newY, newX);
@@ -301,6 +303,10 @@ public class Player {
 		this.isShooting = isShooting;
 	}
 
+	public final boolean isShooting() {
+		return this.isShooting;
+	}
+
 	public final void setUsing(boolean isUsing) {
 		this.isUsing = isUsing;
 	}
@@ -346,6 +352,8 @@ public class Player {
 //		}
 //	}
 
+	/** RENDER HELPERS **/
+
 	public final R_Player getModel() {
 		return (model == null) ? null : model;
 	}
@@ -353,6 +361,26 @@ public class Player {
 	public final void setModel(R_Player model) {
 		this.model = model;
 	}
+
+	/** HEALTH HELPERS **/
+
+	public void takeDamage(double damage) {
+		this.health -= damage;
+	}
+
+	public void heal(double heal) {
+		this.health = ((health + heal) < 100) ? health + heal : 100;
+	}
+
+	public final double getHealth() {
+		return this.health;
+	}
+
+	public final boolean isAlive() {
+		return this.health > 0;
+	}
+
+	/** TEAM HELPERS **/
 
 	public final Team getSide() {
 		return side;

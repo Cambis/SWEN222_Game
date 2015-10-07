@@ -19,6 +19,12 @@ import game.control.packets.Packet01Disconnect;
 import game.view.MainFrame;
 import game.view.WindowHandler;
 
+/**
+ * Main logic class, runs the actual game.
+ *
+ * @author Bieleski, Bryers, Gill and Thompson MMXV.
+ *
+ */
 public class StealthGame implements Runnable {
 
 	// Debugging mode
@@ -121,10 +127,17 @@ public class StealthGame implements Runnable {
 		r_addCamera(ortho);
 		r_setCamera(ortho.getName());
 
-		// Adds a new model
-		R_ModelColorData modelData = new R_ModelColorData("Test",
+		// Add models
+
+		// Spy
+		R_ModelColorData spyModelData = new R_ModelColorData("Spy",
 				"res/Models/Spy.obj", new Color(225, 180, 105));
-		r_addModelData(modelData);
+		r_addModelData(spyModelData);
+
+		// Guard
+		R_ModelColorData guardModelData = new R_ModelColorData("Guard",
+				"res/Guard.obj", new Color(25, 25, 112));
+		r_addModelData(guardModelData);
 
 		readyToRender = true;
 	}
@@ -329,10 +342,12 @@ public class StealthGame implements Runnable {
 	public synchronized void setTeams(String[] players, String[] teams) {
 
 		for (int i = 0; i < players.length; i++) {
-			if (players[i].equals(player.getUsername()))
+			if (players[i].equals(player.getUsername())) {
 				player.setSide((teams[i].equals("0") ? Team.GUARD : Team.SPY));
+				System.out.println(player.getUsername() + " teams is: "
+						+ player.getSide().toString());
+			}
 		}
-
 		level.setTeams(players, teams);
 	}
 

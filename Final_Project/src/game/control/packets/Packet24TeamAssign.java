@@ -16,6 +16,7 @@ import game.control.GameServer;
 public class Packet24TeamAssign extends Packet {
 
 	private final String[] dataArray;
+	private String[] players, teams;
 
 	public Packet24TeamAssign(byte[] data) {
 		super(24);
@@ -28,12 +29,16 @@ public class Packet24TeamAssign extends Packet {
 	}
 
 	public Packet24TeamAssign(String[] players, String[] teams) {
-		super(24);
-		dataArray = new String[players.length + teams.length];
 
-		for (int i = 0; i < dataArray.length; i += 2) {
-			dataArray[i] = players[i];
-			dataArray[i + 1] = teams[i];
+		super(24);
+
+		dataArray = new String[players.length + teams.length];
+		this.players = players;
+		this.teams = teams;
+
+		for (int i = 0; i < players.length; i++) {
+			dataArray[i * 2] = players[i];
+			dataArray[(i * 2) + 1] = teams[i];
 		}
 	}
 
@@ -55,6 +60,27 @@ public class Packet24TeamAssign extends Packet {
 			data += dataArray[i] + ",";
 
 		return data.getBytes();
+	}
+
+	public final String[] getPlayers() {
+
+		String[] players = new String[dataArray.length / 2];
+
+		for (int i = 0; i < players.length; i++) {
+			players[i] = dataArray[i * 2];
+		}
+
+		return players;
+	}
+
+	public final String[] getTeams() {
+
+		String[] teams = new String[dataArray.length / 2];
+
+		for (int i = 0; i < teams.length; i++)
+			teams[i] = dataArray[(i * 2) + 1];
+
+		return teams;
 	}
 
 }
