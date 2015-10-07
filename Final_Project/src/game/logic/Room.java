@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import game.logic.items.Item;
 import game.logic.world.BasicFloor;
 import game.logic.world.Tile;
 import game.logic.world.Wall;
@@ -28,11 +29,15 @@ public class Room {
 
 	private List<Player> playersInRoom;
 
+	// Items in the room
+	private List<Item> itemsInRoom;
+
 	//Models
 	private R_ModelColorData floorData = new R_ModelColorData("Floor", "res/BasicFloor.obj", Color.GRAY);
 	private R_ModelColorData wallData = new R_ModelColorData("BasicWall", "res/BasicWall.obj", Color.RED);
 
 	public Room(String filename) {
+		itemsInRoom = new ArrayList<Item>();
 		loadTiles(filename);
 		setPlayersInRoom(new ArrayList<Player>());
 	}
