@@ -23,6 +23,8 @@ public class Level {
 	private List<Player> players = new ArrayList<Player>();
 	private StealthGame game;
 
+	protected boolean readyToRender = false;
+
 	// Testing
 	private R_Player playerMod;
 	float val = 0;
@@ -174,6 +176,10 @@ public class Level {
 	public void setTeams(String[] players, String[] teams) {
 		for (int i = 0; i < players.length; i++) {
 			getPlayer(players[i]).setSide((teams[i].equals("0") ? Team.GUARD : Team.SPY));
+		}
+
+		for (Player p : this.players) {
+			System.out.println(p.getUsername() + " is a " + p.getSide().toString());
 		}
 	}
 

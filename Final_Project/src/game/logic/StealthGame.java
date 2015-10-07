@@ -329,10 +329,12 @@ public class StealthGame implements Runnable {
 	public synchronized void setTeams(String[] players, String[] teams) {
 
 		for (int i = 0; i < players.length; i++) {
-			if (players[i].equals(player.getUsername()))
-				player.setSide((teams[i].equals("0") ? Team.GUARD : Team.SPY));
+			if (players[i].equals(player.getUsername())) {
+				 player.setSide((teams[i].equals("0") ? Team.GUARD :
+				 Team.SPY));
+				 System.out.println(player.getUsername() + " teams is: " + player.getSide().toString());
+			}
 		}
-		
 		level.setTeams(players, teams);
 	}
 
