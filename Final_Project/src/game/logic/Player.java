@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import game.logic.items.Item;
+import game.logic.weapons.Weapon;
 import game.logic.world.Door;
 import game.logic.world.Tile;
 // import game.logic.weapons.Weapon;
@@ -58,7 +59,9 @@ public class Player {
 	// private Weapon mainWeapon;
 	private boolean isSide;
 	private ArrayList<Item> inventory;
-	private int currentItemIndex;
+	private ArrayList<Item> weaponInventory;
+	private Weapon currentWeapon;
+	private int currentWeaponIndex;
 	private int cooldown;
 
 	public Player(String username, double x, double y, double rotation) {
@@ -97,36 +100,20 @@ public class Player {
 			accel = (accel < 1) ? accel + 0.1 : 1;
 			double newY = y + (MAX_VELOCITY * accel) * Math.cos(rotation);
 			double newX = x + (MAX_VELOCITY * accel) * Math.sin(rotation);
-			if (currentRoom != null
-				 && currentRoom.validPosition(this, newX, newY)) {
-				// System.out.println("old x: " + model.getPosition().getX());
-				model.getPosition().setX((float) newX);
-				model.getPosition().setZ((float) newY);
-				// System.out.println("new x: " + model.getPosition().getX());
-				x = newX;
-				y = newY;
-			}
+			move(newY, newX);
 		}
 		if (moveBackward) {
 			isMoving = true;
 			accel = (accel < 1) ? accel + 0.1 : 1;
 			double newY = y - (MAX_VELOCITY * accel) * Math.cos(rotation);
 			double newX = x - (MAX_VELOCITY * accel) * Math.sin(rotation);
-			if (currentRoom != null
-				 && currentRoom.validPosition(this, newX, newY)) {
-				// System.out.println("old x: " + model.getPosition().getX());
-				model.getPosition().setX((float) newX);
-				model.getPosition().setZ((float) newY);
-				// System.out.println("new x: " + model.getPosition().getX());
-				x = newX;
-				y = newY;
-			}
+			move(newX, newY);
 		}
 
 		// Check for shooting:
 		if (isShooting) {
-			if (cooldown == 0) {
-				// shootCurrentGun();
+			if (cooldown <= 0) {
+				useCurrentWeapon();
 			}
 			isShooting = false;
 		}
@@ -134,8 +121,6 @@ public class Player {
 		// Check for using:
 		if (isUsing) {
 			// TODO Check if mouse is over an item
-			// TODO Check if mouse is in range of player (How to access the
-			// mouse from here?)
 			// interact();
 			isUsing = false;
 		}
@@ -171,6 +156,29 @@ public class Player {
 
 	}
 
+	private void move(double newY, double newX) {
+		if (currentRoom != null
+			 && currentRoom.validPosition(this, newX, newY)) {
+			// System.out.println("old x: " + model.getPosition().getX());
+			model.getPosition().setX((float) newX);
+			model.getPosition().setZ((float) newY);
+			//Apply Enter and Exit tile modifiers
+			Tile oldTile = currentRoom.getTile(this, x, y);
+			Tile newTile = currentRoom.getTile(this, newX, newY);
+			if(oldTile!=newTile){
+				oldTile.onExit(this);
+				newTile.onEnter(this);
+			}
+			// System.out.println("new x: " + model.getPosition().getX());
+			x = newX;
+			y = newY;
+		}
+	}
+
+	private void useCurrentWeapon(){
+		currentWeapon.fire(rotation, x, y, currentRoom, this);
+	}
+
 	/**
 	 * Gets name of the player
 	 *
@@ -198,6 +206,10 @@ public class Player {
 		if (model != null)
 			model.getPosition().setX((float) x);
 		this.x = x;
+	}
+
+	public void addItem(Item item){
+		inventory.add(item);
 	}
 
 	/**
@@ -268,6 +280,10 @@ public class Player {
 		moveFoward = val;
 	}
 
+	public void multiplySpeed(double val) {
+		moveSpeed *= val;
+	}
+
 	public void setBackward(boolean val) {
 		moveBackward = val;
 	}
@@ -323,18 +339,18 @@ public class Player {
 	// //TODO Graphics for swapping between main and side?
 	// }
 
-	public void selectItem(int i) {
-		currentItemIndex = i;
-		// TODO Display change in selected item from inventory
-	}
-
-	public void dropItem() {
-		if (inventory.get(currentItemIndex) != null) {
-			Item droppedItem = inventory.get(currentItemIndex);
-			inventory.remove(currentItemIndex);
-			// TODO Drop item on floor right below player.
-		}
-	}
+//	public void selectItem(int i) {
+//		currentItemIndex = i;
+//		// TODO Display change in selected item from inventory
+//	}
+//
+//	public void dropItem() {
+//		if (inventory.get(currentItemIndex) != null) {
+//			Item droppedItem = inventory.get(currentItemIndex);
+//			inventory.remove(currentItemIndex);
+//			// TODO Drop item on floor right below player.
+//		}
+//	}
 
 	/** RENDER HELPERS **/
 

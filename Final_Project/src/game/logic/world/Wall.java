@@ -25,4 +25,26 @@ public class Wall implements Tile{
 		return model;
 	}
 
+
+
+	@Override
+	public void onInteract(Player p) {
+		return;
+	}
+
+
+
+	@Override
+	public void onEnter(Player p) {
+		return;
+	}
+
+
+
+	@Override
+	public void onExit(Player p) {
+		// Do Nothing
+
+	}
+
 }

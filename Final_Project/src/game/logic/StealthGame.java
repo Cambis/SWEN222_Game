@@ -400,6 +400,9 @@ public class StealthGame implements Runnable {
 			case 40:// Down
 				player.setBackward(true);
 				break;
+			case KeyEvent.VK_SPACE:
+				player.setShooting(true);
+				break;
 			}
 
 		}
@@ -421,23 +424,23 @@ public class StealthGame implements Runnable {
 			case KeyEvent.VK_DOWN:// Down
 				player.setBackward(false);
 				break;
-			case KeyEvent.VK_1:// 1
-				player.selectItem(1);
-				break;
-			case KeyEvent.VK_2:// 2
-				player.selectItem(2);
-				break;
-			case KeyEvent.VK_3:// 3
-				player.selectItem(3);
-				break;
-			case KeyEvent.VK_4:// 4
-				player.selectItem(4);
-				break;
-			case KeyEvent.VK_E:// E
-				// player.swapWeapon();
-				break;
-			case KeyEvent.VK_Q:// Q
-				player.dropItem();
+//			case KeyEvent.VK_1:// 1
+//				player.selectItem(1);
+//				break;
+//			case KeyEvent.VK_2:// 2
+//				player.selectItem(2);
+//				break;
+//			case KeyEvent.VK_3:// 3
+//				player.selectItem(3);
+//				break;
+//			case KeyEvent.VK_4:// 4
+//				player.selectItem(4);
+//				break;
+//			case KeyEvent.VK_E:// E
+//				// player.swapWeapon();
+//				break;
+//			case KeyEvent.VK_Q:// Q
+//				player.dropItem();
 			}
 		}
 	};

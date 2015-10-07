@@ -10,4 +10,10 @@ public interface Tile {
 
 	public boolean canEnter(Player player);
 
+	public void onInteract(Player p);
+
+	public void onEnter(Player p);
+
+	public void onExit(Player p);
+
 }
