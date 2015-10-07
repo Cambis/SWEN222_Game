@@ -130,7 +130,7 @@ public class StealthGame implements Runnable {
 
 		// Guard
 		R_ModelColorData guardModelData = new R_ModelColorData("Guard",
-				"res/Guard.obj", new Color(225, 180, 105));
+				"res/Guard.obj", new Color(25, 25, 112));
 		r_addModelData(guardModelData);
 
 		readyToRender = true;

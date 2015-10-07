@@ -31,13 +31,11 @@ public class Level {
 
 	public Level(StealthGame game) {
 		this.game = game;
-		setupRender();
 	}
 
 	public Level(StealthGame game, String filename) {
 		this.game = game;
 		loadRooms(filename);
-		setupRender();
 	}
 
 	public void loadRooms(String filename) {
@@ -59,23 +57,6 @@ public class Level {
 		System.out.println("Done Loading level");
 	}
 
-	// R_Model model; // FIXME very very bad
-	private void setupRender() {
-		// R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", new Vec3(50,
-		// 50, 50), Vec3.Zero(), Vec3.UnitY(), 1, 1000, 2);
-		// game.r_addCamera(ortho);
-		// game.r_setCamera(ortho.getName());
-		//
-		// // Adds a new model
-		// R_ModelColorData modelData = new R_ModelColorData("Test",
-		// "res/Guard.obj", Color.RED);
-		// game.r_addModelData(modelData);
-
-		// model = new R_Model("Work", (R_ModelColorData)
-		// game.getR_ModelData("Test"), Vec3.Zero(), Vec3.Zero(), Vec3.One());
-		// game.r_addModel(model);
-	}
-
 	/**
 	 * Gobbles string in scanner, returns if string found or not and moves
 	 * scanner along if it does
@@ -84,7 +65,7 @@ public class Level {
 	 * @param s
 	 * @return
 	 */
-	private boolean gobble(String pat, Scanner s) {
+	public static boolean gobble(String pat, Scanner s) {
 		if (s.hasNext(pat)) {
 			s.next();
 			return true;
@@ -150,8 +131,10 @@ public class Level {
 		return null;
 	}
 
+	/**
+	 * Go through each player and check what action they are doing.
+	 */
 	public void tick() {
-		// Go through each player and check what action they are doing.
 		for (Player p : players) {
 			if (readyToRender) {
 				p.tick();
@@ -163,42 +146,47 @@ public class Level {
 				}
 			}
 		}
-		// model.getOrientation().setY(model.getOrientation().getY()+0.01f);
 	}
 
+	/**
+	 * Set the teams and assign the players models according to their teams.
+	 *
+	 * @param players
+	 *            - array of player usernames.
+	 * @param teams
+	 *            - team allocating, "0" for guard and "1" for spy.
+	 */
 	public void setTeams(String[] players, String[] teams) {
 
 		for (int i = 0; i < players.length; i++) {
 
+			// Assign the team
 			Player p = getPlayer(players[i]);
 			p.setSide((teams[i].equals("0") ? Team.GUARD : Team.SPY));
 
+			// The string will reference a pre-loaded model in the renderer
 			String model = (teams[i].equals("0") ? "Guard" : "Spy");
 
 			// Translation and rotations
 			Vec3 trans = new Vec3(p.getX(), 0, p.getY());
 			Vec3 rot = new Vec3(0, -p.getRotation(), 0);
+			Vec3 scale = new Vec3(0.1, 0.1, 0.1);
 
 			// Player model
 			R_Player pl = new R_Player(p.getUsername(),
-					game.getR_ModelData(model), p.getSide(), trans, rot,
-					new Vec3(0.1, 0.1, 0.1));
+					game.getR_ModelData(model), p.getSide(), trans, rot, scale);
 
 			// Assign the model to the player and the renderer
 			p.setModel(pl);
 			game.r_addModel(pl);
 		}
 
-		for (Player p : this.players) {
-			System.out.println(p.getUsername() + " is a "
-					+ p.getSide().toString());
-		}
+		// for (Player p : this.players) {
+		// System.out.println(p.getUsername() + " is a "
+		// + p.getSide().toString());
+		// }
 
+		// Now that the models have been loaded we can finally render the level
 		readyToRender = true;
 	}
-
-	// public static void main(String[] args){
-	// Level lvl = new Level(new StealthGame(false, "TestUser"));
-	// lvl.loadRooms("res/Levels/test1.lvl");
-	// }
 }
