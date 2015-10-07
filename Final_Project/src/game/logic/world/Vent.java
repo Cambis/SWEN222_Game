@@ -29,4 +29,22 @@ public class Vent implements Tile{
 		return model;
 	}
 
+	@Override
+	public void onInteract(Player p) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onEnter(Player p) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onExit(Player p) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

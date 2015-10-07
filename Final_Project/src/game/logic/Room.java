@@ -90,17 +90,14 @@ public class Room {
 	 *            , y
 	 */
 	public boolean validPosition(Player p, double x, double y) {
-		double scaledTileSize = TILE_SIZE*SCALE;
-		System.out.println(scaledTileSize);
-		System.out.println("X: before : "+ x + " Y BEFORE : " +y);
-		System.out.println("X: after : "+ ((x+(scaledTileSize/2))/scaledTileSize) + " Y after : " +((y+(scaledTileSize/2))/scaledTileSize));
-		int tileX = (int)((x+(scaledTileSize/2))/scaledTileSize);
-		int tileY = (int)((y+(scaledTileSize/2))/scaledTileSize);
-		System.out.println("X: TILE : "+ tileX + " Y TILE : " +tileY);
-		return tiles[tileX][tileY].canEnter(p);
-//		return true;
+		return getTile(p,x,y).canEnter(p);
 	}
 
+
+	/**
+	 * Create models for the tiles
+	 * @param r
+	 */
 	public void initTiles(Renderer r) {
 		for(int i=0; i<tiles.length; i++){
 			for(int j=0; j<tiles[0].length; j++){
@@ -110,16 +107,20 @@ public class Room {
 
 	}
 
-	public Tile getTile(Player inPlayer, double inX, double inY){
+//	public void interactWithPosition
 
-		if (validPosition(inPlayer, inX, inY)){
-			int tileX = (int) (inX / TILE_SIZE);
-			int tileY = (int) (inY / TILE_SIZE);
-			return tiles[tileX][tileY];
-		} else {
-			return null;
-		}
-
+	/**
+	 *
+	 * @param p
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public Tile getTile(Player p, double x, double y){
+		double scaledTileSize = TILE_SIZE*SCALE;
+		int tileX = (int)((x+(scaledTileSize/2))/scaledTileSize);
+		int tileY = (int)((y+(scaledTileSize/2))/scaledTileSize);
+		return tiles[tileX][tileY];
 	}
 
 	public List<Player> getPlayersInRoom() {

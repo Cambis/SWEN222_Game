@@ -45,4 +45,23 @@ public class Door implements Tile{
 		return direction;
 	}
 
+	@Override
+	public void onInteract(Player p) {
+		p.setRoom(targetRoom);
+		p.setX(targetX);
+		p.setY(targetY);
+	}
+
+	@Override
+	public void onEnter(Player p) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onExit(Player p) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
