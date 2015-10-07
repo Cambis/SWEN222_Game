@@ -96,19 +96,9 @@ public class Level {
 
 		players.add(p);
 
-		Vec3 trans = new Vec3(p.getX(), 0, p.getY());
-		Vec3 rot = new Vec3(0, -p.getRotation(), 0);
-
-		// Assign a model to the player
-		R_Player pl = new R_Player(p.getUsername(),
-				game.getR_ModelData("Test"), Team.GUARD, Vec3.Zero(),
-				Vec3.Zero(), new Vec3(0.1, 0.1, 0.1));
-		p.setModel(pl);
-
 		// TODO set rooms properly
 		System.out.println("Player given room");
 		p.setRoom(rooms.get(0));
-		game.r_addModel(pl);
 
 	}
 
@@ -163,24 +153,48 @@ public class Level {
 	public void tick() {
 		// Go through each player and check what action they are doing.
 		for (Player p : players) {
-			p.tick();
-			if (p.isMoving()) {
-				Packet02Move packet = new Packet02Move(p.getUsername(), ((PlayerMP) p).getID(),
-						p.getX(), p.getY(), 0, true, p.getRotation());
-				packet.writeData(game.getClient());
+			if (readyToRender) {
+				p.tick();
+				if (p.isMoving()) {
+					Packet02Move packet = new Packet02Move(p.getUsername(),
+							((PlayerMP) p).getID(), p.getX(), p.getY(), 0,
+							true, p.getRotation());
+					packet.writeData(game.getClient());
+				}
 			}
 		}
 		// model.getOrientation().setY(model.getOrientation().getY()+0.01f);
 	}
 
 	public void setTeams(String[] players, String[] teams) {
+
 		for (int i = 0; i < players.length; i++) {
-			getPlayer(players[i]).setSide((teams[i].equals("0") ? Team.GUARD : Team.SPY));
+
+			Player p = getPlayer(players[i]);
+			p.setSide((teams[i].equals("0") ? Team.GUARD : Team.SPY));
+
+			String model = (teams[i].equals("0") ? "Guard" : "Spy");
+
+			// Translation and rotations
+			Vec3 trans = new Vec3(p.getX(), 0, p.getY());
+			Vec3 rot = new Vec3(0, -p.getRotation(), 0);
+
+			// Player model
+			R_Player pl = new R_Player(p.getUsername(),
+					game.getR_ModelData(model), p.getSide(), trans, rot,
+					new Vec3(0.1, 0.1, 0.1));
+
+			// Assign the model to the player and the renderer
+			p.setModel(pl);
+			game.r_addModel(pl);
 		}
 
 		for (Player p : this.players) {
-			System.out.println(p.getUsername() + " is a " + p.getSide().toString());
+			System.out.println(p.getUsername() + " is a "
+					+ p.getSide().toString());
 		}
+
+		readyToRender = true;
 	}
 
 	// public static void main(String[] args){

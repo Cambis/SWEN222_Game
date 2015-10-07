@@ -121,10 +121,17 @@ public class StealthGame implements Runnable {
 		r_addCamera(ortho);
 		r_setCamera(ortho.getName());
 
-		// Adds a new model
-		R_ModelColorData modelData = new R_ModelColorData("Test",
+		// Add models
+
+		// Spy
+		R_ModelColorData spyModelData = new R_ModelColorData("Spy",
 				"res/Models/Spy.obj", new Color(225, 180, 105));
-		r_addModelData(modelData);
+		r_addModelData(spyModelData);
+
+		// Guard
+		R_ModelColorData guardModelData = new R_ModelColorData("Guard",
+				"res/Guard.obj", new Color(225, 180, 105));
+		r_addModelData(guardModelData);
 
 		readyToRender = true;
 	}
