@@ -4,6 +4,9 @@ import game.control.PlayerMP;
 import game.control.packets.Packet;
 import game.control.packets.Packet02Move;
 import game.control.packets.Packet03Engage;
+import game.control.packets.Packet06Interact;
+import game.control.packets.Packet07Equip;
+import game.logic.items.Item;
 
 import java.awt.Color;
 import java.io.File;
@@ -147,6 +150,10 @@ public class Level {
 		movePlayer(getPlayer(id).getUsername(), x, z, rot);
 	}
 
+	public void handleInteract(String username, int ID) {
+
+	}
+
 	private Player getPlayer(String username) {
 		for (Player p : players)
 			if (p.getUsername().equals(username))
@@ -195,10 +202,13 @@ public class Level {
 					// packet.writeData(game.getClient());
 				}
 
-				// // Player picking up item
-				// if (p.isPickingUp) {
-				// packet = new Packet04Equip();
-				// }
+				// Player picking up item
+				if (p.itemPickedUp()) {
+					Item last = p.getLastItem();
+					p.setItemPickedUp(false);
+					packet = new Packet06Interact(p.getUsername(), last.getID());
+					// packet.writeData(game.getClient());
+				}
 			}
 		}
 
