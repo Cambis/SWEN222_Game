@@ -78,8 +78,9 @@ public class Polygon {
 
 			if (vdir.dot(l.getDirection()) > 0.8){
 				// Check shadow
-				for (int i = 0; i < 40; ++i){
-					Vec3 pos = Vec3.Lerp(l.getPosition(), positionAvg, i/50.f).div(new Vec3(0.02, 0.02, 0.02)).div(new Vec3(tileSize, tileSize, tileSize));
+				for (int i = 0; i < tileSize*2-1; ++i){
+					Vec3 pos = Vec3.Lerp(l.getPosition(), positionAvg, (float)i/(tileSize*2)).div(new Vec3(0.02, 0.02, 0.02)).div(new Vec3(tileSize, tileSize, tileSize));
+					pos = pos.add(new Vec3(0.5, 0.5, 0.5));
 					//System.out.println(pos.getX() + " " + pos.getZ());
 					if (pos.getX() >= 0 && pos.getZ() >= 0 && pos.getX() < shadowMap.length && pos.getZ() < shadowMap[0].length){
 						if (shadowMap[(int)(pos.getX())][(int)(pos.getZ())] == 1){
