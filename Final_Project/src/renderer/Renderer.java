@@ -114,6 +114,9 @@ public class Renderer {
 		if (!modelMap.containsKey(name)) {
 			return false;
 		}
+		if (!playerMap.containsKey(name)) {
+			playerMap.remove(name);
+		}
 		modelMap.remove(name);
 		return true;
 	}
