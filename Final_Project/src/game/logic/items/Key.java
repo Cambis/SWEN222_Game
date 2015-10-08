@@ -1,7 +1,12 @@
 package game.logic.items;
 
+import java.awt.Color;
+
 import renderer.R_AbstractModel;
 import renderer.R_AbstractModelData;
+import renderer.R_Model;
+import renderer.R_ModelColorData;
+import renderer.math.Vec3;
 import game.logic.world.Door;
 
 /**
@@ -15,10 +20,15 @@ public class Key implements Item {
 	private final int ID;
 	private Door door;
 
-	private double x, z;
+	private double x = 0, z = 0;
 
 	public Key(int ID) {
 		this.ID = ID;
+	}
+
+	public Key(int ID, double x, double z) {
+		this(ID);
+		setPosition(x, z);
 	}
 
 	@Override
@@ -37,8 +47,7 @@ public class Key implements Item {
 
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.ID;
 	}
 
 	@Override
@@ -48,13 +57,11 @@ public class Key implements Item {
 
 	@Override
 	public R_AbstractModelData getModelData() {
-		// TODO Auto-generated method stub
-		return null;
+		return new R_ModelColorData("KEY", "res/assets/Models/monkey.obj", new Color(218, 165, 32));
 	}
 
 	@Override
 	public R_AbstractModel getModel() {
-		// TODO Auto-generated method stub
-		return null;
+		return new R_Model("KEY", getModelData(), new Vec3(x, 0, z), Vec3.Zero(), new Vec3(0.1, 0.1, 0.1));
 	}
 }
