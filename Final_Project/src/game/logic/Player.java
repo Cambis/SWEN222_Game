@@ -107,7 +107,7 @@ public class Player {
 			accel = (accel < 1) ? accel + 0.1 : 1;
 			double newY = y - (MAX_VELOCITY * accel) * Math.cos(rotation);
 			double newX = x - (MAX_VELOCITY * accel) * Math.sin(rotation);
-			move(newX, newY);
+			move(newY, newX);
 		}
 
 		// Check for shooting:

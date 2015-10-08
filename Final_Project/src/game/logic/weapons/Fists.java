@@ -1,5 +1,7 @@
 package game.logic.weapons;
 
+import renderer.R_AbstractModel;
+import renderer.R_AbstractModelData;
 import game.logic.Level;
 import game.logic.Player;
 import game.logic.Room;
@@ -22,6 +24,36 @@ public class Fists extends Weapon implements Item {
 	@Override
 	public int getCooldown() {
 		return cooldownTime;
+	}
+
+	@Override
+	public void setPosition(double x, double z) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ItemType getItemType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public R_AbstractModelData getModelData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public R_AbstractModel getModel() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
