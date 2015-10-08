@@ -27,7 +27,7 @@ public class Polygon {
 		v[i2] = temp;
 	}
 
-	public void draw(int[] viewport, float[][] zBuffer, int width, int height, Color col, List<Vertex> vertices, List<Light> lights, R_Player.Team side, R_Player.Team visible) {
+	public void draw(int[] viewport, float[][] zBuffer, int width, int height, Color col, List<Vertex> vertices, List<Light> lights, R_Player.Team side, R_Player.Team visible, int[][] shadowMap, int tileSize) {
 		Vertex tempV1 = vertices.get(v1);
 		Vertex tempV2 = vertices.get(v2);
 		Vertex tempV3 = vertices.get(v3);
@@ -70,12 +70,25 @@ public class Polygon {
 									tempV3.getWorld())).div(new Vec3(3, 3, 3));
 		float light = 0;
 		boolean inlight = false;
-		for (Light l : lights){
+		LightLoop : for (Light l : lights){
 			if (l.getSide() != side && visible == R_Player.Team.SCENE){
 				continue;
 			}
 			Vec3 vdir = positionAvg.sub(l.getPosition());
+
 			if (vdir.dot(l.getDirection()) > 0.8){
+				// Check shadow
+				for (int i = 0; i < 10; ++i){
+					Vec3 pos = Vec3.Lerp(l.getPosition(), positionAvg, 0).div(new Vec3(tileSize, tileSize, tileSize));
+
+					if (pos.getX() >= 0 && pos.getY() >= 0 && pos.getX() < shadowMap.length &&
+							pos.getY()< shadowMap[(int)(pos.getX())].length){
+
+						if (shadowMap[(int)(pos.getX()/tileSize)][(int)(pos.getY()/tileSize)] != 0){
+						// continue LightLoop;
+						}
+					}
+				}
 				inlight = true;
 				light += Math.max(0, Math.min(1, normal.dot(vdir)));
 			}

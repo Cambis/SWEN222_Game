@@ -20,5 +20,6 @@ public abstract class R_AbstractModelData {
 		return name;
 	}
 
-	protected abstract void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix, Mat4 modelMatrix, List<Light> lights, R_Player.Team side, R_Player.Team visible);
+	protected abstract void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix, Mat4 modelMatrix,
+								 List<Light> lights, R_Player.Team side, R_Player.Team visible, int[][] shadowMap, int tileSize);
 }
