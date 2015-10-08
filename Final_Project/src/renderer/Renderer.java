@@ -107,7 +107,7 @@ public class Renderer {
 	 * @return whether the model was successfully removed or not
 	 */
 	public boolean deleteModel(String name) {
-		if (modelMap.containsKey(name)) {
+		if (!modelMap.containsKey(name)) {
 			return false;
 		}
 		modelMap.remove(name);

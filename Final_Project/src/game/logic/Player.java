@@ -65,6 +65,9 @@ public class Player {
 	private int currentWeaponIndex;
 	private int cooldown;
 
+	// Has the player picked up an item?
+	private boolean itemPickedUp;
+
 	public Player(String username, double x, double y, double rotation) {
 		this.username = username;
 		this.x = x;
@@ -225,8 +228,20 @@ public class Player {
 
 	public void addItem(Item item) {
 		inventory.add(item);
+		itemPickedUp = true;
 	}
 
+	public final Item getLastItem() {
+		return inventory.get(inventory.size() - 1);
+	}
+
+	public void setItemPickedUp(boolean status) {
+		itemPickedUp = status;
+	}
+
+	public final boolean itemPickedUp() {
+		return itemPickedUp;
+	}
 	/**
 	 * Sets players current room
 	 */
