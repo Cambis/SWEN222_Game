@@ -349,6 +349,13 @@ public class StealthGame implements Runnable {
 			}
 		}
 		level.setTeams(players, teams);
+
+		// Sets the renderer to draw the correct team
+		R_Player.Team rteam = R_Player.Team.SPY;
+		if (player.getSide() == Team.GUARD){
+			rteam = R_Player.Team.GUARD;
+		}
+		renderer.setTeam(rteam);
 	}
 
 	/** RENDERER METHODS **/
