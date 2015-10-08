@@ -384,6 +384,10 @@ public class StealthGame implements Runnable {
 		return renderer.getModelData(name);
 	}
 
+	public final Renderer getRenderer() {
+		return renderer;
+	}
+
 	private KeyListener mainFrameListener = new KeyListener() {
 		@Override
 		public void keyTyped(KeyEvent e) {

@@ -164,9 +164,12 @@ public class Level {
 	}
 
 	/**
-	 * Go through each player and check what action they are doing.
+	 * Go through each player and check what action they are doing. Also, go
+	 * through each tile and update it.
 	 */
 	public void tick() {
+
+		// Go through players
 		for (Player p : players) {
 
 			// Only render the player if they are alive
@@ -189,7 +192,7 @@ public class Level {
 				// Player shooting
 				if (p.isShooting()) {
 					packet = new Packet03Engage(p.getUsername());
-					packet.writeData(game.getClient());
+					// packet.writeData(game.getClient());
 				}
 
 				// // Player picking up item
@@ -197,6 +200,11 @@ public class Level {
 				// packet = new Packet04Equip();
 				// }
 			}
+		}
+
+		// Go through rooms
+		for (Room r : rooms) {
+			r.tick(game.getRenderer());
 		}
 	}
 
@@ -226,9 +234,9 @@ public class Level {
 
 			// Player model
 
-			//Sets up the renderer for drawing the teams correctly
+			// Sets up the renderer for drawing the teams correctly
 			R_Player.Team rteam = R_Player.Team.SPY;
-			if (p.getSide() == Team.GUARD){
+			if (p.getSide() == Team.GUARD) {
 				rteam = R_Player.Team.GUARD;
 			}
 			R_Player pl = new R_Player(p.getUsername(),
