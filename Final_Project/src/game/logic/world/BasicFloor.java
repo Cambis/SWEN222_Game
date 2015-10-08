@@ -1,5 +1,6 @@
 package game.logic.world;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import game.logic.Player;
@@ -13,7 +14,8 @@ public class BasicFloor implements Tile{
 	private R_Model model;
 	private List<Item> inventory;
 
-	public BasicFloor(double xPos, double yPos, R_ModelColorData data, int tileNum){
+	public BasicFloor(double xPos, double yPos, R_ModelColorData data, int tileNum) {
+		inventory = new ArrayList<Item>();
 		model = new R_Model("BasicFloor"+ tileNum, data, new Vec3(xPos, 0, yPos), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
 	}
 
@@ -43,6 +45,14 @@ public class BasicFloor implements Tile{
 	public void onExit(Player p) {
 		// Do Nothing
 
+	}
+
+	public boolean addItem(Item item) {
+		return inventory.add(item);
+	}
+
+	public final List<Item> getItems() {
+		return inventory;
 	}
 
 }
