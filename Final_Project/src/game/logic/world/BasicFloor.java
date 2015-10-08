@@ -7,9 +7,11 @@ import java.util.Set;
 import java.util.Stack;
 
 import game.logic.Player;
+import game.logic.Room;
 import game.logic.items.Item;
 import renderer.R_Model;
 import renderer.R_ModelColorData;
+import renderer.R_Player.Team;
 import renderer.math.Vec3;
 
 public class BasicFloor implements Tile {
@@ -22,10 +24,12 @@ public class BasicFloor implements Tile {
 	// Items to be removed from the renderer
 	private Queue<Item> inventoryTaken;
 
-	public BasicFloor(double xPos, double yPos, R_ModelColorData data, int tileNum) {
+	public BasicFloor(double xPos, double yPos, R_ModelColorData data,
+			int tileNum) {
 		inventory = new Stack<Item>();
 		inventoryTaken = new PriorityQueue<Item>();
-		model = new R_Model("BasicFloor"+ tileNum, data, new Vec3(xPos, 0, yPos), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
+		model = new R_Model("BasicFloor" + tileNum, data, new Vec3(xPos, 0,
+				yPos), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
 	}
 
 	@Override
@@ -40,7 +44,7 @@ public class BasicFloor implements Tile {
 
 	@Override
 	public void onInteract(Player p) {
-		if(!inventory.isEmpty()){
+		if (!inventory.isEmpty() && Item.canPickUp(inventory.peek(), p)) {
 			Item item = inventory.pop();
 			p.addItem(item);
 			inventoryTaken.offer(item);
@@ -49,7 +53,7 @@ public class BasicFloor implements Tile {
 
 	@Override
 	public void onEnter(Player p) {
-		//Do Nothing
+		// Do Nothing
 	}
 
 	@Override
@@ -69,5 +73,6 @@ public class BasicFloor implements Tile {
 	public final Queue<Item> getItemsToRemove() {
 		return inventoryTaken;
 	}
+
 
 }

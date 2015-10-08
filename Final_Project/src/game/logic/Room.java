@@ -15,6 +15,7 @@ import game.logic.world.Tile;
 import game.logic.world.Wall;
 import renderer.R_Model;
 import renderer.R_ModelColorData;
+import renderer.R_Player.Team;
 import renderer.Renderer;
 import renderer.Renderer.*;
 
@@ -240,5 +241,4 @@ public class Room {
 	public void removePlayer(Player outPlayer) {
 		getPlayersInRoom().remove(outPlayer);
 	}
-
 }

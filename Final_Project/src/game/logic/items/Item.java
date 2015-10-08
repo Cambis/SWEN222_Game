@@ -1,7 +1,9 @@
 package game.logic.items;
 
+import game.logic.Player;
 import renderer.R_AbstractModel;
 import renderer.R_AbstractModelData;
+import renderer.R_Player.Team;
 
 /**
  * Items are objects in the world that a player can interact with.
@@ -66,4 +68,33 @@ public interface Item {
 	 * @return instance of R_AbstractModel
 	 */
 	public R_AbstractModel getModel();
+
+	/**
+	 * Check if a player can pick up a certain item.
+	 *
+	 * @param item
+	 *            - item to be picked up
+	 * @param player
+	 *            - player attempting to pick item up
+	 * @return
+	 */
+	public static boolean canPickUp(Item item, Player player) {
+
+		Team team = player.getSide();
+
+		switch (item.getItemType()) {
+
+		// Items that spies can pick up
+		case KEY:
+		case TARGET:
+			if (team.equals(Team.SPY))
+				return true;
+			break;
+
+		default:
+			break;
+
+		}
+		return false;
+	}
 }

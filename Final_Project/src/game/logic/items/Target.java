@@ -1,7 +1,12 @@
 package game.logic.items;
 
+import java.awt.Color;
+
 import renderer.R_AbstractModel;
 import renderer.R_AbstractModelData;
+import renderer.R_Model;
+import renderer.R_ModelColorData;
+import renderer.math.Vec3;
 
 /**
  * Represents a target that the spies have to interact with to win the game. If
@@ -13,15 +18,18 @@ import renderer.R_AbstractModelData;
 public class Target implements Item {
 
 	private final int ID;
+	private double x, z;
 
 	public Target(final int ID) {
 		this.ID = ID;
+		this.x = 0;
+		this.z = 0;
 	}
 
 	@Override
 	public void setPosition(double x, double z) {
-		// TODO Auto-generated method stub
-
+		this.x = x;
+		this.z = z;
 	}
 
 	@Override
@@ -36,13 +44,11 @@ public class Target implements Item {
 
 	@Override
 	public R_AbstractModelData getModelData() {
-		// TODO Auto-generated method stub
-		return null;
+		return new R_ModelColorData("TARGET", "res/monkey.obj", Color.green);
 	}
 
 	@Override
 	public R_AbstractModel getModel() {
-		// TODO Auto-generated method stub
-		return null;
+		return new R_Model("TARGET: " + ID, getModelData(), new Vec3(x, 0, z), Vec3.Zero(), new Vec3(0.05, 0.05, 0.05));
 	}
 }
