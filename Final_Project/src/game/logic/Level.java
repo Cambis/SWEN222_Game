@@ -225,8 +225,14 @@ public class Level {
 			Vec3 scale = new Vec3(0.1, 0.1, 0.1);
 
 			// Player model
+
+			//Sets up the renderer for drawing the teams correctly
+			R_Player.Team rteam = R_Player.Team.SPY;
+			if (p.getSide() == Team.GUARD){
+				rteam = R_Player.Team.GUARD;
+			}
 			R_Player pl = new R_Player(p.getUsername(),
-					game.getR_ModelData(model), p.getSide(), trans, rot, scale);
+					game.getR_ModelData(model), rteam, trans, rot, scale);
 
 			// Assign the model to the player and the renderer
 			p.setModel(pl);

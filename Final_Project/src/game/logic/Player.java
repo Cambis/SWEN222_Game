@@ -165,10 +165,10 @@ public class Player {
 			//Apply Enter and Exit tile modifiers
 			Tile oldTile = currentRoom.getTile(this, x, y);
 			Tile newTile = currentRoom.getTile(this, newX, newY);
-			if(oldTile!=newTile){
-				oldTile.onExit(this);
-				newTile.onEnter(this);
-			}
+//			if(oldTile!=newTile){
+//				oldTile.onExit(this);
+//				newTile.onEnter(this);
+//			}
 			// System.out.println("new x: " + model.getPosition().getX());
 			x = newX;
 			y = newY;
@@ -355,7 +355,7 @@ public class Player {
 	/** RENDER HELPERS **/
 
 	public final R_Player getModel() {
-		return (model == null) ? null : model;
+		return model;
 	}
 
 	public final void setModel(R_Player model) {

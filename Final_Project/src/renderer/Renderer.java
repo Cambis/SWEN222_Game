@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import renderer.R_Player.Team;
 import renderer.math.Mat4;
 import renderer.math.Vec3;
 
@@ -35,6 +36,9 @@ public class Renderer {
 
 	// The currently selected camera to use
 	private R_AbstractCamera currentCam;
+
+	// The currently team to view;
+	private R_Player.Team side = R_Player.Team.SPY;
 
 	// Defines the rendered image's width and height
 	private int width;
@@ -251,14 +255,18 @@ public class Renderer {
 
 		List<Light> lights = new ArrayList<Light>();
 		for (R_Player m : playerMap.values()) {
-			lights.add(new Light(m.getPosition(), m.getOrientation()));
+			lights.add(new Light(m.getPosition(), m.getOrientation(), m.getSide()));
 		}
 
 		// Draw Model
 		final Mat4 matrix = matrixStack;
 		for (R_AbstractModel m : modelMap.values()) {
+			R_Player.Team visible = R_Player.Team.SCENE;
+			if (m instanceof R_Player){
+				visible = ((R_Player)m).getSide();
+			}
 			m.draw(buf, zBuffer, viewport.getWidth(), viewport.getHeight(),
-					matrix, lights);
+					matrix, lights, side, visible);
 		}
 
 		long timeAfter = 1000 / Math.max(1, System.currentTimeMillis()
@@ -266,5 +274,9 @@ public class Renderer {
 		g.setColor(Color.WHITE);
 		g.drawString("FPS: " + timeAfter, 25, 25);
 		return viewport;
+	}
+
+	public void setTeam(Team rteam) {
+		side = rteam;
 	}
 }
