@@ -110,4 +110,18 @@ public class Vec3 {
 	public static Vec3 One() {
 		return new Vec3(1,1,1);
 	}
+
+	public static Vec3 Lerp(Vec3 a, Vec3 b, float val) {
+		if (val <= 0){
+			return new Vec3(a);
+		} else if (val >= 1){
+			return new Vec3(b);
+		}
+		else {
+			float xLerp = a.getX() * (1-val) + b.getX() * val;
+			float yLerp = a.getY() * (1-val) + b.getY() * val;
+			float zLerp = a.getZ() * (1-val) + b.getZ() * val;
+			return new Vec3(xLerp, yLerp, zLerp);
+		}
+	}
 }

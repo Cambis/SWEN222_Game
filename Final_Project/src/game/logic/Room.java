@@ -147,7 +147,7 @@ public class Room {
 	 * @param r
 	 */
 	public void initTiles(Renderer r) {
-
+		int[][] shadowMap = new int[tiles.length][tiles[0].length];
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
 				// r.addModel(tiles[i][j].getModel());
@@ -155,6 +155,13 @@ public class Room {
 
 				// Add model of the tile
 				r.addModel(tile.getModel());
+
+				// Setup shadow map
+				if (tile instanceof Wall) {
+					shadowMap[i][j] = 1;
+				} else {
+					shadowMap[i][j] = 0;
+				}
 
 				// If there are any items add them too
 				if (tile instanceof BasicFloor) {
@@ -170,7 +177,7 @@ public class Room {
 				}
 			}
 		}
-
+		r.setMap(shadowMap);
 	}
 
 	/**

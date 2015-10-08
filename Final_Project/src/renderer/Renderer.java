@@ -40,6 +40,10 @@ public class Renderer {
 	// The currently team to view;
 	private R_Player.Team side = R_Player.Team.SPY;
 
+	// The map
+	private int[][] shadowMap = new int[1][1];
+	private int tileSize = 10;
+
 	// Defines the rendered image's width and height
 	private int width;
 	private int height;
@@ -218,6 +222,14 @@ public class Renderer {
 	}
 
 	/**
+	 * Sets the map grid for shadow mapping
+	 *
+	 * @param newShadowMap the array representing the walls on the map
+	 */
+	public void setMap(int[][] newShadowMap){
+		shadowMap = newShadowMap;
+	}
+	/**
 	 * Renders the scene and returns a buffered image of the render
 	 *
 	 * @return the BufferedImage of the rendered scene
@@ -266,7 +278,7 @@ public class Renderer {
 				visible = ((R_Player)m).getSide();
 			}
 			m.draw(buf, zBuffer, viewport.getWidth(), viewport.getHeight(),
-					matrix, lights, side, visible);
+					matrix, lights, side, visible, shadowMap, tileSize);
 		}
 
 		long timeAfter = 1000 / Math.max(1, System.currentTimeMillis()

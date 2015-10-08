@@ -50,12 +50,12 @@ public class R_ModelColorData extends R_AbstractModelData {
 	}
 
 	@Override
-	protected void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix, Mat4 modelMatrix, List<Light> lights, R_Player.Team side, R_Player.Team visible) {
+	protected void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix, Mat4 modelMatrix, List<Light> lights, R_Player.Team side, R_Player.Team visible, int[][] shadowMap, int tileSize) {
 		for (Vertex v : verts){
 			v.generateWP(modelMatrix, viewProjMatrix);
 		}
 		for (Polygon p : polys){
-			p.draw(viewport, zBuffer, width, height, col, verts, lights, side, visible);
+			p.draw(viewport, zBuffer, width, height, col, verts, lights, side, visible, shadowMap, tileSize);
 		}
 	}
 }
