@@ -78,17 +78,17 @@ public class Polygon {
 
 			if (vdir.dot(l.getDirection()) > 0.8){
 				// Check shadow
-				for (int i = 0; i < 10; ++i){
-					Vec3 pos = Vec3.Lerp(l.getPosition(), positionAvg, 0).div(new Vec3(tileSize, tileSize, tileSize));
-
-					if (pos.getX() >= 0 && pos.getY() >= 0 && pos.getX() < shadowMap.length &&
-							pos.getY()< shadowMap[(int)(pos.getX())].length){
-
-						if (shadowMap[(int)(pos.getX()/tileSize)][(int)(pos.getY()/tileSize)] != 0){
-						// continue LightLoop;
+				for (int i = 0; i < 40; ++i){
+					Vec3 pos = Vec3.Lerp(l.getPosition(), positionAvg, i/50.f).div(new Vec3(0.02, 0.02, 0.02)).div(new Vec3(tileSize, tileSize, tileSize));
+					//System.out.println(pos.getX() + " " + pos.getZ());
+					if (pos.getX() >= 0 && pos.getZ() >= 0 && pos.getX() < shadowMap.length && pos.getZ() < shadowMap[0].length){
+						if (shadowMap[(int)(pos.getX())][(int)(pos.getZ())] == 1){
+							continue LightLoop;
 						}
 					}
 				}
+
+				// Display light
 				inlight = true;
 				light += Math.max(0, Math.min(1, normal.dot(vdir)));
 			}
