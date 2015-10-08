@@ -62,6 +62,6 @@ public class Key implements Item {
 
 	@Override
 	public R_AbstractModel getModel() {
-		return new R_Model("KEY", getModelData(), new Vec3(x, 0, z), Vec3.Zero(), new Vec3(0.1, 0.1, 0.1));
+		return new R_Model("KEY: " + ID, getModelData(), new Vec3(x, 0, z), Vec3.Zero(), new Vec3(0.1, 0.1, 0.1));
 	}
 }

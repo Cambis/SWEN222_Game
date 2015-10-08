@@ -98,8 +98,8 @@ public class Room {
 
 					switch (itemKey) {
 					case 'K': // Key
-						item = new Key(10, xPos * TILE_SIZE
-								* SCALE, yPos * TILE_SIZE * SCALE);
+						item = new Key(10, xPos * TILE_SIZE * SCALE, yPos
+								* TILE_SIZE * SCALE);
 						break;
 
 					default:
@@ -173,6 +173,35 @@ public class Room {
 
 	}
 
+	/**
+	 * Tick through the tiles to see if there are any items to remove.
+	 *
+	 * @param r
+	 *            - the renderer that is rendering the scene.
+	 */
+	public void tick(Renderer r) {
+
+		for (int i = 0; i < tiles.length; i++) {
+			for (int j = 0; j < tiles[0].length; j++) {
+				Tile tile = tiles[i][j];
+
+				if (tile instanceof BasicFloor) {
+
+					BasicFloor floor = (BasicFloor) tile;
+
+					// If there are any items to remove, remove them from the
+					// renderer
+					if (!floor.getItemsToRemove().isEmpty()) {
+						for (Item item : floor.getItemsToRemove()) {
+							r.deleteModel(item.getModel().getName());
+							floor.getItemsToRemove().poll();
+						}
+					}
+				}
+			}
+		}
+	}
+
 	// public void interactWithPosition
 
 	/**
@@ -204,4 +233,5 @@ public class Room {
 	public void removePlayer(Player outPlayer) {
 		getPlayersInRoom().remove(outPlayer);
 	}
+
 }
