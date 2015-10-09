@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import game.logic.weapons.Lazor;
 import game.logic.world.BasicFloor;
 import game.logic.world.Tile;
 import game.logic.world.Wall;
@@ -27,10 +28,12 @@ public class Room {
 	private String name = "This is a unnamed room";
 
 	private List<Player> playersInRoom;
+	private List<Lazor> lazers = new ArrayList<Lazor>();
 
 	//Models
 	private R_ModelColorData floorData = new R_ModelColorData("Floor", "res/BasicFloor.obj", Color.GRAY);
 	private R_ModelColorData wallData = new R_ModelColorData("BasicWall", "res/BasicWall.obj", Color.RED);
+	private R_ModelColorData lazerData = new R_ModelColorData("Lazer", "res/lazer.obj", Color.RED);
 
 	public Room(String filename) {
 		loadTiles(filename);
@@ -123,6 +126,11 @@ public class Room {
 		return tiles[tileX][tileY];
 	}
 
+	public void createLazer(double x, double y, double rotation, Player shooter){
+		lazers.add(new Lazor(x, y, rotation, shooter, lazerData, lazers.size()));
+		//TODO add model to renderer somewhere
+	}
+
 	public List<Player> getPlayersInRoom() {
 		return playersInRoom;
 	}
@@ -134,5 +142,12 @@ public class Room {
 	}
 	public void removePlayer (Player outPlayer){
 		getPlayersInRoom().remove(outPlayer);
+	}
+
+	public void tick() {
+		for(Lazor l : lazers){
+			l.tick();
+		}
+
 	}
 }

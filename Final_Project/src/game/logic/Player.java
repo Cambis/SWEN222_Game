@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import game.logic.items.Item;
+import game.logic.weapons.LazorPistol;
 import game.logic.weapons.Weapon;
 import game.logic.world.Door;
 import game.logic.world.Tile;
@@ -69,6 +70,7 @@ public class Player {
 		this.x = x;
 		this.y = y;
 		this.rotation = rotation;
+		currentWeapon = new LazorPistol();
 	}
 
 	public void resetSpeed() {
@@ -153,7 +155,7 @@ public class Player {
 //				onDoor = false;
 //			}
 //		}
-
+		currentRoom.tick();
 	}
 
 	private void move(double newY, double newX) {

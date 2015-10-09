@@ -17,7 +17,7 @@ public class LazorPistol extends Weapon implements Item {
 	public void fire(double rotation, double x, double y, Room room, Player shooter) {
 		//TODO How to create a new lazor? Where is the new lazor stored?
 
-		new Lazor(x, y, rotation, room, shooter);
+		room.createLazer(x, y, rotation, shooter);
 
 
 	}
