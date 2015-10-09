@@ -24,7 +24,7 @@ public final class ResourceLoader {
 	 * @throws FileNotFoundException
 	 */
 	public static InputStream load(String path) throws FileNotFoundException {
-		System.out.println("Path: " + path);
+		// System.out.println("Path: " + path);
 		InputStream input = new FileInputStream(path);
 		return input;
 	}
