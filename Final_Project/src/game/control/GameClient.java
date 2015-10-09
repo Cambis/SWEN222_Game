@@ -229,7 +229,7 @@ public class GameClient extends Thread {
 	}
 
 	private void handleInteract(Packet06Interact packet) {
-
+		game.handleInteract(packet.getUsername(), packet.getObjectID());
 	}
 
 	private void handleEquip(Packet07Equip packet) {

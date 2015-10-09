@@ -7,7 +7,7 @@ import game.control.GameServer;
  * Information between the server and client will be sent by subclasses of this
  * class.
  *
- * @author Bieleski, Bryers, Gill & Thompson MMXV.
+ * @author Cameron Bryers 300326848 MMXV
  *
  */
 public abstract class Packet {
@@ -16,7 +16,7 @@ public abstract class Packet {
 	 * Types of packets that can be sent. Packet data format is shown in each
 	 * subclass.
 	 *
-	 * @author Bieleski, Bryers, Gill & Thompson MMXV.
+	 * @author Cameron Bryers 300326848 MMXV
 	 *
 	 */
 	public static enum PacketType {

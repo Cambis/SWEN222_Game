@@ -4,6 +4,9 @@ import game.control.PlayerMP;
 import game.control.packets.Packet;
 import game.control.packets.Packet02Move;
 import game.control.packets.Packet03Engage;
+import game.control.packets.Packet06Interact;
+import game.control.packets.Packet07Equip;
+import game.logic.items.Item;
 
 import java.awt.Color;
 import java.io.File;
@@ -147,6 +150,10 @@ public class Level {
 		movePlayer(getPlayer(id).getUsername(), x, z, rot);
 	}
 
+	public void handleInteract(String username, int ID) {
+
+	}
+
 	private Player getPlayer(String username) {
 		for (Player p : players)
 			if (p.getUsername().equals(username))
@@ -164,9 +171,12 @@ public class Level {
 	}
 
 	/**
-	 * Go through each player and check what action they are doing.
+	 * Go through each player and check what action they are doing. Also, go
+	 * through each tile and update it.
 	 */
 	public void tick() {
+
+		// Go through players
 		for (Player p : players) {
 
 			// Only render the player if they are alive
@@ -189,14 +199,22 @@ public class Level {
 				// Player shooting
 				if (p.isShooting()) {
 					packet = new Packet03Engage(p.getUsername());
-					packet.writeData(game.getClient());
+					// packet.writeData(game.getClient());
 				}
 
-				// // Player picking up item
-				// if (p.isPickingUp) {
-				// packet = new Packet04Equip();
-				// }
+				// Player picking up item
+				if (p.itemPickedUp()) {
+					Item last = p.getLastItem();
+					p.setItemPickedUp(false);
+					packet = new Packet06Interact(p.getUsername(), last.getID());
+					// packet.writeData(game.getClient());
+				}
 			}
+		}
+
+		// Go through rooms
+		for (Room r : rooms) {
+			r.tick(game.getRenderer());
 		}
 	}
 
@@ -225,8 +243,14 @@ public class Level {
 			Vec3 scale = new Vec3(0.1, 0.1, 0.1);
 
 			// Player model
+
+			// Sets up the renderer for drawing the teams correctly
+			R_Player.Team rteam = R_Player.Team.SPY;
+			if (p.getSide() == Team.GUARD) {
+				rteam = R_Player.Team.GUARD;
+			}
 			R_Player pl = new R_Player(p.getUsername(),
-					game.getR_ModelData(model), p.getSide(), trans, rot, scale);
+					game.getR_ModelData(model), rteam, trans, rot, scale);
 
 			// Assign the model to the player and the renderer
 			p.setModel(pl);

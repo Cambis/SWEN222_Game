@@ -12,11 +12,11 @@ public class R_Player extends R_AbstractModel{
 
 	// The Teams
 	public enum Team{
-		GUARD, SPY
+		GUARD, SPY, SCENE
 	}
 
 	// The side the player is on
-	private final Team side;
+	private Team side;
 
 	public R_Player(String name, R_AbstractModelData model, Team team, Vec3 position, Vec3 orientation, Vec3 scale) {
 		super(name, model, position, orientation, scale);
@@ -29,4 +29,13 @@ public class R_Player extends R_AbstractModel{
 	public Team getSide() {
 		return side;
 	}
+
+	/**
+	 * Sets the team the player is on
+	 * @param side	the new side of the player
+	 */
+	public void setSide(Team side) {
+		this.side = side;
+	}
+
 }

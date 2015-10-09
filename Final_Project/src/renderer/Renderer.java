@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import renderer.R_Player.Team;
 import renderer.math.Mat4;
 import renderer.math.Vec3;
 
@@ -35,6 +36,13 @@ public class Renderer {
 
 	// The currently selected camera to use
 	private R_AbstractCamera currentCam;
+
+	// The currently team to view;
+	private R_Player.Team side = R_Player.Team.SPY;
+
+	// The map
+	private int[][] shadowMap = new int[1][1];
+	private int tileSize = 10;
 
 	// Defines the rendered image's width and height
 	private int width;
@@ -103,8 +111,11 @@ public class Renderer {
 	 * @return whether the model was successfully removed or not
 	 */
 	public boolean deleteModel(String name) {
-		if (modelMap.containsKey(name)) {
+		if (!modelMap.containsKey(name)) {
 			return false;
+		}
+		if (!playerMap.containsKey(name)) {
+			playerMap.remove(name);
 		}
 		modelMap.remove(name);
 		return true;
@@ -214,6 +225,14 @@ public class Renderer {
 	}
 
 	/**
+	 * Sets the map grid for shadow mapping
+	 *
+	 * @param newShadowMap the array representing the walls on the map
+	 */
+	public void setMap(int[][] newShadowMap){
+		shadowMap = newShadowMap;
+	}
+	/**
 	 * Renders the scene and returns a buffered image of the render
 	 *
 	 * @return the BufferedImage of the rendered scene
@@ -251,14 +270,18 @@ public class Renderer {
 
 		List<Light> lights = new ArrayList<Light>();
 		for (R_Player m : playerMap.values()) {
-			lights.add(new Light(m.getPosition(), m.getOrientation()));
+			lights.add(new Light(m.getPosition(), m.getOrientation(), m.getSide()));
 		}
 
 		// Draw Model
 		final Mat4 matrix = matrixStack;
 		for (R_AbstractModel m : modelMap.values()) {
+			R_Player.Team visible = R_Player.Team.SCENE;
+			if (m instanceof R_Player){
+				visible = ((R_Player)m).getSide();
+			}
 			m.draw(buf, zBuffer, viewport.getWidth(), viewport.getHeight(),
-					matrix, lights);
+					matrix, lights, side, visible, shadowMap, tileSize);
 		}
 
 		long timeAfter = 1000 / Math.max(1, System.currentTimeMillis()
@@ -266,5 +289,9 @@ public class Renderer {
 		g.setColor(Color.WHITE);
 		g.drawString("FPS: " + timeAfter, 25, 25);
 		return viewport;
+	}
+
+	public void setTeam(Team rteam) {
+		side = rteam;
 	}
 }

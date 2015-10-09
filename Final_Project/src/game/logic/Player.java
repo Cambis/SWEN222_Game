@@ -5,6 +5,8 @@ package game.logic;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import game.logic.items.Item;
 import game.logic.weapons.LazorPistol;
@@ -20,7 +22,7 @@ import renderer.math.Vec3;
  * Represents a player in the game. This class should do the player logic and
  * not have anything to do with the client/ server.
  *
- * @author Bieleski, Bryers, Gill & Thompson MMXV.
+ * @author Bieleski, Bryers, Gill and Thompson MMXV.
  *
  */
 public class Player {
@@ -59,18 +61,25 @@ public class Player {
 	// private Weapon sideWeapon;
 	// private Weapon mainWeapon;
 	private boolean isSide;
-	private ArrayList<Item> inventory;
-	private ArrayList<Item> weaponInventory;
+	private List<Item> inventory;
+	private List<Item> weaponInventory;
 	private Weapon currentWeapon;
 	private int currentWeaponIndex;
 	private int cooldown;
+
+	// Has the player picked up an item?
+	private boolean itemPickedUp;
 
 	public Player(String username, double x, double y, double rotation) {
 		this.username = username;
 		this.x = x;
 		this.y = y;
 		this.rotation = rotation;
+
 		currentWeapon = new LazorPistol();
+
+		this.inventory = new ArrayList<Item>();
+		this.weaponInventory = new ArrayList<Item>();
 	}
 
 	public void resetSpeed() {
@@ -85,18 +94,22 @@ public class Player {
 	public void tick() {
 
 		// Player Movement:
+
+		// Turning Left
 		if (turnLeft && !turnRight) {
 			isMoving = true;
 			rotation += TURN_SPEED;
 			model.getOrientation().setY((float) rotation);
 		}
 
+		// Turning Right
 		if (turnRight && !turnLeft) {
 			isMoving = true;
 			rotation -= TURN_SPEED;
 			model.getOrientation().setY((float) rotation);
 		}
 
+		// Moving Forward
 		if (moveFoward) {
 			isMoving = true;
 			accel = (accel < 1) ? accel + 0.1 : 1;
@@ -104,12 +117,20 @@ public class Player {
 			double newX = x + (MAX_VELOCITY * accel) * Math.sin(rotation);
 			move(newY, newX);
 		}
+
+		// Moving Backward
 		if (moveBackward) {
 			isMoving = true;
 			accel = (accel < 1) ? accel + 0.1 : 1;
 			double newY = y - (MAX_VELOCITY * accel) * Math.cos(rotation);
 			double newX = x - (MAX_VELOCITY * accel) * Math.sin(rotation);
-			move(newX, newY);
+			move(newY, newX);
+		}
+
+		// Check if the player is over an item
+		if (getRoom() != null && getRoom().validPosition(this, getX(), getY())) {
+			Tile tile = getRoom().getTile(this, getX(), getY());
+			tile.onInteract(this);
 		}
 
 		// Check for shooting:
@@ -159,25 +180,24 @@ public class Player {
 	}
 
 	private void move(double newY, double newX) {
-		if (currentRoom != null
-			 && currentRoom.validPosition(this, newX, newY)) {
+		if (currentRoom != null && currentRoom.validPosition(this, newX, newY)) {
 			// System.out.println("old x: " + model.getPosition().getX());
 			model.getPosition().setX((float) newX);
 			model.getPosition().setZ((float) newY);
-			//Apply Enter and Exit tile modifiers
+			// Apply Enter and Exit tile modifiers
 			Tile oldTile = currentRoom.getTile(this, x, y);
 			Tile newTile = currentRoom.getTile(this, newX, newY);
-			if(oldTile!=newTile){
-				oldTile.onExit(this);
-				newTile.onEnter(this);
-			}
+			// if(oldTile!=newTile){
+			// oldTile.onExit(this);
+			// newTile.onEnter(this);
+			// }
 			// System.out.println("new x: " + model.getPosition().getX());
 			x = newX;
 			y = newY;
 		}
 	}
 
-	private void useCurrentWeapon(){
+	private void useCurrentWeapon() {
 		currentWeapon.fire(rotation, x, y, currentRoom, this);
 	}
 
@@ -210,10 +230,26 @@ public class Player {
 		this.x = x;
 	}
 
-	public void addItem(Item item){
+	public void addItem(Item item) {
 		inventory.add(item);
+		itemPickedUp = true;
 	}
 
+	public final Item getLastItem() {
+		return inventory.get(inventory.size() - 1);
+	}
+
+	public final List<Item> getInventory() {
+		return Collections.unmodifiableList(inventory);
+	}
+
+	public void setItemPickedUp(boolean status) {
+		itemPickedUp = status;
+	}
+
+	public final boolean itemPickedUp() {
+		return itemPickedUp;
+	}
 	/**
 	 * Sets players current room
 	 */
@@ -341,23 +377,23 @@ public class Player {
 	// //TODO Graphics for swapping between main and side?
 	// }
 
-//	public void selectItem(int i) {
-//		currentItemIndex = i;
-//		// TODO Display change in selected item from inventory
-//	}
-//
-//	public void dropItem() {
-//		if (inventory.get(currentItemIndex) != null) {
-//			Item droppedItem = inventory.get(currentItemIndex);
-//			inventory.remove(currentItemIndex);
-//			// TODO Drop item on floor right below player.
-//		}
-//	}
+	// public void selectItem(int i) {
+	// currentItemIndex = i;
+	// // TODO Display change in selected item from inventory
+	// }
+	//
+	// public void dropItem() {
+	// if (inventory.get(currentItemIndex) != null) {
+	// Item droppedItem = inventory.get(currentItemIndex);
+	// inventory.remove(currentItemIndex);
+	// // TODO Drop item on floor right below player.
+	// }
+	// }
 
 	/** RENDER HELPERS **/
 
 	public final R_Player getModel() {
-		return (model == null) ? null : model;
+		return model;
 	}
 
 	public final void setModel(R_Player model) {

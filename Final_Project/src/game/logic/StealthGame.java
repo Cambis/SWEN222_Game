@@ -10,6 +10,7 @@ import java.util.List;
 
 import renderer.*;
 import renderer.R_Player.Team;
+import renderer.math.Mat4;
 import renderer.math.Vec3;
 import game.control.GameClient;
 import game.control.GameServer;
@@ -349,6 +350,17 @@ public class StealthGame implements Runnable {
 			}
 		}
 		level.setTeams(players, teams);
+
+		// Sets the renderer to draw the correct team
+		R_Player.Team rteam = R_Player.Team.SPY;
+		if (player.getSide() == Team.GUARD){
+			rteam = R_Player.Team.GUARD;
+		}
+		renderer.setTeam(rteam);
+	}
+
+	public synchronized void handleInteract(String username, int ID) {
+		level.handleInteract(username, ID);
 	}
 
 	/** RENDERER METHODS **/
@@ -375,6 +387,10 @@ public class StealthGame implements Runnable {
 
 	public R_AbstractModelData getR_ModelData(String name) {
 		return renderer.getModelData(name);
+	}
+
+	public final Renderer getRenderer() {
+		return renderer;
 	}
 
 	private KeyListener mainFrameListener = new KeyListener() {
@@ -424,6 +440,17 @@ public class StealthGame implements Runnable {
 			case KeyEvent.VK_DOWN:// Down
 				player.setBackward(false);
 				break;
+
+
+			case KeyEvent.VK_Z:// rotate camera left
+				renderer.getCamera("MainCamera").setPosition(
+						Mat4.createRotationYAxis((float)Math.toRadians(90)).mul(renderer.getCamera("MainCamera").getPosition()));
+				break;
+			case KeyEvent.VK_X:// rotate camera right
+				renderer.getCamera("MainCamera").setPosition(
+						Mat4.createRotationYAxis((float)Math.toRadians(-90)).mul(renderer.getCamera("MainCamera").getPosition()));
+				break;
+
 //			case KeyEvent.VK_1:// 1
 //				player.selectItem(1);
 //				break;

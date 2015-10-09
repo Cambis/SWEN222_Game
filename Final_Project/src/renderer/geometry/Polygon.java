@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import renderer.Light;
+import renderer.R_Player;
 import renderer.math.Mat4;
 import renderer.math.Vec3;
 
@@ -26,7 +27,7 @@ public class Polygon {
 		v[i2] = temp;
 	}
 
-	public void draw(int[] viewport, float[][] zBuffer, int width, int height, Color col, List<Vertex> vertices, List<Light> lights) {
+	public void draw(int[] viewport, float[][] zBuffer, int width, int height, Color col, List<Vertex> vertices, List<Light> lights, R_Player.Team side, R_Player.Team visible, int[][] shadowMap, int tileSize) {
 		Vertex tempV1 = vertices.get(v1);
 		Vertex tempV2 = vertices.get(v2);
 		Vertex tempV3 = vertices.get(v3);
@@ -68,14 +69,38 @@ public class Polygon {
 							tempV2.getWorld().add(
 									tempV3.getWorld())).div(new Vec3(3, 3, 3));
 		float light = 0;
-
-		for (Light l : lights){
+		boolean inlight = false;
+		LightLoop : for (Light l : lights){
+			if (l.getSide() != side && visible == R_Player.Team.SCENE){
+				continue;
+			}
 			Vec3 vdir = positionAvg.sub(l.getPosition());
+
 			if (vdir.dot(l.getDirection()) > 0.8){
+				// Check shadow
+				for (int i = 0; i < tileSize*2-1; ++i){
+					Vec3 pos = Vec3.Lerp(l.getPosition(), positionAvg, (float)i/(tileSize*2)).div(new Vec3(0.02, 0.02, 0.02)).div(new Vec3(tileSize, tileSize, tileSize));
+					pos = pos.add(new Vec3(0.5, 0.5, 0.5));
+					//System.out.println(pos.getX() + " " + pos.getZ());
+					if (pos.getX() >= 0 && pos.getZ() >= 0 && pos.getX() < shadowMap.length && pos.getZ() < shadowMap[0].length){
+						if (shadowMap[(int)(pos.getX())][(int)(pos.getZ())] == 1){
+							continue LightLoop;
+						}
+					}
+				}
+
+				// Display light
+				inlight = true;
 				light += Math.max(0, Math.min(1, normal.dot(vdir)));
 			}
 		}
-
+		// Side == team side to view (G or S)
+		// visible == team current model is on (any)
+		if (side != visible && visible != R_Player.Team.SCENE){
+			if (!inlight){
+				return;
+			}
+		}
 		Vec3 amb = new Vec3(0.25f, 0.25f, 0.25f);
 		int c = new Color((int)(Math.max(0, Math.min(255, col.getRed() * (amb.getX() + light)))),
 					      (int)(Math.max(0, Math.min(255, col.getGreen() * (amb.getY() + light)))),
@@ -92,8 +117,8 @@ public class Polygon {
 	}
 
 	private void fillTopTri(int[] viewport, float[][] zBuffer, int width, int height, Vertex[] v, int c){
-		int min = (int)v[0].getProjected().getY();
-		int max = (int)v[2].getProjected().getY();
+		int min = (int)Math.floor(v[0].getProjected().getY());
+		int max = (int)Math.floor(v[2].getProjected().getY());
 
 		// X
 		float angXLeft = (v[1].getProjected().getX() - v[0].getProjected().getX()) / (v[1].getProjected().getY() - v[0].getProjected().getY());
@@ -113,7 +138,7 @@ public class Polygon {
 				float zLeft = v[0].getProjected().getZ() * (1 - yfrac) + v[1].getProjected().getZ() * yfrac;
 				float zRight = v[0].getProjected().getZ() * (1 - yfrac) + v[2].getProjected().getZ() * yfrac;
 
-				for (int x = xMin; x < xMax; ++x){
+				for (int x = xMin; x <= xMax; ++x){
 					float xfrac = ((float)(x - xMin)) / (xMax - xMin);
 					float zVal = zLeft*(1-xfrac) + zRight*xfrac;
 
@@ -129,8 +154,8 @@ public class Polygon {
 	}
 
 	private void fillBottomTri(int[] viewport, float[][] zBuffer, int width, int height, Vertex[] v, int c){
-		int min = (int)v[1].getProjected().getY();
-		int max = (int)v[3].getProjected().getY();
+		int min = (int)Math.floor(v[1].getProjected().getY());
+		int max = (int)Math.ceil(v[3].getProjected().getY());
 
 		float angXLeft = (v[3].getProjected().getX() - v[1].getProjected().getX()) / (v[3].getProjected().getY() - v[1].getProjected().getY());
 		float angXRight = (v[3].getProjected().getX() - v[2].getProjected().getX()) / (v[3].getProjected().getY() - v[2].getProjected().getY());
@@ -149,7 +174,7 @@ public class Polygon {
 				float zLeft = v[1].getProjected().getZ() * (1 - yfrac) + v[3].getProjected().getZ() * yfrac;
 				float zRight = v[2].getProjected().getZ() * (1 - yfrac) + v[3].getProjected().getZ() * yfrac;
 
-				for (int x = xMin; x < xMax; ++x){
+				for (int x = xMin; x <= xMax; ++x){
 					float xfrac = ((float)(x - xMin)) / (xMax - xMin);
 					float zVal = zLeft*(1-xfrac) + zRight*xfrac;
 

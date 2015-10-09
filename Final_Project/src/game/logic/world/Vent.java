@@ -1,6 +1,8 @@
 package game.logic.world;
 
 import game.logic.Player;
+import renderer.R_AbstractModel;
+import renderer.R_AbstractModelData;
 import renderer.R_Model;
 import renderer.R_ModelColorData;
 import renderer.math.Vec3;
@@ -25,11 +27,6 @@ public class Vent implements Tile{
 		}
 
 	@Override
-	public R_Model getModel() {
-		return model;
-	}
-
-	@Override
 	public void onInteract(Player p) {
 		// TODO Auto-generated method stub
 
@@ -45,6 +42,23 @@ public class Vent implements Tile{
 	public void onExit(Player p) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean canInteract(Player player) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public R_AbstractModelData getModelData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public R_AbstractModel getModel() {
+		return model;
 	}
 
 }

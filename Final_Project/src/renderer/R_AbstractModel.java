@@ -55,7 +55,8 @@ public abstract class R_AbstractModel {
 		return model;
 	}
 
-	protected void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix, List<Light> lights) {
+	protected void draw(int[] viewport, float[][] zBuffer, int width, int height, Mat4 viewProjMatrix, List<Light> lights,
+										R_Player.Team side, R_Player.Team visible, int[][] shadowMap, int tileSize) {
 		// Translate to position
 		Mat4 modelMatrix = Mat4.createTranslate(position);
 
@@ -72,6 +73,6 @@ public abstract class R_AbstractModel {
 		modelMatrix = modelMatrix.mul(Mat4.createScale(scale));
 
 		// Finally draw object
-		model.draw(viewport, zBuffer, width, height, viewProjMatrix.mul(modelMatrix), modelMatrix, lights);
+		model.draw(viewport, zBuffer, width, height, viewProjMatrix.mul(modelMatrix), modelMatrix, lights, side, visible, shadowMap, tileSize);
 	}
 }
