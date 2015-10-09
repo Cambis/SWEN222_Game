@@ -1,5 +1,8 @@
 package game.logic.weapons;
 
+import renderer.R_Model;
+import renderer.R_ModelColorData;
+import renderer.math.Vec3;
 import game.logic.Level;
 import game.logic.Player;
 import game.logic.Room;
@@ -8,18 +11,18 @@ public class Lazor {
 
 	private final double lazorSpeed = 1000;
 
+	private R_Model model;
+
 	private double x;
 	private double y;
 	private double direction;
-	private Room room;
 
-	public Lazor (double x, double y, double direction, Room room, Player shooter){
+	public Lazor (double x, double y, double direction, Player shooter, R_ModelColorData modelData, int index){
 
 		this.x = x;
 		this.y = y;
 		this.direction = direction;
-		this.room = room;
-
+		model = new R_Model("lazer"+index, modelData, new Vec3(x, 0.5, y), new Vec3(0, direction, 0), new Vec3(0.2, 0.2, 0.2));
 	}
 
 
@@ -35,6 +38,9 @@ public class Lazor {
 
 	}
 
+	public R_Model getModel(){
+		return model;
+	}
 	//TODO how to draw lazor?
 
 }

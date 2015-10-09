@@ -36,6 +36,7 @@ public class Room {
 			"res/models/BasicFloor.obj", Color.GRAY);
 	private R_ModelColorData wallData = new R_ModelColorData("BasicWall",
 			"res/models/BasicWall.obj", Color.RED);
+			private R_ModelColorData lazerData = new R_ModelColorData("Lazer", "res/lazer.obj", Color.RED);
 
 	public Room(String filename) {
 		loadTiles(filename);
