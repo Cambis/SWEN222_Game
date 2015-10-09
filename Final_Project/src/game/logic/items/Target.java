@@ -44,7 +44,7 @@ public class Target implements Item {
 
 	@Override
 	public R_AbstractModelData getModelData() {
-		return new R_ModelColorData("TARGET", "res/monkey.obj", Color.green);
+		return new R_ModelColorData("TARGET", "res/models/monkey.obj", Color.green);
 	}
 
 	@Override

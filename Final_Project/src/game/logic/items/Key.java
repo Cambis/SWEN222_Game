@@ -57,7 +57,7 @@ public class Key implements Item {
 
 	@Override
 	public R_AbstractModelData getModelData() {
-		return new R_ModelColorData("KEY", "res/Models/key.obj", new Color(218, 165, 32));
+		return new R_ModelColorData("KEY", "res/models/key.obj", new Color(218, 165, 32));
 	}
 
 	@Override

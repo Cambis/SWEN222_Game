@@ -58,7 +58,7 @@ public class Level {
 			int roomNum = 0;
 			while (s.hasNext()) {
 				String roomFile = s.nextLine();
-				rooms.add(new Room("res/Levels/" + roomFile));
+				rooms.add(new Room("res/levels/" + roomFile));
 
 			}
 		} catch (IOException e) {
