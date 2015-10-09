@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+
 import game.logic.weapons.Lazor;
+
 import game.logic.items.Item;
 import game.logic.items.Key;
 import game.logic.world.BasicFloor;
@@ -22,6 +24,7 @@ import renderer.R_ModelColorData;
 import renderer.R_Player.Team;
 import renderer.Renderer;
 import renderer.Renderer.*;
+import resource.ResourceLoader;
 
 public class Room {
 
@@ -34,7 +37,6 @@ public class Room {
 	private String name = "This is a unnamed room";
 
 	private List<Player> playersInRoom;
-	private List<Lazor> lazers = new ArrayList<Lazor>();
 
 	private Map<Door, String> doorDests = new HashMap<Door, String>();
 	private List<Door> doors = new ArrayList<Door>();
@@ -45,6 +47,7 @@ public class Room {
 	private R_ModelColorData doorData2 = new R_ModelColorData("Door2", "res/BasicFloor.obj", Color.GREEN);
 	private R_ModelColorData wallData = new R_ModelColorData("BasicWall", "res/BasicWall.obj", Color.RED);
 	private R_ModelColorData lazerData = new R_ModelColorData("Lazer", "res/lazer.obj", Color.RED);
+
 
 	public Room(String filename) {
 		loadTiles(filename);
@@ -58,7 +61,13 @@ public class Room {
 	 */
 	private void loadTiles(String filename) {
 		try {
-			Scanner s = new Scanner(new File(filename));
+			Scanner s;
+
+			if (StealthGame.EXPORT)
+				s = new Scanner(ResourceLoader.load(filename));
+			else
+				s = new Scanner(new File(filename));
+
 			if (s.hasNextLine()) {
 				name = s.nextLine();
 			} else {
@@ -149,6 +158,7 @@ public class Room {
 					}
 				}
 			}
+			s.close();
 		} catch (IOException e) {
 			System.out.println("Room - Error loading file - IOException : "
 					+ e.getMessage());
@@ -287,11 +297,6 @@ public class Room {
 		return tiles[tileX][tileY];
 	}
 
-	public void createLazer(double x, double y, double rotation, Player shooter){
-		lazers.add(new Lazor(x, y, rotation, shooter, lazerData, lazers.size()));
-		//TODO add model to renderer somewhere
-	}
-
 	public List<Player> getPlayersInRoom() {
 		return playersInRoom;
 	}
@@ -306,6 +311,7 @@ public class Room {
 
 	public void removePlayer(Player outPlayer) {
 		getPlayersInRoom().remove(outPlayer);
+
 	}
 
 	public String getName(){
@@ -313,9 +319,8 @@ public class Room {
 	}
 
 	public void tick() {
-		for(Lazor l : lazers){
-			l.tick();
-		}
-
+//		for(Lazor l : lazers){
+//			l.tick();
+//		}
 	}
 }

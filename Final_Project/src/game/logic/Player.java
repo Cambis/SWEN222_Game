@@ -176,7 +176,7 @@ public class Player {
 //				onDoor = false;
 //			}
 //		}
-		currentRoom.tick();
+		// currentRoom.tick();
 	}
 
 	private void move(double newY, double newX) {

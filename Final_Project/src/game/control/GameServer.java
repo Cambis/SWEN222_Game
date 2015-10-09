@@ -115,7 +115,7 @@ public class GameServer extends Thread {
 
 			// Send level filepath
 			Packet22LoadLevel level = new Packet22LoadLevel(
-					"res/Levels/test1.lvl");
+					"res/levels/test1.lvl");
 			sendData(level.getData(), player.getIpAddress(), player.getPort());
 
 			addConnection(player, (Packet00Login) packet);

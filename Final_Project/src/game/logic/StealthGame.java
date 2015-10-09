@@ -12,6 +12,7 @@ import renderer.*;
 import renderer.R_Player.Team;
 import renderer.math.Mat4;
 import renderer.math.Vec3;
+import resource.ResourceLoader;
 import game.control.GameClient;
 import game.control.GameServer;
 import game.control.PlayerMP;
@@ -30,6 +31,9 @@ public class StealthGame implements Runnable {
 
 	// Debugging mode
 	public static final boolean DEBUG = false;
+
+	// Exporting to a runnable jar file
+	public static final boolean EXPORT = true;
 
 	// The minimum amount of players to play the game,
 	// (TODO: should be >= 2, it is 1 for testing purposes)
@@ -132,12 +136,12 @@ public class StealthGame implements Runnable {
 
 		// Spy
 		R_ModelColorData spyModelData = new R_ModelColorData("Spy",
-				"res/Models/Spy.obj", new Color(225, 180, 105));
+				"res/models/Spy.obj", new Color(225, 180, 105));
 		r_addModelData(spyModelData);
 
 		// Guard
 		R_ModelColorData guardModelData = new R_ModelColorData("Guard",
-				"res/Guard.obj", new Color(25, 25, 112));
+				"res/models/Guard.obj", new Color(25, 25, 112));
 		r_addModelData(guardModelData);
 
 		readyToRender = true;
@@ -353,7 +357,7 @@ public class StealthGame implements Runnable {
 
 		// Sets the renderer to draw the correct team
 		R_Player.Team rteam = R_Player.Team.SPY;
-		if (player.getSide() == Team.GUARD){
+		if (player.getSide() == Team.GUARD) {
 			rteam = R_Player.Team.GUARD;
 		}
 		renderer.setTeam(rteam);
@@ -441,33 +445,36 @@ public class StealthGame implements Runnable {
 				player.setBackward(false);
 				break;
 
-
 			case KeyEvent.VK_Z:// rotate camera left
 				renderer.getCamera("MainCamera").setPosition(
-						Mat4.createRotationYAxis((float)Math.toRadians(90)).mul(renderer.getCamera("MainCamera").getPosition()));
+						Mat4.createRotationYAxis((float) Math.toRadians(90))
+								.mul(renderer.getCamera("MainCamera")
+										.getPosition()));
 				break;
 			case KeyEvent.VK_X:// rotate camera right
 				renderer.getCamera("MainCamera").setPosition(
-						Mat4.createRotationYAxis((float)Math.toRadians(-90)).mul(renderer.getCamera("MainCamera").getPosition()));
+						Mat4.createRotationYAxis((float) Math.toRadians(-90))
+								.mul(renderer.getCamera("MainCamera")
+										.getPosition()));
 				break;
 
-//			case KeyEvent.VK_1:// 1
-//				player.selectItem(1);
-//				break;
-//			case KeyEvent.VK_2:// 2
-//				player.selectItem(2);
-//				break;
-//			case KeyEvent.VK_3:// 3
-//				player.selectItem(3);
-//				break;
-//			case KeyEvent.VK_4:// 4
-//				player.selectItem(4);
-//				break;
-//			case KeyEvent.VK_E:// E
-//				// player.swapWeapon();
-//				break;
-//			case KeyEvent.VK_Q:// Q
-//				player.dropItem();
+			// case KeyEvent.VK_1:// 1
+			// player.selectItem(1);
+			// break;
+			// case KeyEvent.VK_2:// 2
+			// player.selectItem(2);
+			// break;
+			// case KeyEvent.VK_3:// 3
+			// player.selectItem(3);
+			// break;
+			// case KeyEvent.VK_4:// 4
+			// player.selectItem(4);
+			// break;
+			// case KeyEvent.VK_E:// E
+			// // player.swapWeapon();
+			// break;
+			// case KeyEvent.VK_Q:// Q
+			// player.dropItem();
 			}
 		}
 	};
