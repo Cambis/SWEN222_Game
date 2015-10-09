@@ -9,6 +9,8 @@ import java.util.Stack;
 import game.logic.Player;
 import game.logic.Room;
 import game.logic.items.Item;
+import renderer.R_AbstractModel;
+import renderer.R_AbstractModelData;
 import renderer.R_Model;
 import renderer.R_ModelColorData;
 import renderer.R_Player.Team;
@@ -33,13 +35,8 @@ public class BasicFloor implements Tile {
 	}
 
 	@Override
-	public boolean canEnter(Player player) {
-		return true;
-	}
-
-	@Override
-	public R_Model getModel() {
-		return model;
+	public boolean canInteract(Player player) {
+		return false;
 	}
 
 	@Override
@@ -52,14 +49,29 @@ public class BasicFloor implements Tile {
 	}
 
 	@Override
+	public R_AbstractModelData getModelData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public R_AbstractModel getModel() {
+		return model;
+	}
+
+	@Override
+	public boolean canEnter(Player player) {
+		return true;
+	}
+
+	@Override
 	public void onEnter(Player p) {
-		// Do Nothing
+		return;
 	}
 
 	@Override
 	public void onExit(Player p) {
-		// Do Nothing
-
+		return;
 	}
 
 	public boolean addItem(Item item) {
@@ -73,6 +85,4 @@ public class BasicFloor implements Tile {
 	public final Queue<Item> getItemsToRemove() {
 		return inventoryTaken;
 	}
-
-
 }

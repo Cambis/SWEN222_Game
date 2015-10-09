@@ -5,6 +5,7 @@ package game.logic;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import game.logic.items.Item;
@@ -233,6 +234,10 @@ public class Player {
 
 	public final Item getLastItem() {
 		return inventory.get(inventory.size() - 1);
+	}
+
+	public final List<Item> getInventory() {
+		return Collections.unmodifiableList(inventory);
 	}
 
 	public void setItemPickedUp(boolean status) {
