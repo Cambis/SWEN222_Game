@@ -130,7 +130,7 @@ public class Player {
 		// Check if the player is over an item
 		if (getRoom() != null && getRoom().validPosition(this, getX(), getY())) {
 			Tile tile = getRoom().getTile(this, getX(), getY());
-			tile.onInteract(this);
+			tile.onEnter(this);
 		}
 
 		// Check for shooting:

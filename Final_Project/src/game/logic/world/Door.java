@@ -1,5 +1,8 @@
 package game.logic.world;
 
+import java.util.PriorityQueue;
+import java.util.Stack;
+
 import game.logic.Player;
 import game.logic.Room;
 import game.logic.items.Item;
@@ -18,21 +21,36 @@ public class Door implements Tile {
 	private double targetX;
 	private double targetY;
 	private double direction;
+	public final int doorID;
+	private boolean locked = false;
+	private int keyID = -1;
 
-	// ID of the key that opens this door, -1 means that there is no key
-	public int keyID;
 
-	public Door() {
-		this(-1);
+	public Door(double xPos, double yPos, R_ModelColorData data,
+			int tileNum, int ID) {
+		model = new R_Model("Door" + tileNum, data, new Vec3(xPos, 0,
+				yPos), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
+		doorID = ID;
 	}
 
-	public Door(int keyID) {
+	public void setLocked(boolean val){
+		locked =val;
+	}
+
+	public void setKey(int keyID){
 		this.keyID = keyID;
 	}
 
 	@Override
-	public boolean canEnter(Player player) {
-		return true;
+	public boolean canEnter(Player p) {
+		if(!locked){
+			return true;
+		}
+		if(p.getSide()==Team.GUARD){
+			return true;
+		}else{
+			return p.getInventory().contains(new Key(keyID));
+		}
 	}
 
 	@Override
@@ -54,6 +72,12 @@ public class Door implements Tile {
 		this.targetRoom = targetRoom;
 	}
 
+	public void setTargetPos(int x, int y) {
+		targetX = x;
+		targetY = y;
+	}
+
+
 	public double getX() {
 		return targetX;
 	}
@@ -68,16 +92,7 @@ public class Door implements Tile {
 
 	@Override
 	public boolean canInteract(Player player) {
-
-		if (keyID == -1)
-			return true;
-
-		for (Item item : player.getInventory())
-			if (item instanceof Key)
-				if (keyID == item.getID())
-					return true;
-
-		return false;
+		return true;
 	}
 
 	@Override

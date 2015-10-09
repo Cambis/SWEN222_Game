@@ -51,6 +51,14 @@ public class Key implements Item {
 	}
 
 	@Override
+	public boolean equals(Object o){
+		if(o instanceof Key){
+			return ((Key)o).getID()==this.ID;
+		}
+		return false;
+	}
+
+	@Override
 	public ItemType getItemType() {
 		return ItemType.KEY;
 	}

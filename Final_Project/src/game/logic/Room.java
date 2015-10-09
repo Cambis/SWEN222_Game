@@ -5,14 +5,16 @@ import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
-
 
 import game.logic.weapons.Lazor;
 import game.logic.items.Item;
 import game.logic.items.Key;
 import game.logic.world.BasicFloor;
+import game.logic.world.Door;
 import game.logic.world.Tile;
 import game.logic.world.Wall;
 import renderer.R_Model;
@@ -34,8 +36,13 @@ public class Room {
 	private List<Player> playersInRoom;
 	private List<Lazor> lazers = new ArrayList<Lazor>();
 
+	private Map<Door, String> doorDests = new HashMap<Door, String>();
+	private List<Door> doors = new ArrayList<Door>();
+
 	//Models
 	private R_ModelColorData floorData = new R_ModelColorData("Floor", "res/BasicFloor.obj", Color.GRAY);
+	private R_ModelColorData doorData1 = new R_ModelColorData("Door1", "res/BasicFloor.obj", Color.ORANGE);
+	private R_ModelColorData doorData2 = new R_ModelColorData("Door2", "res/BasicFloor.obj", Color.GREEN);
 	private R_ModelColorData wallData = new R_ModelColorData("BasicWall", "res/BasicWall.obj", Color.RED);
 	private R_ModelColorData lazerData = new R_ModelColorData("Lazer", "res/lazer.obj", Color.RED);
 
@@ -64,6 +71,9 @@ public class Room {
 			int yPos = 0;
 			int tileNum = 0;
 
+			//List of doors to be given destinations
+
+
 			while (s.hasNext()) {
 
 				if (s.hasNextInt()) {
@@ -77,12 +87,15 @@ public class Room {
 					} else if (i == 1) {
 						tiles[xPos][yPos] = new Wall(xPos * TILE_SIZE * SCALE,
 								yPos * TILE_SIZE * SCALE, wallData, tileNum);
-					} else {
-						System.out.println("Error loading file (invalid int - "
-								+ i + ", xPos = " + xPos + ", yPox = " + yPos
-								+ ")");
+					} else if(i==2){
+						tiles[xPos][yPos] = new Door(xPos * TILE_SIZE
+								* SCALE, yPos * TILE_SIZE * SCALE, doorData1,
+								tileNum, i);
+					} else if(i==3){
+						tiles[xPos][yPos] = new Door(xPos * TILE_SIZE
+								* SCALE, yPos * TILE_SIZE * SCALE, doorData2,
+								tileNum, i);
 					}
-
 					xPos++;
 					tileNum++;
 
@@ -91,38 +104,47 @@ public class Room {
 						yPos++;
 					}
 				}
-				// There is an item on this tile, we can assume that the tile
-				// itself is a BasicFloor
+				//Not a basic floor, door or wall
 				else {
+					String str = s.next();
+					if(str.length()==1){
+						// Find the item
+						char itemKey = str.charAt(0);
+						Item item = null;
+						item = parseItem(xPos, yPos, itemKey, item);
+						if (item != null) {
+							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
+									* SCALE, yPos * TILE_SIZE * SCALE, floorData,
+									tileNum);
 
-					// Find the item
-					char itemKey = s.next().charAt(0);
-					Item item = null;
-
-					switch (itemKey) {
-					case 'K': // Key
-						item = new Key(10, xPos * TILE_SIZE * SCALE, yPos
-								* TILE_SIZE * SCALE);
-						break;
-
-					default:
-						break;
-					}
-
-					if (item != null) {
-						tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
-								* SCALE, yPos * TILE_SIZE * SCALE, floorData,
-								tileNum);
-
-						// Add the item to the room
-						((BasicFloor) tiles[xPos][yPos]).addItem(item);
-
+							// Add the item to the room
+							((BasicFloor) tiles[xPos][yPos]).addItem(item);
+						}
 						xPos++;
 						tileNum++;
 
 						if (xPos >= xSize) {
 							xPos = 0;
 							yPos++;
+						}
+					}else{
+						if(str.equals("door")){
+							//Load door
+							if(s.hasNextInt()){
+								int doorId = s.nextInt();
+								if(s.hasNext()){
+									String roomName = s.next();
+									int targetX = s.nextInt();
+									int targetY = s.nextInt();
+									for(Door d : doors){
+										if(d.doorID==doorId){
+											//Give door a room destination in map to be assigned in level
+											doorDests.put(d, roomName);
+											d.setTargetPos(targetX, targetY);
+										}
+									}
+								}
+							}
 						}
 					}
 				}
@@ -134,6 +156,33 @@ public class Room {
 	}
 
 	/**
+	 * initilize door destinations in this room
+	 */
+	public void initilizeDoors(List<Room> rooms){
+		for(Door d : doors){
+			String destName = doorDests.get(d);
+			for(Room r : rooms){
+				if(r.getName().equals(destName)){
+					d.setTargetRoom(r);
+				}
+			}
+		}
+	}
+
+	private Item parseItem(int xPos, int yPos, char itemKey, Item item) {
+		switch (itemKey) {
+		case 'K': // Key
+			item = new Key(10, xPos * TILE_SIZE * SCALE, yPos
+					* TILE_SIZE * SCALE);
+			break;
+
+		default:
+			break;
+		}
+		return item;
+	}
+
+	/**
 	 * returns if player can be in position in room
 	 *
 	 * @param p
@@ -141,7 +190,8 @@ public class Room {
 	 *            , y
 	 */
 	public boolean validPosition(Player p, double x, double y) {
-		return getTile(p, x, y).canEnter(p);
+		Tile tile = getTile(p, x, y);
+		return tile!=null && tile.canEnter(p);
 	}
 
 	/**
@@ -223,8 +273,17 @@ public class Room {
 	 */
 	public Tile getTile(Player p, double x, double y) {
 		double scaledTileSize = TILE_SIZE * SCALE;
+		if(x<-(scaledTileSize/2) || y<-(scaledTileSize/2)){
+			return null;
+		}
 		int tileX = (int) ((x + (scaledTileSize / 2)) / scaledTileSize);
 		int tileY = (int) ((y + (scaledTileSize / 2)) / scaledTileSize);
+		//Out of bounds of array
+		if(tileX>=tiles.length || tileX < 0
+				|| tileY>=tiles[tileX].length || tileY < 0){
+			System.out.println("Trying to leave map!!!");
+			return null;
+		}
 		return tiles[tileX][tileY];
 	}
 
@@ -247,6 +306,10 @@ public class Room {
 
 	public void removePlayer(Player outPlayer) {
 		getPlayersInRoom().remove(outPlayer);
+	}
+
+	public String getName(){
+		return name;
 	}
 
 	public void tick() {

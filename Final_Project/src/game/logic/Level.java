@@ -7,6 +7,7 @@ import game.control.packets.Packet03Engage;
 import game.control.packets.Packet06Interact;
 import game.control.packets.Packet07Equip;
 import game.logic.items.Item;
+import game.logic.world.Door;
 
 import java.awt.Color;
 import java.io.File;
@@ -59,11 +60,14 @@ public class Level {
 			while (s.hasNext()) {
 				String roomFile = s.nextLine();
 				rooms.add(new Room("res/Levels/" + roomFile));
-
 			}
 		} catch (IOException e) {
 			System.out.println("Level - Error loading file - IOException : "
 					+ e.getMessage());
+		}
+		//Initilise door destinations
+		for(Room r : rooms){
+			r.initilizeDoors(rooms);
 		}
 		System.out.println("Done Loading level");
 	}
