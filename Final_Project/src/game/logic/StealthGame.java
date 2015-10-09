@@ -33,7 +33,7 @@ public class StealthGame implements Runnable {
 	public static final boolean DEBUG = false;
 
 	// Exporting to a runnable jar file
-	public static final boolean EXPORT = false;
+	public static final boolean EXPORT = true;
 
 	// The minimum amount of players to play the game,
 	// (TODO: should be >= 2, it is 1 for testing purposes)

@@ -18,6 +18,7 @@ import renderer.R_ModelColorData;
 import renderer.R_Player.Team;
 import renderer.Renderer;
 import renderer.Renderer.*;
+import resource.ResourceLoader;
 
 public class Room {
 
@@ -36,7 +37,8 @@ public class Room {
 			"res/models/BasicFloor.obj", Color.GRAY);
 	private R_ModelColorData wallData = new R_ModelColorData("BasicWall",
 			"res/models/BasicWall.obj", Color.RED);
-			private R_ModelColorData lazerData = new R_ModelColorData("Lazer", "res/lazer.obj", Color.RED);
+	private R_ModelColorData lazerData = new R_ModelColorData("Lazer",
+			"res/lazer.obj", Color.RED);
 
 	public Room(String filename) {
 		loadTiles(filename);
@@ -50,7 +52,13 @@ public class Room {
 	 */
 	private void loadTiles(String filename) {
 		try {
-			Scanner s = new Scanner(new File(filename));
+			Scanner s;
+
+			if (StealthGame.EXPORT)
+				s = new Scanner(ResourceLoader.load(filename));
+			else
+				s = new Scanner(new File(filename));
+
 			if (s.hasNextLine()) {
 				name = s.nextLine();
 			} else {
@@ -126,6 +134,7 @@ public class Room {
 					}
 				}
 			}
+			s.close();
 		} catch (IOException e) {
 			System.out.println("Room - Error loading file - IOException : "
 					+ e.getMessage());
