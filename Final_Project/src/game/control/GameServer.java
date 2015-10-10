@@ -36,10 +36,10 @@ import java.util.List;
  */
 public class GameServer extends Thread {
 
-	private static final boolean DEBUG = StealthGame.DEBUG;
+	private static final boolean DEBUG = false;
 
-	public static final int MIN_PLAYERS = 2;
-	public static final int MAX_PLAYERS = 4;
+	public static final int MIN_PLAYERS = StealthGame.MIN_PLAYERS;
+	public static final int MAX_PLAYERS = StealthGame.MAX_PLAYERS;
 
 	public static final int ID_PREFIX = 10000;
 
@@ -211,11 +211,11 @@ public class GameServer extends Thread {
 		boolean alreadyConnected = false;
 
 		// for (PlayerMP p : connectedPlayers)
-		System.out.println(player.getUsername());
+		// System.out.println(player.getUsername());
 
 		for (PlayerMP p : connectedPlayers) {
 			if (p.getUsername().equalsIgnoreCase(player.getUsername())) {
-				System.out.println("User already in " + p.getUsername());
+				if (DEBUG) System.out.println("User already in " + p.getUsername());
 				if (p.getIpAddress() == null)
 					p.setIpAddress(player.getIpAddress());
 

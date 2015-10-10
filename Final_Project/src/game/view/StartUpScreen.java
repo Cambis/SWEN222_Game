@@ -60,7 +60,7 @@ public class StartUpScreen extends JPanel {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				System.out.println(e.getKeyCode());
+				// System.out.println(e.getKeyCode());
 				switch (e.getKeyCode()) {
 				case 72: // h
 					host();

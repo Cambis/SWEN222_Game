@@ -16,11 +16,13 @@ import java.io.InputStream;
 public final class ResourceLoader {
 
 	/**
-	 * Create an input stream given a file path.
+	 * Create an input stream given a file path. Note: you should not include
+	 * "res" in the file path, even though there is an error checker for this
+	 * just do not do it.
 	 *
 	 * @param path
 	 *            - path to file to be loaded
-	 * @return
+	 * @return InputStream to pass to a Scanner
 	 * @throws FileNotFoundException
 	 */
 	public static InputStream load(String path) throws FileNotFoundException {
@@ -28,18 +30,24 @@ public final class ResourceLoader {
 		// InputStream input = new FileInputStream(path);
 		InputStream input = ResourceLoader.class.getResourceAsStream(path);
 		//
-		if (input == null) {
-			System.out.println("Null here");
-			input = ResourceLoader.class.getResourceAsStream("/" + path.trim());
-		}
-		if (input == null) {
+
+		// "res" error
+		if (input == null && path.contains("res")) {
 			input = ResourceLoader.class.getResourceAsStream(path.substring(3));
-			System.out.println("No, Null here");
+			// System.out.println("No, Null here");
 		}
 
-		if (input == null) {
-			System.out.println("Nah, Null here");
+		// Maybe the filepath needs an extra "/"
+		if (input == null && path.contains("res")) {
+			// System.out.println("Null here");
+			input = ResourceLoader.class.getResourceAsStream("/" + path.substring(3));
 		}
+
+		// File not found, fatal error
+		if (input == null) {
+			throw new FileNotFoundException("Invalid filepath: " + path);
+		}
+
 		return input;
 	}
 }

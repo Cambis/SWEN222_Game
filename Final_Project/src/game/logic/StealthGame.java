@@ -37,7 +37,10 @@ public class StealthGame implements Runnable {
 
 	// The minimum amount of players to play the game,
 	// (TODO: should be >= 2, it is 1 for testing purposes)
-	public static final int MIN_PLAYERS = 1;
+	public static final int MIN_PLAYERS = 2;
+
+	// The maximum amount of players allowed to connect
+	public static final int MAX_PLAYERS = 4;
 
 	// Amount of nano seconds per tick
 	public static final double NS_PER_TICK = 1000000000D / 60D;

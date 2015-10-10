@@ -60,7 +60,7 @@ public class GameClient extends Thread {
 
 		// Setup ipAddress
 		try {
-			System.out.println("ipAddress: [ " + ipAddress + " ]");
+			// System.out.println("ipAddress: [ " + ipAddress + " ]");
 			this.ipAddress = InetAddress.getByName(ipAddress);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -200,8 +200,9 @@ public class GameClient extends Thread {
 		PlayerMP player = new PlayerMP(packet.getUsername(), packet.getX(),
 				packet.getZ(), packet.getRotation(), address, port);
 
-		System.out.println("Adding player: " + packet.getUsername() + " "
-				+ packet.getID());
+		// System.out.println("Adding player: " + packet.getUsername() + " "
+		// 		+ packet.getID());
+
 		player.setID(packet.getID());
 		game.addPlayer(player);
 	}
@@ -237,7 +238,7 @@ public class GameClient extends Thread {
 	}
 
 	private void handleLoadLevel(Packet22LoadLevel packet) {
-		System.out.println(packet.getFilename());
+		// System.out.println(packet.getFilename());
 		game.loadLevel(packet.getFilename());
 	}
 

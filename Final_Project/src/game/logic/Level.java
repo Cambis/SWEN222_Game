@@ -48,7 +48,7 @@ public class Level {
 	public void loadRooms(String filename) {
 
 		rooms.clear();
-		System.out.println("Loading level");
+		// System.out.println("Loading level");
 		try {
 			Scanner sc;
 
@@ -99,7 +99,7 @@ public class Level {
 		players.add(p);
 
 		// TODO set rooms properly
-		System.out.println("Player given room");
+		// System.out.println("Player given room");
 		p.setRoom(rooms.get(0));
 
 	}
