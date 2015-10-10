@@ -42,11 +42,11 @@ public class Room {
 	private List<Door> doors = new ArrayList<Door>();
 
 	//Models
-	private R_ModelColorData floorData = new R_ModelColorData("Floor", "res/BasicFloor.obj", Color.GRAY);
-	private R_ModelColorData doorData1 = new R_ModelColorData("Door1", "res/BasicFloor.obj", Color.ORANGE);
-	private R_ModelColorData doorData2 = new R_ModelColorData("Door2", "res/BasicFloor.obj", Color.GREEN);
-	private R_ModelColorData wallData = new R_ModelColorData("BasicWall", "res/BasicWall.obj", Color.RED);
-	private R_ModelColorData lazerData = new R_ModelColorData("Lazer", "res/lazer.obj", Color.RED);
+	private R_ModelColorData floorData = new R_ModelColorData("Floor", "res/models/BasicFloor.obj", Color.GRAY);
+	private R_ModelColorData doorData1 = new R_ModelColorData("Door1", "res/models/BasicFloor.obj", Color.ORANGE);
+	private R_ModelColorData doorData2 = new R_ModelColorData("Door2", "res/models/BasicFloor.obj", Color.GREEN);
+	private R_ModelColorData wallData = new R_ModelColorData("BasicWall", "res/models/BasicWall.obj", Color.RED);
+	private R_ModelColorData lazerData = new R_ModelColorData("Lazer", "res/models/lazer.obj", Color.RED);
 
 
 	public Room(String filename) {
