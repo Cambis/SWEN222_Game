@@ -43,7 +43,7 @@ The IP address can be obtained in the command line:
   
   Windows - # /username/ipconfig
   
-  Mac - # ifconfig |grep inet
+  Mac - # ifconfig | grep inet
   
 # Controls
 
