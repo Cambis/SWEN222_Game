@@ -10,7 +10,18 @@ to win the game and it is the guards duty to stop the spies by well, killing the
 
 The game as of now only has basic functionality, proper game mechanics are on the way.
 
-Right now the game is run by running StartUpScreen.java
+Right now the Main class is StartUpScreen.java
+
+# Running the game
+
+Get the file "Stealth.jar", make sure you have Java on your computer as well.
+
+On Windows you should be able to just double click on the jar file to run it. If that does nothing, here's what you need to do:
+- Open the command prompt.
+- Navigate to the directory your jar file is placed in, this can be done by entering "cd ", followed by the directory. For example "cd /u/students/bryerscame/Downloads". If you are currently in the folder in which the jar file is in you can copy the file path and paste it into the command prompt. The file path should be near the top of the window. To check if you have navigated to the right directory you can enter "ls", this will display the contents of the directory.
+- Finally to run the game enter "java -jar Stealth.jar".
+- Note: do not enter " or " characters into the command line.
+- Note: you may not be able to use "Ctrl V" to paste into the command line, it might be a different shortcut.
 
 # Starting a game
 
