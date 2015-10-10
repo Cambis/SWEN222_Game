@@ -5,23 +5,18 @@ import game.control.packets.Packet;
 import game.control.packets.Packet02Move;
 import game.control.packets.Packet03Engage;
 import game.control.packets.Packet06Interact;
-import game.control.packets.Packet07Equip;
 import game.logic.items.Item;
-import game.logic.world.Door;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-import renderer.R_AbstractModel;
-import renderer.R_AbstractModelData;
-import renderer.R_Model;
-import renderer.R_ModelColorData;
-import renderer.R_OrthoCamera;
 import renderer.R_Player;
 import renderer.R_Player.Team;
 import renderer.math.Vec3;
+import resource.ResourceLoader;
 
 /**
  * Represents the level that the game is played on.
@@ -38,7 +33,7 @@ public class Level {
 	protected boolean readyToRender = false;
 
 	// Testing
-	private R_Player playerMod;
+	// private R_Player playerMod;
 	float val = 0;
 
 	public Level(StealthGame game) {
@@ -55,21 +50,32 @@ public class Level {
 		rooms.clear();
 		System.out.println("Loading level");
 		try {
-			Scanner s = new Scanner(new File(filename));
-			int roomNum = 0;
-			while (s.hasNext()) {
-				String roomFile = s.nextLine();
+			Scanner sc;
+
+			if (StealthGame.EXPORT)
+				sc = new Scanner(ResourceLoader.load(filename));
+			else
+				sc = new Scanner(new File(filename));
+
+			// int roomNum = 0;
+
+			while (sc.hasNext()) {
+				String roomFile = sc.nextLine();
 				rooms.add(new Room("res/levels/" + roomFile));
 			}
+
+			sc.close();
 		} catch (IOException e) {
 			System.out.println("Level - Error loading file - IOException : "
 					+ e.getMessage());
 		}
-		//Initilise door destinations
-		for(Room r : rooms){
+
+		// Initilise door destinations
+		for (Room r : rooms) {
 			r.initilizeDoors(rooms);
 		}
-		System.out.println("Done Loading level");
+
+		System.out.println("*** Done Loading level ***");
 	}
 
 	/**
