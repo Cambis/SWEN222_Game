@@ -272,7 +272,7 @@ public class Level {
 					System.out.println(p.getRoom()
 							.getTile(p, p.getX(), p.getY()).getID());
 					p.setInteracting(false);
-					packet.writeData(game.getClient());
+//					packet.writeData(game.getClient());
 				}
 
 				// Finally tick through the room that the player is in

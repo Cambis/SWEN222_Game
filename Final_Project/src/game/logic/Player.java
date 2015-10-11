@@ -141,7 +141,7 @@ public class Player {
 			move(newY, newX);
 		}
 
-		// Check if player is interacting with an item
+		// Check if player is interacting with tile
 		if (getRoom() != null && getRoom().validPosition(this, getX(), getY())
 				&& isInteracting) {
 			Tile tile = getRoom().getTile(this, getX(), getY());
