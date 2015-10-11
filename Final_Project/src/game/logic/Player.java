@@ -149,7 +149,7 @@ public class Player {
 		if (getRoom() != null && getRoom().validPosition(this, getX(), getY())
 				&& isInteracting) {
 			Tile tile = getRoom().getTile(this, getX(), getY());
-			isInteracting = false;
+			// isInteracting = false;
 			tile.onInteract(this);
 		}
 

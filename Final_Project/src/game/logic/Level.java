@@ -6,6 +6,8 @@ import game.control.packets.Packet02Move;
 import game.control.packets.Packet03Engage;
 import game.control.packets.Packet06Interact;
 import game.logic.items.Item;
+import game.logic.world.Door;
+import game.logic.world.Tile;
 
 import java.io.File;
 import java.io.IOException;
@@ -161,6 +163,28 @@ public class Level {
 
 	public void handleInteract(String username, int ID) {
 
+		Player player = getPlayer(username);
+
+		for (Room r : rooms) {
+			if (player.getRoom().equals(r))
+				for (int i = 0; i < r.getTilesXSize(); i++) {
+					for (int j = 0; j < r.getTilesYSize(); j++) {
+						Tile tile = r.getTile(player, i, j);
+
+						if (tile instanceof Door) {
+							Door door = (Door) tile;
+							door.onInteract(player);
+
+							// If the player is not in the same room as the
+							// player on this computer, remove them from the
+							// renderer
+							if (!player.getRoom().equals(
+									game.getPlayer().getRoom()))
+								game.r_removeModel(player.getModel().getName());
+						}
+					}
+				}
+		}
 	}
 
 	private Player getPlayer(String username) {
@@ -190,6 +214,9 @@ public class Level {
 
 			// Only render the player if they are alive
 			if (readyToRender && p.isAlive()) {
+
+				if (p.getRoom().equals(game.getPlayer().getRoom()))
+					game.r_addModel(p.getModel());
 
 				// Update the room
 				if (!p.isRoomLoaded() && p.equals(game.getPlayer())) {
@@ -227,6 +254,17 @@ public class Level {
 					p.setItemPickedUp(false);
 					packet = new Packet06Interact(p.getUsername(), last.getID());
 					// packet.writeData(game.getClient());
+				}
+
+				// Player interacting
+				if (p.isInteracting()) {
+					packet = new Packet06Interact(p.getUsername(), p.getRoom()
+							.getTile(p, p.getX(), p.getY()).getID());
+
+					System.out.println(p.getRoom()
+							.getTile(p, p.getX(), p.getY()).getID());
+					p.setInteracting(false);
+					packet.writeData(game.getClient());
 				}
 			}
 		}
@@ -273,7 +311,7 @@ public class Level {
 
 			// Assign the model to the player and the renderer
 			p.setModel(pl);
-			game.r_addModel(pl);
+			// game.r_addModel(pl);
 		}
 
 		// for (Player p : this.players) {

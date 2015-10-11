@@ -61,4 +61,9 @@ public class Wall implements Tile {
 		return new R_Model("BasicWall" + tileNum, getModelData(), new Vec3(x,
 				0, y), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
 	}
+
+	@Override
+	public final int getID() {
+		return this.tileNum;
+	}
 }

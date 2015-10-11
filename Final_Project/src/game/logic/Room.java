@@ -5,13 +5,13 @@ import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 import game.logic.weapons.Lazor;
-
 import game.logic.items.Item;
 import game.logic.items.Key;
 import game.logic.world.BasicFloor;
@@ -343,6 +343,14 @@ public class Room {
 			return null;
 		}
 		return tiles[tileX][tileY];
+	}
+
+	public final int getTilesXSize() {
+		return xSize;
+	}
+
+	public final int getTilesYSize() {
+		return ySize;
 	}
 
 	public List<Player> getPlayersInRoom() {

@@ -20,4 +20,6 @@ public interface Tile {
 	public R_AbstractModelData getModelData();
 
 	public R_AbstractModel getModel();
+
+	public int getID();
 }

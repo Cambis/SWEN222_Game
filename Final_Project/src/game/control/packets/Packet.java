@@ -84,7 +84,7 @@ public abstract class Packet {
 		String message = new String(data);
 
 		// Cutoff the two numbers at the start
-		return message.substring(2);
+		return message.substring(2).trim();
 	}
 
 	/**

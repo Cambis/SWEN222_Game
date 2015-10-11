@@ -485,6 +485,7 @@ public class StealthGame implements Runnable {
 				break;
 
 			case KeyEvent.VK_E: // Interact
+				System.out.println("E");
 				player.setInteracting(true);
 				break;
 			}

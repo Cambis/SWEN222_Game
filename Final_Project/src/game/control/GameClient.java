@@ -234,6 +234,7 @@ public class GameClient extends Thread {
 	}
 
 	private void handleInteract(Packet06Interact packet) {
+		System.out.println("In heres");
 		game.handleInteract(packet.getUsername(), packet.getObjectID());
 	}
 

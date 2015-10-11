@@ -45,4 +45,10 @@ public class Water implements Tile {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

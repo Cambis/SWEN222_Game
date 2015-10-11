@@ -114,6 +114,10 @@ public class Door implements Tile {
 	@Override
 	public void onExit(Player p) {
 		// TODO Auto-generated method stub
+	}
 
+	@Override
+	public final int getID() {
+		return this.tileNum;
 	}
 }

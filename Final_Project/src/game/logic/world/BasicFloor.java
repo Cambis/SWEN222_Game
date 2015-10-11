@@ -26,12 +26,15 @@ public class BasicFloor implements Tile {
 	// Items to be removed from the renderer
 	private Queue<Item> inventoryTaken;
 
+	private int tileNum;
+
 	public BasicFloor(double xPos, double yPos, R_ModelColorData data,
 			int tileNum) {
 		inventory = new Stack<Item>();
 		inventoryTaken = new PriorityQueue<Item>();
 		model = new R_Model("BasicFloor" + tileNum, data, new Vec3(xPos, 0,
 				yPos), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
+		this.tileNum = tileNum;
 	}
 
 	@Override
@@ -84,5 +87,10 @@ public class BasicFloor implements Tile {
 
 	public final Queue<Item> getItemsToRemove() {
 		return inventoryTaken;
+	}
+
+	@Override
+	public final int getID() {
+		return this.tileNum;
 	}
 }
