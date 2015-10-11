@@ -24,35 +24,40 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 /**
- * Represents a client in a multiplayer game.
+ * Represents a client that connects to a host in a multiplayer game.
  *
- * @author Bieleski, Bryers, Gill & Thompson MMXV.
+ * @author Cameron Bryers 300326848 MMXV
  *
  */
 public class GameClient extends Thread {
 
+	// Debugging mode
 	private static final boolean DEBUG = StealthGame.DEBUG;
-	public static final boolean LOCAL = false;
 
+	// IP address of the host
 	private InetAddress ipAddress;
+
+	// Receives packets from the server
 	private DatagramSocket socket;
 
-	//
+	// Reference to client's game class
 	private StealthGame game;
 
+	/**
+	 * Creates a client that connects to a server.
+	 *
+	 * @param ipAddress
+	 *            - IP address of the server, "localhost" if the client is also
+	 *            the host
+	 * @param game
+	 *            - reference to the client's game class
+	 */
 	public GameClient(String ipAddress, StealthGame game) {
 
 		this.game = game;
 
 		// Setup socket
 		try {
-			// if (ipAddress.equals("localhost")) {
-			// this.socket = new DatagramSocket();
-			// } else {
-			// this.socket = new DatagramSocket(null);
-			// this.socket.bind(new InetSocketAddress(InetAddress
-			// .getByName(ipAddress), 1337));
-			// }
 			this.socket = new DatagramSocket();
 		} catch (SocketException e) {
 			e.printStackTrace();
@@ -60,7 +65,6 @@ public class GameClient extends Thread {
 
 		// Setup ipAddress
 		try {
-			// System.out.println("ipAddress: [ " + ipAddress + " ]");
 			this.ipAddress = InetAddress.getByName(ipAddress);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -201,7 +205,7 @@ public class GameClient extends Thread {
 				packet.getZ(), packet.getRotation(), address, port);
 
 		// System.out.println("Adding player: " + packet.getUsername() + " "
-		// 		+ packet.getID());
+		// + packet.getID());
 
 		player.setID(packet.getID());
 		game.addPlayer(player);
@@ -242,7 +246,6 @@ public class GameClient extends Thread {
 		game.loadLevel(packet.getFilename());
 	}
 
-
 	private void handleReciveID(Packet23RecieveID packet) {
 		((PlayerMP) game.getPlayer()).setID(packet.getID());
 	}
@@ -250,6 +253,7 @@ public class GameClient extends Thread {
 	private void handleTeamAssign(Packet24TeamAssign packet) {
 		game.setTeams(packet.getPlayers(), packet.getTeams());
 	}
+
 	/**
 	 * Send data to the server
 	 *
