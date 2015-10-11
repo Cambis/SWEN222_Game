@@ -487,6 +487,20 @@ public class StealthGame implements Runnable {
 			case KeyEvent.VK_E: // Interact
 				player.setInteracting(true);
 				break;
+
+			case KeyEvent.VK_Z:// rotate camera left
+				renderer.getCamera("MainCamera").setPosition(
+						Mat4.createRotationYAxis((float) Math.toRadians(5))
+								.mul(renderer.getCamera("MainCamera")
+										.getPosition()));
+				break;
+			case KeyEvent.VK_X:// rotate camera right
+				renderer.getCamera("MainCamera").setPosition(
+						Mat4.createRotationYAxis((float) Math.toRadians(-5))
+								.mul(renderer.getCamera("MainCamera")
+										.getPosition()));
+				break;
+
 			}
 
 		}
@@ -512,20 +526,6 @@ public class StealthGame implements Runnable {
 			case KeyEvent.VK_S:
 				player.setBackward(false);
 				break;
-
-			case KeyEvent.VK_Z:// rotate camera left
-				renderer.getCamera("MainCamera").setPosition(
-						Mat4.createRotationYAxis((float) Math.toRadians(90))
-								.mul(renderer.getCamera("MainCamera")
-										.getPosition()));
-				break;
-			case KeyEvent.VK_X:// rotate camera right
-				renderer.getCamera("MainCamera").setPosition(
-						Mat4.createRotationYAxis((float) Math.toRadians(-90))
-								.mul(renderer.getCamera("MainCamera")
-										.getPosition()));
-				break;
-
 			// case KeyEvent.VK_1:// 1
 			// player.selectItem(1);
 			// break;
