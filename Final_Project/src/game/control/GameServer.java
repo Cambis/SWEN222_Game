@@ -28,32 +28,48 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Represents a server in a multiplayer game.
+ * Represents a server that the clients connect to in a multiplayer game.
  *
- * @author Bieleski, Bryers, Gill & Thompson MMXV
- *
+ * @author Cameron Bryers 300326848 MMXV
  *
  */
 public class GameServer extends Thread {
 
+	// Debugging Mode
 	private static final boolean DEBUG = false;
 
+	// Maximum amount of players allowed to connect
 	public static final int MAX_PLAYERS = StealthGame.MAX_PLAYERS;
+
+	// Minimum amount of players required to run the game
 	public static final int MIN_PLAYERS = StealthGame.MIN_PLAYERS;
 
+	// Used for generating unique IDs
 	public static final int ID_PREFIX = 10000;
 
+	// Number of players needed to start the game
 	private int numOfPlayers;
 
+	// True IFF game has started
 	private boolean gameStarted = false;
 
+	// Receives packets from the clients
 	private DatagramSocket socket;
 
+	// Reference to the host's game clas
 	private StealthGame game;
 
+	// Players connected to the server
 	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
-	private boolean hostConnected = false;
 
+	/**
+	 * Creates a new server that clients can connect to.
+	 *
+	 * @param game
+	 *            - reference to the host's game
+	 * @param numOfPlayers
+	 *            - number of players required to run the game
+	 */
 	public GameServer(StealthGame game, int numOfPlayers) {
 
 		this.game = game;
@@ -200,6 +216,7 @@ public class GameServer extends Thread {
 		Packet24TeamAssign packet = new Packet24TeamAssign(players, teams);
 		packet.writeData(this);
 	}
+
 	/**
 	 * Add a player that is trying to login to the server
 	 *
@@ -216,7 +233,8 @@ public class GameServer extends Thread {
 
 		for (PlayerMP p : connectedPlayers) {
 			if (p.getUsername().equalsIgnoreCase(player.getUsername())) {
-				if (DEBUG) System.out.println("User already in " + p.getUsername());
+				if (DEBUG)
+					System.out.println("User already in " + p.getUsername());
 				if (p.getIpAddress() == null)
 					p.setIpAddress(player.getIpAddress());
 
@@ -251,7 +269,7 @@ public class GameServer extends Thread {
 			// }
 			connectedPlayers.add(player);
 			// System.out.println("Adding player " + player.getUsername() + ": "
-			// 		+ player.getID());
+			// + player.getID());
 		}
 	}
 
