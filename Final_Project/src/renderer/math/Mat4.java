@@ -19,11 +19,22 @@ public class Mat4 {
 	}
 
 	/**
+	 * @return - returns an identity matrix
+	 */
+	public static Mat4 createIdentity() {
+		return new Mat4(new float[]{1, 0, 0, 0,
+				0, 1, 0, 0,
+				0, 0, 1, 0,
+				0, 0, 0, 1});
+	}
+
+	/**
+	 * Returns a translation matrix according to the passed in values
 	 *
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return
+	 * @param x - the amount to translate the x axis by
+	 * @param y - the amount to translate the y axis by
+	 * @param z - the amount to translate the z axis by
+	 * @return - a translation matrix
 	 */
 	public static Mat4 createTranslate(float x, float y, float z){
 		return new Mat4(new float[]{1, 0, 0, x,
@@ -33,9 +44,20 @@ public class Mat4 {
 	}
 
 	/**
+	 * Returns a translation matrix according to the passed in values
 	 *
-	 * @param angle
-	 * @return
+	 * @param position - the amount to translate by
+	 * @return - returns a translation matrix
+	 */
+	public static Mat4 createTranslate(Vec3 position) {
+		return createTranslate(position.getX(), position.getY(), position.getZ());
+	}
+
+	/**
+	 * Returns a rotation matrix that rotates around the X axis by the passed in angle
+	 *
+	 * @param angle - the angle in radians to rotate by
+	 * @return - a rotation matrix
 	 */
 	public static Mat4 createRotationXAxis(float angle){
 		return new Mat4(new float[]{ 1, 0, 0, 0,
@@ -44,10 +66,12 @@ public class Mat4 {
 									0, 0, 0, 1});
 	}
 
+
 	/**
+	 * Returns a rotation matrix that rotates around the Y axis by the passed in angle
 	 *
-	 * @param angle
-	 * @return
+	 * @param angle - the angle in radians to rotate by
+	 * @return - a rotation matrix
 	 */
 	public static Mat4 createRotationYAxis(float angle){
 		return new Mat4(new float[]{(float) Math.cos(angle), 0, (float) Math.sin(angle), 0,
@@ -56,27 +80,31 @@ public class Mat4 {
 									0, 0, 0, 1});
 	}
 
+
 	/**
+	 * Returns a rotation matrix that rotates around the Z axis by the passed in angle
 	 *
-	 * @param angle
-	 * @return
+	 * @param angle - the angle in radian to rotate by
+	 * @return - a rotation matrix
 	 */
 	public static Mat4 createRotationZAxis(float angle){
-		return new Mat4(new float[]{(float) Math.cos(angle), (float) -Math.sin(angle), 0, 0,
+		return new Mat4	(new float[]{(float) Math.cos(angle), (float) -Math.sin(angle), 0, 0,
 									(float) Math.sin(angle), (float) Math.cos(angle), 0, 0,
 									0, 0, 1, 0,
 									0, 0, 0, 1});
 	}
 
 	/**
+	 * Returns an orthographic projection matrix. The projection matrix transforms the camera coordinates into
+	 * projection coordinates, values inside the view ranging from -1 to 1.
 	 *
-	 * @param l
-	 * @param r
-	 * @param b
-	 * @param t
-	 * @param n
-	 * @param f
-	 * @return
+	 * @param l - the left clipping plane
+	 * @param r - the right clipping plane
+	 * @param b - the bottom clipping plane
+	 * @param t - the top clipping plane
+	 * @param n - the near clipping plane
+	 * @param f - the far clipping plane
+	 * @return - an orthographic projection matrix
 	 */
 	public static Mat4 createOrtho(float l, float r, float b, float t, float n, float f){
 		return new Mat4(new float[]{2/(r-l),       0,          0, -((r+l)/(r-l)),
@@ -86,11 +114,12 @@ public class Mat4 {
 	}
 
 	/**
+	 * Returns a new lookat matrix. The lookat matrix transforms the world into camera coordinates
 	 *
-	 * @param eye
-	 * @param target
-	 * @param up
-	 * @return
+	 * @param eye - the position of the camera
+	 * @param target - the target the camera is pointing towards
+	 * @param up - the up vector
+	 * @return a new lookat matrix
 	 */
 	public static Mat4 createLookAt(Vec3 eye, Vec3 target, Vec3 up){
 		Vec3 b3 = eye.sub(target).normalize();
@@ -103,12 +132,14 @@ public class Mat4 {
 									        0,         0,        0,          1 });
 	}
 
+
 	/**
+	 * Returns a scale matrix according to the passed in values
 	 *
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return
+	 * @param x - the amount to scale the x axis by
+	 * @param y - the amount to scale the y axis by
+	 * @param z - the amount to scale the z axis by
+	 * @return - a scale matrix
 	 */
 	public static Mat4 createScale(float x, float y, float z){
 		return new Mat4(new float[]{x, 0, 0, 0,
@@ -118,9 +149,20 @@ public class Mat4 {
 	}
 
 	/**
+	 * Returns a scale matrix according to the values in the passed in vec3
 	 *
-	 * @param v
-	 * @return
+	 * @param scale - a vec3 containing the scale values
+	 * @return - a scale matrix
+	 */
+	public static Mat4 createScale(Vec3 scale) {
+		return createScale(scale.getX(), scale.getY(), scale.getZ());
+	}
+
+	/**
+	 * Multiplies a vec3 by this mat4
+	 *
+	 * @param v - the vec3 to multiply this matrix by
+	 * @return - the product of this object and v
 	 */
 	public Vec3 mul(Vec3 v){
 		return new Vec3(v.getX() * matrix[0] + v.getY() * matrix[1] + v.getZ() * matrix[2] + matrix[3],
@@ -129,9 +171,10 @@ public class Mat4 {
 	}
 
 	/**
+	 * Multiplies a this mat4 by another mat4 object
 	 *
-	 * @param v
-	 * @return
+	 * @param v - the matrix to multiply this object by
+	 * @return - the product of this object and v
 	 */
 	public Mat4 mul(Mat4 v){
 		return new Mat4(new float[]{
@@ -154,29 +197,5 @@ public class Mat4 {
 				matrix[12] * v.matrix[1] + matrix[13] * v.matrix[5] + matrix[14] * v.matrix[9] + matrix[15] * v.matrix[13],
 				matrix[12] * v.matrix[2] + matrix[13] * v.matrix[6] + matrix[14] * v.matrix[10] + matrix[15] * v.matrix[14],
 				matrix[12] * v.matrix[3] + matrix[13] * v.matrix[7] + matrix[14] * v.matrix[11] + matrix[15] * v.matrix[15]});
-	}
-
-	public static Mat4 createTranslate(Vec3 position) {
-		return createTranslate(position.getX(), position.getY(), position.getZ());
-	}
-
-	/**
-	 *
-	 * @return
-	 */
-	public static Mat4 createIdentity() {
-		return new Mat4(new float[]{1, 0, 0, 0,
-				0, 1, 0, 0,
-				0, 0, 1, 0,
-				0, 0, 0, 1});
-	}
-
-	/**
-	 *
-	 * @param scale
-	 * @return
-	 */
-	public static Mat4 createScale(Vec3 scale) {
-		return createScale(scale.getX(), scale.getY(), scale.getZ());
 	}
 }
