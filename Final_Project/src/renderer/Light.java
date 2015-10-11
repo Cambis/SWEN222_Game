@@ -32,7 +32,8 @@ public class Light {
 		super();
 		float xx = (float)Math.sin(direction.getY());
 		float zz = (float)Math.cos(direction.getY());
-		this.position = position.add(new Vec3(xx*0.1f, 0.2f, zz*0.1f));
+
+		this.position = new Vec3(position.getX()+xx*0.1f, 0.2f, position.getZ()+zz*0.1f);
 		this.direction = new Vec3(xx, -0.5f, zz);
 		this.side = side;
 		this.cutoff = 0.8f;
