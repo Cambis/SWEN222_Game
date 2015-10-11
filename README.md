@@ -27,15 +27,15 @@ On Windows you should be able to just double click on the jar file to run it. If
 # Starting a game
 
 To start a new game the press the "Host" button and enter a username. Please make sure your username is different
-from everyone elses. Same usernames may cause unwanted bugs.
+from everyone elses. Same usernames may cause unwanted bugs. The host also needs to enter the number of players that want to connect, when this number is reached the game begins.
 
 To join a user should run a new game, press "Client" and enter a username as well.
 
-# Connecting (Local)
+# Connecting (Same computer)
 
 If you are running multiple games on the same computer you do not have to enter an IP address as it is already defaulted to "localhost".
 
-# Connecting (Over the internet)
+# Connecting (Local)
 
 The hosting player should give out their IP address so the clients can enter the address into the IP field.
 The IP address can be obtained in the command line:
