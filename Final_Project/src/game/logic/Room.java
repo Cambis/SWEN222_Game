@@ -18,6 +18,7 @@ import game.logic.world.BlankTile;
 import game.logic.world.Door;
 import game.logic.world.Tile;
 import game.logic.world.Wall;
+import game.logic.world.Water;
 import renderer.R_Model;
 import renderer.R_ModelColorData;
 import renderer.R_Player.Team;
@@ -47,6 +48,8 @@ public class Room {
 	// Models
 	private R_ModelColorData floorData = new R_ModelColorData("Floor",
 			"res/models/BasicFloor.obj", Color.GRAY);
+	private R_ModelColorData waterData = new R_ModelColorData("Floor",
+			"res/models/BasicFloor.obj", Color.CYAN);
 	private R_ModelColorData doorData1 = new R_ModelColorData("Door1",
 			"res/models/BasicFloor.obj", Color.ORANGE);
 	private R_ModelColorData doorData2 = new R_ModelColorData("Door2",
@@ -123,6 +126,10 @@ public class Room {
 						switch(str){
 						case "-":
 							tiles[xPos][yPos] = new BlankTile();
+							break;
+						case "w":
+							tiles[xPos][yPos] = new Water(xPos * TILE_SIZE * SCALE,
+									yPos * TILE_SIZE * SCALE, waterData, tileNum);
 							break;
 						case "S":
 							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE

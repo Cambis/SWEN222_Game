@@ -11,8 +11,8 @@ public class SpawnPoint {
 
 	public SpawnPoint(Room r, int x, int y, Team team){
 		this.room = r;
-		this.x = x*0.1;
-		this.y = y*0.1;
+		this.x = x*0.2;
+		this.y = y*0.2;
 		this.team = team;
 	}
 
