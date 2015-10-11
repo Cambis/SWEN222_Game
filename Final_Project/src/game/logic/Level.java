@@ -177,14 +177,18 @@ public class Level {
 
 						if (tile instanceof Door) {
 							Door door = (Door) tile;
-							door.onInteract(player);
 
-							// If the player is not in the same room as the
-							// player on this computer, remove them from the
-							// renderer
-							if (!player.getRoom().equals(
-									game.getPlayer().getRoom()))
-								game.r_removeModel(player.getModel().getName());
+							if (door.getID() == ID) {
+								door.onInteract(player);
+
+								// If the player is not in the same room as the
+								// player on this computer, remove them from the
+								// renderer
+								if (!player.getRoom().equals(
+										game.getPlayer().getRoom()))
+									game.r_removeModel(player.getModel()
+											.getName());
+							}
 						}
 					}
 				}
@@ -270,13 +274,16 @@ public class Level {
 					p.setInteracting(false);
 					packet.writeData(game.getClient());
 				}
+
+				// Finally tick through the room that the player is in
+				p.getRoom().tick(game.getRenderer());
 			}
 		}
 
 		// Go through rooms
-		for (Room r : rooms) {
-			r.tick(game.getRenderer());
-		}
+		// for (Room r : rooms) {
+		// r.tick(game.getRenderer());
+		// }
 	}
 
 	/**
@@ -331,10 +338,10 @@ public class Level {
 		readyToRender = true;
 	}
 
-	private SpawnPoint getNextSpawn(Team team){
-		for(int i=0; i<spawns.size(); i++){
+	private SpawnPoint getNextSpawn(Team team) {
+		for (int i = 0; i < spawns.size(); i++) {
 			SpawnPoint spawn = spawns.poll();
-			if(spawn.team==team){
+			if (spawn.team == team) {
 				spawns.offer(spawn);
 				return spawn;
 			}
