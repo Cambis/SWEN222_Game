@@ -206,7 +206,7 @@ public class StealthGame implements Runnable {
 
 		running = true;
 
-		thread = new Thread(this, "Test");
+		thread = new Thread(this, (isHost ? "HOST: " : "CLIENT: ") + player.getUsername() +"'s game");
 		thread.start();
 
 		// Server is created if user is a host
@@ -354,7 +354,7 @@ public class StealthGame implements Runnable {
 	public void loadLevel(String filepath) {
 		level.loadRooms(filepath);
 		level.addPlayer(player);
-		player.getRoom().initTiles(renderer);
+		// player.getRoom().initTiles(renderer);
 	}
 
 	/**
@@ -460,20 +460,32 @@ public class StealthGame implements Runnable {
 		public void keyPressed(KeyEvent e) {
 			// System.out.println(e.getKeyCode());
 			switch (e.getKeyCode()) {
-			case 37:// Left
+			case KeyEvent.VK_LEFT: // Left
+			case KeyEvent.VK_A:
 				player.setTurnLeft(true);
 				break;
-			case 38:// Up
+
+			case KeyEvent.VK_UP: // Up
+			case KeyEvent.VK_W:
 				player.setFoward(true);
 				break;
-			case 39:// Right
+
+			case KeyEvent.VK_RIGHT: // Right
+			case KeyEvent.VK_D:
 				player.setTurnRight(true);
 				break;
-			case 40:// Down
+
+			case KeyEvent.VK_DOWN: // Down
+			case KeyEvent.VK_S:
 				player.setBackward(true);
 				break;
-			case KeyEvent.VK_SPACE:
+
+			case KeyEvent.VK_SPACE: // Shooting
 				player.setShooting(true);
+				break;
+
+			case KeyEvent.VK_E: // Interact
+				player.setInteracting(true);
 				break;
 			}
 
@@ -485,15 +497,19 @@ public class StealthGame implements Runnable {
 			// System.out.println(e.getKeyCode());
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_LEFT:// Left
+			case KeyEvent.VK_A:
 				player.setTurnLeft(false);
 				break;
 			case KeyEvent.VK_UP:// Up
+			case KeyEvent.VK_W:
 				player.setFoward(false);
 				break;
 			case KeyEvent.VK_RIGHT:// Right
+			case KeyEvent.VK_D:
 				player.setTurnRight(false);
 				break;
 			case KeyEvent.VK_DOWN:// Down
+			case KeyEvent.VK_S:
 				player.setBackward(false);
 				break;
 

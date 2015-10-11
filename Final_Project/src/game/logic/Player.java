@@ -47,7 +47,13 @@ public class Player {
 	private double x, y;
 	private double xBoundingBox, yBoundingBox;
 	private double rotation;
+
+	// Current room that the player is in
 	private Room currentRoom = null;
+
+	// Previous room that the player was in
+	private Room previousRoom = null;
+
 	private boolean isMoving, turnLeft, turnRight, moveFoward, moveBackward,
 			sprint;
 
@@ -69,6 +75,12 @@ public class Player {
 
 	// Has the player picked up an item?
 	private boolean itemPickedUp;
+
+	// True IFF player is interacting with something
+	private boolean isInteracting;
+
+	// True IFF the player's room is loaded
+	private boolean roomLoaded;
 
 	public Player(String username, double x, double y, double rotation) {
 		this.username = username;
@@ -133,6 +145,14 @@ public class Player {
 			tile.onEnter(this);
 		}
 
+		// Check if player is interacting with an item
+		if (getRoom() != null && getRoom().validPosition(this, getX(), getY())
+				&& isInteracting) {
+			Tile tile = getRoom().getTile(this, getX(), getY());
+			isInteracting = false;
+			tile.onInteract(this);
+		}
+
 		// Check for shooting:
 		if (isShooting) {
 			if (cooldown <= 0) {
@@ -157,25 +177,25 @@ public class Player {
 		}
 
 		// Check for doors. If in a door, move player to spawn location of door:
-//		if (currentRoom != null) {
-//			if (currentRoom.validPosition(this, x, y)) {
-//				Tile currentTile = currentRoom.getTile(this, x, y);
-//				if (currentTile instanceof Door && !onDoor) {
-//					currentRoom = ((Door) currentTile).getTargetRoom();
-//
-//					x = ((Door) currentTile).getX();
-//					y = ((Door) currentTile).getY();
-//					rotation = ((Door) currentTile).getDirection();
-//					previousDoor = currentRoom.getTile(this, x, y);
-//					onDoor = true;
-//				}
-//			}
-//			// Check to see if the player has moved of the door. If they have,
-//			// they can reenter the door again.
-//			if (currentRoom.getTile(this, x, y) != previousDoor) {
-//				onDoor = false;
-//			}
-//		}
+		// if (currentRoom != null) {
+		// if (currentRoom.validPosition(this, x, y)) {
+		// Tile currentTile = currentRoom.getTile(this, x, y);
+		// if (currentTile instanceof Door && !onDoor) {
+		// currentRoom = ((Door) currentTile).getTargetRoom();
+		//
+		// x = ((Door) currentTile).getX();
+		// y = ((Door) currentTile).getY();
+		// rotation = ((Door) currentTile).getDirection();
+		// previousDoor = currentRoom.getTile(this, x, y);
+		// onDoor = true;
+		// }
+		// }
+		// // Check to see if the player has moved of the door. If they have,
+		// // they can reenter the door again.
+		// if (currentRoom.getTile(this, x, y) != previousDoor) {
+		// onDoor = false;
+		// }
+		// }
 		// currentRoom.tick();
 	}
 
@@ -250,18 +270,40 @@ public class Player {
 	public final boolean itemPickedUp() {
 		return itemPickedUp;
 	}
+
+	public void setInteracting(boolean isInteracting) {
+		this.isInteracting = isInteracting;
+	}
+
+	public final boolean isInteracting() {
+		return this.isInteracting;
+	}
+
 	/**
 	 * Sets players current room
 	 */
 	public final void setRoom(Room r) {
+		previousRoom = currentRoom;
 		currentRoom = r;
 	}
 
 	/**
 	 * Sets players current room
 	 */
-	public Room getRoom() {
+	public final Room getRoom() {
 		return currentRoom;
+	}
+
+	public final Room getOldRoom() {
+		return previousRoom;
+	}
+
+	public void setRoomLoaded(boolean roomLoaded) {
+		this.roomLoaded = roomLoaded;
+	}
+
+	public final boolean isRoomLoaded() {
+		return this.roomLoaded;
 	}
 
 	/**

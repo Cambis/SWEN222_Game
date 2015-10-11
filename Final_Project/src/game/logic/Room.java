@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-
 import game.logic.weapons.Lazor;
 
 import game.logic.items.Item;
@@ -41,13 +40,20 @@ public class Room {
 	private Map<Door, String> doorDests = new HashMap<Door, String>();
 	private List<Door> doors = new ArrayList<Door>();
 
-	//Models
-	private R_ModelColorData floorData = new R_ModelColorData("Floor", "res/models/BasicFloor.obj", Color.GRAY);
-	private R_ModelColorData doorData1 = new R_ModelColorData("Door1", "res/models/BasicFloor.obj", Color.ORANGE);
-	private R_ModelColorData doorData2 = new R_ModelColorData("Door2", "res/models/BasicFloor.obj", Color.GREEN);
-	private R_ModelColorData wallData = new R_ModelColorData("BasicWall", "res/models/BasicWall.obj", Color.RED);
-	private R_ModelColorData lazerData = new R_ModelColorData("Lazer", "res/models/lazer.obj", Color.RED);
+	// Shadow map to be parsed to the renderer
+	int[][] shadowMap;
 
+	// Models
+	private R_ModelColorData floorData = new R_ModelColorData("Floor",
+			"res/models/BasicFloor.obj", Color.GRAY);
+	private R_ModelColorData doorData1 = new R_ModelColorData("Door1",
+			"res/models/BasicFloor.obj", Color.ORANGE);
+	private R_ModelColorData doorData2 = new R_ModelColorData("Door2",
+			"res/models/BasicFloor.obj", Color.GREEN);
+	private R_ModelColorData wallData = new R_ModelColorData("BasicWall",
+			"res/models/BasicWall.obj", Color.RED);
+	private R_ModelColorData lazerData = new R_ModelColorData("Lazer",
+			"res/models/lazer.obj", Color.RED);
 
 	public Room(String filename) {
 		loadTiles(filename);
@@ -80,8 +86,7 @@ public class Room {
 			int yPos = 0;
 			int tileNum = 0;
 
-			//List of doors to be given destinations
-
+			// List of doors to be given destinations
 
 			while (s.hasNext()) {
 
@@ -96,14 +101,14 @@ public class Room {
 					} else if (i == 1) {
 						tiles[xPos][yPos] = new Wall(xPos * TILE_SIZE * SCALE,
 								yPos * TILE_SIZE * SCALE, wallData, tileNum);
-					} else if(i==2){
-						tiles[xPos][yPos] = new Door(xPos * TILE_SIZE
-								* SCALE, yPos * TILE_SIZE * SCALE, doorData1,
-								tileNum, i);
-					} else if(i==3){
-						tiles[xPos][yPos] = new Door(xPos * TILE_SIZE
-								* SCALE, yPos * TILE_SIZE * SCALE, doorData2,
-								tileNum, i);
+					} else if (i == 2) {
+						tiles[xPos][yPos] = new Door(xPos * TILE_SIZE * SCALE,
+								yPos * TILE_SIZE * SCALE, tileNum, i);
+						doors.add((Door) tiles[xPos][yPos]);
+					} else if (i == 3) {
+						tiles[xPos][yPos] = new Door(xPos * TILE_SIZE * SCALE,
+								yPos * TILE_SIZE * SCALE, tileNum, i);
+						doors.add((Door) tiles[xPos][yPos]);
 					}
 					xPos++;
 					tileNum++;
@@ -113,18 +118,18 @@ public class Room {
 						yPos++;
 					}
 				}
-				//Not a basic floor, door or wall
+				// Not a basic floor, door or wall
 				else {
 					String str = s.next();
-					if(str.length()==1){
+					if (str.length() == 1) {
 						// Find the item
 						char itemKey = str.charAt(0);
 						Item item = null;
 						item = parseItem(xPos, yPos, itemKey, item);
 						if (item != null) {
 							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
-									* SCALE, yPos * TILE_SIZE * SCALE, floorData,
-									tileNum);
+									* SCALE, yPos * TILE_SIZE * SCALE,
+									floorData, tileNum);
 
 							// Add the item to the room
 							((BasicFloor) tiles[xPos][yPos]).addItem(item);
@@ -136,18 +141,19 @@ public class Room {
 							xPos = 0;
 							yPos++;
 						}
-					}else{
-						if(str.equals("door")){
-							//Load door
-							if(s.hasNextInt()){
+					} else {
+						if (str.equals("door")) {
+							// Load door
+							if (s.hasNextInt()) {
 								int doorId = s.nextInt();
-								if(s.hasNext()){
+								if (s.hasNext()) {
 									String roomName = s.next();
 									int targetX = s.nextInt();
 									int targetY = s.nextInt();
-									for(Door d : doors){
-										if(d.doorID==doorId){
-											//Give door a room destination in map to be assigned in level
+									for (Door d : doors) {
+										if (d.doorID == doorId) {
+											// Give door a room destination in
+											// map to be assigned in level
 											doorDests.put(d, roomName);
 											d.setTargetPos(targetX, targetY);
 										}
@@ -168,11 +174,12 @@ public class Room {
 	/**
 	 * initilize door destinations in this room
 	 */
-	public void initilizeDoors(List<Room> rooms){
-		for(Door d : doors){
+	public void initilizeDoors(List<Room> rooms) {
+		for (Door d : doors) {
 			String destName = doorDests.get(d);
-			for(Room r : rooms){
-				if(r.getName().equals(destName)){
+			System.out.println("Destination: " + destName);
+			for (Room r : rooms) {
+				if (r.getName().equals(destName)) {
 					d.setTargetRoom(r);
 				}
 			}
@@ -182,8 +189,8 @@ public class Room {
 	private Item parseItem(int xPos, int yPos, char itemKey, Item item) {
 		switch (itemKey) {
 		case 'K': // Key
-			item = new Key(10, xPos * TILE_SIZE * SCALE, yPos
-					* TILE_SIZE * SCALE);
+			item = new Key(10, xPos * TILE_SIZE * SCALE, yPos * TILE_SIZE
+					* SCALE);
 			break;
 
 		default:
@@ -201,7 +208,7 @@ public class Room {
 	 */
 	public boolean validPosition(Player p, double x, double y) {
 		Tile tile = getTile(p, x, y);
-		return tile!=null && tile.canEnter(p);
+		return tile != null && tile.canEnter(p);
 	}
 
 	/**
@@ -210,7 +217,9 @@ public class Room {
 	 * @param r
 	 */
 	public void initTiles(Renderer r) {
-		int[][] shadowMap = new int[tiles.length][tiles[0].length];
+
+		shadowMap = new int[tiles.length][tiles[0].length];
+
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
 				// r.addModel(tiles[i][j].getModel());
@@ -241,6 +250,45 @@ public class Room {
 			}
 		}
 		r.setMap(shadowMap);
+	}
+
+	/**
+	 * Removes tiles from the renderer, this is called when the player has to
+	 * switch rooms.
+	 *
+	 * @param r
+	 *            - Renderer to remove tiles from
+	 */
+	public void removeTiles(Renderer r) {
+
+		// Return if the room has not been rendered
+		if (shadowMap == null) {
+			return;
+		}
+
+		// Delete the shadow map
+		// r.deleteMap(shadowMap);
+
+		// Delete the tiles
+		for (int i = 0; i < tiles.length; i++) {
+			for (int j = 0; j < tiles[0].length; j++) {
+
+				Tile tile = tiles[i][j];
+
+				// Delete model of the tile
+				r.deleteModel(tile.getModel().getName());
+
+				// If there are any items delete them too
+				if (tile instanceof BasicFloor) {
+
+					BasicFloor floor = (BasicFloor) tile;
+
+					for (Item item : floor.getItems())
+						r.deleteModel(item.getModel().getName());
+
+				}
+			}
+		}
 	}
 
 	/**
@@ -283,14 +331,14 @@ public class Room {
 	 */
 	public Tile getTile(Player p, double x, double y) {
 		double scaledTileSize = TILE_SIZE * SCALE;
-		if(x<-(scaledTileSize/2) || y<-(scaledTileSize/2)){
+		if (x < -(scaledTileSize / 2) || y < -(scaledTileSize / 2)) {
 			return null;
 		}
 		int tileX = (int) ((x + (scaledTileSize / 2)) / scaledTileSize);
 		int tileY = (int) ((y + (scaledTileSize / 2)) / scaledTileSize);
-		//Out of bounds of array
-		if(tileX>=tiles.length || tileX < 0
-				|| tileY>=tiles[tileX].length || tileY < 0){
+		// Out of bounds of array
+		if (tileX >= tiles.length || tileX < 0 || tileY >= tiles[tileX].length
+				|| tileY < 0) {
 			System.out.println("Trying to leave map!!!");
 			return null;
 		}
@@ -314,13 +362,13 @@ public class Room {
 
 	}
 
-	public String getName(){
+	public String getName() {
 		return name;
 	}
 
 	public void tick() {
-//		for(Lazor l : lazers){
-//			l.tick();
-//		}
+		// for(Lazor l : lazers){
+		// l.tick();
+		// }
 	}
 }
