@@ -415,7 +415,7 @@ public class StealthGame implements Runnable {
 		renderer.setTeam(rteam);
 	}
 
-	public synchronized void handleInteract(String username, int ID) {
+	public void handleInteract(String username, int ID) {
 		level.handleInteract(username, ID);
 	}
 

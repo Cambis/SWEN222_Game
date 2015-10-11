@@ -124,34 +124,37 @@ public class Room {
 					String str = s.next();
 					if (str.length() == 1) {
 						// Find the item
-						switch(str){
+						switch (str) {
 						case "-":
 							tiles[xPos][yPos] = new BlankTile();
 							break;
 						case "w":
-							tiles[xPos][yPos] = new Water(xPos * TILE_SIZE * SCALE,
-									yPos * TILE_SIZE * SCALE, waterData, tileNum);
+							tiles[xPos][yPos] = new Water(xPos * TILE_SIZE
+									* SCALE, yPos * TILE_SIZE * SCALE,
+									waterData, tileNum);
 							break;
 						case "S":
 							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
-									* SCALE, yPos * TILE_SIZE * SCALE, floorData,
-									tileNum);
-							spawns.add(new SpawnPoint(this, xPos, yPos, Team.SPY));
+									* SCALE, yPos * TILE_SIZE * SCALE,
+									floorData, tileNum);
+							spawns.add(new SpawnPoint(this, xPos, yPos,
+									Team.SPY));
 							break;
 						case "G":
 							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
-									* SCALE, yPos * TILE_SIZE * SCALE, floorData,
-									tileNum);
-							spawns.add(new SpawnPoint(this, xPos, yPos, Team.GUARD));
+									* SCALE, yPos * TILE_SIZE * SCALE,
+									floorData, tileNum);
+							spawns.add(new SpawnPoint(this, xPos, yPos,
+									Team.GUARD));
 							break;
 						default:
 							char itemKey = str.charAt(0);
 							Item item = null;
 							item = parseItem(xPos, yPos, itemKey, item);
 							if (item != null) {
-								tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
-										* SCALE, yPos * TILE_SIZE * SCALE,
-										floorData, tileNum);
+								tiles[xPos][yPos] = new BasicFloor(xPos
+										* TILE_SIZE * SCALE, yPos * TILE_SIZE
+										* SCALE, floorData, tileNum);
 
 								// Add the item to the room
 								((BasicFloor) tiles[xPos][yPos]).addItem(item);
@@ -210,7 +213,7 @@ public class Room {
 		}
 	}
 
-	public List<SpawnPoint> getSpawns(){
+	public List<SpawnPoint> getSpawns() {
 		return spawns;
 	}
 
@@ -304,7 +307,7 @@ public class Room {
 				Tile tile = tiles[i][j];
 
 				// Delete model of the tile
-				if(tile.getModel()!=null){
+				if (tile.getModel() != null) {
 					r.deleteModel(tile.getModel().getName());
 				}
 
@@ -369,7 +372,7 @@ public class Room {
 		// Out of bounds of array
 		if (tileX >= tiles.length || tileX < 0 || tileY >= tiles[tileX].length
 				|| tileY < 0) {
-			System.out.println("Trying to leave map!!!");
+			// System.out.println("Trying to leave map!!!");
 			return null;
 		}
 		return tiles[tileX][tileY];

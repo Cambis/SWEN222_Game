@@ -169,10 +169,13 @@ public class Level {
 
 		Player player = getPlayer(username);
 
+		System.out.println("Recieved shit from the: " + username);
+
 		for (Room r : rooms) {
-			if (player.getRoom().equals(r))
+			if (player.getRoom().getName().equals(r.getName()))
 				for (int i = 0; i < r.getTilesXSize(); i++) {
 					for (int j = 0; j < r.getTilesYSize(); j++) {
+
 						Tile tile = r.getTile(player, i, j);
 
 						if (tile instanceof Door) {
@@ -180,14 +183,6 @@ public class Level {
 
 							if (door.getID() == ID) {
 								door.onInteract(player);
-
-								// If the player is not in the same room as the
-								// player on this computer, remove them from the
-								// renderer
-								if (!player.getRoom().equals(
-										game.getPlayer().getRoom()))
-									game.r_removeModel(player.getModel()
-											.getName());
 							}
 						}
 					}
@@ -217,14 +212,31 @@ public class Level {
 	 */
 	public void tick() {
 
+		System.out.println(game.getPlayer().getUsername() + "'s game");
+
+		for (Player p : players)
+			System.out.println(p.getUsername() + "is in: " + p.getRoom().getName());
 		// Go through players
 		for (Player p : players) {
 
 			// Only render the player if they are alive
 			if (readyToRender && p.isAlive()) {
 
-				if (p.getRoom().equals(game.getPlayer().getRoom()))
-					game.r_addModel(p.getModel());
+				// If the player is in the same room as the player on this
+				// computer, add them to the renderer
+				if (p.getRoom().equals(game.getPlayer().getRoom())) {
+					if (game.r_addModel(p.getModel())) {
+						System.out.println("Adding " + p.getUsername()
+								+ "'s model in "
+								+ game.getPlayer().getUsername() + "'s game");
+					}
+				}
+
+				// If the player is not in the same room as the
+				// player on this computer, remove them from the
+				// renderer
+				else if (!p.getRoom().equals(game.getPlayer().getRoom()))
+					game.r_removeModel(p.getModel().getName());
 
 				// Update the room
 				if (!p.isRoomLoaded() && p.equals(game.getPlayer())) {
@@ -272,7 +284,7 @@ public class Level {
 					System.out.println(p.getRoom()
 							.getTile(p, p.getX(), p.getY()).getID());
 					p.setInteracting(false);
-//					packet.writeData(game.getClient());
+					packet.writeData(game.getClient());
 				}
 
 				// Finally tick through the room that the player is in
