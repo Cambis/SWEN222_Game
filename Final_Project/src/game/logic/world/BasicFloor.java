@@ -90,7 +90,7 @@ public class BasicFloor implements Tile {
 	}
 
 	@Override
-	public final int getID() {
+	public int getID() {
 		return this.tileNum;
 	}
 }

@@ -31,8 +31,8 @@ public class Player {
 
 	private Team side;
 
-	public static final double TURN_SPEED = 0.05;
-	public static final double MAX_VELOCITY = 0.1;
+	public static final double TURN_SPEED = 0.07;
+	private double MAX_VELOCITY = 0.1;
 
 	private double moveSpeed = 0.05;
 	private double accel = 0.1;
@@ -44,7 +44,7 @@ public class Player {
 	private double health = 100;
 
 	// Position
-	private double x, y;
+	private double x, y, z;
 	private double xBoundingBox, yBoundingBox;
 	private double rotation;
 
@@ -86,12 +86,14 @@ public class Player {
 		this.username = username;
 		this.x = x;
 		this.y = y;
+		this.z = 0;
 		this.rotation = rotation;
 
 		currentWeapon = new LazorPistol();
 
 		this.inventory = new ArrayList<Item>();
 		this.weaponInventory = new ArrayList<Item>();
+
 	}
 
 	public void resetSpeed() {
@@ -137,12 +139,6 @@ public class Player {
 			double newY = y - (MAX_VELOCITY * accel) * Math.cos(rotation);
 			double newX = x - (MAX_VELOCITY * accel) * Math.sin(rotation);
 			move(newY, newX);
-		}
-
-		// Check if the player is over an item
-		if (getRoom() != null && getRoom().validPosition(this, getX(), getY())) {
-			Tile tile = getRoom().getTile(this, getX(), getY());
-			tile.onEnter(this);
 		}
 
 		// Check if player is interacting with an item
@@ -207,10 +203,10 @@ public class Player {
 			// Apply Enter and Exit tile modifiers
 			Tile oldTile = currentRoom.getTile(this, x, y);
 			Tile newTile = currentRoom.getTile(this, newX, newY);
-			// if(oldTile!=newTile){
-			// oldTile.onExit(this);
-			// newTile.onEnter(this);
-			// }
+			 if(oldTile!=newTile){
+				 oldTile.onExit(this);
+				 newTile.onEnter(this);
+			 }
 			// System.out.println("new x: " + model.getPosition().getX());
 			x = newX;
 			y = newY;
@@ -326,6 +322,12 @@ public class Player {
 		this.y = y;
 	}
 
+	public final void setZ(double z) {
+		if (model != null)
+			model.getPosition().setY((float) z);
+		this.z = z;
+	}
+
 	public void setRot(double rot) {
 		if (model != null)
 			model.getOrientation().setY((float) rot);
@@ -361,7 +363,7 @@ public class Player {
 	}
 
 	public void multiplySpeed(double val) {
-		moveSpeed *= val;
+		MAX_VELOCITY *= val;
 	}
 
 	public void setBackward(boolean val) {

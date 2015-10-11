@@ -76,8 +76,8 @@ public class Door implements Tile {
 	}
 
 	public void setTargetPos(int x, int y) {
-		targetX = x * 0.1;
-		targetY = y * 0.1;
+		targetX = x*0.2;
+		targetY = y*0.2;
 	}
 
 	public double getX() {

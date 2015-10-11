@@ -1,49 +1,35 @@
 package game.logic.world;
 
+import java.util.PriorityQueue;
+import java.util.Stack;
+
 import game.logic.Player;
+import game.logic.items.Item;
 import renderer.R_AbstractModel;
 import renderer.R_AbstractModelData;
+import renderer.R_Model;
+import renderer.R_ModelColorData;
+import renderer.math.Vec3;
 
-public class Water implements Tile {
+public class Water extends BasicFloor {
 
-	@Override
-	public boolean canEnter(Player player) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	private R_Model model;
 
-	@Override
-	public void onInteract(Player p) {
-		// TODO Auto-generated method stub
-
+	public Water(double xPos, double yPos, R_ModelColorData data,
+			int tileNum) {
+		super(xPos, yPos, data, tileNum);
 	}
 
 	@Override
 	public void onEnter(Player p) {
 		p.multiplySpeed(0.5);
+		p.setZ(-0.2);
 	}
 
 	@Override
 	public void onExit(Player p) {
 		p.multiplySpeed(2);
-	}
-
-	@Override
-	public boolean canInteract(Player player) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public R_AbstractModelData getModelData() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public R_AbstractModel getModel() {
-		// TODO Auto-generated method stub
-		return null;
+		p.setZ(0);
 	}
 
 	@Override
