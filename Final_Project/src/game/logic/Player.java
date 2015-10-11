@@ -13,6 +13,7 @@ import game.logic.weapons.LazorPistol;
 import game.logic.weapons.Weapon;
 import game.logic.world.Door;
 import game.logic.world.Tile;
+import game.logic.world.Tile.Interaction;
 // import game.logic.weapons.Weapon;
 import renderer.*;
 import renderer.R_Player.Team;
@@ -51,6 +52,9 @@ public class Player {
 	// Current room that the player is in
 	private Room currentRoom = null;
 
+	// Old position (used to jump rooms)
+	private double oldX, oldY;
+
 	// Previous room that the player was in
 	private Room previousRoom = null;
 
@@ -78,6 +82,9 @@ public class Player {
 
 	// True IFF player is interacting with something
 	private boolean isInteracting;
+
+	// Types of interaction
+	private Interaction interaction = Interaction.NONE;
 
 	// True IFF the player's room is loaded
 	private boolean roomLoaded;
@@ -147,6 +154,10 @@ public class Player {
 			Tile tile = getRoom().getTile(this, getX(), getY());
 			// isInteracting = false;
 			tile.onInteract(this);
+
+			if (tile instanceof Door) {
+				interaction = Interaction.DOOR;
+			}
 		}
 
 		// Check for shooting:
@@ -275,12 +286,30 @@ public class Player {
 		return this.isInteracting;
 	}
 
+	public void resetInteraction() {
+		this.interaction = Interaction.NONE;
+	}
+
+	public final Interaction getInteraction() {
+		return this.interaction;
+	}
+
 	/**
 	 * Sets players current room
 	 */
 	public final void setRoom(Room r) {
+		this.oldX = x;
+		this.oldY = y;
 		previousRoom = currentRoom;
 		currentRoom = r;
+	}
+
+	public final double getOldX() {
+		return this.oldX;
+	}
+
+	public final double getOldY() {
+		return this.oldY;
 	}
 
 	/**

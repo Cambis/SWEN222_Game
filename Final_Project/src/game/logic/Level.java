@@ -171,6 +171,11 @@ public class Level {
 
 		System.out.println("Recieved shit from the: " + username);
 
+		System.out.println(game.getPlayer().getUsername() + "'s game");
+		for (Player p : players)
+			System.out.println(p.getUsername() + " is in: "
+					+ p.getRoom().getName());
+
 		for (Room r : rooms) {
 			if (player.getRoom().getName().equals(r.getName()))
 				for (int i = 0; i < r.getTilesXSize(); i++) {
@@ -181,7 +186,11 @@ public class Level {
 						if (tile instanceof Door) {
 							Door door = (Door) tile;
 
+							System.out.println(door.getID() + " : " + ID);
 							if (door.getID() == ID) {
+								System.out
+										.println(game.getPlayer().getUsername()
+												+ "'s game, " + username);
 								door.onInteract(player);
 							}
 						}
@@ -212,10 +221,11 @@ public class Level {
 	 */
 	public void tick() {
 
-		System.out.println(game.getPlayer().getUsername() + "'s game");
+		// System.out.println(game.getPlayer().getUsername() + "'s game");
 
-		for (Player p : players)
-			System.out.println(p.getUsername() + "is in: " + p.getRoom().getName());
+		// for (Player p : players)
+		// System.out.println(p.getUsername() + "is in: " +
+		// p.getRoom().getName());
 		// Go through players
 		for (Player p : players) {
 
@@ -278,8 +288,27 @@ public class Level {
 
 				// Player interacting
 				if (p.isInteracting()) {
-					packet = new Packet06Interact(p.getUsername(), p.getRoom()
-							.getTile(p, p.getX(), p.getY()).getID());
+
+					if (p.getOldRoom() == null) {
+						System.out.println("Old room is null");
+					}
+
+					switch (p.getInteraction()) {
+
+					case DOOR:
+						packet = new Packet06Interact(p.getUsername(), p.getOldRoom()
+								.getTile(p, p.getOldX(), p.getOldY()).getID());
+						break;
+
+					default:
+					case NONE:
+						packet = new Packet06Interact(p.getUsername(), p.getRoom()
+								.getTile(p, p.getX(), p.getY()).getID());
+						break;
+					}
+
+					// Reset the interaction back to NONE
+					p.resetInteraction();
 
 					System.out.println(p.getRoom()
 							.getTile(p, p.getX(), p.getY()).getID());
