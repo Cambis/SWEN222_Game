@@ -1,15 +1,9 @@
 package renderer;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import renderer.R_Player.Team;
@@ -232,6 +226,7 @@ public class Renderer {
 	public void setMap(int[][] newShadowMap){
 		shadowMap = newShadowMap;
 	}
+
 	/**
 	 * Renders the scene and returns a buffered image of the render
 	 *
@@ -241,10 +236,6 @@ public class Renderer {
 		BufferedImage viewport = new BufferedImage(width, height,
 				BufferedImage.TYPE_INT_RGB);
 		float zBuffer[][] = new float[width][height];
-
-		long timeBefore = System.currentTimeMillis();
-		Graphics2D g = (Graphics2D) viewport.getGraphics();
-		g.clearRect(0, 0, width, height);
 
 		// Refresh Buffers
 		for (int x = 0; x < width; ++x) {
@@ -284,10 +275,6 @@ public class Renderer {
 					matrix, lights, side, visible, shadowMap, tileSize);
 		}
 
-		long timeAfter = 1000 / Math.max(1, System.currentTimeMillis()
-				- timeBefore);
-		g.setColor(Color.WHITE);
-		g.drawString("FPS: " + timeAfter, 25, 25);
 		return viewport;
 	}
 

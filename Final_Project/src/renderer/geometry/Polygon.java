@@ -76,7 +76,7 @@ public class Polygon {
 			}
 			Vec3 vdir = positionAvg.sub(l.getPosition());
 
-			if (vdir.dot(l.getDirection()) > 0.8){
+			if (vdir.dot(l.getDirection()) > l.getCutoff()){
 				// Check shadow
 				for (int i = 0; i < tileSize*2-1; ++i){
 					Vec3 pos = Vec3.Lerp(l.getPosition(), positionAvg, (float)i/(tileSize*2)).div(new Vec3(0.02, 0.02, 0.02)).div(new Vec3(tileSize, tileSize, tileSize));
