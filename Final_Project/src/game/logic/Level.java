@@ -8,6 +8,7 @@ import game.control.packets.Packet06Interact;
 import game.logic.items.Item;
 import game.logic.world.Door;
 import game.logic.world.Tile;
+import game.logic.world.Tile.Interaction;
 
 import java.io.File;
 import java.io.IOException;
@@ -169,34 +170,21 @@ public class Level {
 
 		Player player = getPlayer(username);
 
-		System.out.println("Recieved shit from the: " + username);
+		// We do not want to handle an interact from the player on this computer
+		if (player.equals(game.getPlayer()))
+			return;
 
-		System.out.println(game.getPlayer().getUsername() + "'s game");
+		System.out.println(game.getPlayer().getUsername()
+				+ " recieved shit from the: " + username);
+
+		Room currentRoom = player.getRoom();
+		Tile tile = currentRoom.getTile(player, ID);
+
+		tile.onInteract(player);
+
 		for (Player p : players)
 			System.out.println(p.getUsername() + " is in: "
 					+ p.getRoom().getName());
-
-		for (Room r : rooms) {
-			if (player.getRoom().getName().equals(r.getName()))
-				for (int i = 0; i < r.getTilesXSize(); i++) {
-					for (int j = 0; j < r.getTilesYSize(); j++) {
-
-						Tile tile = r.getTile(player, i, j);
-
-						if (tile instanceof Door) {
-							Door door = (Door) tile;
-
-							System.out.println(door.getID() + " : " + ID);
-							if (door.getID() == ID) {
-								System.out
-										.println(game.getPlayer().getUsername()
-												+ "'s game, " + username);
-								door.onInteract(player);
-							}
-						}
-					}
-				}
-		}
 	}
 
 	private Player getPlayer(String username) {
@@ -262,7 +250,7 @@ public class Level {
 				p.tick();
 
 				// Packet to be sent to the server
-				Packet packet;
+				Packet packet = null;
 
 				// Player moving
 				if (p.isMoving()) {
@@ -287,25 +275,26 @@ public class Level {
 				}
 
 				// Player interacting
-				if (p.isInteracting()) {
-
-					if (p.getOldRoom() == null) {
-						System.out.println("Old room is null");
-					}
+				// Check if player is interacting with a tile
+				if (p.isInteracting() && p.getRoom() != null
+						&& p.getRoom().validPosition(p, p.getX(), p.getY())) {
+					Tile tile = p.getRoom().getTile(p, p.getX(), p.getY());
+					// isInteracting = false;
+					// tile.onInteract(p);
 
 					switch (p.getInteraction()) {
-
 					case DOOR:
-						packet = new Packet06Interact(p.getUsername(), p.getOldRoom()
-								.getTile(p, p.getOldX(), p.getOldY()).getID());
+						packet = new Packet06Interact(p.getUsername(),
+								tile.getID());
+						break;
+					case NONE:
+					default:
 						break;
 
-					default:
-					case NONE:
-						packet = new Packet06Interact(p.getUsername(), p.getRoom()
-								.getTile(p, p.getX(), p.getY()).getID());
-						break;
 					}
+
+					// Interact with the tile
+					tile.onInteract(p);
 
 					// Reset the interaction back to NONE
 					p.resetInteraction();
@@ -320,11 +309,6 @@ public class Level {
 				p.getRoom().tick(game.getRenderer());
 			}
 		}
-
-		// Go through rooms
-		// for (Room r : rooms) {
-		// r.tick(game.getRenderer());
-		// }
 	}
 
 	/**

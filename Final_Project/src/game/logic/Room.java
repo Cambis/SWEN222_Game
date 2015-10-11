@@ -362,7 +362,7 @@ public class Room {
 	 * @param y
 	 * @return
 	 */
-	public Tile getTile(Player p, double x, double y) {
+	public final Tile getTile(Player p, double x, double y) {
 		double scaledTileSize = TILE_SIZE * SCALE;
 		if (x < -(scaledTileSize / 2) || y < -(scaledTileSize / 2)) {
 			return null;
@@ -376,6 +376,16 @@ public class Room {
 			return null;
 		}
 		return tiles[tileX][tileY];
+	}
+
+	public final Tile getTile(Player p, int ID) {
+
+		Tile tile = getTile(p, p.getX(), p.getY());
+		if (tile.getID() == ID)
+			return tile;
+
+		System.err.println("Returning Null");
+		return null;
 	}
 
 	public final int getTilesXSize() {
@@ -405,11 +415,5 @@ public class Room {
 
 	public String getName() {
 		return name;
-	}
-
-	public void tick() {
-		// for(Lazor l : lazers){
-		// l.tick();
-		// }
 	}
 }

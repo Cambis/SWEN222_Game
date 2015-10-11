@@ -148,12 +148,22 @@ public class Player {
 			move(newY, newX);
 		}
 
-		// Check if player is interacting with tile
+//		// Check if player is interacting with tile
+//		if (getRoom() != null && getRoom().validPosition(this, getX(), getY())
+//				&& isInteracting) {
+//			Tile tile = getRoom().getTile(this, getX(), getY());
+//			// isInteracting = false;
+//			tile.onInteract(this);
+//
+//			if (tile instanceof Door) {
+//				interaction = Interaction.DOOR;
+//			}
+//		}
+
+		// Interacting
 		if (getRoom() != null && getRoom().validPosition(this, getX(), getY())
 				&& isInteracting) {
 			Tile tile = getRoom().getTile(this, getX(), getY());
-			// isInteracting = false;
-			tile.onInteract(this);
 
 			if (tile instanceof Door) {
 				interaction = Interaction.DOOR;
