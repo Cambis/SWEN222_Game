@@ -1,19 +1,33 @@
 package renderer.geometry;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 import renderer.Light;
 import renderer.R_Player;
-import renderer.math.Mat4;
 import renderer.math.Vec3;
 
+/**
+ *
+ * @author Stephen Thompson
+ *
+ */
 public class Polygon {
+	// The index to the first vertex
 	private final int v1;
+
+	// The index to the second vertex
 	private final int v2;
+
+	// The index to the third vertex
 	private final int v3;
 
+	/**
+	 *
+	 * @param v1
+	 * @param v2
+	 * @param v3
+	 */
 	public Polygon(int v1, int v2, int v3) {
 		super();
 		this.v1 = v1;
@@ -21,12 +35,32 @@ public class Polygon {
 		this.v3 = v3;
 	}
 
+	/**
+	 *
+	 * @param v
+	 * @param i1
+	 * @param i2
+	 */
 	private void swap(Vertex v[], int i1, int i2){
 		Vertex temp = v[i1];
 		v[i1] = v[i2];
 		v[i2] = temp;
 	}
 
+	/**
+	 *
+	 * @param viewport
+	 * @param zBuffer
+	 * @param width
+	 * @param height
+	 * @param col
+	 * @param vertices
+	 * @param lights
+	 * @param side
+	 * @param visible
+	 * @param shadowMap
+	 * @param tileSize
+	 */
 	public void draw(int[] viewport, float[][] zBuffer, int width, int height, Color col, List<Vertex> vertices, List<Light> lights, R_Player.Team side, R_Player.Team visible, int[][] shadowMap, int tileSize) {
 		Vertex tempV1 = vertices.get(v1);
 		Vertex tempV2 = vertices.get(v2);
@@ -116,6 +150,15 @@ public class Polygon {
 		}
 	}
 
+	/**
+	 *
+	 * @param viewport
+	 * @param zBuffer
+	 * @param width
+	 * @param height
+	 * @param v
+	 * @param c
+	 */
 	private void fillTopTri(int[] viewport, float[][] zBuffer, int width, int height, Vertex[] v, int c){
 		int min = (int)Math.floor(v[0].getProjected().getY());
 		int max = (int)Math.floor(v[2].getProjected().getY());
@@ -153,6 +196,15 @@ public class Polygon {
 		}
 	}
 
+	/**
+	 *
+	 * @param viewport
+	 * @param zBuffer
+	 * @param width
+	 * @param height
+	 * @param v
+	 * @param c
+	 */
 	private void fillBottomTri(int[] viewport, float[][] zBuffer, int width, int height, Vertex[] v, int c){
 		int min = (int)Math.floor(v[1].getProjected().getY());
 		int max = (int)Math.ceil(v[3].getProjected().getY());
