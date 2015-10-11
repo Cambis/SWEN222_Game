@@ -35,36 +35,36 @@ public class Door implements Tile {
 		this.tileNum = tileNum;
 	}
 
-	public void setLocked(boolean val){
-		locked =val;
+	public void setLocked(boolean val) {
+		locked = val;
 	}
 
-	public void setKey(int keyID){
+	public void setKey(int keyID) {
 		this.keyID = keyID;
 	}
 
 	@Override
 	public boolean canEnter(Player p) {
-		if(!locked){
+		if (!locked) {
 			return true;
 		}
-		if(p.getSide()==Team.GUARD){
+		if (p.getSide() == Team.GUARD) {
 			return true;
-		}else{
+		} else {
 			return p.getInventory().contains(new Key(keyID));
 		}
 	}
 
 	@Override
 	public R_AbstractModelData getModelData() {
-		return new R_ModelColorData("Door",
-				"res/models/BasicFloor.obj", Color.ORANGE);
+		return new R_ModelColorData("Door", "res/models/BasicFloor.obj",
+				Color.ORANGE);
 	}
 
 	@Override
 	public R_AbstractModel getModel() {
-		return new R_Model("Door " + tileNum, getModelData(), new Vec3(x, 0,
-				y), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
+		return new R_Model("Door " + tileNum, getModelData(),
+				new Vec3(x, 0, y), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
 	}
 
 	public Room getTargetRoom() {
@@ -76,10 +76,9 @@ public class Door implements Tile {
 	}
 
 	public void setTargetPos(int x, int y) {
-		targetX = x*0.1;
-		targetY = y*0.1;
+		targetX = x * 0.1;
+		targetY = y * 0.1;
 	}
-
 
 	public double getX() {
 		return targetX;

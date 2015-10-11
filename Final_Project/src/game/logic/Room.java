@@ -100,7 +100,7 @@ public class Room {
 								tileNum);
 					} else if (i == 1) {
 						tiles[xPos][yPos] = new Wall(xPos * TILE_SIZE * SCALE,
-								yPos * TILE_SIZE * SCALE, wallData, tileNum);
+								yPos * TILE_SIZE * SCALE, tileNum);
 					} else if (i == 2) {
 						tiles[xPos][yPos] = new Door(xPos * TILE_SIZE * SCALE,
 								yPos * TILE_SIZE * SCALE, tileNum, i);
