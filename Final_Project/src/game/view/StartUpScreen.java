@@ -131,12 +131,24 @@ public class StartUpScreen extends JPanel {
 
 	private String[] showHostWindow() {
 		JTextField username = new JTextField();
-		Object[] message = { "Username:", username };
+		JTextField players = new JTextField();
+		Object[] message = { "Username:", username, "Amount of players:",
+				players };
 
 		int option = JOptionPane.showConfirmDialog(null, message, "Login",
 				JOptionPane.OK_CANCEL_OPTION);
+
 		if (option == JOptionPane.OK_OPTION) {
-			return new String[] { username.getText()};
+
+			// Need to check if the number of players is an integer
+			try {
+				int numOfPlayers = Integer.parseInt(players.getText());
+			} catch (NumberFormatException e) {
+				System.out.println("*** Invalid number: '" + players.getText() + "'. Please enter an integer ***");
+				return null;
+			}
+
+			return new String[] { username.getText(), players.getText() };
 		} else {
 			System.out.println("Login canceled");
 		}
@@ -145,11 +157,12 @@ public class StartUpScreen extends JPanel {
 
 	private void join() {
 		String[] login = showLoginWindowClient();
-		if(login==null){
+		if (login == null) {
 			return;
 		}
 		// TestPush client = new TestPush(false, login[0], login[1]);
-		StealthGame game = new StealthGame(false, login[0], login[1]);
+		// StealthGame game = new StealthGame(login[0], login[1]);
+		StealthGame game = StealthGame.client(login[0], login[1]);
 		game.start();
 		// new MainFrame();
 		frame.dispose();
@@ -157,10 +170,14 @@ public class StartUpScreen extends JPanel {
 
 	private void host() {
 		String[] login = showHostWindow();
-		if(login==null){
+		if (login == null) {
 			return;
 		}
-		StealthGame game = new StealthGame(true, login[0], "localhost");
+
+		// StealthGame game = new StealthGame(true, login[0], "localhost");
+//		StealthGame game = new StealthGame(login[0], "localhost",
+//				Integer.parseInt(login[1]));
+		StealthGame game = StealthGame.host(login[0], Integer.parseInt(login[1]));
 		game.start();
 		// TestPush host = new TestPush(true, login[0], login[1]);
 		frame.dispose();

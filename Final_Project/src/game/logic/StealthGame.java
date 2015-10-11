@@ -24,7 +24,7 @@ import game.view.WindowHandler;
 /**
  * Main logic class, runs the actual game.
  *
- * @author Bieleski, Bryers, Gill and Thompson MMXV.
+ * @author Cameron Bryers 300326848 MMXV
  *
  */
 public class StealthGame implements Runnable {
@@ -36,7 +36,6 @@ public class StealthGame implements Runnable {
 	public static final boolean EXPORT = true;
 
 	// The minimum amount of players to play the game,
-	// (TODO: should be >= 2, it is 1 for testing purposes)
 	public static final int MIN_PLAYERS = 2;
 
 	// The maximum amount of players allowed to connect
@@ -44,6 +43,9 @@ public class StealthGame implements Runnable {
 
 	// Amount of nano seconds per tick
 	public static final double NS_PER_TICK = 1000000000D / 60D;
+
+	// Amount of players that the host chooses
+	private int numOfPlayers;
 
 	// This is the client that connects to the server
 	private GameClient client;
@@ -58,9 +60,10 @@ public class StealthGame implements Runnable {
 	// True IFF player is hosting
 	private boolean isHost = false;
 
-	// Is the game running?
+	// True IFF the game is running
 	private boolean running = false;
 
+	// True when the game has been set up.
 	private boolean readyToRender = false;
 
 	// Ticks during the game
@@ -82,14 +85,33 @@ public class StealthGame implements Runnable {
 	private Player player;
 
 	/**
-	 * Default constructor, is called by GameClient.
+	 * Default constructor, it is never called outside this class. The
+	 * constructor is called by the static functions host() and client(), which
+	 * specify it to create a host or a client.
 	 *
 	 * @param isHost
-	 *            - true if user is hosting a game
+	 *            - true if the user is hosting a game
 	 * @param username
-	 *            - username for the player
+	 *            - username of the user
+	 * @param ipAddress
+	 *            - IP address to connect to. Host is defaulted to "localhost"
+	 *            while client parses the IP address of the host
+	 * @param numOfPlayers
+	 *            - number of players needed to start the game. Not used in the
+	 *            client constructor.
 	 */
-	public StealthGame(boolean isHost, String username, String ipAddress) {
+	private StealthGame(boolean isHost, String username, String ipAddress,
+			int numOfPlayers) {
+		this.numOfPlayers = numOfPlayers;
+
+		// Bounds checking for numOfPlayers
+		if (numOfPlayers != -1) {
+			this.numOfPlayers = (numOfPlayers >= MIN_PLAYERS) ? numOfPlayers
+					: MIN_PLAYERS;
+			this.numOfPlayers = (numOfPlayers <= MAX_PLAYERS) ? numOfPlayers
+					: MAX_PLAYERS;
+		}
+
 		this.isHost = isHost;
 		this.ipAddress = (ipAddress == null || ipAddress.length() == 0)
 		// Running on one computer for testing
@@ -98,6 +120,33 @@ public class StealthGame implements Runnable {
 				: ipAddress;
 		player = new PlayerMP(username, 0, 0, 0, null, -1);
 		init();
+	}
+
+	/**
+	 * Host constructor, needs to be parsed a number of players. IP address is
+	 * defaulted to "localhost".
+	 *
+	 * @param username
+	 *            - username of the host
+	 * @param numOfPlayers
+	 *            - number of players required to start the game
+	 * @return StealthGame for the host
+	 */
+	public static StealthGame host(String username, int numOfPlayers) {
+		return new StealthGame(true, username, "localhost", numOfPlayers);
+	}
+
+	/**
+	 * Client constructor, needs to be parsed an IP address to connect to.
+	 *
+	 * @param username
+	 *            - username of the client
+	 * @param ipAddress
+	 *            - IP address of the host to connect to
+	 * @return StealthGame for the client
+	 */
+	public static StealthGame client(String username, String ipAddress) {
+		return new StealthGame(false, username, ipAddress, -1);
 	}
 
 	/**
@@ -162,7 +211,7 @@ public class StealthGame implements Runnable {
 
 		// Server is created if user is a host
 		if (isHost) {
-			server = new GameServer(this);
+			server = new GameServer(this, numOfPlayers);
 			server.start();
 		}
 

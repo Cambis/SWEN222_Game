@@ -38,10 +38,12 @@ public class GameServer extends Thread {
 
 	private static final boolean DEBUG = false;
 
-	public static final int MIN_PLAYERS = StealthGame.MIN_PLAYERS;
 	public static final int MAX_PLAYERS = StealthGame.MAX_PLAYERS;
+	public static final int MIN_PLAYERS = StealthGame.MIN_PLAYERS;
 
 	public static final int ID_PREFIX = 10000;
+
+	private int numOfPlayers;
 
 	private boolean gameStarted = false;
 
@@ -52,9 +54,10 @@ public class GameServer extends Thread {
 	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
 	private boolean hostConnected = false;
 
-	public GameServer(StealthGame game) {
+	public GameServer(StealthGame game, int numOfPlayers) {
 
 		this.game = game;
+		this.numOfPlayers = numOfPlayers;
 
 		// Setup socket
 		try {
@@ -122,10 +125,8 @@ public class GameServer extends Thread {
 
 			// Send prompt to the client when the min amount of players is
 			// reached
-			// XXX: probably wont use this anymore
-			if (!gameStarted && connectedPlayers.size() >= MIN_PLAYERS) {
+			if (!gameStarted && connectedPlayers.size() >= numOfPlayers) {
 				gameStarted = true;
-				// sendDataToAllClients("20".getBytes());
 				assignTeams();
 			}
 			break;
