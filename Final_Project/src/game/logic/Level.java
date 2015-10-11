@@ -271,7 +271,7 @@ public class Level {
 					Item last = p.getLastItem();
 					p.setItemPickedUp(false);
 					packet = new Packet06Interact(p.getUsername(), last.getID());
-					// packet.writeData(game.getClient());
+					packet.writeData(game.getClient());
 				}
 
 				// Player interacting

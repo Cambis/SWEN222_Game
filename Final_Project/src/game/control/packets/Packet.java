@@ -30,6 +30,7 @@ public abstract class Packet {
 		HEAL(05),			// Player healing
 		INTERACT(06),		// Player interacting with a item
 		EQUIP(07),			// Player equipping an item
+		PICKUP(10),
 		GAME_START(20),
 		GAME_OVER(21),
 		LOAD_LEVEL(22),

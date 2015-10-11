@@ -148,17 +148,18 @@ public class Player {
 			move(newY, newX);
 		}
 
-//		// Check if player is interacting with tile
-//		if (getRoom() != null && getRoom().validPosition(this, getX(), getY())
-//				&& isInteracting) {
-//			Tile tile = getRoom().getTile(this, getX(), getY());
-//			// isInteracting = false;
-//			tile.onInteract(this);
-//
-//			if (tile instanceof Door) {
-//				interaction = Interaction.DOOR;
-//			}
-//		}
+		// // Check if player is interacting with tile
+		// if (getRoom() != null && getRoom().validPosition(this, getX(),
+		// getY())
+		// && isInteracting) {
+		// Tile tile = getRoom().getTile(this, getX(), getY());
+		// // isInteracting = false;
+		// tile.onInteract(this);
+		//
+		// if (tile instanceof Door) {
+		// interaction = Interaction.DOOR;
+		// }
+		// }
 
 		// Interacting
 		if (getRoom() != null && getRoom().validPosition(this, getX(), getY())
@@ -224,10 +225,10 @@ public class Player {
 			// Apply Enter and Exit tile modifiers
 			Tile oldTile = currentRoom.getTile(this, x, y);
 			Tile newTile = currentRoom.getTile(this, newX, newY);
-			 if(oldTile!=newTile){
-				 oldTile.onExit(this);
-				 newTile.onEnter(this);
-			 }
+			if (oldTile != newTile) {
+				oldTile.onExit(this);
+				newTile.onEnter(this);
+			}
 			// System.out.println("new x: " + model.getPosition().getX());
 			x = newX;
 			y = newY;
