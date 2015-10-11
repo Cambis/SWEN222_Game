@@ -140,11 +140,16 @@ public class StartUpScreen extends JPanel {
 
 		if (option == JOptionPane.OK_OPTION) {
 
+			if (players.getText() == null) {
+				return new String[] { username.getText(), players.getText() };
+			}
+
 			// Need to check if the number of players is an integer
 			try {
 				int numOfPlayers = Integer.parseInt(players.getText());
 			} catch (NumberFormatException e) {
-				System.out.println("*** Invalid number: '" + players.getText() + "'. Please enter an integer ***");
+				System.out.println("*** Invalid number: '" + players.getText()
+						+ "'. Please enter an integer ***");
 				return null;
 			}
 
@@ -174,10 +179,14 @@ public class StartUpScreen extends JPanel {
 			return;
 		}
 
+		if (login[1] == null) {
+			login[1] = "2";
+		}
 		// StealthGame game = new StealthGame(true, login[0], "localhost");
-//		StealthGame game = new StealthGame(login[0], "localhost",
-//				Integer.parseInt(login[1]));
-		StealthGame game = StealthGame.host(login[0], Integer.parseInt(login[1]));
+		// StealthGame game = new StealthGame(login[0], "localhost",
+		// Integer.parseInt(login[1]));
+		StealthGame game = StealthGame.host(login[0],
+				Integer.parseInt(login[1]));
 		game.start();
 		// TestPush host = new TestPush(true, login[0], login[1]);
 		frame.dispose();

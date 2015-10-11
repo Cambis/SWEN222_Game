@@ -1,5 +1,6 @@
 package game.logic.world;
 
+import java.awt.Color;
 import java.util.PriorityQueue;
 import java.util.Stack;
 
@@ -21,16 +22,17 @@ public class Door implements Tile {
 	private double targetX;
 	private double targetY;
 	private double direction;
-	public final int doorID;
+	public final int doorID, tileNum;
 	private boolean locked = false;
 	private int keyID = -1;
 
+	private double x, y;
 
-	public Door(double xPos, double yPos, R_ModelColorData data,
-			int tileNum, int ID) {
-		model = new R_Model("Door" + tileNum, data, new Vec3(xPos, 0,
-				yPos), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
-		doorID = ID;
+	public Door(double xPos, double yPos, int tileNum, int ID) {
+		this.x = xPos;
+		this.y = yPos;
+		this.doorID = ID;
+		this.tileNum = tileNum;
 	}
 
 	public void setLocked(boolean val){
@@ -55,13 +57,14 @@ public class Door implements Tile {
 
 	@Override
 	public R_AbstractModelData getModelData() {
-		// TODO Auto-generated method stub
-		return null;
+		return new R_ModelColorData("Door",
+				"res/models/BasicFloor.obj", Color.ORANGE);
 	}
 
 	@Override
 	public R_AbstractModel getModel() {
-		return model;
+		return new R_Model("Door " + tileNum, getModelData(), new Vec3(x, 0,
+				y), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
 	}
 
 	public Room getTargetRoom() {
@@ -73,8 +76,8 @@ public class Door implements Tile {
 	}
 
 	public void setTargetPos(int x, int y) {
-		targetX = x;
-		targetY = y;
+		targetX = x*0.1;
+		targetY = y*0.1;
 	}
 
 
@@ -100,6 +103,7 @@ public class Door implements Tile {
 		p.setRoom(targetRoom);
 		p.setX(targetX);
 		p.setY(targetY);
+		p.setRoomLoaded(false);
 	}
 
 	@Override

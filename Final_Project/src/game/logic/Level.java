@@ -31,9 +31,8 @@ public class Level {
 	private StealthGame game;
 
 	protected boolean readyToRender = false;
+	private boolean levelLoaded = false;
 
-	// Testing
-	// private R_Player playerMod;
 	float val = 0;
 
 	public Level(StealthGame game) {
@@ -191,6 +190,16 @@ public class Level {
 
 			// Only render the player if they are alive
 			if (readyToRender && p.isAlive()) {
+
+				// Update the room
+				if (!p.isRoomLoaded() && p.equals(game.getPlayer())) {
+
+					if (p.getOldRoom() != null)
+						p.getOldRoom().removeTiles(game.getRenderer());
+
+					p.getRoom().initTiles(game.getRenderer());
+					p.setRoomLoaded(true);
+				}
 
 				// Update player
 				p.tick();
