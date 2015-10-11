@@ -28,10 +28,10 @@ public class Vec3 {
 	}
 
 	/**
-	 *
-	 * @param x
-	 * @param y
-	 * @param z
+	 * Creates a new vector with values (x, y, z)
+	 * @param x - the x value
+	 * @param y - the y value
+	 * @param z - the z value
 	 */
 	public Vec3(float x, float y, float z){
 		super();
@@ -41,10 +41,10 @@ public class Vec3 {
 	}
 
 	/**
-	 *
-	 * @param x
-	 * @param y
-	 * @param z
+	 * Creates a new vector with values (x, y, z)
+	 * @param x - the x value
+	 * @param y - the y value
+	 * @param z - the z value
 	 */
 	public Vec3(double x, double y, double z) {
 		super();
@@ -112,8 +112,8 @@ public class Vec3 {
 
 	/**
 	 * calculates the cross product of this vector and another vector
-	 * @param v
-	 * @return
+	 * @param v - the other vector
+	 * @return - the cross product of this vector and v
 	 */
 	public Vec3 cross(Vec3 v){
 		return new Vec3(y*v.z - z*v.y, z*v.x - x*v.z, x*v.y - y*v.x);
@@ -137,84 +137,77 @@ public class Vec3 {
 	}
 
 	/**
+	 * Returns a dot product between this vector and another vector
 	 *
-	 * @param v
-	 * @return
+	 * @param v - the other vector
+	 * @return - returns the dot product between this vector and v
 	 */
 	public float dot(Vec3 v){
 		return (x * v.x + y * v.y + z * v.z) / (mag() * v.mag()) ;
 	}
 
 	/**
-	 *
-	 * @return
+	 * @return - returns a vector for values (1, 0, 0)
 	 */
 	public static Vec3 UnitX(){
 		return new Vec3(1,0,0);
 	}
 
 	/**
-	 *
-	 * @return
+	 * @return - returns a vector for values (0, 1, 0)
 	 */
 	public static Vec3 UnitY(){
 		return new Vec3(0,1,0);
 	}
 
 	/**
-	 *
-	 * @return
+	 * @return - returns a vector for values (0, 0, 1)
 	 */
 	public static Vec3 UnitZ(){
 		return new Vec3(0,0,1);
 	}
 
 	/**
-	 *
-	 * @return
+	 * @return - returns a vector for values (0, 0, 0)
 	 */
 	public static Vec3 Zero(){
 		return new Vec3(0,0,0);
 	}
 
 	/**
-	 *
-	 * @param x
-	 */
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	/**
-	 *
-	 * @param y
-	 */
-	public void setY(float y) {
-		this.y = y;
-	}
-
-	/**
-	 *
-	 * @param z
-	 */
-	public void setZ(float z) {
-		this.z = z;
-	}
-
-	/**
-	 *
-	 * @return
+	 * @return - returns a vector for values (1, 1, 1)
 	 */
 	public static Vec3 One() {
 		return new Vec3(1,1,1);
 	}
 
 	/**
-	 *
-	 * @param a
-	 * @param b
-	 * @param val
-	 * @return
+	 * @param x - sets the x value
+	 */
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	/**
+	 * @param y - sets the y value
+	 */
+	public void setY(float y) {
+		this.y = y;
+	}
+
+	/**
+	 * @param z - sets the z value
+	 */
+	public void setZ(float z) {
+		this.z = z;
+	}
+
+	/**
+	 * Linear interpolation between two vectors
+	 * @param a - the first vector
+	 * @param b - the second vector
+	 * @param val - the percentage between the two vectors (0 <= value <= 1)
+	 * @return - the interpolated vector
 	 */
 	public static Vec3 Lerp(Vec3 a, Vec3 b, float val) {
 		if (val <= 0){

@@ -8,6 +8,7 @@ import renderer.R_Player;
 import renderer.math.Vec3;
 
 /**
+ * Represents a polygon. Polygon objects hold 3 vertices and can draw a polygon to an array.
  *
  * @author Stephen Thompson
  *
@@ -23,10 +24,11 @@ public class Polygon {
 	private final int v3;
 
 	/**
+	 * The polygon constructor
 	 *
-	 * @param v1
-	 * @param v2
-	 * @param v3
+	 * @param v1 - index to the first vertex
+	 * @param v2 - index to the second vertex
+	 * @param v3 - index to the third vertex
 	 */
 	public Polygon(int v1, int v2, int v3) {
 		super();
@@ -36,10 +38,10 @@ public class Polygon {
 	}
 
 	/**
-	 *
-	 * @param v
-	 * @param i1
-	 * @param i2
+	 * Swaps two vertices inside an array
+	 * @param v - the array of vertices
+	 * @param i1 - the index of the first vertex
+	 * @param i2 - the index of the second vertex
 	 */
 	private void swap(Vertex v[], int i1, int i2){
 		Vertex temp = v[i1];

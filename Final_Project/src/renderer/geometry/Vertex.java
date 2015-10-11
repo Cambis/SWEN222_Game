@@ -4,6 +4,7 @@ import renderer.math.Mat4;
 import renderer.math.Vec3;
 
 /**
+ * This class represents a vertex, and stores the position in local, world and projected space
  *
  * @author Stephen Thompson
  *
@@ -19,10 +20,10 @@ public class Vertex {
 	private Vec3 projected;
 
 	/***
-	 *
-	 * @param x
-	 * @param y
-	 * @param z
+	 * @param v - creates a new vertex at position (x, y, z)
+	 * @param x - the x value
+	 * @param y - the y value
+	 * @param z - the z value
 	 */
 	public Vertex(float x, float y, float z) {
 		super();
@@ -32,8 +33,7 @@ public class Vertex {
 	}
 
 	/**
-	 *
-	 * @param v
+	 * @param v - creates a clone of vertex v
 	 */
 	public Vertex(Vertex v) {
 		super();
@@ -43,8 +43,7 @@ public class Vertex {
 	}
 
 	/**
-	 *
-	 * @param v
+	 * @param v - creates a new vertex at position v
 	 */
 	public Vertex(Vec3 v) {
 		super();
@@ -53,7 +52,7 @@ public class Vertex {
 
 	/**
 	 *
-	 * @return
+	 * @return - returns the local position
 	 */
 	public Vec3 getLocal() {
 		return local;
@@ -61,7 +60,7 @@ public class Vertex {
 
 	/**
 	 *
-	 * @return
+	 * @return - returns the world position
 	 */
 	public Vec3 getWorld() {
 		return world;
@@ -69,16 +68,16 @@ public class Vertex {
 
 	/**
 	 *
-	 * @return
+	 * @return - returns the projected position
 	 */
 	public Vec3 getProjected() {
 		return projected;
 	}
 
 	/**
-	 *
-	 * @param worldMat
-	 * @param projMat
+	 * Generates the positions of the vector in model space and screen space
+	 * @param worldMat - the world matrix
+	 * @param projMat - the mvp matrix
 	 */
 	public void generateWP(Mat4 worldMat, Mat4 projMat){
 		world = worldMat.mul(local);
