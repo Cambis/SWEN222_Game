@@ -74,6 +74,9 @@ public class Renderer {
 	 * @return whether the model was successfully added or not
 	 */
 	public boolean addModel(R_AbstractModel m) {
+		if(m==null){
+			return false;
+		}
 		if (modelMap.containsKey(m.getName())) {
 			return false;
 		}

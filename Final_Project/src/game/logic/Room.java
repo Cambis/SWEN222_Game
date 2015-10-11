@@ -11,10 +11,10 @@ import java.util.Map;
 import java.util.Scanner;
 
 import game.logic.weapons.Lazor;
-
 import game.logic.items.Item;
 import game.logic.items.Key;
 import game.logic.world.BasicFloor;
+import game.logic.world.BlankTile;
 import game.logic.world.Door;
 import game.logic.world.Tile;
 import game.logic.world.Wall;
@@ -39,6 +39,7 @@ public class Room {
 
 	private Map<Door, String> doorDests = new HashMap<Door, String>();
 	private List<Door> doors = new ArrayList<Door>();
+	private List<SpawnPoint> spawns = new ArrayList<SpawnPoint>();
 
 	// Shadow map to be parsed to the renderer
 	int[][] shadowMap;
@@ -101,11 +102,7 @@ public class Room {
 					} else if (i == 1) {
 						tiles[xPos][yPos] = new Wall(xPos * TILE_SIZE * SCALE,
 								yPos * TILE_SIZE * SCALE, wallData, tileNum);
-					} else if (i == 2) {
-						tiles[xPos][yPos] = new Door(xPos * TILE_SIZE * SCALE,
-								yPos * TILE_SIZE * SCALE, tileNum, i);
-						doors.add((Door) tiles[xPos][yPos]);
-					} else if (i == 3) {
+					} else if (i > 1) {
 						tiles[xPos][yPos] = new Door(xPos * TILE_SIZE * SCALE,
 								yPos * TILE_SIZE * SCALE, tileNum, i);
 						doors.add((Door) tiles[xPos][yPos]);
@@ -123,16 +120,35 @@ public class Room {
 					String str = s.next();
 					if (str.length() == 1) {
 						// Find the item
-						char itemKey = str.charAt(0);
-						Item item = null;
-						item = parseItem(xPos, yPos, itemKey, item);
-						if (item != null) {
+						switch(str){
+						case "-":
+							tiles[xPos][yPos] = new BlankTile();
+							break;
+						case "S":
 							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
-									* SCALE, yPos * TILE_SIZE * SCALE,
-									floorData, tileNum);
+									* SCALE, yPos * TILE_SIZE * SCALE, floorData,
+									tileNum);
+							spawns.add(new SpawnPoint(this, xPos, yPos, Team.SPY));
+							break;
+						case "G":
+							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
+									* SCALE, yPos * TILE_SIZE * SCALE, floorData,
+									tileNum);
+							spawns.add(new SpawnPoint(this, xPos, yPos, Team.GUARD));
+							break;
+						default:
+							char itemKey = str.charAt(0);
+							Item item = null;
+							item = parseItem(xPos, yPos, itemKey, item);
+							if (item != null) {
+								tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
+										* SCALE, yPos * TILE_SIZE * SCALE,
+										floorData, tileNum);
 
-							// Add the item to the room
-							((BasicFloor) tiles[xPos][yPos]).addItem(item);
+								// Add the item to the room
+								((BasicFloor) tiles[xPos][yPos]).addItem(item);
+							}
+							break;
 						}
 						xPos++;
 						tileNum++;
@@ -184,6 +200,10 @@ public class Room {
 				}
 			}
 		}
+	}
+
+	public List<SpawnPoint> getSpawns(){
+		return spawns;
 	}
 
 	private Item parseItem(int xPos, int yPos, char itemKey, Item item) {
@@ -276,7 +296,9 @@ public class Room {
 				Tile tile = tiles[i][j];
 
 				// Delete model of the tile
-				r.deleteModel(tile.getModel().getName());
+				if(tile.getModel()!=null){
+					r.deleteModel(tile.getModel().getName());
+				}
 
 				// If there are any items delete them too
 				if (tile instanceof BasicFloor) {

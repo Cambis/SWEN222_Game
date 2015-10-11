@@ -9,8 +9,10 @@ import game.logic.items.Item;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Scanner;
 
 import renderer.R_Player;
@@ -28,6 +30,7 @@ public class Level {
 
 	private List<Room> rooms = new ArrayList<Room>();
 	private List<Player> players = new ArrayList<Player>();
+	private Queue<SpawnPoint> spawns = new ArrayDeque<SpawnPoint>();
 	private StealthGame game;
 
 	protected boolean readyToRender = false;
@@ -72,6 +75,7 @@ public class Level {
 		// Initilise door destinations
 		for (Room r : rooms) {
 			r.initilizeDoors(rooms);
+			spawns.addAll(r.getSpawns());
 		}
 
 		System.out.println("*** Done Loading level ***");
@@ -257,6 +261,10 @@ public class Level {
 			String model = (teams[i].equals("0") ? "Guard" : "Spy");
 
 			// Translation and rotations
+			SpawnPoint spawn = getNextSpawn(p.getSide());
+			p.setRoom(spawn.room);
+			p.setX(spawn.x);
+			p.setY(spawn.y);
 			Vec3 trans = new Vec3(p.getX(), 0, p.getY());
 			Vec3 rot = new Vec3(0, -p.getRotation(), 0);
 			Vec3 scale = new Vec3(0.1, 0.1, 0.1);
@@ -283,5 +291,17 @@ public class Level {
 
 		// Now that the models have been loaded we can finally render the level
 		readyToRender = true;
+	}
+
+	private SpawnPoint getNextSpawn(Team team){
+		for(int i=0; i<spawns.size(); i++){
+			SpawnPoint spawn = spawns.poll();
+			if(spawn.team==team){
+				spawns.offer(spawn);
+				return spawn;
+			}
+			spawns.offer(spawn);
+		}
+		return null;
 	}
 }
