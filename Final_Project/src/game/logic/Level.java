@@ -7,10 +7,7 @@ import game.control.packets.Packet03Engage;
 import game.control.packets.Packet06Interact;
 import game.control.packets.Packet10Pickup;
 import game.logic.items.Item;
-import game.logic.world.BasicFloor;
-import game.logic.world.Door;
 import game.logic.world.Tile;
-import game.logic.world.Tile.Interaction;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,30 +25,44 @@ import resource.ResourceLoader;
 /**
  * Represents the level that the game is played on.
  *
- * @author Bryers and Gill MMXV.
+ * @author Cameron Bryers 3000326848 MMXV
+ * @author Callum Gill MMXV
  *
  */
 public class Level {
 
+	// Rooms in the level
 	private List<Room> rooms = new ArrayList<Room>();
+
+	// Players in the level
 	private List<Player> players = new ArrayList<Player>();
+
+	// Spawn points in the level
 	private Queue<SpawnPoint> spawns = new ArrayDeque<SpawnPoint>();
+
+	// Reference back to the game
 	private StealthGame game;
 
+	// True IFF level is loaded
 	protected boolean readyToRender = false;
-	private boolean levelLoaded = false;
-
 	float val = 0;
 
+	/**
+	 * Default constructor, parsed in a reference to the main game class.
+	 *
+	 * @param game
+	 *            - reference to the main game
+	 */
 	public Level(StealthGame game) {
 		this.game = game;
 	}
 
-	public Level(StealthGame game, String filename) {
-		this.game = game;
-		loadRooms(filename);
-	}
-
+	/**
+	 * Given a configuration file, load the rooms, spawn points and players.
+	 *
+	 * @param filename
+	 *            - name of configuration file
+	 */
 	public void loadRooms(String filename) {
 
 		rooms.clear();
@@ -66,6 +77,7 @@ public class Level {
 
 			// int roomNum = 0;
 
+			// Load rooms
 			while (sc.hasNext()) {
 				String roomFile = sc.nextLine();
 				rooms.add(new Room("res/levels/" + roomFile));
@@ -102,6 +114,12 @@ public class Level {
 		return false;
 	}
 
+	/**
+	 * Add a player to the level.
+	 *
+	 * @param p
+	 *            - player to be added
+	 */
 	public void addPlayer(Player p) {
 
 		players.add(p);
@@ -112,31 +130,46 @@ public class Level {
 
 	}
 
+	/**
+	 * Remove a player from level.
+	 *
+	 * @param p
+	 *            - player to be removed
+	 * @return true if player succesfully removed
+	 */
 	public boolean removePlayer(Player p) {
 		return players.remove(p);
 	}
 
+	/**
+	 * Remove a player from the level given a username.
+	 *
+	 * @param name
+	 *            - username of the player
+	 * @return true if player is removed
+	 */
 	public boolean removePlayer(String name) {
 		for (Player p : players) {
 			if (p.getUsername().equals(name)) {
-				players.remove(p);
-				return true;
+				return players.remove(p);
 			}
 		}
 		return false;
 	}
 
 	/**
-	 * Move a player in the level given their username.
+	 * Move a player in the world given a 3D vector.
 	 *
 	 * @param username
-	 *            - player to be moved
+	 *            - username of player to be moved
 	 * @param x
-	 *            - player's x coordinate
+	 *            - player's x coordinate (Renderer x)
+	 * @param y
+	 *            - player's y coordinate (Renderer z)
 	 * @param z
-	 *            - player's z coordinate
+	 *            - player's z coordinate (Renderer y)
 	 * @param rot
-	 *            - player's rotation around the y axis
+	 *            - rotation around (z axis -> Player, y axis -> Renderer)
 	 */
 	public void movePlayer(String username, double x, double y, double z,
 			double rot) {
@@ -155,7 +188,8 @@ public class Level {
 	}
 
 	/**
-	 * Move a player in the level given their ID.
+	 * Move a player in the level given their ID. Could not make this work over
+	 * the server, Do not use.
 	 *
 	 * @param username
 	 *            - player to be moved
@@ -166,10 +200,20 @@ public class Level {
 	 * @param rot
 	 *            - player's rotation around the y axis
 	 */
+	@Deprecated
 	public void movePlayer(int id, double x, double y, double z, double rot) {
 		movePlayer(getPlayer(id).getUsername(), x, y, z, rot);
 	}
 
+	/**
+	 * Handles an interact packet sent from the server. Interactions are then
+	 * performed by the appropriate player on the appropriate tile.
+	 *
+	 * @param username
+	 *            - username of the player interacting
+	 * @param ID
+	 *            - ID of the tile to interact with
+	 */
 	public void handleInteract(String username, int ID) {
 
 		Player player = getPlayer(username);
@@ -191,6 +235,17 @@ public class Level {
 					+ p.getRoom().getName());
 	}
 
+	/**
+	 * Handles a pickup packet from the server. The level then gives the
+	 * appropriate player the item parsed in the packet.
+	 *
+	 * @param username
+	 *            - username of the player picking up the item
+	 * @param tileID
+	 *            - ID of the tile that the item was on
+	 * @param itemID
+	 *            - ID of the item to be picked up
+	 */
 	public void handlePickUp(String username, int tileID, int itemID) {
 
 		Player player = getPlayer(username);
@@ -204,6 +259,13 @@ public class Level {
 		tile.onEnter(player);
 	}
 
+	/**
+	 * Get a player given their username.
+	 *
+	 * @param username
+	 *            - username of the player
+	 * @return null if no Player with the username exists
+	 */
 	private Player getPlayer(String username) {
 		for (Player p : players)
 			if (p.getUsername().equals(username))
@@ -212,9 +274,16 @@ public class Level {
 		return null;
 	}
 
-	private Player getPlayer(int id) {
+	/**
+	 * Get a player given their ID.
+	 *
+	 * @param ID
+	 *            - ID of the player
+	 * @return null if no Player with the username exists
+	 */
+	private Player getPlayer(int ID) {
 		for (Player p : players)
-			if (((PlayerMP) p).getID() == id)
+			if (((PlayerMP) p).getID() == ID)
 				return p;
 
 		return null;
@@ -302,6 +371,7 @@ public class Level {
 					// isInteracting = false;
 					// tile.onInteract(p);
 
+					// Find the type of interaction
 					switch (p.getInteraction()) {
 					case CHEST:
 					case DOOR:
@@ -321,8 +391,6 @@ public class Level {
 					// Reset the interaction back to NONE
 					p.resetInteraction();
 
-					System.out.println(p.getRoom()
-							.getTile(p, p.getX(), p.getY()).getID());
 					p.setInteracting(false);
 
 					if (packet != null)

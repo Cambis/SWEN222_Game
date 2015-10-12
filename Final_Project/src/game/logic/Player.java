@@ -184,7 +184,10 @@ public class Player {
 			if (tile instanceof BasicFloor) {
 				BasicFloor floor = (BasicFloor) tile;
 
-				Item item = floor.getItems().peek();
+				Item item = null;
+
+				if (!floor.getItems().isEmpty())
+					item = floor.getItems().peek();
 
 				if (item instanceof Chest)
 					interaction = Interaction.CHEST;
