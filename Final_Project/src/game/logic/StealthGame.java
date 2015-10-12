@@ -181,7 +181,7 @@ public class StealthGame implements Runnable {
 
 		renderer = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
 		R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", new Vec3(50, 50,
-				50), new Vec3(1, 0, 1), Vec3.UnitY(), 1, 1000, 1f);
+				50), new Vec3(1, 0, 1), Vec3.UnitY(), 1, 1000, 1.25f);
 		r_addCamera(ortho);
 		r_setCamera(ortho.getName());
 
@@ -397,7 +397,7 @@ public class StealthGame implements Runnable {
 		return player;
 	}
 
-	public synchronized void setTeams(String[] players, String[] teams) {
+	public void setTeams(String[] players, String[] teams) {
 
 		for (int i = 0; i < players.length; i++) {
 			if (players[i].equals(player.getUsername())) {
@@ -420,8 +420,8 @@ public class StealthGame implements Runnable {
 		level.handleInteract(username, ID);
 	}
 
-	public synchronized void handlePickUp(String username, int ID) {
-		level.handlePickUp(username, ID);
+	public void handlePickUp(String username, int tileID, int itemID) {
+		level.handlePickUp(username, tileID, itemID);
 	}
 
 	/** RENDERER METHODS **/
@@ -439,7 +439,7 @@ public class StealthGame implements Runnable {
 	}
 
 	public boolean r_removeModel(String model) {
-		return false;
+		return renderer.deleteModel(model);
 	}
 
 	public synchronized boolean r_addModelData(R_AbstractModelData modelData) {

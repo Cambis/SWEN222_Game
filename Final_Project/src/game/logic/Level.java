@@ -5,7 +5,9 @@ import game.control.packets.Packet;
 import game.control.packets.Packet02Move;
 import game.control.packets.Packet03Engage;
 import game.control.packets.Packet06Interact;
+import game.control.packets.Packet10Pickup;
 import game.logic.items.Item;
+import game.logic.world.BasicFloor;
 import game.logic.world.Door;
 import game.logic.world.Tile;
 import game.logic.world.Tile.Interaction;
@@ -190,16 +192,20 @@ public class Level {
 					+ p.getRoom().getName());
 	}
 
-	public void handlePickUp(String username, int ID) {
+	public void handlePickUp(String username, int tileID, int itemID) {
 
 		Player player = getPlayer(username);
+
+		System.out.println(game.getPlayer().getUsername()
+				+ " recieved pickup shit from the: " + username);
 
 		// We do not want to handle a pickup from the player on this computer
 		if (player.equals(game.getPlayer()))
 			return;
 
 		Room currentRoom = player.getRoom();
-		// Item item = currentRoom.getItems(ID);
+		Tile tile = currentRoom.getTile(player, tileID);
+		tile.onEnter(player);
 	}
 
 	private Player getPlayer(String username) {
@@ -248,8 +254,9 @@ public class Level {
 				// If the player is not in the same room as the
 				// player on this computer, remove them from the
 				// renderer
-				else if (!p.getRoom().equals(game.getPlayer().getRoom()))
-					game.r_removeModel(p.getUsername());
+				else if (!p.getRoom().equals(game.getPlayer().getRoom())) {
+ 					game.r_removeModel(p.getUsername());
+				}
 
 				// Update the room
 				if (!p.isRoomLoaded() && p.equals(game.getPlayer())) {
@@ -283,9 +290,10 @@ public class Level {
 
 				// Player picking up item
 				if (p.itemPickedUp()) {
+					Tile tile = p.getRoom().getTile(p, p.getX(), p.getY());
 					Item last = p.getLastItem();
 					p.setItemPickedUp(false);
-					packet = new Packet06Interact(p.getUsername(), last.getID());
+					packet = new Packet10Pickup(p.getUsername(), tile.getID(), last.getID());
 					packet.writeData(game.getClient());
 				}
 
@@ -389,6 +397,10 @@ public class Level {
 			// game.r_addModel(pl);
 		}
 
+//		for (Player p : this.players) {
+//			if (p.getRoom().equals(game.getPlayer().getRoom()))
+//				game.r_addModel(p.getModel());
+//		}
 		// for (Player p : this.players) {
 		// System.out.println(p.getUsername() + " is a "
 		// + p.getSide().toString());

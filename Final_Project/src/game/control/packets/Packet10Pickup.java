@@ -12,19 +12,21 @@ import game.control.GameServer;
 public class Packet10Pickup extends Packet {
 
 	private String username;
-	private int ID;
+	private int tileID, itemID;
 
 	public Packet10Pickup(byte[] data) {
 		super(10);
 		String[] dataArray = readData(data).split(",");
 		this.username = dataArray[0];
-		this.ID = Integer.parseInt(dataArray[1]);
+		this.tileID = Integer.parseInt(dataArray[1]);
+		this.itemID = Integer.parseInt(dataArray[2]);
 	}
 
-	public Packet10Pickup(String username, int iD) {
+	public Packet10Pickup(String username, int tileID, int itemID) {
 		super(10);
 		this.username = username;
-		ID = iD;
+		this.tileID = tileID;
+		this.itemID = itemID;
 	}
 
 	@Override
@@ -39,15 +41,18 @@ public class Packet10Pickup extends Packet {
 
 	@Override
 	public byte[] getData() {
-		return ("10" + username + "," + ID).getBytes();
+		return ("10" + username + "," + tileID + "," + itemID).getBytes();
 	}
 
 	public final String getUsername() {
 		return username;
 	}
 
-	public final int getID() {
-		return ID;
+	public final int getTileID() {
+		return tileID;
 	}
 
+	public final int getItemID() {
+		return itemID;
+	}
 }
