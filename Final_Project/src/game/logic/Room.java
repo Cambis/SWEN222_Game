@@ -173,6 +173,10 @@ public class Room {
 							// Load door
 							if (s.hasNextInt()) {
 								int doorId = s.nextInt();
+								int keyID = -1;
+								if(s.hasNextInt()){
+									keyID = s.nextInt();
+								}
 								if (s.hasNext()) {
 									String roomName = s.next();
 									int targetX = s.nextInt();
@@ -181,6 +185,10 @@ public class Room {
 										if (d.doorID == doorId) {
 											// Give door a room destination in
 											// map to be assigned in level
+											if(keyID>=0){
+												d.setLocked(true);
+												d.setKey(keyID);
+											}
 											doorDests.put(d, roomName);
 											d.setTargetPos(targetX, targetY);
 										}
@@ -218,15 +226,10 @@ public class Room {
 	}
 
 	private Item parseItem(int xPos, int yPos, char itemKey, Item item) {
-		switch (itemKey) {
-		case 'K': // Key
-			item = new Key(10, xPos * TILE_SIZE * SCALE, yPos * TILE_SIZE
-					* SCALE);
-			break;
 
-		default:
-			break;
-		}
+		item = new Key(itemKey-97, xPos * TILE_SIZE * SCALE, yPos * TILE_SIZE
+				* SCALE);
+
 		return item;
 	}
 

@@ -17,7 +17,6 @@ import renderer.math.Vec3;
 
 public class Door implements Tile {
 
-	private R_Model model;
 	private Room targetRoom;
 	private double targetX;
 	private double targetY;
@@ -25,6 +24,10 @@ public class Door implements Tile {
 	public final int doorID, tileNum;
 	private boolean locked = false;
 	private int keyID = -1;
+	private R_AbstractModelData lockedModelData = new R_ModelColorData("DoorLocked", "res/models/BasicFloor.obj",
+			Color.RED);
+	private R_AbstractModelData unlockedModelData = new R_ModelColorData("DoorUnlocked", "res/models/BasicFloor.obj",
+			Color.YELLOW);
 
 	private double x, y;
 
@@ -45,20 +48,16 @@ public class Door implements Tile {
 
 	@Override
 	public boolean canEnter(Player p) {
-		if (!locked) {
-			return true;
-		}
-		if (p.getSide() == Team.GUARD) {
-			return true;
-		} else {
-			return p.getInventory().contains(new Key(keyID));
-		}
+		return true;
 	}
 
 	@Override
 	public R_AbstractModelData getModelData() {
-		return new R_ModelColorData("Door", "res/models/BasicFloor.obj",
-				Color.ORANGE);
+		if(locked){
+			return lockedModelData;
+		}else{
+			return unlockedModelData;
+		}
 	}
 
 	@Override
@@ -93,22 +92,28 @@ public class Door implements Tile {
 	}
 
 	@Override
-	public boolean canInteract(Player player) {
+	public boolean canInteract(Player p) {
 		return true;
 	}
 
 	@Override
 	public void onInteract(Player p) {
-		p.setRoom(targetRoom);
-		p.setX(targetX);
-		p.setY(targetY);
-		p.setRoomLoaded(false);
+		if(locked && p.getInventory().contains(new Key(keyID))){
+			locked=false;
+		}
+
+		if(!locked || p.getSide()==Team.GUARD){
+			p.setRoom(targetRoom);
+			p.setX(targetX);
+			p.setY(targetY);
+			p.setRoomLoaded(false);
+		}
+
 	}
 
 	@Override
 	public void onEnter(Player p) {
-		// TODO Auto-generated method stub
-
+		//Do nothing
 	}
 
 	@Override

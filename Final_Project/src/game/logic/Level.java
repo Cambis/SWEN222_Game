@@ -276,7 +276,7 @@ public class Level {
 
 				// Player interacting
 				// Check if player is interacting with a tile
-				if (p.isInteracting() && p.getRoom() != null
+				if (p.isInteracting() && p.getRoom() != null && p.equals(game.getPlayer())
 						&& p.getRoom().validPosition(p, p.getX(), p.getY())) {
 					Tile tile = p.getRoom().getTile(p, p.getX(), p.getY());
 					// isInteracting = false;

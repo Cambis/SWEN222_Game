@@ -52,9 +52,6 @@ public class Player {
 	// Current room that the player is in
 	private Room currentRoom = null;
 
-	// Old position (used to jump rooms)
-	private double oldX, oldY;
-
 	// Previous room that the player was in
 	private Room previousRoom = null;
 
@@ -64,6 +61,7 @@ public class Player {
 	// Andrew's Stuff
 	private boolean isShooting;
 	private boolean isUsing;
+	private boolean canMove = true;
 	private Tile previousDoor;
 	private boolean onDoor = false;
 
@@ -113,6 +111,10 @@ public class Player {
 	 * update timers.
 	 */
 	public void tick() {
+		//Check if room has been loaded if not don't tick
+		if(!roomLoaded){
+			return;
+		}
 
 		// Player Movement:
 
@@ -225,13 +227,14 @@ public class Player {
 			// Apply Enter and Exit tile modifiers
 			Tile oldTile = currentRoom.getTile(this, x, y);
 			Tile newTile = currentRoom.getTile(this, newX, newY);
+			x = newX;
+			y = newY;
 			if (oldTile != newTile) {
 				oldTile.onExit(this);
 				newTile.onEnter(this);
 			}
 			// System.out.println("new x: " + model.getPosition().getX());
-			x = newX;
-			y = newY;
+
 		}
 	}
 
@@ -309,18 +312,8 @@ public class Player {
 	 * Sets players current room
 	 */
 	public final void setRoom(Room r) {
-		this.oldX = x;
-		this.oldY = y;
 		previousRoom = currentRoom;
 		currentRoom = r;
-	}
-
-	public final double getOldX() {
-		return this.oldX;
-	}
-
-	public final double getOldY() {
-		return this.oldY;
 	}
 
 	/**
@@ -458,7 +451,7 @@ public class Player {
 	// currentWeapon = sideWeapon;
 	// isSide = true;
 	// }
-	// //TODO Graphics for swapping between main and side?
+	// //TODO Graphics for sp.setX(targetX);
 	// }
 
 	// public void selectItem(int i) {

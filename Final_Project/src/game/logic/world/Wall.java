@@ -53,7 +53,7 @@ public class Wall implements Tile {
 	@Override
 	public R_AbstractModelData getModelData() {
 		return new R_ModelColorData("BasicWall", "res/models/BasicWall.obj",
-				Color.RED);
+				Color.WHITE);
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import renderer.R_AbstractModel;
 import renderer.R_AbstractModelData;
 import renderer.R_Model;
 import renderer.R_ModelColorData;
+import renderer.R_Player.Team;
 import renderer.math.Vec3;
 
 public class Water extends BasicFloor {
@@ -23,7 +24,11 @@ public class Water extends BasicFloor {
 	@Override
 	public void onEnter(Player p) {
 		p.multiplySpeed(0.5);
-		p.setZ(-0.2);
+		if(p.getSide()==Team.GUARD){
+			p.setZ(-0.09);
+		}else{
+			p.setZ(-0.2);
+		}
 	}
 
 	@Override
