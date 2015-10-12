@@ -22,9 +22,11 @@ import game.logic.world.Wall;
 import game.logic.world.Water;
 import renderer.R_Model;
 import renderer.R_ModelColorData;
+import renderer.R_OrthoCamera;
 import renderer.R_Player.Team;
 import renderer.Renderer;
 import renderer.Renderer.*;
+import renderer.math.Vec3;
 import resource.ResourceLoader;
 
 public class Room {
@@ -283,6 +285,7 @@ public class Room {
 				}
 			}
 		}
+		r.getCamera("MainCamera").setTarget(new Vec3(tiles.length/2*0.2, 0, tiles[0].length/2*0.2));
 		r.setMap(shadowMap);
 	}
 

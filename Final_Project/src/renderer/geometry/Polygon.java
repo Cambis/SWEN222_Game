@@ -140,7 +140,10 @@ public class Polygon {
 				return;
 			}
 		}
+		// Add slight ambient and directional light
+		light += Math.max(0, normal.dot(new Vec3(-0.3, -0.6, -0.9))) * 0.1f;
 		Vec3 amb = new Vec3(0.25f, 0.25f, 0.25f);
+
 		int c = new Color((int)(Math.max(0, Math.min(255, col.getRed() * (amb.getX() + light)))),
 					      (int)(Math.max(0, Math.min(255, col.getGreen() * (amb.getY() + light)))),
 						  (int)(Math.max(0, Math.min(255, col.getBlue() * (amb.getZ() + light))))).getRGB();
