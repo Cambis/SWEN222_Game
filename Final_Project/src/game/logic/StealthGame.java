@@ -420,8 +420,8 @@ public class StealthGame implements Runnable {
 		level.handleInteract(username, ID);
 	}
 
-	public synchronized void handlePickUp(String username, int ID) {
-		level.handlePickUp(username, ID);
+	public void handlePickUp(String username, int tileID, int itemID) {
+		level.handlePickUp(username, tileID, itemID);
 	}
 
 	/** RENDERER METHODS **/

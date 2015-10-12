@@ -10,6 +10,7 @@ import game.control.packets.Packet04Damage;
 import game.control.packets.Packet05Heal;
 import game.control.packets.Packet06Interact;
 import game.control.packets.Packet07Equip;
+import game.control.packets.Packet10Pickup;
 import game.control.packets.Packet22LoadLevel;
 import game.control.packets.Packet23RecieveID;
 import game.control.packets.Packet24TeamAssign;
@@ -176,6 +177,11 @@ public class GameServer extends Thread {
 			handleInteract((Packet06Interact) packet);
 			break;
 
+		case PICKUP:
+			packet = new Packet10Pickup(data);
+			handlePickup((Packet10Pickup) packet);
+			break;
+
 		case EQUIP:
 			packet = new Packet07Equip(data);
 			handleEquip((Packet07Equip) packet);
@@ -230,8 +236,8 @@ public class GameServer extends Thread {
 		// System.out.println(player.getUsername());
 
 		for (PlayerMP p : connectedPlayers) {
-			//if (p.getUsername().equals(game.getPlayer().getUsername()))
-			// 	break;
+			// if (p.getUsername().equals(game.getPlayer().getUsername()))
+			// break;
 			if (p.getUsername().equalsIgnoreCase(player.getUsername())) {
 				if (DEBUG)
 					System.out.println("User already in " + p.getUsername());
@@ -373,6 +379,17 @@ public class GameServer extends Thread {
 
 		packet.writeData(this);
 
+	}
+
+	private void handlePickup(Packet10Pickup packet) {
+
+		// If there is no player get out of this method
+		if (getPlayerMP(packet.getUsername()) == null)
+			return;
+
+		PlayerMP player = getPlayerMP(packet.getUsername());
+
+		packet.writeData(this);
 	}
 
 	/**

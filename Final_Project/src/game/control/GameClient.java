@@ -163,6 +163,8 @@ public class GameClient extends Thread {
 		case PICKUP:
 			packet = new Packet10Pickup(data);
 			handlePickUp((Packet10Pickup) packet);
+			break;
+
 		case GAME_START:
 			// game.run();
 			break;
@@ -250,11 +252,11 @@ public class GameClient extends Thread {
 	}
 
 	private void handlePickUp(Packet10Pickup packet) {
-		game.handlePickUp(packet.getUsername(), packet.getID());
+		System.out.println("Oi ya fucken cunt, I'm in here");
+		game.handlePickUp(packet.getUsername(), packet.getTileID(), packet.getItemID());
 	}
 
 	private void handleLoadLevel(Packet22LoadLevel packet) {
-		// System.out.println(packet.getFilename());
 		game.loadLevel(packet.getFilename());
 	}
 
