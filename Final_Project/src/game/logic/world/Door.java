@@ -125,4 +125,9 @@ public class Door implements Tile {
 	public final int getID() {
 		return this.tileNum;
 	}
+
+	@Override
+	public boolean blockLight() {
+		return false;
+	}
 }

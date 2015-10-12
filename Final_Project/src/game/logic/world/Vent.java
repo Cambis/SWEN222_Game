@@ -72,4 +72,9 @@ public class Vent implements Tile {
 		return 0;
 	}
 
+	@Override
+	public boolean blockLight() {
+		return false;
+	}
+
 }
