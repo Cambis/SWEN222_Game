@@ -157,7 +157,7 @@ public class StealthGame implements Runnable {
 		initRenderer();
 		level = new Level(this);
 		mainFrame = new MainFrame();
-		mainFrame.setTitle(player.getUsername());
+		mainFrame.setTitle("Stealth: " + player.getUsername());
 
 		// Set up window handler
 		windowHandler = new WindowHandler(mainFrame) {

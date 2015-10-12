@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import game.logic.items.Chest;
 import game.logic.items.Item;
 import game.logic.weapons.LazorPistol;
 import game.logic.weapons.Weapon;
+import game.logic.world.BasicFloor;
 import game.logic.world.Door;
 import game.logic.world.Tile;
 import game.logic.world.Tile.Interaction;
@@ -177,6 +179,15 @@ public class Player {
 
 			if (tile instanceof Door) {
 				interaction = Interaction.DOOR;
+			}
+
+			if (tile instanceof BasicFloor) {
+				BasicFloor floor = (BasicFloor) tile;
+
+				Item item = floor.getItems().peek();
+
+				if (item instanceof Chest)
+					interaction = Interaction.CHEST;
 			}
 		}
 

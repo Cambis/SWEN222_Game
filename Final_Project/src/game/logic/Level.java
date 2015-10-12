@@ -138,7 +138,8 @@ public class Level {
 	 * @param rot
 	 *            - player's rotation around the y axis
 	 */
-	public void movePlayer(String username, double x, double y, double z, double rot) {
+	public void movePlayer(String username, double x, double y, double z,
+			double rot) {
 		Player p = getPlayer(username);
 
 		// Check if the player is moving
@@ -176,7 +177,6 @@ public class Level {
 		// We do not want to handle an interact from the player on this computer
 		if (player.equals(game.getPlayer()))
 			return;
-
 
 		Room currentRoom = player.getRoom();
 		Tile tile = currentRoom.getTile(player, ID);
@@ -233,7 +233,6 @@ public class Level {
 		// p.getRoom().getName());
 		// Go through players
 		for (Player p : players) {
-
 			// Only render the player if they are alive
 			if (readyToRender && p.isAlive()) {
 
@@ -251,7 +250,7 @@ public class Level {
 				// player on this computer, remove them from the
 				// renderer
 				else if (!p.getRoom().equals(game.getPlayer().getRoom())) {
- 					game.r_removeModel(p.getUsername());
+					game.r_removeModel(p.getUsername());
 				}
 
 				// Update the room
@@ -273,8 +272,8 @@ public class Level {
 				// Player moving
 				if (p.isMoving()) {
 					packet = new Packet02Move(p.getUsername(),
-							((PlayerMP) p).getID(), p.getX(), p.getY(), p.getZ(),
-							true, p.getRotation());
+							((PlayerMP) p).getID(), p.getX(), p.getY(),
+							p.getZ(), true, p.getRotation());
 					packet.writeData(game.getClient());
 				}
 
@@ -289,7 +288,8 @@ public class Level {
 					Tile tile = p.getRoom().getTile(p, p.getX(), p.getY());
 					Item last = p.getLastItem();
 					p.setItemPickedUp(false);
-					packet = new Packet10Pickup(p.getUsername(), tile.getID(), last.getID());
+					packet = new Packet10Pickup(p.getUsername(), tile.getID(),
+							last.getID());
 					packet.writeData(game.getClient());
 				}
 
@@ -303,10 +303,12 @@ public class Level {
 					// tile.onInteract(p);
 
 					switch (p.getInteraction()) {
+					case CHEST:
 					case DOOR:
 						packet = new Packet06Interact(p.getUsername(),
 								tile.getID());
 						break;
+
 					case NONE:
 					default:
 						break;
@@ -393,10 +395,10 @@ public class Level {
 			// game.r_addModel(pl);
 		}
 
-//		for (Player p : this.players) {
-//			if (p.getRoom().equals(game.getPlayer().getRoom()))
-//				game.r_addModel(p.getModel());
-//		}
+		// for (Player p : this.players) {
+		// if (p.getRoom().equals(game.getPlayer().getRoom()))
+		// game.r_addModel(p.getModel());
+		// }
 		// for (Player p : this.players) {
 		// System.out.println(p.getUsername() + " is a "
 		// + p.getSide().toString());
