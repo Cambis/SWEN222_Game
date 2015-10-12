@@ -65,4 +65,9 @@ public class BlankTile implements Tile {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public boolean blockLight() {
+		return false;
+	}
 }

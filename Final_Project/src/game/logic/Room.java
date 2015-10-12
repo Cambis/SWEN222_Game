@@ -265,7 +265,7 @@ public class Room {
 				r.addModel(tile.getModel());
 
 				// Setup shadow map
-				if (tile instanceof Wall) {
+				if (tile.blockLight()) {
 					shadowMap[i][j] = 1;
 				} else {
 					shadowMap[i][j] = 0;
@@ -273,9 +273,7 @@ public class Room {
 
 				// If there are any items add them too
 				if (tile instanceof BasicFloor) {
-
 					BasicFloor floor = (BasicFloor) tile;
-
 					if (!floor.getItems().isEmpty()) {
 						for (Item item : floor.getItems()) {
 							r.addModelData(item.getModelData());

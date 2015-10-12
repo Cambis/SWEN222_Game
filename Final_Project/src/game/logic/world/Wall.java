@@ -66,4 +66,10 @@ public class Wall implements Tile {
 	public final int getID() {
 		return this.tileNum;
 	}
+
+	@Override
+	public boolean blockLight() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 }

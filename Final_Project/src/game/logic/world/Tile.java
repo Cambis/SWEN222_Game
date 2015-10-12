@@ -37,6 +37,8 @@ public interface Tile {
 
 	public void onExit(Player p);
 
+	public boolean blockLight();
+
 	public R_AbstractModelData getModelData();
 
 	public R_AbstractModel getModel();

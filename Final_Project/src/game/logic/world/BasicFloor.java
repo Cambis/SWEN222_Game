@@ -93,4 +93,9 @@ public class BasicFloor implements Tile {
 	public int getID() {
 		return this.tileNum;
 	}
+
+	@Override
+	public boolean blockLight() {
+		return false;
+	}
 }
