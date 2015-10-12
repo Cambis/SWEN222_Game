@@ -157,6 +157,7 @@ public class StealthGame implements Runnable {
 		initRenderer();
 		level = new Level(this);
 		mainFrame = new MainFrame();
+		mainFrame.setTitle(player.getUsername());
 
 		// Set up window handler
 		windowHandler = new WindowHandler(mainFrame) {
@@ -222,8 +223,8 @@ public class StealthGame implements Runnable {
 		// Login to the server
 		Packet00Login login = new Packet00Login(player.getUsername(), -1, 0, 0,
 				0);
-		if (server != null)
-			server.addConnection((PlayerMP) player, login);
+		 if (server != null)
+		 	server.addConnection((PlayerMP) player, login);
 		login.writeData(client);
 
 		if (DEBUG)

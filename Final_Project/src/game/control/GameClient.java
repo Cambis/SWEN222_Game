@@ -197,15 +197,19 @@ public class GameClient extends Thread {
 	 */
 	private void handleLogin(Packet00Login packet, InetAddress address, int port) {
 
-		System.out.println("[ " + address.getHostAddress() + " " + port + " ] "
-				+ ((Packet00Login) packet).getUsername()
-				+ " has joined the game...");
-
 		PlayerMP player = new PlayerMP(packet.getUsername(), packet.getX(),
 				packet.getZ(), packet.getRotation(), address, port);
 
+		if (player.getUsername().equals(game.getPlayer().getUsername())) {
+			// System.err.println("Trying to add itself");
+			return;
+		}
 		// System.out.println("Adding player: " + packet.getUsername() + " "
 		// + packet.getID());
+
+		System.out.println("[ " + address.getHostAddress() + " " + port + " ] "
+				+ ((Packet00Login) packet).getUsername()
+				+ " has joined the game...");
 
 		player.setID(packet.getID());
 		game.addPlayer(player);

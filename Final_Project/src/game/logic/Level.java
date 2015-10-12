@@ -234,7 +234,7 @@ public class Level {
 				// player on this computer, remove them from the
 				// renderer
 				else if (!p.getRoom().equals(game.getPlayer().getRoom()))
-					game.r_removeModel(p.getModel().getName());
+					game.r_removeModel(p.getUsername());
 
 				// Update the room
 				if (!p.isRoomLoaded() && p.equals(game.getPlayer())) {
@@ -321,10 +321,27 @@ public class Level {
 	 */
 	public void setTeams(String[] players, String[] teams) {
 
+		// System.out.println("Players: " + players.length + ", Teams: "
+		// + teams.length);
+		//
+		// for (String s : teams)
+		// System.out.print(s + ", ");
+		// System.out.println("===================");
+		//
+		// System.out.println(this.players.size());
+		//
+		// for (String s : players)
+		// System.out.print(s + ", ");
+		// System.out.println("===================");
+
 		for (int i = 0; i < players.length; i++) {
 
 			// Assign the team
 			Player p = getPlayer(players[i]);
+
+			if (p == null)
+				System.err.println("Player " + players[i] + " is null");
+
 			p.setSide((teams[i].equals("0") ? Team.GUARD : Team.SPY));
 
 			// The string will reference a pre-loaded model in the renderer

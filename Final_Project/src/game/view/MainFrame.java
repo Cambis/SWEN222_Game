@@ -21,7 +21,6 @@ public class MainFrame extends JFrame {
 	public MainFrame() {
 
 		setLayout(new BorderLayout());
-		setName("Stealth");
 		screen = new Screen();
 		getContentPane().add(screen, BorderLayout.CENTER);
 
