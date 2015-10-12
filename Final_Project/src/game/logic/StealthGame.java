@@ -366,13 +366,13 @@ public class StealthGame implements Runnable {
 	 * @param z
 	 * @param rot
 	 */
-	public synchronized void movePlayer(String username, double x, double z,
+	public synchronized void movePlayer(String username, double x, double y, double z,
 			double rot) {
-		level.movePlayer(username, x, z, rot);
+		level.movePlayer(username, x, y, z, rot);
 	}
 
-	public synchronized void movePlayer(int id, double x, double z, double rot) {
-		level.movePlayer(id, x, z, rot);
+	public synchronized void movePlayer(int id, double x, double y, double z, double rot) {
+		level.movePlayer(id, x, y, z, rot);
 	}
 
 	/**

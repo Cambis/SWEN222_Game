@@ -7,7 +7,7 @@ import game.control.GameServer;
  * This packet is sent when a client has moved.
  *
  * MOVE - 02 + "," + String username + "," + int id + "," + int pos.x + "," + int pos.y + "," +
- * int numOfSteps + "," + int isMoving(1:0) + "," + int dir(1:2:3:4)
+ * int numOfSteps + "," + double z + "," + double direction
  *
  * @author Bieleski, Bryers, Gill & Thompson MMXV.
  *
@@ -16,9 +16,8 @@ public class Packet02Move extends Packet {
 
 	private String username;
 	private int uid;
-	private double x, z;
+	private double x, y, z;
 
-	private int numOfSteps = 0;
 	private boolean isMoving;
 	private double direction;
 
@@ -41,8 +40,8 @@ public class Packet02Move extends Packet {
 
 		this.x = Double.parseDouble(dataArray[2]);
 		this.z = Double.parseDouble(dataArray[3]);
+		this.y = Double.parseDouble(dataArray[4]);
 
-		this.numOfSteps = Integer.parseInt(dataArray[4]);
 		this.isMoving = Integer.parseInt(dataArray[5]) == 1;
 		this.direction = Double.parseDouble(dataArray[6]);
 	}
@@ -52,14 +51,14 @@ public class Packet02Move extends Packet {
 	 *
 	 * @param data
 	 */
-	public Packet02Move(String username, int id, double x, double y, int numOfSteps,
+	public Packet02Move(String username, int id, double x, double y, double z,
 			boolean isMoving, double direction) {
 		super(02);
 		this.username = username;
 		this.uid = id;
 		this.x = x;
 		this.z = y;
-		this.numOfSteps = numOfSteps;
+		this.y = z;
 		this.isMoving = isMoving;
 		this.direction = direction;
 	}
@@ -76,7 +75,7 @@ public class Packet02Move extends Packet {
 
 	@Override
 	public byte[] getData() {
-		return ("02" + username + "," + uid + "," + x + "," + z + "," + numOfSteps + ","
+		return ("02" + username + "," + uid + "," + x + "," + z + "," + y + ","
 				+ (isMoving ? 1 : 0) + "," + direction).getBytes();
 	}
 
@@ -92,8 +91,8 @@ public class Packet02Move extends Packet {
 		return z;
 	}
 
-	public int getNumOfSteps() {
-		return numOfSteps;
+	public double getY() {
+		return y;
 	}
 
 	public boolean isMoving() {
