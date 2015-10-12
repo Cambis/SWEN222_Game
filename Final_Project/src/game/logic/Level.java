@@ -177,8 +177,6 @@ public class Level {
 		if (player.equals(game.getPlayer()))
 			return;
 
-		System.out.println(game.getPlayer().getUsername()
-				+ " recieved shit from the: " + username);
 
 		Room currentRoom = player.getRoom();
 		Tile tile = currentRoom.getTile(player, ID);
@@ -196,9 +194,6 @@ public class Level {
 	public void handlePickUp(String username, int tileID, int itemID) {
 
 		Player player = getPlayer(username);
-
-		System.out.println(game.getPlayer().getUsername()
-				+ " recieved pickup shit from the: " + username);
 
 		// We do not want to handle a pickup from the player on this computer
 		if (player.equals(game.getPlayer()))

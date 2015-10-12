@@ -252,7 +252,6 @@ public class GameClient extends Thread {
 	}
 
 	private void handlePickUp(Packet10Pickup packet) {
-		System.out.println("Oi ya fucken cunt, I'm in here");
 		game.handlePickUp(packet.getUsername(), packet.getTileID(), packet.getItemID());
 	}
 
