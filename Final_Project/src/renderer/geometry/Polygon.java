@@ -112,6 +112,12 @@ public class Polygon {
 			if (l.getSide() != side && visible == R_Player.Team.SCENE){
 				continue;
 			}
+
+			// Don't light up the other side's team members if they are inside their own spotlight
+			if (l.getSide() != side && visible == l.getSide()){
+				continue;
+			}
+
 			// gets direction of spotlight to the center of the face
 			Vec3 vdir = positionAvg.sub(l.getPosition());
 
