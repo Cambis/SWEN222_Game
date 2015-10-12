@@ -50,7 +50,7 @@ public class Polygon {
 	}
 
 	/**
-	 * Renders a triangl to a buffer
+	 * Renders a triangle to a buffer
 	 *
 	 * @param viewport - the buffer to render to
 	 * @param zBuffer - the zbuffers used to check whether to render or not
@@ -124,8 +124,10 @@ public class Polygon {
 			// Checks whether the
 			if (vdir.dot(l.getDirection()) > l.getCutoff()){
 				// Checks whether the face is in the shadow
+				//int polyDis = (int)(vdir.mag()*tileSize*);
 				for (int i = 0; i < tileSize*2-1; ++i){
 					Vec3 pos = Vec3.Lerp(l.getPosition(), positionAvg, (float)i/(tileSize*2)).div(new Vec3(0.02, 0.02, 0.02)).div(new Vec3(tileSize, tileSize, tileSize));
+
 					pos = pos.add(new Vec3(0.5, 0.5, 0.5));
 					if (pos.getX() >= 0 && pos.getZ() >= 0 && pos.getX() < shadowMap.length && pos.getZ() < shadowMap[0].length){
 						if (shadowMap[(int)(pos.getX())][(int)(pos.getZ())] == 1){

@@ -50,9 +50,11 @@ public class Room {
 	int[][] shadowMap;
 
 	// Models
+	private R_ModelColorData wallData = new R_ModelColorData("Wall",
+			"res/models/BasicWall.obj", Color.WHITE);
 	private R_ModelColorData floorData = new R_ModelColorData("Floor",
 			"res/models/BasicFloor.obj", Color.GRAY);
-	private R_ModelColorData waterData = new R_ModelColorData("Floor",
+	private R_ModelColorData waterData = new R_ModelColorData("Water",
 			"res/models/BasicFloor.obj", Color.CYAN);
 
 	private R_ModelColorData treeData = new R_ModelColorData("Tree",
@@ -61,7 +63,8 @@ public class Room {
 			"res/models/BigTreeTile.obj", new Color(0.1f, 0.3f, 0.1f));
 	private R_ModelColorData grassData = new R_ModelColorData("Grass",
 			"res/models/GrassTile.obj", Color.GREEN);
-
+	private R_ModelColorData pillerData = new R_ModelColorData("Piller",
+			"res/models/PillerTile.obj", Color.WHITE);
 
 	public Room(String filename) {
 		loadTiles(filename);
@@ -108,7 +111,7 @@ public class Room {
 								tileNum);
 					} else if (i == 1) {
 						tiles[xPos][yPos] = new Wall(xPos * TILE_SIZE * SCALE,
-								yPos * TILE_SIZE * SCALE, tileNum);
+								yPos * TILE_SIZE * SCALE, wallData, tileNum);
 					} else if (i > 1) {
 						tiles[xPos][yPos] = new Door(xPos * TILE_SIZE * SCALE,
 								yPos * TILE_SIZE * SCALE, tileNum, i);
@@ -136,20 +139,26 @@ public class Room {
 									* SCALE, yPos * TILE_SIZE * SCALE,
 									waterData, tileNum);
 							break;
-						case "t":
+						case "t": // small tree
 							//FIXME
-							tiles[xPos][yPos] = new Water(xPos * TILE_SIZE
+							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
 									* SCALE, yPos * TILE_SIZE * SCALE,
 									treeData, tileNum);
 							break;
 
-						case "b":
+						case "b": // big tree
 							//FIXME
-							tiles[xPos][yPos] = new Water(xPos * TILE_SIZE
+							tiles[xPos][yPos] = new Wall(xPos * TILE_SIZE
 									* SCALE, yPos * TILE_SIZE * SCALE,
 									bigTreeData, tileNum);
 							break;
-						case "g":
+						case "p": // piller
+							//FIXME
+							tiles[xPos][yPos] = new Wall(xPos * TILE_SIZE
+									* SCALE, yPos * TILE_SIZE * SCALE,
+									pillerData, tileNum);
+							break;
+						case "g": // grass
 							//FIXME
 							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
 									* SCALE, yPos * TILE_SIZE * SCALE,
