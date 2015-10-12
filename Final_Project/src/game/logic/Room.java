@@ -371,12 +371,15 @@ public class Room {
 
 					// If there are any items to remove, remove them from the
 					// renderer
-					if (!floor.getItemsToRemove().isEmpty()) {
 						for (Item item : floor.getItemsToRemove()) {
 							r.deleteModel(item.getModel().getName());
 							floor.getItemsToRemove().poll();
 						}
-					}
+						for (Item item : floor.getItemsToUpdate()) {
+							r.deleteModel(item.getModel().getName());
+							r.addModel(item.getModel());
+							floor.getItemsToUpdate().poll();
+						}
 				}
 			}
 		}

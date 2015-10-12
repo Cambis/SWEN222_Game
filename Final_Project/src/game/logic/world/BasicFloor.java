@@ -25,6 +25,7 @@ public class BasicFloor implements Tile {
 
 	// Items to be removed from the renderer
 	private Queue<Item> inventoryTaken;
+	private Queue<Item> itemsToUpdate;
 
 	private int tileNum;
 
@@ -32,6 +33,7 @@ public class BasicFloor implements Tile {
 			int tileNum) {
 		inventory = new Stack<Item>();
 		inventoryTaken = new PriorityQueue<Item>();
+		itemsToUpdate = new PriorityQueue<Item>();
 		model = new R_Model("BasicFloor" + tileNum, data, new Vec3(xPos, 0,
 				yPos), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
 		this.tileNum = tileNum;
@@ -46,6 +48,7 @@ public class BasicFloor implements Tile {
 	public void onInteract(Player p) {
 		for(Item i : inventory){
 			i.interact(p);
+			itemsToUpdate.offer(i);
 		}
 	}
 
@@ -89,6 +92,10 @@ public class BasicFloor implements Tile {
 
 	public final Queue<Item> getItemsToRemove() {
 		return inventoryTaken;
+	}
+
+	public final Queue<Item> getItemsToUpdate() {
+		return itemsToUpdate;
 	}
 
 	@Override

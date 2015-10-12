@@ -45,9 +45,11 @@ public class Chest implements Item {
 	public void interact(Player p) {
 		for(Item i : inventory){
 			p.addItem(i);
+			System.out.println("You got an item out of the chest.");
 		}
 		inventory.clear();
 		opened = true;
+		
 	}
 
 	@Override
