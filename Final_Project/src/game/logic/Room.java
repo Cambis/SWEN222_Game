@@ -54,14 +54,14 @@ public class Room {
 			"res/models/BasicFloor.obj", Color.GRAY);
 	private R_ModelColorData waterData = new R_ModelColorData("Floor",
 			"res/models/BasicFloor.obj", Color.CYAN);
-	private R_ModelColorData doorData1 = new R_ModelColorData("Door1",
-			"res/models/BasicFloor.obj", Color.ORANGE);
-	private R_ModelColorData doorData2 = new R_ModelColorData("Door2",
-			"res/models/BasicFloor.obj", Color.GREEN);
-	private R_ModelColorData wallData = new R_ModelColorData("BasicWall",
-			"res/models/BasicWall.obj", Color.RED);
-	private R_ModelColorData lazerData = new R_ModelColorData("Lazer",
-			"res/models/lazer.obj", Color.RED);
+
+	private R_ModelColorData treeData = new R_ModelColorData("Tree",
+			"res/models/TreeTile.obj", new Color(100, 175, 90));
+	private R_ModelColorData bigTreeData = new R_ModelColorData("BigTree",
+			"res/models/BigTreeTile.obj", new Color(0.1f, 0.3f, 0.1f));
+	private R_ModelColorData grassData = new R_ModelColorData("Grass",
+			"res/models/GrassTile.obj", Color.GREEN);
+
 
 	public Room(String filename) {
 		loadTiles(filename);
@@ -135,6 +135,25 @@ public class Room {
 							tiles[xPos][yPos] = new Water(xPos * TILE_SIZE
 									* SCALE, yPos * TILE_SIZE * SCALE,
 									waterData, tileNum);
+							break;
+						case "t":
+							//FIXME
+							tiles[xPos][yPos] = new Water(xPos * TILE_SIZE
+									* SCALE, yPos * TILE_SIZE * SCALE,
+									treeData, tileNum);
+							break;
+
+						case "b":
+							//FIXME
+							tiles[xPos][yPos] = new Water(xPos * TILE_SIZE
+									* SCALE, yPos * TILE_SIZE * SCALE,
+									bigTreeData, tileNum);
+							break;
+						case "g":
+							//FIXME
+							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
+									* SCALE, yPos * TILE_SIZE * SCALE,
+									grassData, tileNum);
 							break;
 						case "S":
 							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
