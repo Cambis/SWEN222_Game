@@ -397,7 +397,7 @@ public class StealthGame implements Runnable {
 		return player;
 	}
 
-	public synchronized void setTeams(String[] players, String[] teams) {
+	public void setTeams(String[] players, String[] teams) {
 
 		for (int i = 0; i < players.length; i++) {
 			if (players[i].equals(player.getUsername())) {
@@ -439,7 +439,7 @@ public class StealthGame implements Runnable {
 	}
 
 	public boolean r_removeModel(String model) {
-		return false;
+		return renderer.deleteModel(model);
 	}
 
 	public synchronized boolean r_addModelData(R_AbstractModelData modelData) {

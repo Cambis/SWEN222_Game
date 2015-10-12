@@ -254,8 +254,9 @@ public class Level {
 				// If the player is not in the same room as the
 				// player on this computer, remove them from the
 				// renderer
-				else if (!p.getRoom().equals(game.getPlayer().getRoom()))
-					game.r_removeModel(p.getUsername());
+				else if (!p.getRoom().equals(game.getPlayer().getRoom())) {
+ 					game.r_removeModel(p.getUsername());
+				}
 
 				// Update the room
 				if (!p.isRoomLoaded() && p.equals(game.getPlayer())) {
@@ -396,6 +397,10 @@ public class Level {
 			// game.r_addModel(pl);
 		}
 
+//		for (Player p : this.players) {
+//			if (p.getRoom().equals(game.getPlayer().getRoom()))
+//				game.r_addModel(p.getModel());
+//		}
 		// for (Player p : this.players) {
 		// System.out.println(p.getUsername() + " is a "
 		// + p.getSide().toString());
