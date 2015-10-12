@@ -1,8 +1,11 @@
 package game.logic.world;
 
 import java.awt.Color;
+import java.util.PriorityQueue;
+import java.util.Stack;
 
 import game.logic.Player;
+import game.logic.items.Item;
 import renderer.R_AbstractModel;
 import renderer.R_AbstractModelData;
 import renderer.R_Model;
@@ -17,9 +20,14 @@ public class Wall implements Tile {
 
 	private int tileNum;
 
-	public Wall(double xPos, double yPos, int tileNum) {
+	/*public Wall(double xPos, double yPos, int tileNum) {
 		this.x = xPos;
 		this.y = yPos;
+		this.tileNum = tileNum;
+	}*/
+	public Wall(double xPos, double yPos, R_ModelColorData data, int tileNum) {
+		model = new R_Model("BasicFloor" + tileNum, data, new Vec3(xPos, 0,
+				yPos), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
 		this.tileNum = tileNum;
 	}
 
@@ -58,8 +66,7 @@ public class Wall implements Tile {
 
 	@Override
 	public R_AbstractModel getModel() {
-		return new R_Model("BasicWall" + tileNum, getModelData(), new Vec3(x,
-				0, y), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
+		return model;
 	}
 
 	@Override

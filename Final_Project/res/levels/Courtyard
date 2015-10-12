@@ -2,13 +2,13 @@ Courtyard
 12 10
 1 1 1 1 1 1 1 1 1 1 1 1
 1 g 0 0 0 0 0 0 0 0 b 1
-1 b 0 g g g g g g 0 0 1
+1 b 0 1 1 1 1 1 1 0 0 1
 1 g 0 g 0 0 0 0 g 0 t 1
-1 t 0 g 0 w w 0 g 0 0 2
+1 g 0 g 0 w w 0 g 0 0 2
 1 g 0 0 0 w w 0 0 0 0 2
-1 t 0 g 0 w w 0 0 0 t 1
+1 g 0 g 0 w w 0 0 0 t 1
 1 g 0 g 0 0 0 0 g 0 0 1
-1 b 0 g g g g g g 0 t 1
+1 b 0 1 1 1 1 1 1 0 t 1
 1 g 0 0 0 3 3 0 0 0 0 1
 door 2 GuardSpawn 0 4
 door 3 Pool 5 0
