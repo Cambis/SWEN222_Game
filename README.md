@@ -50,6 +50,7 @@ The IP address can be obtained in the command line:
 
 - Movement: (Arrow Keys)
 - Change Camera Angle: (Z, X)
+- Interact: E (Right now you have to interact with doors to pass through them)
 
 
 
