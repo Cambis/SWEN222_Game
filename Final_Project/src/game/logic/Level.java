@@ -180,11 +180,26 @@ public class Level {
 		Room currentRoom = player.getRoom();
 		Tile tile = currentRoom.getTile(player, ID);
 
-		tile.onInteract(player);
+		if (tile != null) {
+			System.out.println(tile.getClass().getName());
+			tile.onInteract(player);
+		}
 
 		for (Player p : players)
 			System.out.println(p.getUsername() + " is in: "
 					+ p.getRoom().getName());
+	}
+
+	public void handlePickUp(String username, int ID) {
+
+		Player player = getPlayer(username);
+
+		// We do not want to handle a pickup from the player on this computer
+		if (player.equals(game.getPlayer()))
+			return;
+
+		Room currentRoom = player.getRoom();
+		// Item item = currentRoom.getItems(ID);
 	}
 
 	private Player getPlayer(String username) {
@@ -276,7 +291,8 @@ public class Level {
 
 				// Player interacting
 				// Check if player is interacting with a tile
-				if (p.isInteracting() && p.getRoom() != null && p.equals(game.getPlayer())
+				if (p.isInteracting() && p.getRoom() != null
+						&& p.equals(game.getPlayer())
 						&& p.getRoom().validPosition(p, p.getX(), p.getY())) {
 					Tile tile = p.getRoom().getTile(p, p.getX(), p.getY());
 					// isInteracting = false;
@@ -302,7 +318,9 @@ public class Level {
 					System.out.println(p.getRoom()
 							.getTile(p, p.getX(), p.getY()).getID());
 					p.setInteracting(false);
-					packet.writeData(game.getClient());
+
+					if (packet != null)
+						packet.writeData(game.getClient());
 				}
 
 				// Finally tick through the room that the player is in

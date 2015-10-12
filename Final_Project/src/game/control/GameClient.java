@@ -10,6 +10,7 @@ import game.control.packets.Packet04Damage;
 import game.control.packets.Packet05Heal;
 import game.control.packets.Packet06Interact;
 import game.control.packets.Packet07Equip;
+import game.control.packets.Packet10Pickup;
 import game.control.packets.Packet22LoadLevel;
 import game.control.packets.Packet23RecieveID;
 import game.control.packets.Packet24TeamAssign;
@@ -159,6 +160,9 @@ public class GameClient extends Thread {
 			handleEquip((Packet07Equip) packet);
 			break;
 
+		case PICKUP:
+			packet = new Packet10Pickup(data);
+			handlePickUp((Packet10Pickup) packet);
 		case GAME_START:
 			// game.run();
 			break;
@@ -238,12 +242,15 @@ public class GameClient extends Thread {
 	}
 
 	private void handleInteract(Packet06Interact packet) {
-		System.out.println("In heres");
 		game.handleInteract(packet.getUsername(), packet.getObjectID());
 	}
 
 	private void handleEquip(Packet07Equip packet) {
 
+	}
+
+	private void handlePickUp(Packet10Pickup packet) {
+		game.handlePickUp(packet.getUsername(), packet.getID());
 	}
 
 	private void handleLoadLevel(Packet22LoadLevel packet) {

@@ -420,6 +420,10 @@ public class StealthGame implements Runnable {
 		level.handleInteract(username, ID);
 	}
 
+	public synchronized void handlePickUp(String username, int ID) {
+		level.handlePickUp(username, ID);
+	}
+
 	/** RENDERER METHODS **/
 
 	public boolean r_addCamera(R_AbstractCamera camera) {

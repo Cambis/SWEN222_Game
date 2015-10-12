@@ -391,6 +391,13 @@ public class Room {
 		return null;
 	}
 
+	public final Item getItem(Player p, int ID) {
+
+		Tile tile = getTile(p, p.getX(), p.getY());
+
+		return null;
+	}
+
 	public final int getTilesXSize() {
 		return xSize;
 	}
