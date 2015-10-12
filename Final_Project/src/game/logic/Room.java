@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import game.logic.weapons.Lazor;
+import game.logic.items.Chest;
 import game.logic.items.Item;
 import game.logic.items.Key;
 import game.logic.world.BasicFloor;
@@ -53,14 +54,14 @@ public class Room {
 			"res/models/BasicFloor.obj", Color.GRAY);
 	private R_ModelColorData waterData = new R_ModelColorData("Floor",
 			"res/models/BasicFloor.obj", Color.CYAN);
-	private R_ModelColorData doorData1 = new R_ModelColorData("Door1",
-			"res/models/BasicFloor.obj", Color.ORANGE);
-	private R_ModelColorData doorData2 = new R_ModelColorData("Door2",
-			"res/models/BasicFloor.obj", Color.GREEN);
-	private R_ModelColorData wallData = new R_ModelColorData("BasicWall",
-			"res/models/BasicWall.obj", Color.RED);
-	private R_ModelColorData lazerData = new R_ModelColorData("Lazer",
-			"res/models/lazer.obj", Color.RED);
+
+	private R_ModelColorData treeData = new R_ModelColorData("Tree",
+			"res/models/TreeTile.obj", new Color(100, 175, 90));
+	private R_ModelColorData bigTreeData = new R_ModelColorData("BigTree",
+			"res/models/BigTreeTile.obj", new Color(0.1f, 0.3f, 0.1f));
+	private R_ModelColorData grassData = new R_ModelColorData("Grass",
+			"res/models/GrassTile.obj", Color.GREEN);
+
 
 	public Room(String filename) {
 		loadTiles(filename);
@@ -135,6 +136,25 @@ public class Room {
 									* SCALE, yPos * TILE_SIZE * SCALE,
 									waterData, tileNum);
 							break;
+						case "t":
+							//FIXME
+							tiles[xPos][yPos] = new Water(xPos * TILE_SIZE
+									* SCALE, yPos * TILE_SIZE * SCALE,
+									treeData, tileNum);
+							break;
+
+						case "b":
+							//FIXME
+							tiles[xPos][yPos] = new Water(xPos * TILE_SIZE
+									* SCALE, yPos * TILE_SIZE * SCALE,
+									bigTreeData, tileNum);
+							break;
+						case "g":
+							//FIXME
+							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
+									* SCALE, yPos * TILE_SIZE * SCALE,
+									grassData, tileNum);
+							break;
 						case "S":
 							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
 									* SCALE, yPos * TILE_SIZE * SCALE,
@@ -151,9 +171,12 @@ public class Room {
 							break;
 						default:
 							char itemKey = str.charAt(0);
-							Item item = null;
-							item = parseItem(xPos, yPos, itemKey, item);
+							Item item = parseItem(xPos, yPos, itemKey);
 							if (item != null) {
+								if(itemKey<97){//Put item in chest
+									Chest chest = new Chest(item, xPos * TILE_SIZE * SCALE, yPos * TILE_SIZE* SCALE);
+									item = chest;
+								}
 								tiles[xPos][yPos] = new BasicFloor(xPos
 										* TILE_SIZE * SCALE, yPos * TILE_SIZE
 										* SCALE, floorData, tileNum);
@@ -227,11 +250,13 @@ public class Room {
 		return spawns;
 	}
 
-	private Item parseItem(int xPos, int yPos, char itemKey, Item item) {
-
-		item = new Key(itemKey-97, xPos * TILE_SIZE * SCALE, yPos * TILE_SIZE
-				* SCALE);
-
+	private Item parseItem(int xPos, int yPos, char itemKey) {
+		char key = Character.toLowerCase(itemKey);
+		Item item = null;
+		if(key=='a'||key=='b'||key=='c'||key=='d'){
+			item = new Key(key-97, xPos * TILE_SIZE * SCALE, yPos * TILE_SIZE
+					* SCALE);
+		}
 		return item;
 	}
 

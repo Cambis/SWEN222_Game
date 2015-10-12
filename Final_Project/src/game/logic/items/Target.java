@@ -1,5 +1,7 @@
 package game.logic.items;
 
+import game.logic.Player;
+
 import java.awt.Color;
 
 import renderer.R_AbstractModel;
@@ -38,8 +40,8 @@ public class Target implements Item {
 	}
 
 	@Override
-	public ItemType getItemType() {
-		return ItemType.TARGET;
+	public void interact(Player p){
+		return;
 	}
 
 	@Override
@@ -50,5 +52,10 @@ public class Target implements Item {
 	@Override
 	public R_AbstractModel getModel() {
 		return new R_Model("TARGET: " + ID, getModelData(), new Vec3(x, 0, z), Vec3.Zero(), new Vec3(0.05, 0.05, 0.05));
+	}
+
+	@Override
+	public boolean canPickUp(Player player) {
+		return false;
 	}
 }

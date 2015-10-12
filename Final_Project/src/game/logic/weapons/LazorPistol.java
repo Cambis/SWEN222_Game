@@ -25,6 +25,11 @@ public class LazorPistol extends Weapon implements Item {
 	}
 
 	@Override
+	public void interact(Player p){
+		return;
+	}
+
+	@Override
 	public int getCooldown() {
 		return cooldownTime;
 	}
@@ -42,12 +47,6 @@ public class LazorPistol extends Weapon implements Item {
 	}
 
 	@Override
-	public ItemType getItemType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public R_AbstractModelData getModelData() {
 		// TODO Auto-generated method stub
 		return null;
@@ -57,6 +56,12 @@ public class LazorPistol extends Weapon implements Item {
 	public R_AbstractModel getModel() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean canPickUp(Player player) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

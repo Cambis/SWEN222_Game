@@ -27,6 +27,11 @@ public class Fists extends Weapon implements Item {
 	}
 
 	@Override
+	public void interact(Player p){
+		return;
+	}
+
+	@Override
 	public void setPosition(double x, double z) {
 		// TODO Auto-generated method stub
 
@@ -39,12 +44,6 @@ public class Fists extends Weapon implements Item {
 	}
 
 	@Override
-	public ItemType getItemType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public R_AbstractModelData getModelData() {
 		// TODO Auto-generated method stub
 		return null;
@@ -54,6 +53,12 @@ public class Fists extends Weapon implements Item {
 	public R_AbstractModel getModel() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean canPickUp(Player player) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -44,7 +44,9 @@ public class BasicFloor implements Tile {
 
 	@Override
 	public void onInteract(Player p) {
-		return;
+		for(Item i : inventory){
+			i.interact(p);
+		}
 	}
 
 	@Override
@@ -65,7 +67,7 @@ public class BasicFloor implements Tile {
 
 	@Override
 	public void onEnter(Player p) {
-		if (!inventory.isEmpty() && Item.canPickUp(inventory.peek(), p)) {
+		if (!inventory.isEmpty() && inventory.peek().canPickUp(p)) {
 			Item item = inventory.pop();
 			p.addItem(item);
 			inventoryTaken.offer(item);
