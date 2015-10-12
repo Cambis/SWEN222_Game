@@ -27,6 +27,11 @@ public class Fists extends Weapon implements Item {
 	}
 
 	@Override
+	public void interact(Player p){
+		return;
+	}
+
+	@Override
 	public void setPosition(double x, double z) {
 		// TODO Auto-generated method stub
 

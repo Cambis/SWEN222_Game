@@ -45,6 +45,12 @@ public interface Item {
 	 */
 	public void setPosition(double x, double z);
 
+
+	/**
+	 * Defines the behavior with the player when the player interacts wit item
+	 */
+	public void interact(Player p);
+
 	public int getID();
 
 	/**

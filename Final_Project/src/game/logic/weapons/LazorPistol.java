@@ -25,6 +25,11 @@ public class LazorPistol extends Weapon implements Item {
 	}
 
 	@Override
+	public void interact(Player p){
+		return;
+	}
+
+	@Override
 	public int getCooldown() {
 		return cooldownTime;
 	}

@@ -1,5 +1,7 @@
 package game.logic.items;
 
+import game.logic.Player;
+
 import java.awt.Color;
 
 import renderer.R_AbstractModel;
@@ -35,6 +37,11 @@ public class Target implements Item {
 	@Override
 	public int getID() {
 		return this.ID;
+	}
+
+	@Override
+	public void interact(Player p){
+		return;
 	}
 
 	@Override

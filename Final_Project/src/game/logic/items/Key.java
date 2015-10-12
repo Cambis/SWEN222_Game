@@ -7,6 +7,7 @@ import renderer.R_AbstractModelData;
 import renderer.R_Model;
 import renderer.R_ModelColorData;
 import renderer.math.Vec3;
+import game.logic.Player;
 import game.logic.world.Door;
 
 /**
@@ -37,12 +38,9 @@ public class Key implements Item {
 		this.z = z;
 	}
 
-	public void setDoor(Door door) {
-		this.door = door;
-	}
-
-	public final Door getDoor() {
-		return this.door;
+	@Override
+	public void interact(Player p){
+		return;
 	}
 
 	@Override
