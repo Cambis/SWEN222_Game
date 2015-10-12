@@ -138,17 +138,18 @@ public class Level {
 	 * @param rot
 	 *            - player's rotation around the y axis
 	 */
-	public void movePlayer(String username, double x, double z, double rot) {
+	public void movePlayer(String username, double x, double y, double z, double rot) {
 		Player p = getPlayer(username);
 
 		// Check if the player is moving
-		if (p.getX() != x || p.getY() != z || p.getRotation() != rot)
+		if (p.getX() != x || p.getY() != y || p.getRotation() != rot)
 			p.setMoving(true);
 		else
 			p.setMoving(false);
 
 		p.setX(x);
-		p.setY(z);
+		p.setY(y);
+		p.setZ(z);
 		p.setRot(rot);
 	}
 
@@ -164,8 +165,8 @@ public class Level {
 	 * @param rot
 	 *            - player's rotation around the y axis
 	 */
-	public void movePlayer(int id, double x, double z, double rot) {
-		movePlayer(getPlayer(id).getUsername(), x, z, rot);
+	public void movePlayer(int id, double x, double y, double z, double rot) {
+		movePlayer(getPlayer(id).getUsername(), x, y, z, rot);
 	}
 
 	public void handleInteract(String username, int ID) {
@@ -277,7 +278,7 @@ public class Level {
 				// Player moving
 				if (p.isMoving()) {
 					packet = new Packet02Move(p.getUsername(),
-							((PlayerMP) p).getID(), p.getX(), p.getY(), 0,
+							((PlayerMP) p).getID(), p.getX(), p.getY(), p.getZ(),
 							true, p.getRotation());
 					packet.writeData(game.getClient());
 				}

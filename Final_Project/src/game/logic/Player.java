@@ -368,6 +368,10 @@ public class Player {
 		this.z = z;
 	}
 
+	public final double getZ() {
+		return this.z;
+	}
+
 	public void setRot(double rot) {
 		if (model != null)
 			model.getOrientation().setY((float) rot);
