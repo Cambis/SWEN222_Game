@@ -111,8 +111,8 @@ public class Player {
 	 * update timers.
 	 */
 	public void tick() {
-		//Check if room has been loaded if not don't tick
-		if(!roomLoaded){
+		// Check if room has been loaded if not don't tick
+		if (!roomLoaded) {
 			return;
 		}
 
@@ -161,6 +161,13 @@ public class Player {
 		// if (tile instanceof Door) {
 		// interaction = Interaction.DOOR;
 		// }
+		// }
+
+		// Check if the player is over an item
+		// if (getRoom() != null && getRoom().validPosition(this, getX(),
+		// getY())) {
+		// Tile tile = getRoom().getTile(this, getX(), getY());
+		// tile.onEnter(this);
 		// }
 
 		// Interacting
