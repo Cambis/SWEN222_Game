@@ -14,6 +14,10 @@ public class Screen extends JPanel {
 	private static final long serialVersionUID = 5869047725511908879L;
 	private BufferedImage image = new BufferedImage(1080, 720, BufferedImage.TYPE_INT_RGB);
 
+	public Screen() {
+		setName("Stealth");
+	}
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

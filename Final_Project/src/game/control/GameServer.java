@@ -198,6 +198,7 @@ public class GameServer extends Thread {
 			players[i] = playersList.get(i).getUsername();
 		}
 
+		// System.out.println("Players: " + playersList.size());
 		// Put the players in teams 0: GUARD, 1: SPY
 		String[] teams = new String[players.length];
 		int mid = teams.length / 2;
@@ -229,6 +230,8 @@ public class GameServer extends Thread {
 		// System.out.println(player.getUsername());
 
 		for (PlayerMP p : connectedPlayers) {
+			//if (p.getUsername().equals(game.getPlayer().getUsername()))
+			// 	break;
 			if (p.getUsername().equalsIgnoreCase(player.getUsername())) {
 				if (DEBUG)
 					System.out.println("User already in " + p.getUsername());
@@ -243,9 +246,10 @@ public class GameServer extends Thread {
 
 				// Relay to the current connected player that there is a new
 				// player
-				sendData(packet.getData(), p.getIpAddress(), p.getPort());
+				// sendData(packet.getData(), p.getIpAddress(), p.getPort());
+				sendDataToAllClients(packet.getData());
 
-				Packet23RecieveID id = new Packet23RecieveID(p.getID());
+				// Packet23RecieveID id = new Packet23RecieveID(p.getID());
 
 				// sendData(id.getData(), p.getIpAddress(), p.getPort());
 
@@ -258,7 +262,7 @@ public class GameServer extends Thread {
 			}
 		}
 		if (!alreadyConnected) {
-			player.setID(ID_PREFIX + connectedPlayers.size());
+			// player.setID(ID_PREFIX + connectedPlayers.size());
 			// if (!hostConnected) {
 			// ((PlayerMP) game.player).setID(ID_PREFIX
 			// + connectedPlayers.size());
