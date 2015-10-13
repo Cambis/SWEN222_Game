@@ -265,7 +265,9 @@ public class Level {
 	}
 
 	public void handleDamage(String username, double damage) {
-		getPlayer(username).takeDamage(damage);
+		Player player = getPlayer(username);
+		if (player.isAlive())
+			player.takeDamage(damage);
 	}
 
 	/**
@@ -311,7 +313,6 @@ public class Level {
 		// p.getRoom().getName());
 		// Go through players
 		for (Player p : players) {
-
 			if (!p.isAlive()) {
 				game.r_removeModel(p.getUsername());
 			}
@@ -399,12 +400,12 @@ public class Level {
 					Player pl = getPlayer(game.getPlayer().getUsername());
 					if (p.inRange(pl.getX(), pl.getY())
 							&& p.getRoom().equals(pl.getRoom()))
-						if (p.getSide() == Team.GUARD
-								&& pl.getSide() == Team.SPY) {
+						if (pl.getSide() == Team.GUARD
+								&& p.getSide() == Team.SPY) {
 							System.out.println("Taking Damage");
 							// getPlayer(game.getPlayer().getUsername())
 							// .takeDamage(0.1);
-							packet = new Packet04Damage(pl.getUsername(),
+							packet = new Packet04Damage(p.getUsername(),
 									p.getUsername(), 0.5);
 							packet.writeData(game.getClient());
 						}
