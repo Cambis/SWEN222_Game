@@ -8,22 +8,31 @@ import game.control.packets.Packet00Login;
 import game.control.packets.Packet01Disconnect;
 import game.logic.Player;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * JUnit testing for the client/ server. Please note, you will have to test each
- * of these tests individually, otherwise you might throw java.net.BindException.
+ * of these tests individually, otherwise you might throw
+ * java.net.BindException.
  *
  * @author Cameron Bryers 300326848 MMXV
  *
  */
 public class NetworkTester {
 
-	@Test
-	public void testLogin() {
+	private GameServer server;
+
+	public NetworkTester() {
 
 		// Set up the server/ client
-		GameServer server = new GameServer(null, 1);
+		this.server = new GameServer(null, 1);
+
+	}
+
+	@Test
+	public void testLoginServer() {
+
 		GameClient client = new GameClient("localhost", null);
 
 		// Create a player
@@ -38,24 +47,15 @@ public class NetworkTester {
 
 		assertTrue(server.getPlayerMP("David") != null);
 
-		// Stop the server
-		try {
-			server.join();
-			client.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Test
 	public void testDisconnect() {
 
-		// Set up the server/ client
-		GameServer server = new GameServer(null, 1);
 		GameClient client = new GameClient("localhost", null);
 
 		// Create a player
-		Player player = new PlayerMP("David", 0, 0, 0, null, -1);
+		Player player = new PlayerMP("Jim", 0, 0, 0, null, -1);
 
 		// Login to the server
 		Packet00Login login = new Packet00Login(player.getUsername(), -1, 0, 0,
@@ -68,14 +68,6 @@ public class NetworkTester {
 		Packet01Disconnect packet = new Packet01Disconnect(player.getUsername());
 		server.removeConnection(packet);
 
-		assertTrue(server.getPlayerMP("David") == null);
-
-		// Stop the server
-		try {
-			server.join();
-			client.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		assertTrue(server.getPlayerMP("Jim") == null);
 	}
 }
