@@ -162,6 +162,7 @@ public class GameServer extends Thread {
 			System.out.println("[ " + address.getHostAddress() + " " + port
 					+ " ] " + ((Packet01Disconnect) packet).getUsername()
 					+ " has left...");
+			removeConnection((Packet01Disconnect) packet);
 			break;
 
 		case MOVE:
@@ -291,7 +292,8 @@ public class GameServer extends Thread {
 	 *            - disconnect packet to be sent.
 	 */
 	public void removeConnection(Packet01Disconnect packet) {
-		connectedPlayers.remove(getPlayerMP(packet.getUsername()));
+		if (connectedPlayers.remove(getPlayerMP(packet.getUsername())))
+			System.out.println("Player removed");
 		packet.writeData(this);
 	}
 

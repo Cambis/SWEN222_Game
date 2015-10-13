@@ -409,16 +409,16 @@ public class Level {
 				// Check health
 				if (!p.getUsername().equals(game.getPlayer())) {
 					Player pl = getPlayer(game.getPlayer().getUsername());
-					if (p.inRange(pl.getX(), pl.getY())
-							&& p.getRoom().equals(pl.getRoom()))
-						if (pl.getSide() == Team.GUARD
-								&& p.getSide() == Team.SPY) {
-							// getPlayer(game.getPlayer().getUsername())
-							// .takeDamage(0.1);
-							packet = new Packet04Damage(p.getUsername(),
-									p.getUsername(), 5);
-							packet.writeData(game.getClient());
-						}
+					if (pl.inRange(p.getX(), p.getY())
+							&& p.getRoom().equals(pl.getRoom())
+							&& pl.getSide() == Team.GUARD
+							&& p.getSide() == Team.SPY) {
+						// getPlayer(game.getPlayer().getUsername())
+						// .takeDamage(0.1);
+						packet = new Packet04Damage(p.getUsername(),
+								p.getUsername(), 5);
+						packet.writeData(game.getClient());
+					}
 				}
 
 				// Player moving
