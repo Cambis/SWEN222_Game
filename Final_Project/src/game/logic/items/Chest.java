@@ -9,6 +9,7 @@ import renderer.R_AbstractModel;
 import renderer.R_AbstractModelData;
 import renderer.R_Model;
 import renderer.R_ModelColorData;
+import renderer.R_Player.Team;
 import renderer.math.Vec3;
 
 public class Chest implements Item {
@@ -43,6 +44,9 @@ public class Chest implements Item {
 
 	@Override
 	public void interact(Player p) {
+		if(p.getSide()==Team.GUARD){
+			return;
+		}
 		for(Item i : inventory){
 			p.addItem(i);
 			System.out.println("You got an item out of the chest.");

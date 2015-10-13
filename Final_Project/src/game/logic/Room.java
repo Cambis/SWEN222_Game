@@ -15,6 +15,7 @@ import game.logic.weapons.Lazor;
 import game.logic.items.Chest;
 import game.logic.items.Item;
 import game.logic.items.Key;
+import game.logic.items.Terminal;
 import game.logic.world.BasicFloor;
 import game.logic.world.BlankTile;
 import game.logic.world.Door;
@@ -182,7 +183,7 @@ public class Room {
 							char itemKey = str.charAt(0);
 							Item item = parseItem(xPos, yPos, itemKey);
 							if (item != null) {
-								if(itemKey<97){//Put item in chest
+								if(itemKey<=90 && itemKey>=65){//Put item in chest
 									Chest chest = new Chest(item, xPos * TILE_SIZE * SCALE, yPos * TILE_SIZE* SCALE);
 									item = chest;
 								}
@@ -260,11 +261,16 @@ public class Room {
 	}
 
 	private Item parseItem(int xPos, int yPos, char itemKey) {
-		char key = Character.toLowerCase(itemKey);
+		char key = itemKey;
+		if(Character.isAlphabetic(itemKey)){
+			key = Character.toLowerCase(itemKey);
+		}
 		Item item = null;
 		if(key=='a'||key=='b'||key=='c'||key=='d'){
 			item = new Key(key-97, xPos * TILE_SIZE * SCALE, yPos * TILE_SIZE
 					* SCALE);
+		}else if(key=='*'){
+			item = new Terminal(xPos * TILE_SIZE * SCALE, yPos * TILE_SIZE * SCALE);
 		}
 		return item;
 	}
