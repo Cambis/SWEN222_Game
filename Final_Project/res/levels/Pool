@@ -6,7 +6,7 @@ Pool
 1 0 0 w w w w w w 0 0 1
 1 0 0 w w w w w w 0 0 1
 1 1 0 w w 0 0 w w 0 t 1
-1 1 0 w w 0 b w w 0 0 2
+1 1 0 w w 0 d w w 0 0 2
 1 1 0 w w 0 0 w w 0 0 2
 1 1 0 w w 0 0 w w 0 t 1
 1 0 0 w w w w w w 0 0 1
@@ -16,4 +16,4 @@ Pool
 1 0 0 0 0 0 0 0 0 0 0 1
 1 1 1 1 1 1 1 1 1 1 1 1
 door 2 SpySpawn 0 4
-door 3 1 Courtyard 5 9
+door 3 3 Courtyard 5 9
