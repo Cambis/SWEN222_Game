@@ -87,10 +87,6 @@ public class Door implements Tile {
 		return targetY;
 	}
 
-	public double getDirection() {
-		return direction;
-	}
-
 	@Override
 	public void onInteract(Player p) {
 		if(locked && p.getInventory().contains(new Key(keyID))){
@@ -113,7 +109,7 @@ public class Door implements Tile {
 
 	@Override
 	public void onExit(Player p) {
-		// TODO Auto-generated method stub
+		// Do Nothing
 	}
 
 	@Override
