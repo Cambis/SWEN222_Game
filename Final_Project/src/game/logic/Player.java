@@ -3,12 +3,6 @@
  */
 package game.logic;
 
-import java.awt.Color;
-import java.awt.geom.Ellipse2D;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import game.logic.items.Chest;
 import game.logic.items.Item;
 import game.logic.items.Terminal;
@@ -18,20 +12,27 @@ import game.logic.world.BasicFloor;
 import game.logic.world.Door;
 import game.logic.world.Tile;
 import game.logic.world.Tile.Interaction;
-// import game.logic.weapons.Weapon;
-import renderer.*;
+
+import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import renderer.R_Player;
 import renderer.R_Player.Team;
-import renderer.math.Vec3;
 
 /**
  * Represents a player in the game. This class should do the player logic and
  * not have anything to do with the client/ server.
  *
- * @author Bieleski, Bryers, Gill and Thompson MMXV.
+ * @author Cameron Bryers 300326848 MMXV
+ * @author Callum Gill MMXV
+ * @author Andrew Bieleski MMXV
  *
  */
 public class Player {
 
+	// Username of the player, note each player should have a unique username.
 	private final String username;
 
 	private Team side;
@@ -70,7 +71,6 @@ public class Player {
 	private boolean canMove = true;
 	private Tile previousDoor;
 	private boolean onDoor = false;
-
 
 	// private Weapon currentWeapon;
 	// private Weapon sideWeapon;
@@ -117,8 +117,8 @@ public class Player {
 	}
 
 	/**
-	 * Give player some points
-	 * (Note: entering negative values decreases score)
+	 * Give player some points (Note: entering negative values decreases score)
+	 *
 	 * @param val
 	 */
 	public void addPoints(int val) {
@@ -127,9 +127,10 @@ public class Player {
 
 	/**
 	 * Returns the score the player is on
+	 *
 	 * @return
 	 */
-	public double getPoints(){
+	public double getPoints() {
 		return score;
 	}
 
@@ -176,7 +177,6 @@ public class Player {
 			double newX = x - (MAX_VELOCITY * accel) * Math.sin(rotation);
 			move(newY, newX);
 		}
-
 
 		// Interacting
 		if (getRoom() != null && getRoom().validPosition(this, getX(), getY())
@@ -251,23 +251,24 @@ public class Player {
 
 	/**
 	 * Attempts to move the player to position x, y.
+	 *
 	 * @param y
 	 * @param x
 	 */
 	private void move(double y, double x) {
-		if(currentRoom==null){
+		if (currentRoom == null) {
 			return;
 		}
 		Tile oldTile = currentRoom.getTile(this, this.x, this.y);
 		double newX = this.x;
 		double newY = this.y;
 		if (currentRoom.validPosition(this, x, y)) {
-			newX=x;
-			newY=y;
-		}else if(currentRoom.validPosition(this, this.x, y)) {
-			newY=y;
-		}else if(currentRoom.validPosition(this, x, this.y)){
-			newX=x;
+			newX = x;
+			newY = y;
+		} else if (currentRoom.validPosition(this, this.x, y)) {
+			newY = y;
+		} else if (currentRoom.validPosition(this, x, this.y)) {
+			newX = x;
 		}
 
 		model.getPosition().setX((float) newX);
@@ -350,6 +351,7 @@ public class Player {
 
 	/**
 	 * Add item to players inventory
+	 *
 	 * @param item
 	 */
 	public void addItem(Item item) {
@@ -359,6 +361,7 @@ public class Player {
 
 	/**
 	 * Gets the last item in player inventory
+	 *
 	 * @return
 	 */
 	public final Item getLastItem() {
@@ -367,6 +370,7 @@ public class Player {
 
 	/**
 	 * Returns an unmodifiable inventory of player
+	 *
 	 * @return
 	 */
 	public final List<Item> getInventory() {
@@ -375,6 +379,7 @@ public class Player {
 
 	/**
 	 * Sets itemPickedUp
+	 *
 	 * @param status
 	 */
 	public void setItemPickedUp(boolean status) {
@@ -383,6 +388,7 @@ public class Player {
 
 	/**
 	 * Returns itemPickedUp
+	 *
 	 * @return
 	 */
 	public final boolean itemPickedUp() {
@@ -391,6 +397,7 @@ public class Player {
 
 	/**
 	 * Sets interacting
+	 *
 	 * @param isInteracting
 	 */
 	public void setInteracting(boolean isInteracting) {
@@ -399,6 +406,7 @@ public class Player {
 
 	/**
 	 * Returns if player is interacting
+	 *
 	 * @return
 	 */
 	public final boolean isInteracting() {
@@ -414,6 +422,7 @@ public class Player {
 
 	/**
 	 * Gets type of interaction
+	 *
 	 * @return
 	 */
 	public final Interaction getInteraction() {
@@ -437,6 +446,7 @@ public class Player {
 
 	/**
 	 * Returns previous room
+	 *
 	 * @return
 	 */
 	public final Room getOldRoom() {
@@ -445,6 +455,7 @@ public class Player {
 
 	/**
 	 * Set if room loaded
+	 *
 	 * @param roomLoaded
 	 */
 	public void setRoomLoaded(boolean roomLoaded) {
@@ -453,6 +464,7 @@ public class Player {
 
 	/**
 	 * Checks if room loaded
+	 *
 	 * @return
 	 */
 	public final boolean isRoomLoaded() {
@@ -481,6 +493,7 @@ public class Player {
 
 	/**
 	 * Sets z-position
+	 *
 	 * @param z
 	 */
 	public final void setZ(double z) {
@@ -491,6 +504,7 @@ public class Player {
 
 	/**
 	 * Returns z-position
+	 *
 	 * @return
 	 */
 	public final double getZ() {
@@ -499,8 +513,9 @@ public class Player {
 
 	/**
 	 * Sets rotation of player
+	 *
 	 * @param rot
-	 * 		- Value to set players rotation to in degrees
+	 *            - Value to set players rotation to in degrees
 	 */
 	public void setRot(double rot) {
 		if (model != null)
@@ -540,6 +555,7 @@ public class Player {
 
 	/**
 	 * Multiply speed of player by value
+	 *
 	 * @param val
 	 */
 	public void multiplySpeed(double val) {
@@ -548,6 +564,7 @@ public class Player {
 
 	/**
 	 * Set going backwards
+	 *
 	 * @param val
 	 */
 	public void setBackward(boolean val) {
@@ -556,6 +573,7 @@ public class Player {
 
 	/**
 	 * Set isMoving
+	 *
 	 * @return
 	 */
 	public final boolean isMoving() {
@@ -563,8 +581,8 @@ public class Player {
 	}
 
 	/**
-	 * Sets if player is moving
-	 * ???
+	 * Sets if player is moving ???
+	 *
 	 * @param isMoving
 	 */
 	public final void setMoving(boolean isMoving) {

@@ -1,18 +1,5 @@
 package game.logic;
 
-import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.util.List;
-
-import renderer.*;
-import renderer.R_Player.Team;
-import renderer.math.Mat4;
-import renderer.math.Vec3;
-import resource.ResourceLoader;
 import game.control.GameClient;
 import game.control.GameServer;
 import game.control.PlayerMP;
@@ -20,6 +7,22 @@ import game.control.packets.Packet00Login;
 import game.control.packets.Packet01Disconnect;
 import game.view.MainFrame;
 import game.view.WindowHandler;
+
+import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+
+import renderer.R_AbstractCamera;
+import renderer.R_AbstractModel;
+import renderer.R_AbstractModelData;
+import renderer.R_ModelColorData;
+import renderer.R_OrthoCamera;
+import renderer.R_Player;
+import renderer.R_Player.Team;
+import renderer.Renderer;
+import renderer.math.Mat4;
+import renderer.math.Vec3;
 
 /**
  * Main logic class, runs the actual game.
@@ -29,19 +32,29 @@ import game.view.WindowHandler;
  */
 public class StealthGame implements Runnable {
 
-	// Debugging mode
+	/**
+	 * Debugging mode.
+	 */
 	public static final boolean DEBUG = false;
 
-	// Exporting to a runnable jar file
+	/**
+	 * True IFF exporting to a runnable jar file.
+	 */
 	public static final boolean EXPORT = true;
 
-	// The minimum amount of players to play the game,
+	/**
+	 * The minimum amount of players required to play the game.
+	 */
 	public static final int MIN_PLAYERS = 2;
 
-	// The maximum amount of players allowed to connect
+	/**
+	 * The maximum amount of players allowed to connect to a game.
+	 */
 	public static final int MAX_PLAYERS = 4;
 
-	// Amount of nano seconds per tick
+	/**
+	 * The amount of nano seconds per tick.
+	 */
 	public static final double NS_PER_TICK = 1000000000D / 60D;
 
 	// Amount of players that the host chooses
@@ -102,6 +115,7 @@ public class StealthGame implements Runnable {
 	 */
 	private StealthGame(boolean isHost, String username, String ipAddress,
 			int numOfPlayers) {
+
 		this.numOfPlayers = numOfPlayers;
 
 		// Bounds checking for numOfPlayers
@@ -116,8 +130,10 @@ public class StealthGame implements Runnable {
 		this.ipAddress = (ipAddress == null || ipAddress.length() == 0)
 		// Running on one computer for testing
 		? "localhost"
-				// Running on multiple for playing the actual game
-				: ipAddress;
+	    // Running on multiple for playing the actual game
+		: ipAddress;
+
+		// Create the player
 		player = new PlayerMP(username, 0, 0, 0, null, -1);
 		init();
 	}
@@ -150,7 +166,7 @@ public class StealthGame implements Runnable {
 	}
 
 	/**
-	 * Sets up the game
+	 * Sets up the game, creates the main frame and the window handler.
 	 */
 	private void init() {
 
@@ -172,11 +188,12 @@ public class StealthGame implements Runnable {
 		};
 
 		mainFrame.addKeyListener(mainFrameListener);
-		renderer.resize((int)mainFrame.getImageSize().getWidth(), (int)mainFrame.getImageSize().getHeight());
+		renderer.resize((int) mainFrame.getImageSize().getWidth(),
+				(int) mainFrame.getImageSize().getHeight());
 	}
 
 	/**
-	 * Sets up the renderer
+	 * Sets up the renderer and loads models for spies and guards.
 	 */
 	private void initRenderer() {
 		renderer = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
@@ -201,13 +218,14 @@ public class StealthGame implements Runnable {
 	}
 
 	/**
-	 * Sets up the server/ client
+	 * Sets up the server/ client and connects client to the server.
 	 */
 	public synchronized void start() {
 
 		running = true;
 
-		thread = new Thread(this, (isHost ? "HOST: " : "CLIENT: ") + player.getUsername() +"'s game");
+		thread = new Thread(this, (isHost ? "HOST: " : "CLIENT: ")
+				+ player.getUsername() + "'s game");
 		thread.start();
 
 		// Server is created if user is a host
@@ -223,8 +241,8 @@ public class StealthGame implements Runnable {
 		// Login to the server
 		Packet00Login login = new Packet00Login(player.getUsername(), -1, 0, 0,
 				0);
-		 if (server != null)
-		 	server.addConnection((PlayerMP) player, login);
+		if (server != null)
+			server.addConnection((PlayerMP) player, login);
 		login.writeData(client);
 
 		if (DEBUG)
@@ -233,7 +251,7 @@ public class StealthGame implements Runnable {
 	}
 
 	/**
-	 * Called to stop the game
+	 * Called to stop the game.
 	 */
 	public synchronized void stop() {
 
@@ -306,7 +324,6 @@ public class StealthGame implements Runnable {
 	 */
 	public void tick() {
 		level.tick();
-		// player.getRoom().draw(renderer);
 	}
 
 	/**
@@ -321,86 +338,103 @@ public class StealthGame implements Runnable {
 	/** HELPER METHODS **/
 
 	/**
-	 * Adds player to the current level
+	 * Adds player to the current level.
 	 *
 	 * @param p
+	 *            - player to be added to the level
 	 */
 	public synchronized void addPlayer(Player p) {
 		level.addPlayer(p);
 	}
 
 	/**
-	 * Removes player from level
+	 * Removes player from level.
 	 *
 	 * @param p
+	 *            - player to be removed from the level
 	 */
 	public void removePlayer(Player p) {
 		level.removePlayer(p);
 	}
 
 	/**
-	 * Removes player from level that matches the username
+	 * Removes player from level that matches the username.
 	 *
 	 * @param p
+	 *            - player to be removed from the level
 	 */
 	public void removePlayer(String name) {
 		level.removePlayer(name);
 	}
 
 	/**
-	 * loads level from specified filepath
+	 * loads level from specified filepath.
 	 *
 	 * @param filepath
+	 *            - path to level configuration file
 	 */
 	public void loadLevel(String filepath) {
 		level.loadRooms(filepath);
 		level.addPlayer(player);
-		// player.getRoom().initTiles(renderer);
 	}
 
 	/**
-	 * Positions a player
+	 * Move a player in the world given a 3D vector.
 	 *
 	 * @param username
+	 *            - username of player to be moved
 	 * @param x
+	 *            - player's x coordinate (Tile x, Renderer x)
+	 * @param y
+	 *            - player's y coordinate (Tile y, Renderer z)
 	 * @param z
+	 *            - player's z coordinate (Tile z, Renderer y)
 	 * @param rot
+	 *            - rotation around (z axis -> Tile, y axis -> Renderer)
+	 * @see game.control.GameClient
 	 */
-	public synchronized void movePlayer(String username, double x, double y, double z,
-			double rot) {
+	public synchronized void movePlayer(String username, double x, double y,
+			double z, double rot) {
 		level.movePlayer(username, x, y, z, rot);
 	}
 
 	/**
-	 * gets local client
+	 * Gets local client.
 	 *
-	 * @return
+	 * @return local client
 	 */
 	public final GameClient getClient() {
 		return client;
 	}
 
 	/**
-	 * gets the server
+	 * Gets the local server.
 	 *
-	 * @return
+	 * @return null if user is not a host
 	 */
 	public final GameServer getServer() {
 		return server;
 	}
 
 	/**
-	 * gets local player
-	 * @return
+	 * Gets player created on this class.
+	 *
+	 * @return player created in this class
 	 */
 	public final Player getPlayer() {
 		return player;
 	}
 
+	/** PACKET HANDLERS **/
+
 	/**
 	 * Set teams of the players
+	 *
 	 * @param players
+	 *            - array of player usernames from the server
 	 * @param teams
+	 *            - team allocating, "0" for guard and "1" for spy.
+	 * @see game.control.GameServer
 	 */
 	public void setTeams(String[] players, String[] teams) {
 
@@ -421,65 +455,154 @@ public class StealthGame implements Runnable {
 		renderer.setTeam(rteam);
 	}
 
+	/**
+	 * Handles an interact packet sent from the server. Interactions are then
+	 * performed by the appropriate player on the appropriate tile.
+	 *
+	 * @param username
+	 *            - username of the player interacting
+	 * @param ID
+	 *            - ID of the tile to interact with
+	 * @see game.control.GameClient
+	 */
 	public void handleInteract(String username, int ID) {
 		level.handleInteract(username, ID);
 	}
 
+	/**
+	 * Handles a pickup packet from the server. The level then gives the
+	 * appropriate player the item parsed in the packet.
+	 *
+	 * @param username
+	 *            - username of the player picking up the item
+	 * @param tileID
+	 *            - ID of the tile that the item was on
+	 * @param itemID
+	 *            - ID of the item to be picked up
+	 * @see game.control.GameClient
+	 */
 	public void handlePickUp(String username, int tileID, int itemID) {
 		level.handlePickUp(username, tileID, itemID);
 	}
 
+	/**
+	 * Handles a damage packet from the server. The method then gives the
+	 * appropriate amount of damage to the appropriate player.
+	 *
+	 * @param username
+	 *            - username of player affected
+	 * @param damage
+	 *            - amount of damage to deal
+	 * @see game.control.GameClient
+	 */
 	public void handleDamage(String username, double damage) {
 		level.handleDamage(username, damage);
 	}
 
 	/** RENDERER METHODS **/
 
+	/**
+	 * Add a camera to the renderer.
+	 *
+	 * @param camera
+	 *            - camera being added to the scene
+	 * @return true if camera was added successfully
+	 * @see game.renderer.R_AbstractCamera
+	 */
 	public boolean r_addCamera(R_AbstractCamera camera) {
 		return renderer.addCamera(camera);
 	}
 
+	/**
+	 * Set the current camera to view from
+	 *
+	 * @param camera
+	 *            - camera to view
+	 * @see game.renderer.R_AbstractCamera
+	 */
 	public void r_setCamera(String camera) {
 		renderer.setCamera(camera);
 	}
 
+	/**
+	 * Add a model to the renderer.
+	 *
+	 * @param model
+	 *            - model to be added
+	 * @return true if model was successfully added
+	 * @see game.renderer.R_AbstractModel
+	 */
 	public synchronized boolean r_addModel(R_AbstractModel model) {
 		return renderer.addModel(model);
 	}
 
+	/**
+	 * Remove a model from the renderer.
+	 *
+	 * @param model
+	 *            - model to be removed
+	 * @return true if model was removed successfully
+	 * @see game.renderer.R_AbstractModel
+	 */
 	public boolean r_removeModel(String model) {
 		return renderer.deleteModel(model);
 	}
 
+	/**
+	 * Add modelData for a model in the renderer.
+	 *
+	 * @param modelData
+	 *            - modelData to be added
+	 * @return true if modelData was added successfully
+	 * @see game.renderer.R_AbstractModelData
+	 */
 	public synchronized boolean r_addModelData(R_AbstractModelData modelData) {
 		return renderer.addModelData(modelData);
 	}
 
+	/**
+	 * Get the modelData from the renderer according to its name.
+	 *
+	 * @param name
+	 *            - name of the modelData
+	 * @return null if no instance of modelData has name
+	 * @see game.renderer.R_AbstractModelData
+	 */
 	public R_AbstractModelData getR_ModelData(String name) {
 		return renderer.getModelData(name);
 	}
 
+	/**
+	 * Gets the reference to the renderer created in initRenderer()
+	 *
+	 * @return this.renderer
+	 */
 	public final Renderer getRenderer() {
 		return renderer;
 	}
 
 	/**
-	 * prints a line of text to the text area in the main frame
+	 * Prints a String to the text area in the mainframe text box
+	 *
+	 * @param message
+	 *            - message to be printed
 	 */
-	public void println(String s){
-		mainFrame.println(s);
+	public void println(String message) {
+		mainFrame.println(message);
 	}
 
+	/**
+	 * Listens for keyboard actions from the user.
+	 */
 	private KeyListener mainFrameListener = new KeyListener() {
+
 		@Override
 		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			// System.out.println(e.getKeyCode());
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_LEFT: // Left
 			case KeyEvent.VK_A:
@@ -509,13 +632,13 @@ public class StealthGame implements Runnable {
 				player.setInteracting(true);
 				break;
 
-			case KeyEvent.VK_Z:// rotate camera left
+			case KeyEvent.VK_Z: // rotate camera left
 				renderer.getCamera("MainCamera").setPosition(
 						Mat4.createRotationYAxis((float) Math.toRadians(5))
 								.mul(renderer.getCamera("MainCamera")
 										.getPosition()));
 				break;
-			case KeyEvent.VK_X:// rotate camera right
+			case KeyEvent.VK_X: // rotate camera right
 				renderer.getCamera("MainCamera").setPosition(
 						Mat4.createRotationYAxis((float) Math.toRadians(-5))
 								.mul(renderer.getCamera("MainCamera")
@@ -528,42 +651,23 @@ public class StealthGame implements Runnable {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			// System.out.println(e.getKeyCode());
 			switch (e.getKeyCode()) {
-			case KeyEvent.VK_LEFT:// Left
+			case KeyEvent.VK_LEFT: // Left
 			case KeyEvent.VK_A:
 				player.setTurnLeft(false);
 				break;
-			case KeyEvent.VK_UP:// Up
+			case KeyEvent.VK_UP: // Up
 			case KeyEvent.VK_W:
 				player.setFoward(false);
 				break;
-			case KeyEvent.VK_RIGHT:// Right
+			case KeyEvent.VK_RIGHT: // Right
 			case KeyEvent.VK_D:
 				player.setTurnRight(false);
 				break;
-			case KeyEvent.VK_DOWN:// Down
+			case KeyEvent.VK_DOWN: // Down
 			case KeyEvent.VK_S:
 				player.setBackward(false);
 				break;
-			// case KeyEvent.VK_1:// 1
-			// player.selectItem(1);
-			// break;
-			// case KeyEvent.VK_2:// 2
-			// player.selectItem(2);
-			// break;
-			// case KeyEvent.VK_3:// 3
-			// player.selectItem(3);
-			// break;
-			// case KeyEvent.VK_4:// 4
-			// player.selectItem(4);
-			// break;
-			// case KeyEvent.VK_E:// E
-			// // player.swapWeapon();
-			// break;
-			// case KeyEvent.VK_Q:// Q
-			// player.dropItem();
 			}
 		}
 	};

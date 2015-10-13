@@ -164,13 +164,13 @@ public class Level {
 	 * @param username
 	 *            - username of player to be moved
 	 * @param x
-	 *            - player's x coordinate (Renderer x)
+	 *            - player's x coordinate (Tile x, Renderer x)
 	 * @param y
-	 *            - player's y coordinate (Renderer z)
+	 *            - player's y coordinate (Tile y, Renderer z)
 	 * @param z
-	 *            - player's z coordinate (Renderer y)
+	 *            - player's z coordinate (Tile z, Renderer y)
 	 * @param rot
-	 *            - rotation around (z axis -> Player, y axis -> Renderer)
+	 *            - rotation around (z axis -> Tile, y axis -> Renderer)
 	 */
 	public void movePlayer(String username, double x, double y, double z,
 			double rot) {
@@ -265,11 +265,13 @@ public class Level {
 	}
 
 	/**
-	 * Handles damage dealt to player
+	 * Handles a damage packet from the server. The method then gives the
+	 * appropriate amount of damage to the appropriate player.
+	 *
 	 * @param username
-	 * 			- username of player affected
+	 *            - username of player affected
 	 * @param damage
-	 * 			- amount of damage to deal
+	 *            - amount of damage to deal
 	 */
 	public void handleDamage(String username, double damage) {
 		Player player = getPlayer(username);
@@ -517,6 +519,7 @@ public class Level {
 
 	/**
 	 * Gets next spawn in queue
+	 *
 	 * @param team
 	 * @return
 	 */
