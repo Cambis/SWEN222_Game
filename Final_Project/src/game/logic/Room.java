@@ -141,26 +141,26 @@ public class Room {
 									waterData, tileNum);
 							break;
 						case "t": // small tree
-							//FIXME
+							// FIXME
 							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
 									* SCALE, yPos * TILE_SIZE * SCALE,
 									treeData, tileNum);
 							break;
 
 						case "b": // big tree
-							//FIXME
+							// FIXME
 							tiles[xPos][yPos] = new Wall(xPos * TILE_SIZE
 									* SCALE, yPos * TILE_SIZE * SCALE,
 									bigTreeData, tileNum);
 							break;
 						case "p": // piller
-							//FIXME
+							// FIXME
 							tiles[xPos][yPos] = new Wall(xPos * TILE_SIZE
 									* SCALE, yPos * TILE_SIZE * SCALE,
 									pillerData, tileNum);
 							break;
 						case "g": // grass
-							//FIXME
+							// FIXME
 							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
 									* SCALE, yPos * TILE_SIZE * SCALE,
 									grassData, tileNum);
@@ -183,8 +183,12 @@ public class Room {
 							char itemKey = str.charAt(0);
 							Item item = parseItem(xPos, yPos, itemKey);
 							if (item != null) {
-								if(itemKey<=90 && itemKey>=65){//Put item in chest
-									Chest chest = new Chest(item, xPos * TILE_SIZE * SCALE, yPos * TILE_SIZE* SCALE);
+								if (itemKey <= 90 && itemKey >= 65) {// Put item
+																		// in
+																		// chest
+									Chest chest = new Chest(item, xPos
+											* TILE_SIZE * SCALE, yPos
+											* TILE_SIZE * SCALE);
 									item = chest;
 								}
 								tiles[xPos][yPos] = new BasicFloor(xPos
@@ -209,7 +213,7 @@ public class Room {
 							if (s.hasNextInt()) {
 								int doorId = s.nextInt();
 								int keyID = -1;
-								if(s.hasNextInt()){
+								if (s.hasNextInt()) {
 									keyID = s.nextInt();
 								}
 								if (s.hasNext()) {
@@ -220,7 +224,7 @@ public class Room {
 										if (d.doorID == doorId) {
 											// Give door a room destination in
 											// map to be assigned in level
-											if(keyID>=0){
+											if (keyID >= 0) {
 												d.setLocked(true);
 												d.setKey(keyID);
 											}
@@ -262,15 +266,16 @@ public class Room {
 
 	private Item parseItem(int xPos, int yPos, char itemKey) {
 		char key = itemKey;
-		if(Character.isAlphabetic(itemKey)){
+		if (Character.isAlphabetic(itemKey)) {
 			key = Character.toLowerCase(itemKey);
 		}
 		Item item = null;
-		if(key=='a'||key=='b'||key=='c'||key=='d'){
-			item = new Key(key-97, xPos * TILE_SIZE * SCALE, yPos * TILE_SIZE
+		if (key == 'a' || key == 'b' || key == 'c' || key == 'd') {
+			item = new Key(key - 97, xPos * TILE_SIZE * SCALE, yPos * TILE_SIZE
 					* SCALE);
-		}else if(key=='*'){
-			item = new Terminal(xPos * TILE_SIZE * SCALE, yPos * TILE_SIZE * SCALE);
+		} else if (key == '*') {
+			item = new Terminal(xPos * TILE_SIZE * SCALE, yPos * TILE_SIZE
+					* SCALE);
 		}
 		return item;
 	}
@@ -323,7 +328,8 @@ public class Room {
 				}
 			}
 		}
-		r.getCamera("MainCamera").setTarget(new Vec3(tiles.length/2*0.2, 0, tiles[0].length/2*0.2));
+		r.getCamera("MainCamera").setTarget(
+				new Vec3(tiles.length / 2 * 0.2, 0, tiles[0].length / 2 * 0.2));
 		r.setMap(shadowMap);
 	}
 
@@ -374,7 +380,7 @@ public class Room {
 	 * @param r
 	 *            - the renderer that is rendering the scene.
 	 */
-	public void tick(Renderer r) {
+	public void tick(Renderer r, Player p) {
 
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
@@ -386,15 +392,16 @@ public class Room {
 
 					// If there are any items to remove, remove them from the
 					// renderer
-						for (Item item : floor.getItemsToRemove()) {
-							r.deleteModel(item.getModel().getName());
-							floor.getItemsToRemove().poll();
-						}
-						for (Item item : floor.getItemsToUpdate()) {
-							r.deleteModel(item.getModel().getName());
+					for (Item item : floor.getItemsToRemove()) {
+						r.deleteModel(item.getModel().getName());
+						floor.getItemsToRemove().poll();
+					}
+					for (Item item : floor.getItemsToUpdate()) {
+						r.deleteModel(item.getModel().getName());
+						if (p.getRoom() == this)
 							r.addModel(item.getModel());
-							floor.getItemsToUpdate().poll();
-						}
+						floor.getItemsToUpdate().poll();
+					}
 				}
 			}
 		}
