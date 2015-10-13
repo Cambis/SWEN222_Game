@@ -288,8 +288,20 @@ public class Room {
 	 *            , y
 	 */
 	public boolean validPosition(Player p, double x, double y) {
-		Tile tile = getTile(p, x, y);
-		return tile != null && tile.canEnter(p);
+
+		Tile tile = getTile(p, x+p.BOUNDING_BOX_X, y);
+		if(tile == null || !tile.canEnter(p)){return false;}
+
+		tile = getTile(p, x, y+p.BOUNDING_BOX_Y);
+		if(tile == null || !tile.canEnter(p)){return false;}
+
+		tile = getTile(p, x-p.BOUNDING_BOX_X, y);
+		if(tile == null || !tile.canEnter(p)){return false;}
+
+		tile = getTile(p, x, y-p.BOUNDING_BOX_Y);
+		if(tile == null || !tile.canEnter(p)){return false;}
+
+		return true;
 	}
 
 	/**

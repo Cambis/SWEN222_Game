@@ -51,7 +51,8 @@ public class Player {
 
 	// Position
 	private double x, y, z;
-	private double xBoundingBox, yBoundingBox;
+	public final double BOUNDING_BOX_X = 0.05;
+	public final double BOUNDING_BOX_Y = 0.05;
 	private double rotation;
 
 	// Current room that the player is in
@@ -69,6 +70,7 @@ public class Player {
 	private boolean canMove = true;
 	private Tile previousDoor;
 	private boolean onDoor = false;
+
 
 	// private Weapon currentWeapon;
 	// private Weapon sideWeapon;
