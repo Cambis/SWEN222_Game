@@ -335,7 +335,7 @@ public class GameServer extends Thread {
 			return;
 
 		PlayerMP player = getPlayerMP(packet.getHitPlayer());
-
+		player.takeDamage(packet.getDamage());
 		// TODO update player fields here
 
 		packet.writeData(this);

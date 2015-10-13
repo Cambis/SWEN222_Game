@@ -372,7 +372,7 @@ public class StealthGame implements Runnable {
 	}
 
 	public synchronized void movePlayer(int id, double x, double y, double z, double rot) {
-		level.movePlayer(id, x, y, z, rot);
+		// level.movePlayer(id, x, y, z, rot);
 	}
 
 	/**
@@ -422,6 +422,10 @@ public class StealthGame implements Runnable {
 
 	public void handlePickUp(String username, int tileID, int itemID) {
 		level.handlePickUp(username, tileID, itemID);
+	}
+
+	public void handleDamage(String username, double damage) {
+		level.handleDamage(username, damage);
 	}
 
 	/** RENDERER METHODS **/

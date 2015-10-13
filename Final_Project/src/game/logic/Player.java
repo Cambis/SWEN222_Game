@@ -4,6 +4,7 @@
 package game.logic;
 
 import java.awt.Color;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,6 +37,7 @@ public class Player {
 
 	public static final double TURN_SPEED = 0.07;
 	private double MAX_VELOCITY = 0.1;
+	private double score = 0;
 
 	private double moveSpeed = 0.05;
 	private double accel = 0.1;
@@ -106,6 +108,14 @@ public class Player {
 	public void resetSpeed() {
 		// System.out.println("Resetting speed");
 		accel = 0;
+	}
+
+	public void addPoints(int val) {
+		score += val;
+	}
+
+	public double getPoints(){
+		return score;
 	}
 
 	/**
@@ -261,6 +271,36 @@ public class Player {
 
 	private void useCurrentWeapon() {
 		currentWeapon.fire(rotation, x, y, currentRoom, this);
+	}
+
+	/**
+	 * Check if a player is near another player.
+	 *
+	 * @param x
+	 *            - other player x
+	 * @param y
+	 *            - other player y
+	 * @return true if contact zone contains other player
+	 */
+	public boolean inRange(double x, double y) {
+		return inRange(x, y, 0.4);
+	}
+
+	/**
+	 * Check if a position is near a player.
+	 *
+	 * @param x
+	 *            - x coordinate
+	 * @param y
+	 *            - y coordinate
+	 * @param radius
+	 *            - radius of contact zone
+	 * @return true if contact zone contains position
+	 */
+	public boolean inRange(double x, double y, double radius) {
+		Ellipse2D contactZone = new Ellipse2D.Double(this.x / 2, this.y / 2,
+				radius, radius);
+		return contactZone.contains(x, y);
 	}
 
 	/**
@@ -506,6 +546,8 @@ public class Player {
 
 	public void takeDamage(double damage) {
 		this.health -= damage;
+		if (!isAlive())
+			System.out.println(username + " m8, you dead");
 	}
 
 	public void heal(double heal) {

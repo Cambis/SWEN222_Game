@@ -4,6 +4,7 @@ import game.control.PlayerMP;
 import game.control.packets.Packet;
 import game.control.packets.Packet02Move;
 import game.control.packets.Packet03Engage;
+import game.control.packets.Packet04Damage;
 import game.control.packets.Packet06Interact;
 import game.control.packets.Packet10Pickup;
 import game.logic.items.Item;
@@ -263,6 +264,10 @@ public class Level {
 			System.err.println("Tile is NULL");
 	}
 
+	public void handleDamage(String username, double damage) {
+		getPlayer(username).takeDamage(damage);
+	}
+
 	/**
 	 * Get a player given their username.
 	 *
@@ -308,12 +313,15 @@ public class Level {
 		for (Player p : players) {
 
 			// Only render the player if they are alive
-			if (readyToRender && p.isAlive()) {
+			if (readyToRender) {
 
 				// If the player is in the same room as the player on this
 				// computer, add them to the renderer
 				if (p.getRoom().equals(game.getPlayer().getRoom())) {
-					if (game.r_addModel(p.getModel())) {
+					if (!p.isAlive()) {
+						game.r_removeModel(p.getUsername());
+					}
+					else if (game.r_addModel(p.getModel())) {
 						System.out.println("Adding " + p.getUsername()
 								+ "'s model in "
 								+ game.getPlayer().getUsername() + "'s game");
@@ -382,6 +390,23 @@ public class Level {
 
 					if (packet != null)
 						packet.writeData(game.getClient());
+				}
+
+				// Check health
+				if (!p.getUsername().equals(game.getPlayer())) {
+					Player pl = getPlayer(game.getPlayer().getUsername());
+
+					if (p.inRange(pl.getX(), pl.getY())
+							&& p.getRoom().equals(pl.getRoom()))
+						if (p.getSide() == Team.GUARD
+								&& pl.getSide() == Team.SPY) {
+							System.out.println("Taking Damage");
+							// getPlayer(game.getPlayer().getUsername())
+							// .takeDamage(0.1);
+							packet = new Packet04Damage(pl.getUsername(),
+									p.getUsername(), 0.5);
+							packet.writeData(game.getClient());
+						}
 				}
 
 				// Player moving
