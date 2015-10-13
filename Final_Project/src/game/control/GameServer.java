@@ -33,17 +33,30 @@ import java.util.List;
  */
 public class GameServer extends Thread {
 
-	// Debugging Mode
+	/**
+	 * Debugging Mode.
+	 */
 	private static final boolean DEBUG = false;
 
-	// Maximum amount of players allowed to connect
-	public static final int MAX_PLAYERS = StealthGame.MAX_PLAYERS;
-
-	// Minimum amount of players required to run the game
+	/**
+	 * The minimum amount of players required to play the game.
+	 */
 	public static final int MIN_PLAYERS = StealthGame.MIN_PLAYERS;
 
-	// Used for generating unique IDs
+	/**
+	 * The maximum amount of players allowed to connect to the server.
+	 */
+	public static final int MAX_PLAYERS = StealthGame.MAX_PLAYERS;
+
+	/**
+	 * Used for generating unique player IDs.
+	 */
 	public static final int ID_PREFIX = 10000;
+
+	/**
+	 * Default port for client and server.
+	 */
+	public static final int DEFAULT_PORT = 1337;
 
 	// Number of players needed to start the game
 	private int numOfPlayers;
@@ -76,7 +89,7 @@ public class GameServer extends Thread {
 		// Setup socket
 		try {
 			/* might have to change port 1331 */
-			this.socket = new DatagramSocket(1331);
+			this.socket = new DatagramSocket(DEFAULT_PORT);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
@@ -117,6 +130,7 @@ public class GameServer extends Thread {
 		if (DEBUG)
 			System.out.println("TYPE: " + type.toString());
 
+		// Find the type of packet received
 		switch (type) {
 		case INVALID:
 			break;
@@ -128,17 +142,15 @@ public class GameServer extends Thread {
 			PlayerMP player = new PlayerMP(
 					((Packet00Login) packet).getUsername(), address, port);
 
-			// XXX addConnection was here
-
 			// Send level filepath
 			Packet22LoadLevel level = new Packet22LoadLevel(
 					"res/levels/pool.lvl");
 			sendData(level.getData(), player.getIpAddress(), player.getPort());
 
+			// Add player to server
 			addConnection(player, (Packet00Login) packet);
 
-			// Send prompt to the client when the min amount of players is
-			// reached
+			// Start the game
 			if (!gameStarted && connectedPlayers.size() >= numOfPlayers) {
 				gameStarted = true;
 				assignTeams();
@@ -192,6 +204,9 @@ public class GameServer extends Thread {
 		}
 	}
 
+	/**
+	 * Assign every player connected to the server a team
+	 */
 	private void assignTeams() {
 
 		// Create a randomly sorted list so the teams are chosen at random
@@ -216,16 +231,18 @@ public class GameServer extends Thread {
 				teams[i] = "1";
 		}
 
-		// Send the team assignment to all players on the server.
+		// Send the team assignment to all players on the server
 		Packet24TeamAssign packet = new Packet24TeamAssign(players, teams);
 		packet.writeData(this);
 	}
 
 	/**
-	 * Add a player that is trying to login to the server
+	 * Add a player that is trying to login to the server.
 	 *
 	 * @param player
+	 *            - player trying to connect
 	 * @param packet
+	 *            - login packet that the player sent
 	 */
 	public void addConnection(PlayerMP player, Packet00Login packet) {
 
@@ -252,13 +269,7 @@ public class GameServer extends Thread {
 
 				// Relay to the current connected player that there is a new
 				// player
-				// sendData(packet.getData(), p.getIpAddress(), p.getPort());
-				// sendDataToAllClients(packet.getData());
 				packet.writeData(this);
-
-				// Packet23RecieveID id = new Packet23RecieveID(p.getID());
-
-				// sendData(id.getData(), p.getIpAddress(), p.getPort());
 
 				// Relay to the new player that the currently connect player
 				// exists
@@ -269,45 +280,30 @@ public class GameServer extends Thread {
 			}
 		}
 		if (!alreadyConnected) {
-			// player.setID(ID_PREFIX + connectedPlayers.size());
-			// if (!hostConnected) {
-			// ((PlayerMP) game.player).setID(ID_PREFIX
-			// + connectedPlayers.size());
-			// hostConnected = true;
-			// }
 			connectedPlayers.add(player);
-			// System.out.println("Adding player " + player.getUsername() + ": "
-			// + player.getID());
 		}
 	}
 
 	/**
-	 * Remove a player from a game
+	 * Remove a player from the server and all of the clients.
 	 *
 	 * @param packet
+	 *            - disconnect packet to be sent.
 	 */
 	public void removeConnection(Packet01Disconnect packet) {
 		connectedPlayers.remove(getPlayerMP(packet.getUsername()));
 		packet.writeData(this);
 	}
 
-	/**
-	 * Handles a move command from the client
-	 *
-	 * @param packet
-	 */
+	/** PACKET HANDLERS **/
+
 	private void handleMove(Packet02Move packet) {
 
 		// If there is no player get out of this method
 		if (getPlayerMP(packet.getUsername()) == null)
 			return;
 
-		// System.out.println("PACKET ID: " + packet.getID());
-		// PlayerMP player = getPlayerMP(packet.getID());
-
-		// if (player == null) {
 		PlayerMP player = getPlayerMP(packet.getUsername());
-		// }
 
 		player.setX(packet.getX());
 		player.setY(packet.getZ());
@@ -322,8 +318,6 @@ public class GameServer extends Thread {
 			return;
 
 		PlayerMP player = getPlayerMP(packet.getUsername());
-
-		// TODO update player fields here
 
 		packet.writeData(this);
 	}
@@ -348,8 +342,6 @@ public class GameServer extends Thread {
 
 		PlayerMP player = getPlayerMP(packet.getUsername());
 
-		// TODO update player fields here
-
 		packet.writeData(this);
 	}
 
@@ -360,8 +352,6 @@ public class GameServer extends Thread {
 			return;
 
 		PlayerMP player = getPlayerMP(packet.getUsername());
-
-		// TODO update player fields here
 
 		packet.writeData(this);
 
@@ -374,8 +364,6 @@ public class GameServer extends Thread {
 			return;
 
 		PlayerMP player = getPlayerMP(packet.getUsername());
-
-		// TODO update player fields here
 
 		packet.writeData(this);
 
@@ -393,10 +381,11 @@ public class GameServer extends Thread {
 	}
 
 	/**
-	 * Returns a player given a user name
+	 * Gets a player given a user name.
 	 *
 	 * @param username
-	 * @return
+	 *            - username of player
+	 * @return null if player does not exist
 	 */
 	public PlayerMP getPlayerMP(String username) {
 		for (PlayerMP p : connectedPlayers)
@@ -406,6 +395,14 @@ public class GameServer extends Thread {
 		return null;
 	}
 
+	/**
+	 * Gets a player given an ID.
+	 *
+	 * @param id
+	 *            - ID of player
+	 * @return null if player does not exist
+	 */
+	@Deprecated
 	public PlayerMP getPlayerMP(int id) {
 		for (PlayerMP p : connectedPlayers)
 			if (p.getID() == id)
@@ -417,8 +414,11 @@ public class GameServer extends Thread {
 	 * Send data to a specific client
 	 *
 	 * @param data
+	 *            - message to be sent
 	 * @param ipAddress
+	 *            - IP address of client
 	 * @param port
+	 *            - port of client
 	 */
 	public void sendData(byte[] data, InetAddress ipAddress, int port) {
 
@@ -437,6 +437,7 @@ public class GameServer extends Thread {
 	 * Send data to all clients on the server
 	 *
 	 * @param data
+	 *            - message to be sent
 	 */
 	public void sendDataToAllClients(byte[] data) {
 		for (PlayerMP p : connectedPlayers)
@@ -446,7 +447,7 @@ public class GameServer extends Thread {
 	/**
 	 * Get IP address so clients can connect to it.
 	 *
-	 * @return
+	 * @return IP address of the server
 	 */
 	public String getIPAddress() {
 		return socket.getInetAddress().getHostAddress();

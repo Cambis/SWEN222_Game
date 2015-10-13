@@ -32,8 +32,15 @@ import java.net.UnknownHostException;
  */
 public class GameClient extends Thread {
 
-	// Debugging mode
+	/**
+	 * Debugging Mode.
+	 */
 	private static final boolean DEBUG = StealthGame.DEBUG;
+
+	/**
+	 * Default port for client and server.
+	 */
+	public static final int DEFAULT_PORT = 1337;
 
 	// IP address of the host
 	private InetAddress ipAddress;
@@ -77,7 +84,7 @@ public class GameClient extends Thread {
 	}
 
 	/**
-	 * Run the client
+	 * Run the client.
 	 */
 	public void run() {
 
@@ -98,11 +105,14 @@ public class GameClient extends Thread {
 	}
 
 	/**
-	 * Parse a packet type
+	 * Parse a packet type.
 	 *
 	 * @param data
+	 *            - data received from the server
 	 * @param address
+	 *            - IP address of the server
 	 * @param port
+	 *            - port of the server
 	 */
 	private void parsePacket(byte[] data, InetAddress address, int port) {
 
@@ -110,9 +120,10 @@ public class GameClient extends Thread {
 		PacketType type = Packet.lookupPacket(message.substring(0, 2));
 		Packet packet = null;
 
-		if (StealthGame.DEBUG)
+		if (DEBUG)
 			System.out.println("Client TYPE: " + type.toString());
 
+		// Find the type of packet received
 		switch (type) {
 		case INVALID:
 			break;
@@ -166,7 +177,6 @@ public class GameClient extends Thread {
 			break;
 
 		case GAME_START:
-			// game.run();
 			break;
 
 		case GAME_OVER:
@@ -195,11 +205,14 @@ public class GameClient extends Thread {
 	}
 
 	/**
-	 * Add a new player to the game
+	 * Add a new player to the game.
 	 *
 	 * @param packet
+	 *            - login packet received from the server
 	 * @param address
+	 *            - IP address of the server
 	 * @param port
+	 *            - port of the server
 	 */
 	private void handleLogin(Packet00Login packet, InetAddress address, int port) {
 
@@ -221,14 +234,11 @@ public class GameClient extends Thread {
 		game.addPlayer(player);
 	}
 
-	/**
-	 * Handles a move from the server
-	 *
-	 * @param packet
-	 */
+	/** PACKET HANDLERS **/
+
 	private void handleMove(Packet02Move packet) {
-		game.movePlayer(packet.getUsername(), packet.getX(), packet.getZ(), packet.getY(),
-				packet.getDirection());
+		game.movePlayer(packet.getUsername(), packet.getX(), packet.getZ(),
+				packet.getY(), packet.getDirection());
 	}
 
 	private void handleEngage(Packet03Engage packet) {
@@ -252,7 +262,8 @@ public class GameClient extends Thread {
 	}
 
 	private void handlePickUp(Packet10Pickup packet) {
-		game.handlePickUp(packet.getUsername(), packet.getTileID(), packet.getItemID());
+		game.handlePickUp(packet.getUsername(), packet.getTileID(),
+				packet.getItemID());
 	}
 
 	private void handleLoadLevel(Packet22LoadLevel packet) {
@@ -268,15 +279,14 @@ public class GameClient extends Thread {
 	}
 
 	/**
-	 * Send data to the server
+	 * Send data to the server.
 	 *
-	 * @param data
+	 * @param data - data to be sent to the server
 	 */
 	public void sendData(byte[] data) {
 
-		/* port 1331 might have to be changed */
 		DatagramPacket packet = new DatagramPacket(data, data.length,
-				ipAddress, 1331);
+				ipAddress, DEFAULT_PORT);
 
 		// Send packet
 		try {
