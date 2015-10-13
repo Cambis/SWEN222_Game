@@ -216,7 +216,7 @@ public class Renderer {
 	 *            the new height of the render
 	 */
 	public void resize(int width, int height) {
-		this.width = width;
+		this.width = width+5;
 		this.height = height;
 		currentCam.setAspect(1.f * width / height);
 	}

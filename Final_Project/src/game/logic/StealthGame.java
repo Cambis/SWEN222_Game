@@ -172,13 +172,13 @@ public class StealthGame implements Runnable {
 		};
 
 		mainFrame.addKeyListener(mainFrameListener);
+		renderer.resize((int)mainFrame.getImageSize().getWidth(), (int)mainFrame.getImageSize().getHeight());
 	}
 
 	/**
 	 * Sets up the renderer
 	 */
 	private void initRenderer() {
-
 		renderer = new Renderer(MainFrame.WIDTH, MainFrame.HEIGHT);
 		R_OrthoCamera ortho = new R_OrthoCamera("MainCamera", new Vec3(50, 50,
 				50), new Vec3(1, 0, 1), Vec3.UnitY(), 1, 1000, 1.25f);
@@ -452,6 +452,13 @@ public class StealthGame implements Runnable {
 
 	public final Renderer getRenderer() {
 		return renderer;
+	}
+
+	/**
+	 * prints a line of text to the text area in the main frame
+	 */
+	public void println(String s){
+		mainFrame.println(s);
 	}
 
 	private KeyListener mainFrameListener = new KeyListener() {
