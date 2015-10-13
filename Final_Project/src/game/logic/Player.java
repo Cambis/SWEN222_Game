@@ -165,25 +165,6 @@ public class Player {
 			move(newY, newX);
 		}
 
-		// // Check if player is interacting with tile
-		// if (getRoom() != null && getRoom().validPosition(this, getX(),
-		// getY())
-		// && isInteracting) {
-		// Tile tile = getRoom().getTile(this, getX(), getY());
-		// // isInteracting = false;
-		// tile.onInteract(this);
-		//
-		// if (tile instanceof Door) {
-		// interaction = Interaction.DOOR;
-		// }
-		// }
-
-		// Check if the player is over an item
-		// if (getRoom() != null && getRoom().validPosition(this, getX(),
-		// getY())) {
-		// Tile tile = getRoom().getTile(this, getX(), getY());
-		// tile.onEnter(this);
-		// }
 
 		// Interacting
 		if (getRoom() != null && getRoom().validPosition(this, getX(), getY())
@@ -256,22 +237,31 @@ public class Player {
 		// currentRoom.tick();
 	}
 
-	private void move(double newY, double newX) {
-		if (currentRoom != null && currentRoom.validPosition(this, newX, newY)) {
-			// System.out.println("old x: " + model.getPosition().getX());
-			model.getPosition().setX((float) newX);
-			model.getPosition().setZ((float) newY);
-			// Apply Enter and Exit tile modifiers
-			Tile oldTile = currentRoom.getTile(this, x, y);
-			Tile newTile = currentRoom.getTile(this, newX, newY);
-			x = newX;
-			y = newY;
-			if (oldTile != newTile) {
-				oldTile.onExit(this);
-				newTile.onEnter(this);
-			}
-			// System.out.println("new x: " + model.getPosition().getX());
+	private void move(double y, double x) {
+		if(currentRoom==null){
+			return;
+		}
+		Tile oldTile = currentRoom.getTile(this, this.x, this.y);
+		double newX = this.x;
+		double newY = this.y;
+		if (currentRoom.validPosition(this, x, y)) {
+			newX=x;
+			newY=y;
+		}else if(currentRoom.validPosition(this, this.x, y)) {
+			newY=y;
+		}else if(currentRoom.validPosition(this, x, this.y)){
+			newX=x;
+		}
 
+		model.getPosition().setX((float) newX);
+		model.getPosition().setZ((float) newY);
+		// Apply Enter and Exit tile modifiers
+		Tile newTile = currentRoom.getTile(this, newX, newY);
+		this.x = newX;
+		this.y = newY;
+		if (oldTile != newTile) {
+			oldTile.onExit(this);
+			newTile.onEnter(this);
 		}
 	}
 
@@ -436,7 +426,6 @@ public class Player {
 		if (model != null)
 			model.getOrientation().setY((float) rot);
 		this.rotation = rot;
-		// System.out.println(username + " rot: " + rot);
 	}
 
 	/**
