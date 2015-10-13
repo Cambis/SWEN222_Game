@@ -236,7 +236,7 @@ public class GameClient extends Thread {
 	}
 
 	private void handleDamage(Packet04Damage packet) {
-		// TODO Decrease the health of the player
+		game.handleDamage(packet.getHitPlayer(), packet.getDamage());
 	}
 
 	private void handleHeal(Packet05Heal packet) {
