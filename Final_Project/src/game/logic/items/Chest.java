@@ -49,7 +49,7 @@ public class Chest implements Item {
 		}
 		inventory.clear();
 		opened = true;
-		
+
 	}
 
 	@Override
