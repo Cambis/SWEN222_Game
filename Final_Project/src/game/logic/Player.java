@@ -37,6 +37,7 @@ public class Player {
 
 	public static final double TURN_SPEED = 0.07;
 	private double MAX_VELOCITY = 0.1;
+	private double score = 0;
 
 	private double moveSpeed = 0.05;
 	private double accel = 0.1;
@@ -107,6 +108,14 @@ public class Player {
 	public void resetSpeed() {
 		// System.out.println("Resetting speed");
 		accel = 0;
+	}
+
+	public void addPoints(int val) {
+		score += val;
+	}
+
+	public double getPoints(){
+		return score;
 	}
 
 	/**
