@@ -22,11 +22,24 @@ public class Chest implements Item {
 	private R_ModelColorData openedModelData = new R_ModelColorData("ChestLocked", "res/models/ChestOpen.obj", Color.ORANGE.darker());
 	private R_ModelColorData closedModelData = new R_ModelColorData("ChestLocked", "res/models/ChestClosed.obj", Color.ORANGE.darker());;
 
+	/**
+	 * Create chest at position x, y, with inventory
+	 * @param inventory
+	 * @param x
+	 * @param y
+	 */
 	public Chest(List<Item> inventory, double x, double y){
 		this.inventory.addAll(inventory);
 		setPosition(x,y);
 	}
 
+	/**
+	 * Creates chest at x, y, with item in chest
+	 * (item can be null)
+	 * @param item
+	 * @param x
+	 * @param y
+	 */
 	public Chest(Item item, double x, double y){
 		this.inventory.add(item);
 		setPosition(x,y);
@@ -44,6 +57,7 @@ public class Chest implements Item {
 
 	@Override
 	public void interact(Player p) {
+		//Checks if guard, guards can't interact with chests
 		if(p.getSide()==Team.GUARD){
 			return;
 		}

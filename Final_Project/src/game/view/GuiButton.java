@@ -64,7 +64,7 @@ public class GuiButton {
 		if(isHovered){
 			g.setColor(Color.ORANGE);
 		}else{
-			g.setColor(Color.CYAN);
+			g.setColor(Color.WHITE);
 		}
 		g.fillRect(x, y, width, height);
 		if(isHovered){

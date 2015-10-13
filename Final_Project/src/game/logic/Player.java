@@ -51,7 +51,8 @@ public class Player {
 
 	// Position
 	private double x, y, z;
-	private double xBoundingBox, yBoundingBox;
+	public final double BOUNDING_BOX_X = 0.05;
+	public final double BOUNDING_BOX_Y = 0.05;
 	private double rotation;
 
 	// Current room that the player is in
@@ -69,6 +70,7 @@ public class Player {
 	private boolean canMove = true;
 	private Tile previousDoor;
 	private boolean onDoor = false;
+
 
 	// private Weapon currentWeapon;
 	// private Weapon sideWeapon;
@@ -106,15 +108,27 @@ public class Player {
 
 	}
 
+	/**
+	 * Reset the speed of player
+	 */
 	public void resetSpeed() {
 		// System.out.println("Resetting speed");
 		accel = 0;
 	}
 
+	/**
+	 * Give player some points
+	 * (Note: entering negative values decreases score)
+	 * @param val
+	 */
 	public void addPoints(int val) {
 		score += val;
 	}
 
+	/**
+	 * Returns the score the player is on
+	 * @return
+	 */
 	public double getPoints(){
 		return score;
 	}
@@ -163,25 +177,6 @@ public class Player {
 			move(newY, newX);
 		}
 
-		// // Check if player is interacting with tile
-		// if (getRoom() != null && getRoom().validPosition(this, getX(),
-		// getY())
-		// && isInteracting) {
-		// Tile tile = getRoom().getTile(this, getX(), getY());
-		// // isInteracting = false;
-		// tile.onInteract(this);
-		//
-		// if (tile instanceof Door) {
-		// interaction = Interaction.DOOR;
-		// }
-		// }
-
-		// Check if the player is over an item
-		// if (getRoom() != null && getRoom().validPosition(this, getX(),
-		// getY())) {
-		// Tile tile = getRoom().getTile(this, getX(), getY());
-		// tile.onEnter(this);
-		// }
 
 		// Interacting
 		if (getRoom() != null && getRoom().validPosition(this, getX(), getY())
@@ -254,25 +249,42 @@ public class Player {
 		// currentRoom.tick();
 	}
 
-	private void move(double newY, double newX) {
-		if (currentRoom != null && currentRoom.validPosition(this, newX, newY)) {
-			// System.out.println("old x: " + model.getPosition().getX());
-			model.getPosition().setX((float) newX);
-			model.getPosition().setZ((float) newY);
-			// Apply Enter and Exit tile modifiers
-			Tile oldTile = currentRoom.getTile(this, x, y);
-			Tile newTile = currentRoom.getTile(this, newX, newY);
-			x = newX;
-			y = newY;
-			if (oldTile != newTile) {
-				oldTile.onExit(this);
-				newTile.onEnter(this);
-			}
-			// System.out.println("new x: " + model.getPosition().getX());
+	/**
+	 * Attempts to move the player to position x, y.
+	 * @param y
+	 * @param x
+	 */
+	private void move(double y, double x) {
+		if(currentRoom==null){
+			return;
+		}
+		Tile oldTile = currentRoom.getTile(this, this.x, this.y);
+		double newX = this.x;
+		double newY = this.y;
+		if (currentRoom.validPosition(this, x, y)) {
+			newX=x;
+			newY=y;
+		}else if(currentRoom.validPosition(this, this.x, y)) {
+			newY=y;
+		}else if(currentRoom.validPosition(this, x, this.y)){
+			newX=x;
+		}
 
+		model.getPosition().setX((float) newX);
+		model.getPosition().setZ((float) newY);
+		// Apply Enter and Exit tile modifiers
+		Tile newTile = currentRoom.getTile(this, newX, newY);
+		this.x = newX;
+		this.y = newY;
+		if (oldTile != newTile) {
+			oldTile.onExit(this);
+			newTile.onEnter(this);
 		}
 	}
 
+	/**
+	 * Use weapon
+	 */
 	private void useCurrentWeapon() {
 		currentWeapon.fire(rotation, x, y, currentRoom, this);
 	}
@@ -336,39 +348,74 @@ public class Player {
 		this.x = x;
 	}
 
+	/**
+	 * Add item to players inventory
+	 * @param item
+	 */
 	public void addItem(Item item) {
 		inventory.add(item);
 		itemPickedUp = true;
 	}
 
+	/**
+	 * Gets the last item in player inventory
+	 * @return
+	 */
 	public final Item getLastItem() {
 		return inventory.get(inventory.size() - 1);
 	}
 
+	/**
+	 * Returns an unmodifiable inventory of player
+	 * @return
+	 */
 	public final List<Item> getInventory() {
 		return Collections.unmodifiableList(inventory);
 	}
 
+	/**
+	 * Sets itemPickedUp
+	 * @param status
+	 */
 	public void setItemPickedUp(boolean status) {
 		itemPickedUp = status;
 	}
 
+	/**
+	 * Returns itemPickedUp
+	 * @return
+	 */
 	public final boolean itemPickedUp() {
 		return itemPickedUp;
 	}
 
+	/**
+	 * Sets interacting
+	 * @param isInteracting
+	 */
 	public void setInteracting(boolean isInteracting) {
 		this.isInteracting = isInteracting;
 	}
 
+	/**
+	 * Returns if player is interacting
+	 * @return
+	 */
 	public final boolean isInteracting() {
 		return this.isInteracting;
 	}
 
+	/**
+	 * Resets players interaction to be NONE
+	 */
 	public void resetInteraction() {
 		this.interaction = Interaction.NONE;
 	}
 
+	/**
+	 * Gets type of interaction
+	 * @return
+	 */
 	public final Interaction getInteraction() {
 		return this.interaction;
 	}
@@ -388,14 +435,26 @@ public class Player {
 		return currentRoom;
 	}
 
+	/**
+	 * Returns previous room
+	 * @return
+	 */
 	public final Room getOldRoom() {
 		return previousRoom;
 	}
 
+	/**
+	 * Set if room loaded
+	 * @param roomLoaded
+	 */
 	public void setRoomLoaded(boolean roomLoaded) {
 		this.roomLoaded = roomLoaded;
 	}
 
+	/**
+	 * Checks if room loaded
+	 * @return
+	 */
 	public final boolean isRoomLoaded() {
 		return this.roomLoaded;
 	}
@@ -420,21 +479,33 @@ public class Player {
 		this.y = y;
 	}
 
+	/**
+	 * Sets z-position
+	 * @param z
+	 */
 	public final void setZ(double z) {
 		if (model != null)
 			model.getPosition().setY((float) z);
 		this.z = z;
 	}
 
+	/**
+	 * Returns z-position
+	 * @return
+	 */
 	public final double getZ() {
 		return this.z;
 	}
 
+	/**
+	 * Sets rotation of player
+	 * @param rot
+	 * 		- Value to set players rotation to in degrees
+	 */
 	public void setRot(double rot) {
 		if (model != null)
 			model.getOrientation().setY((float) rot);
 		this.rotation = rot;
-		// System.out.println(username + " rot: " + rot);
 	}
 
 	/**
@@ -460,22 +531,42 @@ public class Player {
 		turnRight = val;
 	}
 
+	/**
+	 * Set player moveing foward
+	 */
 	public void setFoward(boolean val) {
 		moveFoward = val;
 	}
 
+	/**
+	 * Multiply speed of player by value
+	 * @param val
+	 */
 	public void multiplySpeed(double val) {
 		MAX_VELOCITY *= val;
 	}
 
+	/**
+	 * Set going backwards
+	 * @param val
+	 */
 	public void setBackward(boolean val) {
 		moveBackward = val;
 	}
 
+	/**
+	 * Set isMoving
+	 * @return
+	 */
 	public final boolean isMoving() {
 		return isMoving;
 	}
 
+	/**
+	 * Sets if player is moving
+	 * ???
+	 * @param isMoving
+	 */
 	public final void setMoving(boolean isMoving) {
 		this.isMoving = isMoving;
 		if (!this.isMoving)

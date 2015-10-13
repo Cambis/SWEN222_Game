@@ -26,10 +26,14 @@ public interface Item {
 
 
 	/**
-	 * Defines the behavior with the player when the player interacts wit item
+	 * Defines the behavior with the player when the player interacts with item
 	 */
 	public void interact(Player p);
 
+	/**
+	 * Gets ID of item
+	 * @return
+	 */
 	public int getID();
 
 	/**

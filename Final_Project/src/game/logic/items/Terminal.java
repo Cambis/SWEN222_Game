@@ -38,6 +38,9 @@ public class Terminal implements Item {
 	}
 
 	@Override
+	/**
+	 * Adds 100 points to player if not already captured by team
+	 */
 	public void interact(Player p) {
 		if(p.getSide()!=ownedBy){
 			p.addPoints(SCORE_ON_CAPTURE);

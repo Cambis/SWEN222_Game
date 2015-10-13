@@ -25,11 +25,6 @@ public class BlankTile implements Tile {
 	}
 
 	@Override
-	public boolean canInteract(Player player) {
-		return false;
-	}
-
-	@Override
 	public void onInteract(Player p) {
 		return;
 	}

@@ -264,6 +264,13 @@ public class Level {
 			System.err.println("Tile is NULL");
 	}
 
+	/**
+	 * Handles damage dealt to player
+	 * @param username
+	 * 			- username of player affected
+	 * @param damage
+	 * 			- amount of damage to deal
+	 */
 	public void handleDamage(String username, double damage) {
 		Player player = getPlayer(username);
 		if (player.isAlive())
@@ -508,6 +515,11 @@ public class Level {
 		readyToRender = true;
 	}
 
+	/**
+	 * Gets next spawn in queue
+	 * @param team
+	 * @return
+	 */
 	private SpawnPoint getNextSpawn(Team team) {
 		for (int i = 0; i < spawns.size(); i++) {
 			SpawnPoint spawn = spawns.poll();

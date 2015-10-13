@@ -77,6 +77,7 @@ public class Room {
 	 *
 	 * @param filename
 	 */
+	//TODO Refactor this
 	private void loadTiles(String filename) {
 		try {
 			Scanner s;
@@ -260,10 +261,20 @@ public class Room {
 		}
 	}
 
+	/**
+	 * Returns spawn points in room
+	 * @return
+	 */
 	public List<SpawnPoint> getSpawns() {
 		return spawns;
 	}
-
+/**
+ * Parses an item given a itemKey
+ * @param xPos
+ * @param yPos
+ * @param itemKey
+ * @return
+ */
 	private Item parseItem(int xPos, int yPos, char itemKey) {
 		char key = itemKey;
 		if (Character.isAlphabetic(itemKey)) {
@@ -288,8 +299,20 @@ public class Room {
 	 *            , y
 	 */
 	public boolean validPosition(Player p, double x, double y) {
-		Tile tile = getTile(p, x, y);
-		return tile != null && tile.canEnter(p);
+
+		Tile tile = getTile(p, x+p.BOUNDING_BOX_X, y);
+		if(tile == null || !tile.canEnter(p)){return false;}
+
+		tile = getTile(p, x, y+p.BOUNDING_BOX_Y);
+		if(tile == null || !tile.canEnter(p)){return false;}
+
+		tile = getTile(p, x-p.BOUNDING_BOX_X, y);
+		if(tile == null || !tile.canEnter(p)){return false;}
+
+		tile = getTile(p, x, y-p.BOUNDING_BOX_Y);
+		if(tile == null || !tile.canEnter(p)){return false;}
+
+		return true;
 	}
 
 	/**
@@ -432,6 +455,12 @@ public class Room {
 		return tiles[tileX][tileY];
 	}
 
+	/**
+	 * Returns tile that player is at and checks if tile ID matches ID
+	 * @param p
+	 * @param ID
+	 * @return
+	 */
 	public final Tile getTile(Player p, int ID) {
 
 		Tile tile = getTile(p, p.getX(), p.getY());
@@ -442,33 +471,50 @@ public class Room {
 		return null;
 	}
 
-	public final Item getItem(Player p, int ID) {
-
-		Tile tile = getTile(p, p.getX(), p.getY());
-
-		return null;
-	}
-
+	/**
+	 * Get tile x size
+	 * @return
+	 */
 	public final int getTilesXSize() {
 		return xSize;
 	}
 
+	/**
+	 * Get tile y size
+	 * @return
+	 */
 	public final int getTilesYSize() {
 		return ySize;
 	}
 
+	/**
+	 * Returns players in room
+	 * @return
+	 */
 	public List<Player> getPlayersInRoom() {
 		return playersInRoom;
 	}
 
+	/**
+	 * Sets players in room
+	 * @param playersInRoom
+	 */
 	public void setPlayersInRoom(List<Player> playersInRoom) {
 		this.playersInRoom = playersInRoom;
 	}
 
+	/**
+	 * Add player to room
+	 * @param inPlayer
+	 */
 	public void addPlayer(Player inPlayer) {
 		getPlayersInRoom().add(inPlayer);
 	}
 
+	/**
+	 * remove player from room
+	 * @param outPlayer
+	 */
 	public void removePlayer(Player outPlayer) {
 		getPlayersInRoom().remove(outPlayer);
 
