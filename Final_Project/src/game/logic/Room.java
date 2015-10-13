@@ -464,7 +464,7 @@ public class Room {
 	public final Tile getTile(Player p, int ID) {
 
 		Tile tile = getTile(p, p.getX(), p.getY());
-		if (tile.getID() == ID)
+		if (tile != null && tile.getID() == ID)
 			return tile;
 
 		System.err.println("Returning Null");

@@ -300,7 +300,7 @@ public class Player {
 	 * @return true if contact zone contains other player
 	 */
 	public boolean inRange(double x, double y) {
-		return inRange(x, y, 0.4);
+		return inRange(x, y, 0.1);
 	}
 
 	/**
@@ -658,9 +658,12 @@ public class Player {
 	/** HEALTH HELPERS **/
 
 	public void takeDamage(double damage) {
+
+		// We don't want the player to be super dead
+		if (health <= 0)
+			return;
+
 		this.health -= damage;
-		if (!isAlive())
-			System.out.println(username + " m8, you dead");
 	}
 
 	public void heal(double heal) {

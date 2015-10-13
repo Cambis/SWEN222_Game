@@ -277,6 +277,8 @@ public class Level {
 		Player player = getPlayer(username);
 		if (player.isAlive())
 			player.takeDamage(damage);
+		else if (!player.isAlive())
+			game.getRenderer().deleteModel(username);
 	}
 
 	/**
@@ -411,11 +413,10 @@ public class Level {
 							&& p.getRoom().equals(pl.getRoom()))
 						if (pl.getSide() == Team.GUARD
 								&& p.getSide() == Team.SPY) {
-							System.out.println("Taking Damage");
 							// getPlayer(game.getPlayer().getUsername())
 							// .takeDamage(0.1);
 							packet = new Packet04Damage(p.getUsername(),
-									p.getUsername(), 0.5);
+									p.getUsername(), 5);
 							packet.writeData(game.getClient());
 						}
 				}

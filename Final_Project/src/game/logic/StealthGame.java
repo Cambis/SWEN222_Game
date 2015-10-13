@@ -130,8 +130,8 @@ public class StealthGame implements Runnable {
 		this.ipAddress = (ipAddress == null || ipAddress.length() == 0)
 		// Running on one computer for testing
 		? "localhost"
-	    // Running on multiple for playing the actual game
-		: ipAddress;
+				// Running on multiple for playing the actual game
+				: ipAddress;
 
 		// Create the player
 		player = new PlayerMP(username, 0, 0, 0, null, -1);
@@ -496,6 +496,14 @@ public class StealthGame implements Runnable {
 	 * @see game.control.GameClient
 	 */
 	public void handleDamage(String username, double damage) {
+		if (player.getUsername().equals(username)) {
+			if (player.isAlive())
+				println(username + ", you are taking damage!! "
+						+ player.getHealth() + "%");
+			else
+				println(username + " m8, you dead!");
+		}
+
 		level.handleDamage(username, damage);
 	}
 
