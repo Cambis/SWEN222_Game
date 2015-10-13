@@ -312,16 +312,17 @@ public class Level {
 		// Go through players
 		for (Player p : players) {
 
+			if (!p.isAlive()) {
+				game.r_removeModel(p.getUsername());
+			}
+
 			// Only render the player if they are alive
-			if (readyToRender) {
+			if (readyToRender && p.isAlive()) {
 
 				// If the player is in the same room as the player on this
 				// computer, add them to the renderer
 				if (p.getRoom().equals(game.getPlayer().getRoom())) {
-					if (!p.isAlive()) {
-						game.r_removeModel(p.getUsername());
-					}
-					else if (game.r_addModel(p.getModel())) {
+					if (game.r_addModel(p.getModel())) {
 						System.out.println("Adding " + p.getUsername()
 								+ "'s model in "
 								+ game.getPlayer().getUsername() + "'s game");
@@ -370,6 +371,7 @@ public class Level {
 					switch (p.getInteraction()) {
 					case CHEST:
 					case DOOR:
+					case TERMINAL:
 						packet = new Packet06Interact(p.getUsername(),
 								tile.getID());
 						break;
@@ -395,7 +397,6 @@ public class Level {
 				// Check health
 				if (!p.getUsername().equals(game.getPlayer())) {
 					Player pl = getPlayer(game.getPlayer().getUsername());
-
 					if (p.inRange(pl.getX(), pl.getY())
 							&& p.getRoom().equals(pl.getRoom()))
 						if (p.getSide() == Team.GUARD
@@ -428,7 +429,7 @@ public class Level {
 				}
 
 				// Finally tick through the room that the player is in
-				p.getRoom().tick(game.getRenderer());
+				p.getRoom().tick(game.getRenderer(), game.getPlayer());
 			}
 		}
 	}

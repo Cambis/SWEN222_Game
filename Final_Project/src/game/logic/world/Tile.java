@@ -14,7 +14,7 @@ public interface Tile {
 	 */
 	public enum Interaction {
 
-		NONE(-1), DOOR(0), CHEST(1);
+		NONE(-1), DOOR(0), CHEST(1), TERMINAL(2);
 
 		private int value;
 

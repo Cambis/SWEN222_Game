@@ -11,6 +11,7 @@ import java.util.List;
 
 import game.logic.items.Chest;
 import game.logic.items.Item;
+import game.logic.items.Terminal;
 import game.logic.weapons.LazorPistol;
 import game.logic.weapons.Weapon;
 import game.logic.world.BasicFloor;
@@ -201,6 +202,9 @@ public class Player {
 
 				if (item instanceof Chest)
 					interaction = Interaction.CHEST;
+
+				if (item instanceof Terminal)
+					interaction = Interaction.TERMINAL;
 			}
 		}
 
