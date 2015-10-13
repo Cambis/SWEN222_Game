@@ -256,7 +256,11 @@ public class Level {
 
 		Room currentRoom = player.getRoom();
 		Tile tile = currentRoom.getTile(player, tileID);
-		tile.onEnter(player);
+
+		if (tile != null)
+			tile.onEnter(player);
+		else
+			System.err.println("Tile is NULL");
 	}
 
 	/**
@@ -302,6 +306,7 @@ public class Level {
 		// p.getRoom().getName());
 		// Go through players
 		for (Player p : players) {
+
 			// Only render the player if they are alive
 			if (readyToRender && p.isAlive()) {
 
@@ -338,28 +343,10 @@ public class Level {
 				// Packet to be sent to the server
 				Packet packet = null;
 
-				// Player moving
-				if (p.isMoving()) {
-					packet = new Packet02Move(p.getUsername(),
-							((PlayerMP) p).getID(), p.getX(), p.getY(),
-							p.getZ(), true, p.getRotation());
-					packet.writeData(game.getClient());
-				}
-
 				// Player shooting
 				if (p.isShooting()) {
 					packet = new Packet03Engage(p.getUsername());
 					// packet.writeData(game.getClient());
-				}
-
-				// Player picking up item
-				if (p.itemPickedUp()) {
-					Tile tile = p.getRoom().getTile(p, p.getX(), p.getY());
-					Item last = p.getLastItem();
-					p.setItemPickedUp(false);
-					packet = new Packet10Pickup(p.getUsername(), tile.getID(),
-							last.getID());
-					packet.writeData(game.getClient());
 				}
 
 				// Player interacting
@@ -395,6 +382,24 @@ public class Level {
 
 					if (packet != null)
 						packet.writeData(game.getClient());
+				}
+
+				// Player moving
+				if (p.isMoving()) {
+					packet = new Packet02Move(p.getUsername(),
+							((PlayerMP) p).getID(), p.getX(), p.getY(),
+							p.getZ(), true, p.getRotation());
+					packet.writeData(game.getClient());
+				}
+
+				// Player picking up item
+				if (p.itemPickedUp()) {
+					Tile tile = p.getRoom().getTile(p, p.getX(), p.getY());
+					Item last = p.getLastItem();
+					p.setItemPickedUp(false);
+					packet = new Packet10Pickup(p.getUsername(), tile.getID(),
+							last.getID());
+					packet.writeData(game.getClient());
 				}
 
 				// Finally tick through the room that the player is in
