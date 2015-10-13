@@ -407,8 +407,9 @@ public class Level {
 				}
 
 				// Check health
-				if (!p.getUsername().equals(game.getPlayer())) {
+				if (!p.getUsername().equals(game.getPlayer().getUsername())) {
 					Player pl = getPlayer(game.getPlayer().getUsername());
+
 					if (pl.inRange(p.getX(), p.getY())
 							&& p.getRoom().equals(pl.getRoom())
 							&& pl.getSide() == Team.GUARD

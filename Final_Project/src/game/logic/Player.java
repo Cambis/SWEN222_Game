@@ -300,7 +300,7 @@ public class Player {
 	 * @return true if contact zone contains other player
 	 */
 	public boolean inRange(double x, double y) {
-		return inRange(x, y, 0.1);
+		return inRange(x, y, 0.5);
 	}
 
 	/**
