@@ -35,6 +35,7 @@ public class StartUpScreen extends JPanel {
 
 		setLayout(new BorderLayout());
 		frame = new JFrame();
+		frame.setResizable(false);
 
 		// setup btn
 		joinBtn = new GuiButton("Join", BTN_WIDTH, BTN_HEIGHT);

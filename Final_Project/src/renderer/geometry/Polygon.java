@@ -124,7 +124,6 @@ public class Polygon {
 			// Checks whether the
 			if (vdir.dot(l.getDirection()) > l.getCutoff()){
 				// Checks whether the face is in the shadow
-				//int polyDis = (int)(vdir.mag()*tileSize*);
 				for (int i = 0; i < tileSize*2-1; ++i){
 					Vec3 pos = Vec3.Lerp(l.getPosition(), positionAvg, (float)i/(tileSize*2)).div(new Vec3(0.02, 0.02, 0.02)).div(new Vec3(tileSize, tileSize, tileSize));
 
