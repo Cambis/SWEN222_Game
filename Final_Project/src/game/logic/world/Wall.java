@@ -53,12 +53,6 @@ public class Wall implements Tile {
 	}
 
 	@Override
-	public boolean canInteract(Player player) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public R_AbstractModelData getModelData() {
 		return new R_ModelColorData("BasicWall", "res/models/BasicWall.obj",
 				Color.WHITE);

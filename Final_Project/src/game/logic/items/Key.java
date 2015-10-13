@@ -20,14 +20,21 @@ import game.logic.world.Door;
 public class Key implements Item {
 
 	private final int ID;
-	private Door door;
 
 	private double x = 0, z = 0;
 
+	/**
+	 * Creates key with ID, ID specifies which door it can open
+	 * @param ID
+	 */
 	public Key(int ID) {
 		this.ID = ID;
 	}
 
+	/**
+	 * Creates key with ID, ID specifies which door it can open
+	 * @param ID
+	 */
 	public Key(int ID, double x, double z) {
 		this(ID);
 		setPosition(x, z);

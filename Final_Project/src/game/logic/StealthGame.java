@@ -371,10 +371,6 @@ public class StealthGame implements Runnable {
 		level.movePlayer(username, x, y, z, rot);
 	}
 
-	public synchronized void movePlayer(int id, double x, double y, double z, double rot) {
-		// level.movePlayer(id, x, y, z, rot);
-	}
-
 	/**
 	 * gets local client
 	 *
@@ -393,10 +389,19 @@ public class StealthGame implements Runnable {
 		return server;
 	}
 
+	/**
+	 * gets local player
+	 * @return
+	 */
 	public final Player getPlayer() {
 		return player;
 	}
 
+	/**
+	 * Set teams of the players
+	 * @param players
+	 * @param teams
+	 */
 	public void setTeams(String[] players, String[] teams) {
 
 		for (int i = 0; i < players.length; i++) {
@@ -561,35 +566,5 @@ public class StealthGame implements Runnable {
 			// player.dropItem();
 			}
 		}
-	};
-
-	// Andrew: Implementing mouse listener
-	private MouseListener mainFrameMouseListener = new MouseListener() {
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			if (e.getButton() == MouseEvent.BUTTON1) {
-				player.setShooting(true);
-			} else if (e.getButton() == MouseEvent.BUTTON2) {
-				player.setUsing(true);
-			}
-		}
-
 	};
 }

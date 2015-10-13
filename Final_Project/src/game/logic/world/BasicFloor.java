@@ -39,10 +39,6 @@ public class BasicFloor implements Tile {
 		this.tileNum = tileNum;
 	}
 
-	@Override
-	public boolean canInteract(Player player) {
-		return false;
-	}
 
 	@Override
 	public void onInteract(Player p) {

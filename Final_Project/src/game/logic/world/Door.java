@@ -92,11 +92,6 @@ public class Door implements Tile {
 	}
 
 	@Override
-	public boolean canInteract(Player p) {
-		return true;
-	}
-
-	@Override
 	public void onInteract(Player p) {
 		if(locked && p.getInventory().contains(new Key(keyID))){
 			locked=false;
