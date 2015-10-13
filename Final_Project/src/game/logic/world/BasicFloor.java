@@ -46,7 +46,7 @@ public class BasicFloor implements Tile {
 
 	@Override
 	public void onInteract(Player p) {
-		for(Item i : inventory){
+		for (Item i : inventory) {
 			i.interact(p);
 			itemsToUpdate.offer(i);
 		}
