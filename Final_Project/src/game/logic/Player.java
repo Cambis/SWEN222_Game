@@ -301,16 +301,16 @@ public class Player {
 	 * @return true if contact zone contains other player
 	 */
 	public boolean inRange(double x, double y) {
-		Vec3 one = new Vec3(this.x - x, 0, this.y - y);
-		Vec3 two = new Vec3(-Math.cos(rotation), 0, -Math.sin(rotation));
+		Vec3 one = new Vec3(x - this.x, 0, y - this.y);
+		Vec3 two = new Vec3(Math.sin(rotation), 0, Math.cos(rotation));
 
-		if (one.dot(two) > 0.8)
-			System.out.println("Dot true");
+//		if (one.dot(two) > 0.82)
+//			System.out.println("Dot true");
+//
+//		if (inRange(x, y, 2))
+//			System.out.println("Range true");
 
-		if (inRange(x, y, 1))
-			System.out.println("Range true");
-
-		if (one.dot(two) > 0.8 && inRange(x, y, 0.5))
+		if (one.dot(two) > 0.2 && inRange(x, y, 2))
 			return true;
 
 		return false;
