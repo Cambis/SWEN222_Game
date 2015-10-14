@@ -227,13 +227,13 @@ public class Level {
 		Tile tile = currentRoom.getTile(player, ID);
 
 		if (tile != null) {
-			System.out.println(tile.getClass().getName());
+			// System.out.println(tile.getClass().getName());
 			tile.onInteract(player);
 		}
 
-		for (Player p : players){
-			System.out.println(p.getUsername() + " is in: "
-					+ p.getRoom().getName());
+		for (Player p : players) {
+			// System.out.println(p.getUsername() + " is in: "
+			// + p.getRoom().getName());
 		}
 	}
 
@@ -336,9 +336,9 @@ public class Level {
 				// computer, add them to the renderer
 				if (p.getRoom().equals(game.getPlayer().getRoom())) {
 					if (game.r_addModel(p.getModel())) {
-						System.out.println("Adding " + p.getUsername()
-								+ "'s model in "
-								+ game.getPlayer().getUsername() + "'s game");
+						// System.out.println("Adding " + p.getUsername()
+						//		+ "'s model in "
+						//		+ game.getPlayer().getUsername() + "'s game");
 					}
 				}
 
@@ -407,14 +407,6 @@ public class Level {
 						packet.writeData(game.getClient());
 				}
 
-				// Player moving
-				if (p.isMoving()) {
-					packet = new Packet02Move(p.getUsername(),
-							((PlayerMP) p).getID(), p.getX(), p.getY(),
-							p.getZ(), true, p.getRotation());
-					packet.writeData(game.getClient());
-				}
-
 				// Check health
 				if (!p.getUsername().equals(game.getPlayer().getUsername())) {
 					Player pl = getPlayer(game.getPlayer().getUsername());
@@ -429,6 +421,14 @@ public class Level {
 								p.getUsername(), 0.5);
 						packet.writeData(game.getClient());
 					}
+				}
+
+				// Player moving
+				if (p.isMoving()) {
+					packet = new Packet02Move(p.getUsername(),
+							((PlayerMP) p).getID(), p.getX(), p.getY(),
+							p.getZ(), true, p.getRotation());
+					packet.writeData(game.getClient());
 				}
 
 				// Player picking up item
