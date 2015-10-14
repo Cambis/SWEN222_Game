@@ -20,6 +20,7 @@ import java.util.List;
 
 import renderer.R_Player;
 import renderer.R_Player.Team;
+import renderer.math.Vec3;
 
 /**
  * Represents a player in the game. This class should do the player logic and
@@ -300,7 +301,19 @@ public class Player {
 	 * @return true if contact zone contains other player
 	 */
 	public boolean inRange(double x, double y) {
-		return inRange(x, y, 0.5);
+		Vec3 one = new Vec3(this.x - x, 0, this.y - y);
+		Vec3 two = new Vec3(-Math.cos(rotation), 0, -Math.sin(rotation));
+
+		if (one.dot(two) > 0.8)
+			System.out.println("Dot true");
+
+		if (inRange(x, y, 1))
+			System.out.println("Range true");
+
+		if (one.dot(two) > 0.8 && inRange(x, y, 0.5))
+			return true;
+
+		return false;
 	}
 
 	/**
