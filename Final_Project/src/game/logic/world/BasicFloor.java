@@ -69,7 +69,7 @@ public class BasicFloor implements Tile {
 
 	@Override
 	public void onExit(Player p) {
-		return;
+		//Do Nothing
 	}
 
 	public boolean addItem(Item item) {
