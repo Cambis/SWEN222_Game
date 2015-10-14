@@ -6,9 +6,10 @@ import game.control.GameServer;
 /**
  * This packet is sent to the server when a player connects to a game.
  *
- * LOGIN - 00 + (String username) + "," + int id + "," + double x + "," + double z + "," + double rotation
+ * LOGIN - 00 + (String username) + "," + int id + "," + double x + "," + double
+ * z + "," + double rotation
  *
- * @author Bieleski, Bryers, Gill & Thompson MMXV.
+ * @author Cameron Bryers 300326848 MMXV
  *
  */
 public class Packet00Login extends Packet {
@@ -21,6 +22,7 @@ public class Packet00Login extends Packet {
 	 * Constructor intended for sending data
 	 *
 	 * @param data
+	 *            - message to be sent
 	 */
 	public Packet00Login(byte[] data) {
 		super(00);
@@ -35,11 +37,21 @@ public class Packet00Login extends Packet {
 	}
 
 	/**
-	 * Constructor intended for receiving data
+	 * Constructor intended for receiving data.
 	 *
 	 * @param username
+	 *            - username of the player
+	 * @param uid
+	 *            - ID of the player
+	 * @param x
+	 *            - player's x position (Renderer)
+	 * @param z
+	 *            - player's z position (Renderer)
+	 * @param rotation
+	 *            - player's rotation around y (Renderer)
 	 */
-	public Packet00Login(String username, int uid, double x, double z, double rotation) {
+	public Packet00Login(String username, int uid, double x, double z,
+			double rotation) {
 		super(00);
 		this.username = username;
 		this.uid = uid;
@@ -60,25 +72,51 @@ public class Packet00Login extends Packet {
 
 	@Override
 	public byte[] getData() {
-		return ("00" + this.username + "," + uid + "," + x + "," + z + "," + rotation).getBytes();
+		return ("00" + this.username + "," + uid + "," + x + "," + z + "," + rotation)
+				.getBytes();
 	}
 
+	/**
+	 * Get the player's username.
+	 *
+	 * @return player's username
+	 */
 	public String getUsername() {
 		return username.trim();
 	}
 
+	/**
+	 * Gets player's x position (Renderer).
+	 *
+	 * @return player's x position
+	 */
 	public final double getX() {
 		return x;
 	}
 
+	/**
+	 * Gets player's z position (Renderer).
+	 *
+	 * @return player's z position
+	 */
 	public final double getZ() {
 		return z;
 	}
 
+	/**
+	 * Gets player's rotation around the y axis (Renderer)
+	 *
+	 * @return player's rotation
+	 */
 	public final double getRotation() {
 		return rotation;
 	}
 
+	/**
+	 * Gets player's unique ID.
+	 *
+	 * @return player's ID
+	 */
 	public final int getID() {
 		return uid;
 	}

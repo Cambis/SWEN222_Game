@@ -6,10 +6,10 @@ import game.control.GameServer;
 /**
  * This packet is sent when a client has moved.
  *
- * MOVE - 02 + "," + String username + "," + int id + "," + int pos.x + "," + int pos.y + "," +
- * int numOfSteps + "," + double z + "," + double direction
+ * MOVE - 02 + "," + String username + "," + int id + "," + int pos.x + "," +
+ * int pos.y + "," + int numOfSteps + "," + double z + "," + double direction
  *
- * @author Bieleski, Bryers, Gill & Thompson MMXV.
+ * @author Cameron Bryers 300326848 MMXV
  *
  */
 public class Packet02Move extends Packet {
@@ -25,6 +25,7 @@ public class Packet02Move extends Packet {
 	 * Constructor intended for sending data
 	 *
 	 * @param data
+	 *            - message to be sent
 	 */
 	public Packet02Move(byte[] data) {
 
@@ -49,7 +50,20 @@ public class Packet02Move extends Packet {
 	/**
 	 * Constructor intended for receiving data
 	 *
-	 * @param data
+	 * @param username
+	 *            - username of player
+	 * @param id
+	 *            - id of the player
+	 * @param x
+	 *            - player's x position (Tile)
+	 * @param y
+	 *            - player's y position (Tile)
+	 * @param z
+	 *            - player's z position (Tile)
+	 * @param isMoving
+	 *            - true if player is moving
+	 * @param direction
+	 *            - player's rotation around z (Tile)
 	 */
 	public Packet02Move(String username, int id, double x, double y, double z,
 			boolean isMoving, double direction) {
@@ -79,32 +93,48 @@ public class Packet02Move extends Packet {
 				+ (isMoving ? 1 : 0) + "," + direction).getBytes();
 	}
 
+	/**
+	 * Get the player's username.
+	 *
+	 * @return player's username
+	 */
 	public String getUsername() {
 		return username;
 	}
 
+	/**
+	 * Get the player's x position (Tile)
+	 *
+	 * @return player's x position
+	 */
 	public double getX() {
 		return x;
 	}
 
+	/**
+	 * Get the player's z position (Tile)
+	 *
+	 * @return player's z position
+	 */
 	public double getZ() {
 		return z;
 	}
 
+	/**
+	 * Get the player's y position (Tile)
+	 *
+	 * @return player's y position
+	 */
 	public double getY() {
 		return y;
 	}
 
-	public boolean isMoving() {
-		return isMoving;
-	}
-
+	/**
+	 * Get the player's rotation around z (Tile)
+	 *
+	 * @return player's rotation around z
+	 */
 	public double getDirection() {
 		return direction;
 	}
-
-	public final int getID() {
-		return uid;
-	}
-
 }

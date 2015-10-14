@@ -21,21 +21,21 @@ public abstract class Packet {
 	 */
 	public static enum PacketType {
 
-		INVALID(-1), 		// Invalid operation
-		LOGIN(00), 			// Login to the server
-		DISCONNECT(01), 	// Disconnect from the server
-		MOVE(02), 			// Player moving
-		ENGAGE(03), 		// Player engaging another
-		DAMAGE(04),			// Player taking damage
-		HEAL(05),			// Player healing
-		INTERACT(06),		// Player interacting with a item
-		EQUIP(07),			// Player equipping an item
-		PICKUP(10),
-		GAME_START(20),
-		GAME_OVER(21),
-		LOAD_LEVEL(22),
-		RECIEVE_ID(23),
-		TEAM_ASSIGN(24);
+		INVALID(-1), // Invalid operation
+		LOGIN(00), // Login to the server
+		DISCONNECT(01), // Disconnect from the server
+		MOVE(02), // Player moving
+		ENGAGE(03), // Player engaging another
+		DAMAGE(04), // Player taking damage
+		HEAL(05), // Player healing
+		INTERACT(06), // Player interacting with a item
+		EQUIP(07), // Player equipping an item
+		PICKUP(10), // Player picking up an item
+		GAME_START(20), // Game starting
+		GAME_OVER(21), // Game over
+		LOAD_LEVEL(22), // Loading a level
+		RECIEVE_ID(23), // Receiving a unique ID
+		TEAM_ASSIGN(24); // Assigning teams
 
 		private final int packetID;
 
@@ -50,6 +50,12 @@ public abstract class Packet {
 
 	public final byte packetID;
 
+	/**
+	 * Default Constructor, creates a new Packet.
+	 *
+	 * @param packetID
+	 *            - ID that corresponds to the type of packet
+	 */
 	public Packet(int packetID) {
 		this.packetID = (byte) packetID;
 	}
@@ -58,6 +64,7 @@ public abstract class Packet {
 	 * Write data to a specific client
 	 *
 	 * @param client
+	 *            - client to be written to
 	 */
 	public abstract void writeData(GameClient client);
 
@@ -65,13 +72,14 @@ public abstract class Packet {
 	 * Write data to all the clients on this server
 	 *
 	 * @param server
+	 *            - server to be written to
 	 */
 	public abstract void writeData(GameServer server);
 
 	/**
 	 * Return a byte representation of the packet
 	 *
-	 * @return
+	 * @return packet message as a byte array
 	 */
 	public abstract byte[] getData();
 
@@ -79,7 +87,8 @@ public abstract class Packet {
 	 * Return a String representation of the packet
 	 *
 	 * @param data
-	 * @return
+	 *            - message from the packet
+	 * @return String representation of the message
 	 */
 	public String readData(byte[] data) {
 		String message = new String(data);
@@ -92,7 +101,8 @@ public abstract class Packet {
 	 * Determine the type of packet given a packetID
 	 *
 	 * @param packetID
-	 * @return
+	 *            - unique ID of the packet
+	 * @return PacketType that the ID corresponds to
 	 */
 	public static PacketType lookupPacket(String packetID) {
 		try {
@@ -103,10 +113,11 @@ public abstract class Packet {
 	}
 
 	/**
-	 * Helper method
+	 * Determine the type of packet given a enum constant
 	 *
 	 * @param id
-	 * @return
+	 *            - enum constant of the packet
+	 * @return PacketType that the id corresponds to
 	 */
 	public static PacketType lookupPacket(int id) {
 		for (PacketType p : PacketType.values()) {

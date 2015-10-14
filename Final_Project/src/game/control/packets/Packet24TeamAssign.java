@@ -1,33 +1,39 @@
 package game.control.packets;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import game.control.GameClient;
 import game.control.GameServer;
 
 /**
+ * This packet is sent when players are assigned teams.
  *
- * @author Bieleski, Bryers, Gill & Thompson MMXV.
+ * @author Cameron Bryers 300326848 MMXV
  *
- * TEAM_ASSIGN = 24 + String username + int team(0:1)
+ *         TEAM_ASSIGN = 24 + String username + int team(0:1)
  */
 public class Packet24TeamAssign extends Packet {
 
 	private final String[] dataArray;
 	private String[] players, teams;
 
+	/**
+	 * Constructor intended for sending data
+	 *
+	 * @param data
+	 *            - message to be sent
+	 */
 	public Packet24TeamAssign(byte[] data) {
 		super(24);
 		dataArray = readData(data).split(",");
 	}
 
-	public Packet24TeamAssign(String[] playersToTeam) {
-		super(24);
-		dataArray = playersToTeam;
-	}
-
+	/**
+	 * Constructor intended for receiving data.
+	 *
+	 * @param players
+	 *            - array of player usernames
+	 * @param teamseam allocation
+	 *            - team allocation GUARD "0" SPY "1"
+	 */
 	public Packet24TeamAssign(String[] players, String[] teams) {
 
 		super(24);
@@ -62,6 +68,11 @@ public class Packet24TeamAssign extends Packet {
 		return data.getBytes();
 	}
 
+	/**
+	 * Gets the all of the players usernames on the server
+	 *
+	 * @return player usernames in an array
+	 */
 	public final String[] getPlayers() {
 
 		String[] players = new String[dataArray.length / 2];
@@ -73,6 +84,11 @@ public class Packet24TeamAssign extends Packet {
 		return players;
 	}
 
+	/**
+	 * Gets the teams that the players on the server are assigned to
+	 *
+	 * @return team allocation GUARD "0" SPY "1"
+	 */
 	public final String[] getTeams() {
 
 		String[] teams = new String[dataArray.length / 2];

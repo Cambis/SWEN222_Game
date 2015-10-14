@@ -8,7 +8,7 @@ import game.control.GameServer;
  *
  * EQUIP - 07 + String username + "," + objectID
  *
- * @author Bieleski, Bryers, Gill & Thompson MMXV.
+ * @author Cameron Bryers 300326848 MMXV
  *
  */
 public class Packet07Equip extends Packet {
@@ -16,6 +16,12 @@ public class Packet07Equip extends Packet {
 	private String username;
 	private int objectID;
 
+	/**
+	 * Constructor intended for sending data
+	 *
+	 * @param data
+	 *            - message to be sent
+	 */
 	public Packet07Equip(byte data[]) {
 
 		super(07);
@@ -29,6 +35,14 @@ public class Packet07Equip extends Packet {
 		this.objectID = Integer.parseInt(dataArray[1]);
 	}
 
+	/**
+	 * Constructor intended for receiving data.
+	 *
+	 * @param username
+	 *            - username of player
+	 * @param objectID
+	 *            - object that the player is interacting with
+	 */
 	public Packet07Equip(String username, int objectID) {
 		super(07);
 		this.username = username;
@@ -50,12 +64,12 @@ public class Packet07Equip extends Packet {
 		return ("07" + username + "," + objectID).getBytes();
 	}
 
+	/**
+	 * Get the player's username.
+	 *
+	 * @return player's username
+	 */
 	public final String getUsername() {
 		return username.trim();
 	}
-
-	public final int getObjectID() {
-		return objectID;
-	}
-
 }

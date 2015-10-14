@@ -14,6 +14,12 @@ public class Packet10Pickup extends Packet {
 	private String username;
 	private int tileID, itemID;
 
+	/**
+	 * Constructor intended for sending data.
+	 *
+	 * @param data
+	 *            - message to be sent
+	 */
 	public Packet10Pickup(byte[] data) {
 		super(10);
 		String[] dataArray = readData(data).split(",");
@@ -22,6 +28,16 @@ public class Packet10Pickup extends Packet {
 		this.itemID = Integer.parseInt(dataArray[2]);
 	}
 
+	/**
+	 * Constructor intended for receiving data
+	 *
+	 * @param username
+	 *            - username of player
+	 * @param tileID
+	 *            - tile that the object is on
+	 * @param itemID
+	 *            - ID of the item
+	 */
 	public Packet10Pickup(String username, int tileID, int itemID) {
 		super(10);
 		this.username = username;
@@ -44,14 +60,29 @@ public class Packet10Pickup extends Packet {
 		return ("10" + username + "," + tileID + "," + itemID).getBytes();
 	}
 
+	/**
+	 * Get the player's username.
+	 *
+	 * @return player's username
+	 */
 	public final String getUsername() {
 		return username;
 	}
 
+	/**
+	 * Get the tile that the item is on.
+	 *
+	 * @return ID of the tile
+	 */
 	public final int getTileID() {
 		return tileID;
 	}
 
+	/**
+	 * Get the object that the player is interacting with.
+	 *
+	 * @return ID of the object
+	 */
 	public final int getItemID() {
 		return itemID;
 	}

@@ -28,7 +28,8 @@ public class Packet01Disconnect extends Packet {
 	/**
 	 * Constructor intended for receiving data
 	 *
-	 * @param data
+	 * @param username
+	 *            - username of player
 	 */
 	public Packet01Disconnect(String username) {
 		super(01);
@@ -50,6 +51,11 @@ public class Packet01Disconnect extends Packet {
 		return ("01" + username).getBytes();
 	}
 
+	/**
+	 * Gets username of player disconnect.
+	 *
+	 * @return username of player
+	 */
 	public final String getUsername() {
 		return username.trim();
 	}

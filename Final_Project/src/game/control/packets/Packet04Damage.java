@@ -9,7 +9,7 @@ import game.control.GameServer;
  * DAMAGE - 04 + "," + String hitPlayer + "," + String attacker + "," + double
  * damage
  *
- * @author Bieleski, Bryers, Gill & Thompson MMXV.
+ * @author Cameron Bryers 300326848 MMXV
  *
  */
 public class Packet04Damage extends Packet {
@@ -18,6 +18,12 @@ public class Packet04Damage extends Packet {
 	private String attacker;
 	private double damage;
 
+	/**
+	 * Constructor intended for sending data.
+	 *
+	 * @param data
+	 *            - message to be sent
+	 */
 	public Packet04Damage(byte data[]) {
 
 		super(04);
@@ -32,6 +38,16 @@ public class Packet04Damage extends Packet {
 		damage = Double.parseDouble(dataArray[2]);
 	}
 
+	/**
+	 * Constructor intended for receiving data
+	 *
+	 * @param hitPlayer
+	 *            - player that is hit
+	 * @param attacker
+	 *            - player that is attacking
+	 * @param damage
+	 *            - damage hit player receives
+	 */
 	public Packet04Damage(String hitPlayer, String attacker, double damage) {
 		super(04);
 		this.hitPlayer = hitPlayer;
@@ -54,14 +70,29 @@ public class Packet04Damage extends Packet {
 		return ("04" + hitPlayer + "," + attacker + "," + damage).getBytes();
 	}
 
+	/**
+	 * Get the hitPlayer's username.
+	 *
+	 * @return player's username
+	 */
 	public final String getHitPlayer() {
 		return hitPlayer.trim();
 	}
 
+	/**
+	 * Get the attackingPlayer's username.
+	 *
+	 * @return player's username
+	 */
 	public final String getAttacker() {
 		return attacker.trim();
 	}
 
+	/**
+	 * Damage that the player sustains.
+	 *
+	 * @return damage for player
+	 */
 	public final double getDamage() {
 		return damage;
 	}
