@@ -231,9 +231,10 @@ public class Level {
 			tile.onInteract(player);
 		}
 
-		for (Player p : players)
+		for (Player p : players){
 			System.out.println(p.getUsername() + " is in: "
 					+ p.getRoom().getName());
+		}
 	}
 
 	/**

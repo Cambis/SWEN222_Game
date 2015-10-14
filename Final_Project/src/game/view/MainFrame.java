@@ -60,7 +60,7 @@ public class MainFrame extends JFrame {
 	public void println(String s) {
 		String[] text = textArea.getText().split("\n");
 		String newText = "";
-		for (int i = 4; i >= 0; --i){
+		for (int i = 3; i >= 0; --i){
 			if (text.length -1 - i < 0){
 				newText += "\n";
 			} else{

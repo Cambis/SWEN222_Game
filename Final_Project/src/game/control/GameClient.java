@@ -138,6 +138,9 @@ public class GameClient extends Thread {
 			System.out.println("[" + address.getHostAddress() + ":" + port
 					+ "] " + ((Packet01Disconnect) packet).getUsername()
 					+ " has left the world...");
+			game.println("[" + address.getHostAddress() + ":" + port
+					+ "] " + ((Packet01Disconnect) packet).getUsername()
+					+ " has left the world...");
 			game.removePlayer(((Packet01Disconnect) packet).getUsername());
 			break;
 
@@ -226,6 +229,9 @@ public class GameClient extends Thread {
 		// System.out.println("Adding player: " + packet.getUsername() + " "
 		// + packet.getID());
 
+		game.println("[ " + address.getHostAddress() + " " + port + " ] "
+				+ ((Packet00Login) packet).getUsername()
+				+ " has joined the game...");
 		System.out.println("[ " + address.getHostAddress() + " " + port + " ] "
 				+ ((Packet00Login) packet).getUsername()
 				+ " has joined the game...");
