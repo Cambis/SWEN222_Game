@@ -11,7 +11,7 @@ import renderer.math.Vec3;
  * Represents a polygon. Polygon objects hold 3 vertices and can draw a polygon to an array.
  *
  * @author Stephen Thompson
- *
+ * ID: 300332215
  */
 public class Polygon {
 	// The index to the first vertex

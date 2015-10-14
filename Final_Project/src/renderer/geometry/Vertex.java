@@ -7,7 +7,7 @@ import renderer.math.Vec3;
  * This class represents a vertex, and stores the position in local, world and projected space
  *
  * @author Stephen Thompson
- *
+ * ID: 300332215
  */
 public class Vertex {
 	// the local coordinates

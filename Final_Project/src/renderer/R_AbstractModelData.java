@@ -10,7 +10,7 @@ import renderer.math.Mat4;
  * This abstract class holds the data used to draw the models
  *
  * @author Stephen Thompson
- *
+ * ID: 300332215
  */
 public abstract class R_AbstractModelData {
 	// This object's name

@@ -6,7 +6,7 @@ import java.util.Arrays;
  *	This class provides a number of methods for performing matrix math
  *
  * @author Stephen Thompson
- *
+ * ID: 300332215
  */
 public class Mat4 {
 	// the matrix data array

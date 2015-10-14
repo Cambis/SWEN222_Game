@@ -20,6 +20,13 @@ public class Water extends BasicFloor {
 
 	private R_Model model;
 
+	/**
+	 * Creates water which slows player and lowers them on z axis
+	 * @param xPos xposition
+	 * @param yPos yposition
+	 * @param data model data to craete model from
+	 * @param tileNum tile number
+	 */
 	public Water(double xPos, double yPos, R_ModelColorData data,
 			int tileNum) {
 		super(xPos, yPos, data, tileNum);

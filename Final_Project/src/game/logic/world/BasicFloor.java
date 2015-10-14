@@ -30,6 +30,14 @@ public class BasicFloor implements Tile {
 
 	private int tileNum;
 
+	/**
+	 *  Creates a basic floor on which both teams can enter and items
+	 *  can be dropped onto
+	 * @param xPos xposition to create tile
+	 * @param yPos yposition to create tile
+	 * @param data model data of tile
+	 * @param tileNum tile number
+	 */
 	public BasicFloor(double xPos, double yPos, R_ModelColorData data,
 			int tileNum) {
 		inventory = new Stack<Item>();
@@ -73,18 +81,35 @@ public class BasicFloor implements Tile {
 		//Do Nothing
 	}
 
+	/**
+	 * Add item to floorspace
+	 * @param item to add
+	 * @return if item added
+	 */
 	public boolean addItem(Item item) {
 		return inventory.add(item);
 	}
 
+	/**
+	 * get stack of items from floorspace
+	 * @return items on floor space
+	 */
 	public final Stack<Item> getItems() {
 		return inventory;
 	}
 
+	/**
+	 * Items to remove from floor (already removed from usable items)
+	 * @return
+	 */
 	public final Queue<Item> getItemsToRemove() {
 		return inventoryTaken;
 	}
 
+	/**
+	 * Items that need their model tobe updated
+	 * @return items to be updated
+	 */
 	public final Queue<Item> getItemsToUpdate() {
 		return itemsToUpdate;
 	}
