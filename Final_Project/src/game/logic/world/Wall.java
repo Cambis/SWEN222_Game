@@ -24,11 +24,13 @@ public class Wall implements Tile {
 
 	private int tileNum;
 
-	/*public Wall(double xPos, double yPos, int tileNum) {
-		this.x = xPos;
-		this.y = yPos;
-		this.tileNum = tileNum;
-	}*/
+	/**
+	 * Creates a wall at xpos, ypos with modeldata as the model
+	 * @param xPos xposition
+	 * @param yPos yposition
+	 * @param data model data to create model of wall
+	 * @param tileNum tile number
+	 */
 	public Wall(double xPos, double yPos, R_ModelColorData data, int tileNum) {
 		model = new R_Model("BasicFloor" + tileNum, data, new Vec3(xPos, 0,
 				yPos), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));

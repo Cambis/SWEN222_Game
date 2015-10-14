@@ -25,6 +25,9 @@ public class BlankTile implements Tile {
 
 	private R_Model model;
 
+	/**
+	 * Creates a blank tile that can not be entered and has no model
+	 */
 	public BlankTile() {
 
 	}

@@ -37,6 +37,14 @@ public class Door implements Tile {
 
 	private double x, y;
 
+	/**
+	 * Creates a door at position, destination needs to be set using
+	 * setRoom(Room) and setTargetPos(int, int)
+	 * @param xPos xposition of door
+	 * @param yPos yposition of door
+	 * @param tileNum tile number
+	 * @param ID ID
+	 */
 	public Door(double xPos, double yPos, int tileNum, int ID) {
 		this.x = xPos;
 		this.y = yPos;
@@ -48,10 +56,18 @@ public class Door implements Tile {
 				new Vec3(x, 0, y), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
 	}
 
+	/**
+	 * Set if door locked
+	 * @param val val to set locked to.
+	 */
 	public void setLocked(boolean val) {
 		locked = val;
 	}
 
+	/**
+	 * Set keyID needed to unlock door
+	 * @param keyID key id
+	 */
 	public void setKey(int keyID) {
 		this.keyID = keyID;
 	}
@@ -70,10 +86,19 @@ public class Door implements Tile {
 		}
 	}
 
+	/**
+	 * Sets room to move player to on interact
+	 * @param targetRoom room to move player to
+	 */
 	public void setTargetRoom(Room targetRoom) {
 		this.targetRoom = targetRoom;
 	}
 
+	/**
+	 * Sets co-ordinates for player to be moved to in target room
+	 * @param x xposition
+	 * @param y yposition
+	 */
 	public void setTargetPos(int x, int y) {
 		targetX = x * 0.2;
 		targetY = y * 0.2;
