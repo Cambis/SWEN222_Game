@@ -112,7 +112,6 @@ public class GameServer extends Thread {
 				e.printStackTrace();
 			}
 			parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
-
 		}
 	}
 
@@ -148,7 +147,8 @@ public class GameServer extends Thread {
 			sendData(level.getData(), player.getIpAddress(), player.getPort());
 
 			// Add player to server
-			addConnection(player, (Packet00Login) packet);
+			if (connectedPlayers.size() <= numOfPlayers)
+				addConnection(player, (Packet00Login) packet);
 
 			// Start the game
 			if (!gameStarted && connectedPlayers.size() >= numOfPlayers) {
