@@ -24,8 +24,8 @@ public class Packet05Heal extends Packet {
 		String[] dataArray = readData(data).split(",");
 
 		// Read the information
-		username = dataArray[1];
-		healAmount = Double.parseDouble(dataArray[2]);
+		username = dataArray[0];
+		healAmount = Double.parseDouble(dataArray[1]);
 	}
 
 	public Packet05Heal(String username, double healAmount) {

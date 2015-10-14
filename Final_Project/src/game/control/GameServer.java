@@ -343,6 +343,7 @@ public class GameServer extends Thread {
 			return;
 
 		PlayerMP player = getPlayerMP(packet.getUsername());
+		player.heal(packet.getHealAmount());
 
 		packet.writeData(this);
 	}
