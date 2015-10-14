@@ -13,6 +13,11 @@ import game.logic.Player;
 import game.logic.items.*;
 import static org.junit.Assert.*;
 
+/**
+ *
+ * @author Callum Gill 300316407 2015
+ *
+ */
 public class ItemTests {
 
 	//Key Tests

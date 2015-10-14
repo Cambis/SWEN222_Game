@@ -9,7 +9,7 @@ public interface Tile {
 	/**
 	 * Items that the player could be interacting with.
 	 *
-	 * @author Cameron Bryers 300326848 MMXV
+	 * @author Callum Gill 300316407 2015
 	 *
 	 */
 	public enum Interaction {
@@ -29,20 +29,20 @@ public interface Tile {
 
 	/**
 	 * Defines happens when player is on tile and interacts with tile
-	 * @param p
+	 * @param p player interacting with the tile
 	 */
 	public void onInteract(Player p);
 
 	/**
 	 * Returns if player can enter tile
 	 * @param player
-	 * @return
+	 * @return boolean if player can enter tile or not
 	 */
 	public boolean canEnter(Player player);
 
 	/**
 	 * Defines what happens to the player on enter
-	 * @param p
+	 * @param p player
 	 */
 	public void onEnter(Player p);
 

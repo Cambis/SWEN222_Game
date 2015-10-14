@@ -12,6 +12,11 @@ import renderer.R_AbstractModel;
 import renderer.R_Model;
 import renderer.R_Player.Team;
 
+/**
+ *
+ * @author Callum Gill 300316407 2015
+ *
+ */
 public class LogicTilesTests {
 
 	/**

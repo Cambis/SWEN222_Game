@@ -6,8 +6,6 @@ package game.logic;
 import game.logic.items.Chest;
 import game.logic.items.Item;
 import game.logic.items.Terminal;
-import game.logic.weapons.LazorPistol;
-import game.logic.weapons.Weapon;
 import game.logic.world.BasicFloor;
 import game.logic.world.Door;
 import game.logic.world.Tile;
@@ -27,8 +25,7 @@ import renderer.math.Vec3;
  * not have anything to do with the client/ server.
  *
  * @author Cameron Bryers 300326848 MMXV
- * @author Callum Gill MMXV
- * @author Andrew Bieleski MMXV
+ * @author Callum Gill 300316407 2015
  *
  */
 public class Player {
@@ -73,15 +70,8 @@ public class Player {
 	private Tile previousDoor;
 	private boolean onDoor = false;
 
-	// private Weapon currentWeapon;
-	// private Weapon sideWeapon;
-	// private Weapon mainWeapon;
 	private boolean isSide;
 	private List<Item> inventory;
-	private List<Item> weaponInventory;
-	private Weapon currentWeapon;
-	private int currentWeaponIndex;
-	private int cooldown;
 
 	// Has the player picked up an item?
 	private boolean itemPickedUp;
@@ -102,10 +92,7 @@ public class Player {
 		this.z = 0;
 		this.rotation = rotation;
 
-		currentWeapon = new LazorPistol();
-
 		this.inventory = new ArrayList<Item>();
-		this.weaponInventory = new ArrayList<Item>();
 
 	}
 
@@ -204,50 +191,6 @@ public class Player {
 			}
 		}
 
-		// Check for shooting:
-		if (isShooting) {
-			if (cooldown <= 0) {
-				useCurrentWeapon();
-			}
-			isShooting = false;
-		}
-
-		// Check for using:
-		if (isUsing) {
-			// TODO Check if mouse is over an item
-			// interact();
-			isUsing = false;
-		}
-
-		// Cooldown for player's gun
-		if (cooldown > 0) {
-			cooldown--;
-		}
-		if (cooldown < 0) {
-			cooldown = 0;
-		}
-
-		// Check for doors. If in a door, move player to spawn location of door:
-		// if (currentRoom != null) {
-		// if (currentRoom.validPosition(this, x, y)) {
-		// Tile currentTile = currentRoom.getTile(this, x, y);
-		// if (currentTile instanceof Door && !onDoor) {
-		// currentRoom = ((Door) currentTile).getTargetRoom();
-		//
-		// x = ((Door) currentTile).getX();
-		// y = ((Door) currentTile).getY();
-		// rotation = ((Door) currentTile).getDirection();
-		// previousDoor = currentRoom.getTile(this, x, y);
-		// onDoor = true;
-		// }
-		// }
-		// // Check to see if the player has moved of the door. If they have,
-		// // they can reenter the door again.
-		// if (currentRoom.getTile(this, x, y) != previousDoor) {
-		// onDoor = false;
-		// }
-		// }
-		// currentRoom.tick();
 	}
 
 	/**
@@ -282,13 +225,6 @@ public class Player {
 			oldTile.onExit(this);
 			newTile.onEnter(this);
 		}
-	}
-
-	/**
-	 * Use weapon
-	 */
-	private void useCurrentWeapon() {
-		currentWeapon.fire(rotation, x, y, currentRoom, this);
 	}
 
 	/**
@@ -616,47 +552,6 @@ public class Player {
 	public final void setUsing(boolean isUsing) {
 		this.isUsing = isUsing;
 	}
-
-	public final void setCooldown(int cooldown) {
-		this.cooldown = cooldown;
-	}
-
-	// private final void shootCurrentGun(){
-	// // currentWeapon.fire(rotation, x, y, currentLevel); //TODO Level
-	// pointer?
-	// setCooldown(currentWeapon.getCooldown());
-	// }
-	//
-	// private final void interact(){
-	// //TODO Identify what is being interacted with?
-	// //TODO
-	// }
-	//
-	// public void swapWeapon() {
-	// if (isSide) {
-	// if (mainWeapon != null){
-	// currentWeapon = mainWeapon;
-	// isSide = false;
-	// }
-	// } else {
-	// currentWeapon = sideWeapon;
-	// isSide = true;
-	// }
-	// //TODO Graphics for sp.setX(targetX);
-	// }
-
-	// public void selectItem(int i) {
-	// currentItemIndex = i;
-	// // TODO Display change in selected item from inventory
-	// }
-	//
-	// public void dropItem() {
-	// if (inventory.get(currentItemIndex) != null) {
-	// Item droppedItem = inventory.get(currentItemIndex);
-	// inventory.remove(currentItemIndex);
-	// // TODO Drop item on floor right below player.
-	// }
-	// }
 
 	/** RENDER HELPERS **/
 

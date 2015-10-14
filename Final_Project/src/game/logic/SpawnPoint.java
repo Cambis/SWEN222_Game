@@ -2,6 +2,10 @@ package game.logic;
 
 import renderer.R_Player.Team;
 
+/**
+ * @author Callum Gill 300316407 2015
+ *
+ */
 public class SpawnPoint {
 
 	public final double x;

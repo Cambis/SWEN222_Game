@@ -12,6 +12,10 @@ import renderer.R_Model;
 import renderer.R_ModelColorData;
 import renderer.math.Vec3;
 
+/**
+ * @author Callum Gill 300316407 2015
+ *
+ */
 public class Wall implements Tile {
 
 	private R_Model model;

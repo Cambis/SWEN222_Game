@@ -12,6 +12,10 @@ import renderer.R_ModelColorData;
 import renderer.R_Player.Team;
 import renderer.math.Vec3;
 
+/**
+ * @author Callum Gill 300316407 2015
+ *
+ */
 public class Water extends BasicFloor {
 
 	private R_Model model;
