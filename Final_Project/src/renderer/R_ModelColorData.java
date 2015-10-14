@@ -17,7 +17,7 @@ import resource.ResourceLoader;
  *	This class holds the data required to draw a colored model
  *
  * @author Stephen Thompson
- *
+ * ID: 300332215
  */
 public class R_ModelColorData extends R_AbstractModelData {
 	// The color used when drawing the model

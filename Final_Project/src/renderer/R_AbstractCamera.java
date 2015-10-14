@@ -6,7 +6,7 @@ import renderer.math.Vec3;
  * This class represents a camera in the renderer
  *
  * @author Stephen Thompson
- *
+ * ID: 300332215
  */
 public abstract class R_AbstractCamera {
 	// the camera's name

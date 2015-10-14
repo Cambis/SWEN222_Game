@@ -6,6 +6,12 @@ import org.junit.Test;
 
 import renderer.math.Vec3;
 
+/**
+ * This class tests the vec3 class
+ * 
+ * @author Stephen Thompson
+ * ID: 300332215
+ */
 public class Vec3_Test {
 
 	/***

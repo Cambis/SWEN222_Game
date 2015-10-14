@@ -4,7 +4,7 @@ package renderer.math;
  * This class represents a 3d vector
  *
  * @author Stephen Thompson
- *
+ * ID: 300332215
  */
 public class Vec3 {
 	// the x position

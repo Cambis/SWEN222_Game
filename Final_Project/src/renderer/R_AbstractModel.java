@@ -9,7 +9,7 @@ import renderer.math.Vec3;
  *	This class holds a R_AbstractModelData object and draws it in the correct position, orientation and scale
  *
  * @author Stephen Thompson
- *
+ * ID: 300332215
  */
 public abstract class R_AbstractModel {
 	// the model's name

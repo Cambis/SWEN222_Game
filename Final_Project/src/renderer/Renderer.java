@@ -14,6 +14,7 @@ import renderer.math.Vec3;
  * Provides a class for rendering a 3d scene to a buffered image.
  *
  * @author Stephen Thompson
+ * ID: 300332215
  */
 public class Renderer {
 	// The map of all model data stored inside the scene

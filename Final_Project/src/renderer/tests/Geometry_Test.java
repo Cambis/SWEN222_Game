@@ -14,6 +14,12 @@ import renderer.geometry.Vertex;
 import renderer.math.Mat4;
 import renderer.math.Vec3;
 
+/**
+ * This class tests the polygon and vertex classes
+ * 
+ * @author Stephen Thompson
+ * ID: 300332215
+ */
 public class Geometry_Test {
 
 	/***

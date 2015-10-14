@@ -6,6 +6,7 @@ import renderer.math.Vec3;
  * This class represents a scenery model
  *
  * @author Stephen Thompson
+ * ID: 300332215
  */
 public class R_Model extends R_AbstractModel {
 

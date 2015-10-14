@@ -7,6 +7,7 @@ import renderer.math.Vec3;
  * on team the player is on.
  *
  * @author Stephen Thompson
+ * ID: 300332215
  */
 public class R_Player extends R_AbstractModel{
 

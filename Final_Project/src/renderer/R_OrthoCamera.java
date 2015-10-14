@@ -7,6 +7,7 @@ import renderer.math.Vec3;
  * This class provides a camera for rendering a scene in an orthographic(2D) view
  *
  * @author Stephen Thompson
+ * ID: 300332215
  */
 public class R_OrthoCamera extends R_AbstractCamera{
 	// The camera's scale factor, a higher scale shows more of the scene

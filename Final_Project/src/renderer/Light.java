@@ -6,7 +6,7 @@ import renderer.math.Vec3;
  * This class represents a player's spotlight
  *
  * @author Stephen Thompson
- *
+ * ID: 300332215
  */
 public class Light {
 	// the light's position
