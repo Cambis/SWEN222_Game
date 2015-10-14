@@ -16,9 +16,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * Initial login window for host and clients.
+ *
+ * @author Cameron Bryers 300326848 MMXV
+ * @author Callum Gill 300316407 MMXV
+ *
+ */
 public class StartUpScreen extends JPanel {
 
-	public static boolean LOCAL = true;
+	private static final long serialVersionUID = 8620016640945484361L;
 
 	private final int WIDTH = 680;
 	private final int HEIGHT = 420;
@@ -31,6 +38,9 @@ public class StartUpScreen extends JPanel {
 
 	private JFrame frame;
 
+	/**
+	 * Default constructor, creates new instance of this class.
+	 */
 	public StartUpScreen() {
 
 		setLayout(new BorderLayout());
@@ -47,13 +57,11 @@ public class StartUpScreen extends JPanel {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// System.out.println(e.getKeyCode());
 				switch (e.getKeyCode()) {
 				case 72: // h
 					host();
@@ -66,15 +74,14 @@ public class StartUpScreen extends JPanel {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
 		});
+
 		// add mouse listener
 		frame.addMouseListener(new MouseListener());
 		frame.addMouseMotionListener(new MouseMotionListener());
-		// add(start, BorderLayout.CENTER);
 
 		// add buttons
 		joinBtn.setPos((WIDTH / 2) - (BTN_WIDTH / 2), HEIGHT - BTN_HEIGHT - 60);
@@ -86,7 +93,6 @@ public class StartUpScreen extends JPanel {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// frame.pack();
 		frame.repaint();
 	}
 
@@ -98,7 +104,6 @@ public class StartUpScreen extends JPanel {
 		try {
 			image = ImageIO.read(imageURL);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -107,6 +112,11 @@ public class StartUpScreen extends JPanel {
 		hostBtn.draw(g);
 	}
 
+	/**
+	 * Shows the login window for the client
+	 *
+	 * @return array containing the username and the IP address
+	 */
 	private String[] showLoginWindowClient() {
 		JTextField username = new JTextField();
 		JTextField ip = new JTextField();
@@ -122,6 +132,11 @@ public class StartUpScreen extends JPanel {
 		return null;
 	}
 
+	/**
+	 * Shows the login window for the host.
+	 *
+	 * @return array containing the username and the amount of players
+	 */
 	private String[] showHostWindow() {
 		JTextField username = new JTextField();
 		JTextField players = new JTextField();
@@ -153,6 +168,9 @@ public class StartUpScreen extends JPanel {
 		return null;
 	}
 
+	/**
+	 * Called when the player is not hosting.
+	 */
 	private void join() {
 		String[] login = showLoginWindowClient();
 		if (login == null) {
@@ -166,6 +184,9 @@ public class StartUpScreen extends JPanel {
 		frame.dispose();
 	}
 
+	/**
+	 * Called when the player is hosting.
+	 */
 	private void host() {
 		String[] login = showHostWindow();
 		if (login == null) {
@@ -185,10 +206,21 @@ public class StartUpScreen extends JPanel {
 		frame.dispose();
 	}
 
+	/**
+	 * Runs the game
+	 *
+	 * @param args
+	 */
 	public static void main(String args[]) {
 		new StartUpScreen();
 	}
 
+	/**
+	 * Listens for actions on the buttons.
+	 *
+	 * @author Callum Gill 300316407 MMXV
+	 *
+	 */
 	private class MouseListener implements java.awt.event.MouseListener {
 
 		@Override
@@ -210,35 +242,36 @@ public class StartUpScreen extends JPanel {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
 
 		}
 	}
 
+	/**
+	 * Listens for movement on the start up screen.
+	 *
+	 * @author Callum Gill 300316407 MMXV
+	 *
+	 */
 	private class MouseMotionListener implements
 			java.awt.event.MouseMotionListener {
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			// TODO Auto-generated method stub
 
 		}
 
