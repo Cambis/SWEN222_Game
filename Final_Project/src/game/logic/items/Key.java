@@ -23,12 +23,16 @@ public class Key implements Item {
 
 	private double x = 0, z = 0;
 
+	private R_AbstractModel model;
+	private R_ModelColorData modelData = new R_ModelColorData("KEY", "res/models/key.obj", new Color(218, 165, 32));
+
 	/**
 	 * Creates key with ID, ID specifies which door it can open
 	 * @param ID
 	 */
 	public Key(int ID) {
 		this.ID = ID;
+		model = new R_Model("KEY: " + ID, getModelData(), new Vec3(x, 0.1, z), Vec3.Zero(), new Vec3(0.03, 0.03, 0.03));
 	}
 
 	/**
@@ -66,12 +70,12 @@ public class Key implements Item {
 
 	@Override
 	public R_AbstractModelData getModelData() {
-		return new R_ModelColorData("KEY", "res/models/key.obj", new Color(218, 165, 32));
+		return modelData;
 	}
 
 	@Override
 	public R_AbstractModel getModel() {
-		return new R_Model("KEY: " + ID, getModelData(), new Vec3(x, 0.1, z), Vec3.Zero(), new Vec3(0.03, 0.03, 0.03));
+		return model;
 	}
 
 	@Override

@@ -37,9 +37,4 @@ public class Water extends BasicFloor {
 		p.setZ(0);
 	}
 
-	@Override
-	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }
