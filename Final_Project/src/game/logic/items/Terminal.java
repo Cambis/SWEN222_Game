@@ -45,7 +45,7 @@ public class Terminal implements Item {
 		if(p.getSide()!=ownedBy){
 			p.addPoints(SCORE_ON_CAPTURE);
 			ownedBy = p.getSide();
-			System.out.println("YOU HAVE : " + p.getPoints() + "POINTS!!!");
+			System.out.println("YOU HAVE : " + p.getPoints() + " POINTS!!!");
 		}
 	}
 
