@@ -31,6 +31,11 @@ import renderer.Renderer.*;
 import renderer.math.Vec3;
 import resource.ResourceLoader;
 
+/**
+ * @author Callum Gill 300316407 2015
+ * @author Cameron Bryers 300326848 MMXV
+ *
+ */
 public class Room {
 
 	private static final int TILE_SIZE = 10;

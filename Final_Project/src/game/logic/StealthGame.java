@@ -28,6 +28,7 @@ import renderer.math.Vec3;
  * Main logic class, runs the actual game.
  *
  * @author Cameron Bryers 300326848 MMXV
+ * @author Callum Gill 300316407 2015
  *
  */
 public class StealthGame implements Runnable {

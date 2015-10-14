@@ -10,6 +10,9 @@ import renderer.R_ModelColorData;
 import renderer.R_Player.Team;
 import renderer.math.Vec3;
 
+/**
+ * @author Callum Gill 330316407 2015 *
+ */
 public class Terminal implements Item {
 
 	private Team ownedBy = Team.GUARD;

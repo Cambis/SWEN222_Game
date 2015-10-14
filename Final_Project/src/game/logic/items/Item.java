@@ -8,8 +8,7 @@ import renderer.R_Player.Team;
 /**
  * Items are objects in the world that a player can interact with.
  *
- * @author Cameron Bryers 300326848 MMXV
- * @author Andrew Bieleski
+ * @author Callum Gill 300316407 2015
  *
  */
 public interface Item {

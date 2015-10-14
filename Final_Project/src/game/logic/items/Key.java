@@ -14,8 +14,8 @@ import game.logic.world.Door;
 /**
  * A key opens a specific door. Not every door requires a key.
  *
- * @author Cameron Bryers 300326848 MMXV
- *
+ * @author Callum Gill 300316407 2015
+ * @author Cameron Bryers 3000326848 MMXV
  */
 public class Key implements Item {
 

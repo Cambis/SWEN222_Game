@@ -27,7 +27,7 @@ import resource.ResourceLoader;
  * Represents the level that the game is played on.
  *
  * @author Cameron Bryers 3000326848 MMXV
- * @author Callum Gill MMXV
+ * @author Callum Gill 300316407 2015
  *
  */
 public class Level {

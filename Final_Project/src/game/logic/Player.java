@@ -27,8 +27,7 @@ import renderer.math.Vec3;
  * not have anything to do with the client/ server.
  *
  * @author Cameron Bryers 300326848 MMXV
- * @author Callum Gill MMXV
- * @author Andrew Bieleski MMXV
+ * @author Callum Gill 300316407 2015
  *
  */
 public class Player {
