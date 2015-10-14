@@ -88,7 +88,6 @@ public class Room {
 	 *
 	 * @param filename
 	 */
-	//TODO Refactor this
 	private void loadTiles(String filename) {
 		try {
 			Scanner s;
@@ -115,21 +114,8 @@ public class Room {
 			while (s.hasNext()) {
 
 				if (s.hasNextInt()) {
+					parseInt(s, xPos, yPos, tileNum);
 
-					int i = s.nextInt();
-
-					if (i == 0) {
-						tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
-								* SCALE, yPos * TILE_SIZE * SCALE, floorData,
-								tileNum);
-					} else if (i == 1) {
-						tiles[xPos][yPos] = new Wall(xPos * TILE_SIZE * SCALE,
-								yPos * TILE_SIZE * SCALE, wallData, tileNum);
-					} else if (i > 1) {
-						tiles[xPos][yPos] = new Door(xPos * TILE_SIZE * SCALE,
-								yPos * TILE_SIZE * SCALE, tileNum, i);
-						doors.add((Door) tiles[xPos][yPos]);
-					}
 					xPos++;
 					tileNum++;
 
@@ -142,76 +128,8 @@ public class Room {
 				else {
 					String str = s.next();
 					if (str.length() == 1) {
-						// Find the item
-						switch (str) {
-						case "-":
-							tiles[xPos][yPos] = new BlankTile();
-							break;
-						case "w":
-							tiles[xPos][yPos] = new Water(xPos * TILE_SIZE
-									* SCALE, yPos * TILE_SIZE * SCALE,
-									waterData, tileNum);
-							break;
-						case "t": // small tree
-							// FIXME
-							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
-									* SCALE, yPos * TILE_SIZE * SCALE,
-									treeData, tileNum);
-							break;
+						parseChar(xPos, yPos, tileNum, str);
 
-						case "b": // big tree
-							// FIXME
-							tiles[xPos][yPos] = new Wall(xPos * TILE_SIZE
-									* SCALE, yPos * TILE_SIZE * SCALE,
-									bigTreeData, tileNum);
-							break;
-						case "p": // piller
-							// FIXME
-							tiles[xPos][yPos] = new Wall(xPos * TILE_SIZE
-									* SCALE, yPos * TILE_SIZE * SCALE,
-									pillerData, tileNum);
-							break;
-						case "g": // grass
-							// FIXME
-							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
-									* SCALE, yPos * TILE_SIZE * SCALE,
-									grassData, tileNum);
-							break;
-						case "S":
-							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
-									* SCALE, yPos * TILE_SIZE * SCALE,
-									floorData, tileNum);
-							spawns.add(new SpawnPoint(this, xPos, yPos,
-									Team.SPY));
-							break;
-						case "G":
-							tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE
-									* SCALE, yPos * TILE_SIZE * SCALE,
-									floorData, tileNum);
-							spawns.add(new SpawnPoint(this, xPos, yPos,
-									Team.GUARD));
-							break;
-						default:
-							char itemKey = str.charAt(0);
-							Item item = parseItem(xPos, yPos, itemKey);
-							if (item != null) {
-								if (itemKey <= 90 && itemKey >= 65) {// Put item
-																		// in
-																		// chest
-									Chest chest = new Chest(item, xPos
-											* TILE_SIZE * SCALE, yPos
-											* TILE_SIZE * SCALE);
-									item = chest;
-								}
-								tiles[xPos][yPos] = new BasicFloor(xPos
-										* TILE_SIZE * SCALE, yPos * TILE_SIZE
-										* SCALE, floorData, tileNum);
-
-								// Add the item to the room
-								((BasicFloor) tiles[xPos][yPos]).addItem(item);
-							}
-							break;
-						}
 						xPos++;
 						tileNum++;
 
@@ -221,31 +139,7 @@ public class Room {
 						}
 					} else {
 						if (str.equals("door")) {
-							// Load door
-							if (s.hasNextInt()) {
-								int doorId = s.nextInt();
-								int keyID = -1;
-								if (s.hasNextInt()) {
-									keyID = s.nextInt();
-								}
-								if (s.hasNext()) {
-									String roomName = s.next();
-									int targetX = s.nextInt();
-									int targetY = s.nextInt();
-									for (Door d : doors) {
-										if (d.doorID == doorId) {
-											// Give door a room destination in
-											// map to be assigned in level
-											if (keyID >= 0) {
-												d.setLocked(true);
-												d.setKey(keyID);
-											}
-											doorDests.put(d, roomName);
-											d.setTargetPos(targetX, targetY);
-										}
-									}
-								}
-							}
+							parseDoorDestination(s);
 						}
 					}
 				}
@@ -258,7 +152,143 @@ public class Room {
 	}
 
 	/**
-	 * initilize door destinations in this room
+	 * Parses door information
+	 *
+	 * @param s
+	 *            Scanner
+	 */
+	private void parseDoorDestination(Scanner s) {
+		// Load door
+		if (s.hasNextInt()) {
+			int doorId = s.nextInt();
+			int keyID = -1;
+			if (s.hasNextInt()) {
+				keyID = s.nextInt();
+			}
+			if (s.hasNext()) {
+				String roomName = s.next();
+				int targetX = s.nextInt();
+				int targetY = s.nextInt();
+				for (Door d : doors) {
+					if (d.doorID == doorId) {
+						// Give door a room destination in
+						// map to be assigned in level
+						if (keyID >= 0) {
+							d.setLocked(true);
+							d.setKey(keyID);
+						}
+						doorDests.put(d, roomName);
+						d.setTargetPos(targetX, targetY);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Parses Char from room file
+	 *
+	 * @param xPos
+	 *            tile x position
+	 * @param yPos
+	 *            tile y position
+	 * @param tileNum
+	 *            tile number
+	 * @param str
+	 *            string (should be length 1)
+	 */
+	private void parseChar(int xPos, int yPos, int tileNum, String str) {
+		// Find the item
+		switch (str) {
+		case "-":
+			tiles[xPos][yPos] = new BlankTile();
+			break;
+		case "w":
+			tiles[xPos][yPos] = new Water(xPos * TILE_SIZE * SCALE, yPos
+					* TILE_SIZE * SCALE, waterData, tileNum);
+			break;
+		case "t": // small tree
+			tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE * SCALE, yPos
+					* TILE_SIZE * SCALE, treeData, tileNum);
+			break;
+
+		case "b": // big tree
+			tiles[xPos][yPos] = new Wall(xPos * TILE_SIZE * SCALE, yPos
+					* TILE_SIZE * SCALE, bigTreeData, tileNum);
+			break;
+		case "p": // pillar
+			tiles[xPos][yPos] = new Wall(xPos * TILE_SIZE * SCALE, yPos
+					* TILE_SIZE * SCALE, pillerData, tileNum);
+			break;
+		case "g": // grass
+			tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE * SCALE, yPos
+					* TILE_SIZE * SCALE, grassData, tileNum);
+			break;
+		case "S":// Spy spawn
+			tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE * SCALE, yPos
+					* TILE_SIZE * SCALE, floorData, tileNum);
+			spawns.add(new SpawnPoint(this, xPos, yPos, Team.SPY));
+			break;
+		case "G":// Guard spawn
+			tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE * SCALE, yPos
+					* TILE_SIZE * SCALE, floorData, tileNum);
+			spawns.add(new SpawnPoint(this, xPos, yPos, Team.GUARD));
+			break;
+		default:
+			// Item on a basic floor (Capital means item in chest)
+			char itemKey = str.charAt(0);
+			Item item = parseItem(xPos, yPos, itemKey);
+			if (item != null) {
+				if (itemKey <= 90 && itemKey >= 65) {// Put item
+														// in
+														// chest
+					Chest chest = new Chest(item, xPos * TILE_SIZE * SCALE,
+							yPos * TILE_SIZE * SCALE);
+					item = chest;
+				}
+				tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE * SCALE,
+						yPos * TILE_SIZE * SCALE, floorData, tileNum);
+
+				// Add the item to the room
+				((BasicFloor) tiles[xPos][yPos]).addItem(item);
+			}
+			break;
+		}
+	}
+
+	/**
+	 * Parses an Int from room file
+	 *
+	 * @param s
+	 *            Scanner
+	 * @param xPos
+	 *            tile x position
+	 * @param yPos
+	 *            tile y position
+	 * @param tileNum
+	 *            tile number
+	 */
+	private void parseInt(Scanner s, int xPos, int yPos, int tileNum) {
+		int i = s.nextInt();
+
+		if (i == 0) {
+			tiles[xPos][yPos] = new BasicFloor(xPos * TILE_SIZE * SCALE, yPos
+					* TILE_SIZE * SCALE, floorData, tileNum);
+		} else if (i == 1) {
+			tiles[xPos][yPos] = new Wall(xPos * TILE_SIZE * SCALE, yPos
+					* TILE_SIZE * SCALE, wallData, tileNum);
+		} else if (i > 1) {
+			tiles[xPos][yPos] = new Door(xPos * TILE_SIZE * SCALE, yPos
+					* TILE_SIZE * SCALE, tileNum, i);
+			doors.add((Door) tiles[xPos][yPos]);
+		}
+	}
+
+	/**
+	 * Initilize door destinations
+	 *
+	 * @param rooms
+	 *            list of rooms created
 	 */
 	public void initilizeDoors(List<Room> rooms) {
 		for (Door d : doors) {
@@ -274,25 +304,31 @@ public class Room {
 
 	/**
 	 * Returns spawn points in room
+	 *
 	 * @return
 	 */
 	public List<SpawnPoint> getSpawns() {
 		return spawns;
 	}
-/**
- * Parses an item given a itemKey
- * @param xPos
- * @param yPos
- * @param itemKey
- * @return
- */
+
+	/**
+	 * Parses an item given a itemKey
+	 *
+	 * @param xPos
+	 *            x-position (GRID co-ordinate)
+	 * @param yPos
+	 *            y-position (GRID)
+	 * @param itemKey
+	 *            items key from room file
+	 * @return
+	 */
 	private Item parseItem(int xPos, int yPos, char itemKey) {
 		char key = itemKey;
 		if (Character.isAlphabetic(itemKey)) {
 			key = Character.toLowerCase(itemKey);
 		}
 		Item item = null;
-		if (key == 'a' || key == 'b' || key == 'c' || key == 'd') {
+		if (key == 'a' || key == 'c' || key == 'd') {
 			item = new Key(key - 97, xPos * TILE_SIZE * SCALE, yPos * TILE_SIZE
 					* SCALE);
 		} else if (key == '*') {
@@ -306,22 +342,33 @@ public class Room {
 	 * returns if player can be in position in room
 	 *
 	 * @param p
+	 *            player
 	 * @param x
-	 *            , y
+	 *            player's x position (world co-odinate)
+	 * @param y
+	 *            player's y position (world co-odinate)
 	 */
 	public boolean validPosition(Player p, double x, double y) {
 
-		Tile tile = getTile(p, x+p.BOUNDING_BOX_X, y);
-		if(tile == null || !tile.canEnter(p)){return false;}
+		Tile tile = getTile(p, x + p.BOUNDING_BOX_X, y);
+		if (tile == null || !tile.canEnter(p)) {
+			return false;
+		}
 
-		tile = getTile(p, x, y+p.BOUNDING_BOX_Y);
-		if(tile == null || !tile.canEnter(p)){return false;}
+		tile = getTile(p, x, y + p.BOUNDING_BOX_Y);
+		if (tile == null || !tile.canEnter(p)) {
+			return false;
+		}
 
-		tile = getTile(p, x-p.BOUNDING_BOX_X, y);
-		if(tile == null || !tile.canEnter(p)){return false;}
+		tile = getTile(p, x - p.BOUNDING_BOX_X, y);
+		if (tile == null || !tile.canEnter(p)) {
+			return false;
+		}
 
-		tile = getTile(p, x, y-p.BOUNDING_BOX_Y);
-		if(tile == null || !tile.canEnter(p)){return false;}
+		tile = getTile(p, x, y - p.BOUNDING_BOX_Y);
+		if (tile == null || !tile.canEnter(p)) {
+			return false;
+		}
 
 		return true;
 	}
@@ -330,6 +377,7 @@ public class Room {
 	 * Create models for the tiles
 	 *
 	 * @param r
+	 *            Renderer to add models to
 	 */
 	public void initTiles(Renderer r) {
 
@@ -468,6 +516,7 @@ public class Room {
 
 	/**
 	 * Returns tile that player is at and checks if tile ID matches ID
+	 *
 	 * @param p
 	 * @param ID
 	 * @return
@@ -484,6 +533,7 @@ public class Room {
 
 	/**
 	 * Get tile x size
+	 *
 	 * @return
 	 */
 	public final int getTilesXSize() {
@@ -492,6 +542,7 @@ public class Room {
 
 	/**
 	 * Get tile y size
+	 *
 	 * @return
 	 */
 	public final int getTilesYSize() {
@@ -500,6 +551,7 @@ public class Room {
 
 	/**
 	 * Returns players in room
+	 *
 	 * @return
 	 */
 	public List<Player> getPlayersInRoom() {
@@ -508,6 +560,7 @@ public class Room {
 
 	/**
 	 * Sets players in room
+	 *
 	 * @param playersInRoom
 	 */
 	public void setPlayersInRoom(List<Player> playersInRoom) {
@@ -516,6 +569,7 @@ public class Room {
 
 	/**
 	 * Add player to room
+	 *
 	 * @param inPlayer
 	 */
 	public void addPlayer(Player inPlayer) {
@@ -524,6 +578,7 @@ public class Room {
 
 	/**
 	 * remove player from room
+	 *
 	 * @param outPlayer
 	 */
 	public void removePlayer(Player outPlayer) {
