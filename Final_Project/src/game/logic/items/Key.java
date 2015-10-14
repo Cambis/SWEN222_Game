@@ -32,7 +32,7 @@ public class Key implements Item {
 	 */
 	public Key(int ID) {
 		this.ID = ID;
-		model = new R_Model("KEY: " + ID, getModelData(), new Vec3(x, 0.1, z), Vec3.Zero(), new Vec3(0.03, 0.03, 0.03));
+		model = new R_Model("KEY: " + ID, modelData, new Vec3(x, 0.1, z), Vec3.Zero(), new Vec3(0.03, 0.03, 0.03));
 	}
 
 	/**
@@ -40,8 +40,9 @@ public class Key implements Item {
 	 * @param ID
 	 */
 	public Key(int ID, double x, double z) {
-		this(ID);
+		this.ID = ID;
 		setPosition(x, z);
+		model = new R_Model("KEY: " + ID, modelData, new Vec3(x, 0.1, z), Vec3.Zero(), new Vec3(0.03, 0.03, 0.03));
 	}
 
 	@Override
