@@ -406,6 +406,14 @@ public class Level {
 						packet.writeData(game.getClient());
 				}
 
+				// Player moving
+				if (p.isMoving()) {
+					packet = new Packet02Move(p.getUsername(),
+							((PlayerMP) p).getID(), p.getX(), p.getY(),
+							p.getZ(), true, p.getRotation());
+					packet.writeData(game.getClient());
+				}
+
 				// Check health
 				if (!p.getUsername().equals(game.getPlayer().getUsername())) {
 					Player pl = getPlayer(game.getPlayer().getUsername());
@@ -417,17 +425,9 @@ public class Level {
 						// getPlayer(game.getPlayer().getUsername())
 						// .takeDamage(0.1);
 						packet = new Packet04Damage(p.getUsername(),
-								p.getUsername(), 1);
+								p.getUsername(), 0.5);
 						packet.writeData(game.getClient());
 					}
-				}
-
-				// Player moving
-				if (p.isMoving()) {
-					packet = new Packet02Move(p.getUsername(),
-							((PlayerMP) p).getID(), p.getX(), p.getY(),
-							p.getZ(), true, p.getRotation());
-					packet.writeData(game.getClient());
 				}
 
 				// Player picking up item

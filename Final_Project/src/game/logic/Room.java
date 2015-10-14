@@ -73,6 +73,13 @@ public class Room {
 	}
 
 	/**
+	 * Creates empty room with no tiles
+	 */
+	public Room() {
+
+	}
+
+	/**
 	 * Load tiles from room file
 	 *
 	 * @param filename

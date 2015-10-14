@@ -30,12 +30,6 @@ public class BlankTile implements Tile {
 	}
 
 	@Override
-	public R_AbstractModelData getModelData() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public R_AbstractModel getModel() {
 		return null;
 	}
@@ -57,7 +51,6 @@ public class BlankTile implements Tile {
 
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
