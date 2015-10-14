@@ -33,16 +33,6 @@ public class Vertex {
 	}
 
 	/**
-	 * @param v - creates a clone of vertex v
-	 */
-	public Vertex(Vertex v) {
-		super();
-		this.local = new Vec3(v.local);
-		this.world = new Vec3(v.world);
-		this.projected = new Vec3(v.projected);
-	}
-
-	/**
 	 * @param v - creates a new vertex at position v
 	 */
 	public Vertex(Vec3 v) {
