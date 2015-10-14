@@ -410,14 +410,14 @@ public class Level {
 				if (!p.getUsername().equals(game.getPlayer().getUsername())) {
 					Player pl = getPlayer(game.getPlayer().getUsername());
 
-					if (pl.inRange(p.getX(), p.getY())
-							&& p.getRoom().equals(pl.getRoom())
+					if (pl.getRoom().equals(p.getRoom())
 							&& pl.getSide() == Team.GUARD
-							&& p.getSide() == Team.SPY) {
+							&& p.getSide() == Team.SPY
+							&& pl.inRange(p.getX(), p.getY())) {
 						// getPlayer(game.getPlayer().getUsername())
 						// .takeDamage(0.1);
 						packet = new Packet04Damage(p.getUsername(),
-								p.getUsername(), 5);
+								p.getUsername(), 1);
 						packet.writeData(game.getClient());
 					}
 				}
