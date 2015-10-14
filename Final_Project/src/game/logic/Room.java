@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import game.logic.weapons.Lazor;
 import game.logic.items.Chest;
 import game.logic.items.Item;
 import game.logic.items.Key;
