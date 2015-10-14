@@ -1,5 +1,7 @@
 package renderer.math;
 
+import java.util.Arrays;
+
 /**
  *	This class provides a number of methods for performing matrix math
  *
@@ -197,5 +199,27 @@ public class Mat4 {
 				matrix[12] * v.matrix[1] + matrix[13] * v.matrix[5] + matrix[14] * v.matrix[9] + matrix[15] * v.matrix[13],
 				matrix[12] * v.matrix[2] + matrix[13] * v.matrix[6] + matrix[14] * v.matrix[10] + matrix[15] * v.matrix[14],
 				matrix[12] * v.matrix[3] + matrix[13] * v.matrix[7] + matrix[14] * v.matrix[11] + matrix[15] * v.matrix[15]});
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(matrix);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Mat4 other = (Mat4) obj;
+		if (!Arrays.equals(matrix, other.matrix))
+			return false;
+		return true;
 	}
 }
