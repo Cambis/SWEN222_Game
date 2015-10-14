@@ -28,6 +28,8 @@ public class Door implements Tile {
 			Color.RED);
 	private R_AbstractModelData unlockedModelData = new R_ModelColorData("DoorUnlocked", "res/models/BasicFloor.obj",
 			Color.YELLOW);
+	private R_AbstractModel lockedModel;
+	private R_AbstractModel unlockedModel;
 
 	private double x, y;
 
@@ -36,6 +38,10 @@ public class Door implements Tile {
 		this.y = yPos;
 		this.doorID = ID;
 		this.tileNum = tileNum;
+		lockedModel = new R_Model("Door " + tileNum, lockedModelData,
+				new Vec3(x, 0, y), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
+		unlockedModel = new R_Model("Door " + tileNum, unlockedModelData,
+				new Vec3(x, 0, y), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
 	}
 
 	public void setLocked(boolean val) {
@@ -52,22 +58,12 @@ public class Door implements Tile {
 	}
 
 	@Override
-	public R_AbstractModelData getModelData() {
-		if(locked){
-			return lockedModelData;
-		}else{
-			return unlockedModelData;
-		}
-	}
-
-	@Override
 	public R_AbstractModel getModel() {
-		return new R_Model("Door " + tileNum, getModelData(),
-				new Vec3(x, 0, y), Vec3.Zero(), new Vec3(0.1f, 0.1f, 0.1f));
-	}
-
-	public Room getTargetRoom() {
-		return targetRoom;
+		if(locked){
+			return lockedModel;
+		}else{
+			return unlockedModel;
+		}
 	}
 
 	public void setTargetRoom(Room targetRoom) {
@@ -77,14 +73,6 @@ public class Door implements Tile {
 	public void setTargetPos(int x, int y) {
 		targetX = x * 0.2;
 		targetY = y * 0.2;
-	}
-
-	public double getX() {
-		return targetX;
-	}
-
-	public double getY() {
-		return targetY;
 	}
 
 	@Override

@@ -38,24 +38,18 @@ public class Wall implements Tile {
 
 	@Override
 	public void onInteract(Player p) {
-		return;
+		//Do Nothing
 	}
 
 	@Override
 	public void onEnter(Player p) {
-		return;
+		//Do Nothing
 	}
 
 	@Override
 	public void onExit(Player p) {
 		// Do Nothing
 
-	}
-
-	@Override
-	public R_AbstractModelData getModelData() {
-		return new R_ModelColorData("BasicWall", "res/models/BasicWall.obj",
-				Color.WHITE);
 	}
 
 	@Override

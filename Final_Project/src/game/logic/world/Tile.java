@@ -60,12 +60,6 @@ public interface Tile {
 	public boolean blockLight();
 
 	/**
-	 * Returns tile's model data
-	 * @return
-	 */
-	public R_AbstractModelData getModelData();
-
-	/**
 	 * returns tile's model
 	 * @return
 	 */

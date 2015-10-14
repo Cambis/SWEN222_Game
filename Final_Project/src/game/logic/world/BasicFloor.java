@@ -49,12 +49,6 @@ public class BasicFloor implements Tile {
 	}
 
 	@Override
-	public R_AbstractModelData getModelData() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public R_AbstractModel getModel() {
 		return model;
 	}
