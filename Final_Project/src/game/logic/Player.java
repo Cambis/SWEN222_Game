@@ -301,16 +301,16 @@ public class Player {
 	 * @return true if contact zone contains other player
 	 */
 	public boolean inRange(double x, double y) {
-		Vec3 one = new Vec3(x - this.x, 0, y - this.y);
-		Vec3 two = new Vec3(Math.sin(rotation), 0, Math.cos(rotation));
+		Vec3 one = new Vec3(x - this.x, 0.0, y - this.y);
+		Vec3 two = new Vec3(Math.sin(rotation), 0.0, Math.cos(rotation));
 
-//		if (one.dot(two) > 0.82)
-//			System.out.println("Dot true");
-//
-//		if (inRange(x, y, 2))
-//			System.out.println("Range true");
+		// if (one.dot(two) > 0.82)
+		// System.out.println("Dot true");
+		//
+		// if (inRange(x, y, 2))
+		// System.out.println("Range true");
 
-		if (one.dot(two) > 0.2 && inRange(x, y, 2))
+		if (one.dot(two) > 0.2 && inRange(x, y, 1.0))
 			return true;
 
 		return false;
@@ -328,7 +328,7 @@ public class Player {
 	 * @return true if contact zone contains position
 	 */
 	public boolean inRange(double x, double y, double radius) {
-		Ellipse2D contactZone = new Ellipse2D.Double(this.x / 2, this.y / 2,
+		Ellipse2D contactZone = new Ellipse2D.Double(this.x / 2.0, this.y / 2.0,
 				radius, radius);
 		return contactZone.contains(x, y);
 	}
